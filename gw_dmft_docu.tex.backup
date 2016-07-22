@@ -67,12 +67,12 @@ system. By this, the Selfenergy in the Kohn-Sham basis is obtained for all state
 By this, the GW estimate for the full interacting {\GF} is given by
 \begin{align}
  G^{GW}_{\nu\nu'}(k,\omega) 
- &= \left[ \unity(\omega +\mu +i\delta) -H^{DFT}(k)+v^{XC}(k) - \Sigma^{GW}(k,\omega)  \right]^{-1}_{\nu\nu'}.
+ &= \left[ \unity(\omega +\mu +i\delta) -H^{DFT}(k) - \Sigma^{GW}(k,\omega)  \right]^{-1}_{\nu\nu'}.
 \end{align}
 
 
 \subsubsection{Output}
-At this point the basis transformation to the local Wannier basis will be
+At this poit the basis transformation to the local Wannier basis will be
 performed on the GW side.
 For the next step of the DMFT calculation one needs
 \begin{itemize}
@@ -137,7 +137,7 @@ orbitals $\Sigma^{imp}_{ff}$, for example one can use the GW result
 Selfenergy for the correlated orbitals $f$ is replaced by $\Sigma^{imp}$
 \begin{align}
  G_{mm'}(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right.\\
+ &= \left[ \unity(\omega+\mu ) -H^{DFT}(k) \right.\\
           &- \Sigma^{GW}(k,i\omega_n) 
           + \Sigma^{GW,loc}_f(i\omega_n)
           \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
@@ -145,7 +145,7 @@ Selfenergy for the correlated orbitals $f$ is replaced by $\Sigma^{imp}$
 
 \item Calculate the local {\GF} (for all orbitals) then and Weiss field $\mathscr{G}$ ONLY
 on the subset of correlated orbitals $f$. Neglecting
-offdiagonal components in the hybridization we are also only interested 
+offidagonal components in the hybridization we are also only interested 
 in the diagonal components of $\mathscr{G}$
 % using the local GW Selfenergy where the diagonal components of the
 % correlated orbitals $f$ are replaced by the impurity Selfenergy
@@ -159,7 +159,7 @@ in the diagonal components of $\mathscr{G}$
                 + \Sigma^{imp}_{ff}(i\omega_n) .
 \end{align}
 (Matsubara frequencies are suppressed in the last equation for clarity)
-The Weiss field matrix $\mathscr{G}$ is not explicitly needed, so
+The Weiss field matrix $\mathscr{G}$ is not explicitely needed, so
 we do not invert the last equation to obtain $\mathscr{G}$ .
 
 \item Calculate the Hybridization function
@@ -171,32 +171,11 @@ where the local chemical potential $\tilde{\mu}_f$ is given by
 \begin{align}
  \tilde{\mu}_f = \lim_{\omega_n\rightarrow \infty} \mathrm{Re}\left[ \mathscr{G}^{-1}_{ff}(i\omega_n) \right]
 \end{align}
-and transform $\Delta(i\omega_n)$ to the imaginary time axis $t$ by a Fourier transform
-\begin{align}
- \Delta_{ff}(\tau) &= \frac{1}{\beta} \sum_{i\omega_n} \Delta_{ff}(i\omega_n) \mathrm{e}^{-i\omega_n\tau}
-\end{align}
-and solve the impurity model for the correlated $f$ orbitals.
 
-\item Obtain the new local Selfenergy $\Sigma^{imp}_{ff}(i\omega_n)$ 
-from the impurity model and calculate the updated full {\GF}
-\begin{align}
- G_{mm'}(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}_{mm'}(k) \right.\\
-          &- \Sigma^{GW}(k,i\omega_n) 
-          + \Sigma^{GW,loc}_f(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
-\end{align}
-Adjust the chemical potential $\mu$ in such a way that the number of electrons
-$N_e$ is preserved.
-Then go back to step 5. Repeat until convergence
-is reached.
 
 \end{enumerate}
 
 
 \subsubsection{Output}
-After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
-can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
-
 
 \end{document}
