@@ -75,6 +75,7 @@ By this, the GW estimate for the full interacting {\GF} is given by
 At this point the basis transformation to the local Wannier basis will be
 performed on the GW side.
 For the next step of the DMFT calculation one needs
+on a mesh in k-space in the full Brillouin zone:
 \begin{itemize}
 \item $\epsilon_m(k)$: The eigenvalues  of $H^{DFT}(k)$ in the Wannier basis
 for all relevant orbitals
@@ -82,7 +83,7 @@ for all relevant orbitals
 for $H^{DFT}$
 \item $v^{XC}_{mm'}(k)$: The value of the exchange-correlation potential 
 in the Wannier basis for all relevant orbitals
-\item $\Sigma_{mm'}(k,\omega)$: The Selfenergy  in the Wannier basis for all relevant orbitals
+\item $\Sigma^{GW}_{mm'}(k,\omega)$: The Selfenergy within GW in the Wannier basis for all relevant orbitals
 on real frequencies $\omega$.
 \end{itemize}
 
@@ -92,8 +93,9 @@ on real frequencies $\omega$.
 Within DMFT we then calculate a local correction $\Sigma^{DMFT}$ for a subset of correlated
 Wannier orbitals.
 
-The input of the calculation will be the output of the GW calculation.
-We proceed as follows:
+The input of the calculation will be the output of the GW calculation. First, one will usually apply a Wannier-interpolation of the GW data to obtain a fine k-mesh
+since the GW output will be given on a very coarse grid.
+We then proceed as follows:
 
 \begin{enumerate}
 
@@ -158,7 +160,6 @@ in the diagonal components of $\mathscr{G}$
 %                 - \Sigma^{GW,loc}_{ff}
                 + \Sigma^{imp}_{ff}(i\omega_n) .
 \end{align}
-(Matsubara frequencies are suppressed in the last equation for clarity)
 The Weiss field matrix $\mathscr{G}$ is not explicitly needed, so
 we do not invert the last equation to obtain $\mathscr{G}$ .
 
@@ -171,7 +172,7 @@ where the local chemical potential $\tilde{\mu}_f$ is given by
 \begin{align}
  \tilde{\mu}_f = \lim_{\omega_n\rightarrow \infty} \mathrm{Re}\left[ \mathscr{G}^{-1}_{ff}(i\omega_n) \right]
 \end{align}
-and transform $\Delta(i\omega_n)$ to the imaginary time axis $t$ by a Fourier transform
+and transform $\Delta(i\omega_n)$ to the imaginary time axis $\tau$ by a Fourier transform
 \begin{align}
  \Delta_{ff}(\tau) &= \frac{1}{\beta} \sum_{i\omega_n} \Delta_{ff}(i\omega_n) \mathrm{e}^{-i\omega_n\tau}
 \end{align}
