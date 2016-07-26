@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.31)  25 JUL 2016 14:14
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.31)  26 JUL 2016 19:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -973,20 +973,35 @@ Class scrartcl Warning: Usage of deprecated font command `\it'!
 (scrartcl)              Note also, that KOMA-Script will remove the definition
 (scrartcl)              of `\it' anytime until release of about version 3.20.
 (scrartcl)              But for now, KOMA-Script will replace deprecated `\it'
-(scrartcl)              by `\normalfont \itshape ' on input line 49.
+(scrartcl)              by `\normalfont \itshape ' on input line 50.
 
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 71.
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 74.
 (/usr/share/texlive/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 80.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 83.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 80.
- [1
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 83.
+
+
+Class scrartcl Warning: Usage of deprecated font command `\it'!
+(scrartcl)              You should note, that in 1994 font command `\it' has
+(scrartcl)              been defined for compatiblitiy to Script 2.0 only.
+(scrartcl)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrartcl)              shouldn't use such commands any longer and within
+(scrartcl)              KOMA-Script usage of `\it' is definitely deprecated.
+(scrartcl)              See `fntguide.pdf' for more information about
+(scrartcl)              recommended font commands.
+(scrartcl)              Note also, that KOMA-Script will remove the definition
+(scrartcl)              of `\it' anytime until release of about version 3.20.
+(scrartcl)              But for now, KOMA-Script will replace deprecated `\it'
+(scrartcl)              by `\normalfont \itshape ' on input line 93.
+
+[1
 Non-PDF special ignored!
 Non-PDF special ignored!
 Non-PDF special ignored!
@@ -1000,12 +1015,12 @@ TeX warning (ext4): destination with the same identifier (name{equation.1.1}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.108 \end{align}
+l.125 \end{align}
                  pdfTeX warning (ext4): destination with the same identifier (n
 ame{equation.1.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.108 \end{align}
+l.147 \end{align}
                   [2]
 
 Class scrartcl Warning: Usage of deprecated font command `\it'!
@@ -1019,26 +1034,26 @@ Class scrartcl Warning: Usage of deprecated font command `\it'!
 (scrartcl)              Note also, that KOMA-Script will remove the definition
 (scrartcl)              of `\it' anytime until release of about version 3.20.
 (scrartcl)              But for now, KOMA-Script will replace deprecated `\it'
-(scrartcl)              by `\normalfont \itshape ' on input line 199.
+(scrartcl)              by `\normalfont \itshape ' on input line 233.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 203.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 237.
 [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 203.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 237.
  (./gw_dmft_docu.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 203.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 203.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 237.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 237.
 Package rerunfilecheck Info: File `gw_dmft_docu.out' has not changed.
 (rerunfilecheck)             Checksum: 626B4375AB2C91B76C27F63BAE828EB4;322.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 203.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 237.
  ) 
 Here is how much of TeX's memory you used:
- 13953 strings out of 493304
- 212926 string characters out of 6139870
- 378808 words of memory out of 5000000
+ 13946 strings out of 493304
+ 212849 string characters out of 6139870
+ 376808 words of memory out of 5000000
  17157 multiletter control sequences out of 15000+600000
  10603 words of font info for 43 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 50i,12n,55p,297b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 50i,11n,55p,297b,456s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texli
@@ -1051,10 +1066,10 @@ public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 ts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/doublestroke/dsrom1
 2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on gw_dmft_docu.pdf (3 pages, 122293 bytes).
+Output written on gw_dmft_docu.pdf (3 pages, 128298 bytes).
 PDF statistics:
- 125 PDF objects out of 1000 (max. 8388607)
- 105 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
+ 116 PDF objects out of 1000 (max. 8388607)
+ 97 compressed objects within 1 object stream
+ 26 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

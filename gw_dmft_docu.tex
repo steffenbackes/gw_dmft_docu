@@ -41,17 +41,20 @@ This document  provides the prescription of the combination of a GW calculation
 for correlated materials with DMFT applied only to a subset of correlated orbitals.
 At this level, the GW calculation will be performed only once at the beginning (one-shot)
 based on a DFT Hamiltonian $H^{DFT}$,
-to obtain a Selfenergy $\Sigma^{GW}$ for all states. 
-Based on the new Hamiltonian $H^{GW}$,
-DMFT will be used to selfconsistently generate a non-perturbative Selfenergy for a set of correlated
-local orbitals, and replaces the local component of the Selfenergy $\Sigma^{GW}$ by $\Sigma^{DMFT}$.
+to obtain a nonlocal Selfenergy $\Sigma^{GW}$ for all states. 
+In addition, the local part of $\Sigma^{GW}$ of a subset of strongly correlated orbitals will be replaced by a Selfenergy $\Sigma^{DMFT}$
+obtained within a selfconsistent DMFT scheme, 
+where the selfconsistency is done including the full nonlocal
+effects of the combined Selfenergy.
 
-No further selfconsistency will be performed, {\it i.e.} no update of the single-particle
-spectra of $H^{GW}$ will be done. By this, the final interacting system will be
-described by a {\GF} with the non-interacting DFT dispersion, corrected by
-a non-local Selfenergy where the non-local components
+No further selfconsistency apart from the DMFT cycle will be performed, {\it i.e.} no update of $\Sigma^{GW}$ will be done. By this, the final interacting system will be
+described by a {\GF} with the non-interacting DFT dispersion, corrected by a non-local Selfenergy where the non-local components
 correspond to $\Sigma^{GW}=G_0W_0$, while the local components
 of the correlated orbitals correspond to $\Sigma^{DMFT}$.
+This $\Sigma^{DMFT}$ is usually different to the one obtained by
+a standard DMFT calculation since the selfconsistency is
+done with the inclusion of the nonlocal parts of the 
+Selfenergy.
 
 Extensions to a full GW+DMFT selfconsistency will be discussed elsewhere.
 
@@ -79,13 +82,16 @@ on a mesh in k-space in the full Brillouin zone:
 \begin{itemize}
 \item $\epsilon_m(k)$: The eigenvalues  of $H^{DFT}(k)$ in the Wannier basis
 for all relevant orbitals
-\item $\mu$: The chemical potential that yields the correct physical number of electrons $N_e$
+\item $\mu$: The chemical potential that yields the correct physical number of electrons $N_e$. It is not needed if all $\epsilon_m(k)$ are given 
+with respect to the Fermi level.
 for $H^{DFT}$
 \item $v^{XC}_{mm'}(k)$: The value of the exchange-correlation potential 
 in the Wannier basis for all relevant orbitals
-\item $\Sigma^{GW}_{mm'}(k,\omega)$: The Selfenergy within GW in the Wannier basis for all relevant orbitals
-on real frequencies $\omega$.
+\item $\Sigma^{GW}_{mm'}(k,i\omega)$: The Selfenergy within GW in the Wannier basis for all relevant orbitals on imaginary frequencies $\omega$.
+\item $\beta$: The inverse temperature used for defining $\omega_n=(2n+1)\pi/\beta$.
 \end{itemize}
+{\it All output from the GW calculation will be in atomic units and
+have to be converted to eV!!}
 
 
 \subsection{The DMFT part}
@@ -95,38 +101,43 @@ Wannier orbitals.
 
 The input of the calculation will be the output of the GW calculation. First, one will usually apply a Wannier-interpolation of the GW data to obtain a fine k-mesh
 since the GW output will be given on a very coarse grid.
+
+Since the Hartree term is already incorporated on the DMFT level, 
+it has to be excluded from the Selfenergies in GW (already taken care of)
+and in DMFT (has to be done in the selfconsistency).
+
 We then proceed as follows:
 
 \begin{enumerate}
 
-\item Transform the Selfenergy from GW to the imaginary Matsubara axis by
-\begin{align}
-\Sigma^{GW}_{mm'}(k,i\omega_n)
-&= \frac{1}{2\pi i} \int \, \frac{\Sigma^{GW}_{mm'}(k,\omega)}{\omega - i\omega_n}\ \mathrm{d}\omega , \mbox{\hspace{1cm} or}\\
-&= \frac{1}{\pi} \int \, \frac{\mathrm{Im}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega , \mbox{\hspace{0.7cm} or} \\
-&= \frac{1}{\pi i} \int \, \frac{\mathrm{Re}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega .
-\end{align}
+%\item Transform the Selfenergy from GW to the imaginary Matsubara axis by
+%\begin{align}
+%\Sigma^{GW}_{mm'}(k,i\omega_n)
+%&= \frac{1}{2\pi i} \int \, \frac{\Sigma^{GW}_{mm'}(k,\omega)}{\omega - i\omega_n}\ \mathrm{d}\omega , \mbox{\hspace{1cm} or}\\
+%&= \frac{1}{\pi} \int \, \frac{\mathrm{Im}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega , \mbox{\hspace{0.7cm} or} \\
+%&= \frac{1}{\pi i} \int \, \frac{\mathrm{Re}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega .
+%\end{align}
 
-\item Calculate the local diagonal part of the GW Selfenergy ONLY for the correlated subset of orbitals $f$
+\item Calculate the local diagonal part of the GW Selfenergy ONLY for the correlated subset of orbitals $f$ that will be later replaced by the DMFT result
 \begin{align}
  \Sigma^{GW,loc}_{f}(i\omega_n)
  &= \frac{1}{N_k}\sum_k \Sigma^{GW}_{ff}(k,i\omega_n).
 \end{align}
 
 
-\item (This step can be omitted if the correct physical number of electrons $N_e$ is already known)
- 
-Construct the initial non-interacting {\GF} on the imaginary Matsubara axis via
-\begin{align}
-   G_{0,mm'}(k,i\omega_n) 
- &= \left[ \unity(i\omega_n +\mu) -H^{DFT}(k)   \right]^{-1}_{mm''},
-\end{align}
- and calculate the total number of electrons
-\begin{align}
-  N_e
- &= \lim_{\tau\rightarrow 0^-} \frac{1}{\beta N_k} 
-                \sum_{i\omega_n}\sum_{k,m}G_{0,mm}(k,i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
-\end{align}
+%\item (This step can be omitted if the correct physical number of electrons $N_e$ is already known)
+% 
+%Construct the initial non-interacting {\GF} on the imaginary Matsubara axis via
+%\begin{align}
+%   G_{0,mm'}(k,i\omega_n) 
+% &= \left[ \unity(i\omega_n +\mu) -H^{DFT}(k)   \right]^{-1}_{mm''},
+%\end{align}
+% and calculate the total number of electrons
+%\begin{align}
+%  N_e
+% &= \lim_{\tau\rightarrow 0^-} \frac{1}{\beta N_k} 
+%                \sum_{i\omega_n}\sum_{k,m}G_{0,mm}(k,i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
+%\end{align}
 
 \item Make a first guess for the local impurity Selfenergy of the correlated
 orbitals $\Sigma^{imp}_{ff}$, for example one can use the GW result
@@ -137,13 +148,25 @@ orbitals $\Sigma^{imp}_{ff}$, for example one can use the GW result
 
 \item Set up the interacting {\GF}, where the local component of the GW
 Selfenergy for the correlated orbitals $f$ is replaced by $\Sigma^{imp}$
+and the Hartree part $\Sigma^{H,imp}_f$ is substracted from $\Sigma^{imp}$. 
+In the first step when using $\Sigma^{imp}_{ff} =  \Sigma^{GW,loc}_{f}$ this 
+term is zero.
 \begin{align}
  G_{mm'}(k,i\omega_n) 
  &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right.\\
           &- \Sigma^{GW}(k,i\omega_n) 
           + \Sigma^{GW,loc}_f(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
+          \left. - \Sigma^{imp}(i\omega_n)
+          + \Sigma^{H,imp}_f \right]^{-1}_{mm'}.
 \end{align}
+Adjust the chemical potential $\mu$ in a way such that the desired
+filling
+\begin{align}
+  N_e
+ &= \lim_{\tau\rightarrow 0^-} \frac{1}{\beta N_k} 
+                \sum_{i\omega_n}\sum_{k,m}G_{mm}(k,i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
+\end{align}
+is obtained.
 
 \item Calculate the local {\GF} (for all orbitals) then and Weiss field $\mathscr{G}$ ONLY
 on the subset of correlated orbitals $f$. Neglecting
@@ -160,6 +183,9 @@ in the diagonal components of $\mathscr{G}$
 %                 - \Sigma^{GW,loc}_{ff}
                 + \Sigma^{imp}_{ff}(i\omega_n) .
 \end{align}
+Here, the full $\Sigma^{imp}_{ff}$ has to be used, since 
+the Hartree part is calculated in the impurity model.
+
 The Weiss field matrix $\mathscr{G}$ is not explicitly needed, so
 we do not invert the last equation to obtain $\mathscr{G}$ .
 
@@ -179,17 +205,25 @@ and transform $\Delta(i\omega_n)$ to the imaginary time axis $\tau$ by a Fourier
 and solve the impurity model for the correlated $f$ orbitals.
 
 \item Obtain the new local Selfenergy $\Sigma^{imp}_{ff}(i\omega_n)$ 
-from the impurity model and calculate the updated full {\GF}
+from the impurity model and calculate the updated 
+Hartree correction
+%full {\GF}
+%\begin{align}
+% G_{mm'}(k,i\omega_n) 
+% &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}_{mm'}(k) \right.\\
+%          &- \Sigma^{GW}(k,i\omega_n) 
+%          + \Sigma^{GW,loc}_f(i\omega_n)
+%          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
+%\end{align}
 \begin{align}
- G_{mm'}(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}_{mm'}(k) \right.\\
-          &- \Sigma^{GW}(k,i\omega_n) 
-          + \Sigma^{GW,loc}_f(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
+\Sigma^{H,imp}_{f\sigma}
+&=  U_{ff}(n_{f\sigma}+n_{f\bar{\sigma}})
++ \sum_{f'\neq f} U'_{ff'}n_{f'\bar{\sigma}}
++ \sum_{f'\neq f} (U'_{ff'}-J_{ff'}) n_{f'\sigma}.
 \end{align}
-Adjust the chemical potential $\mu$ in such a way that the number of electrons
-$N_e$ is preserved.
-Then go back to step 5. Repeat until convergence
+%Adjust the chemical potential $\mu$ in such a way that the number of electrons
+%$N_e$ is preserved.
+Then go back to step 3. Repeat until convergence
 is reached.
 
 \end{enumerate}
