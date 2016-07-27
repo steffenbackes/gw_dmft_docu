@@ -31,6 +31,7 @@
 \newcommand{\sgn}{{\mathrm{sgn}}}
 \newcommand{\GF}{Green's function}
 \newcommand{\unity}{\mathds{1}}
+\renewcommand{\vec}{\mathbf}
 
 
 \begin{document}
@@ -192,7 +193,7 @@ we do not invert the last equation to obtain $\mathscr{G}$ .
 \item Calculate the Hybridization function
 \begin{align}
  \Delta_{ff}(i\omega_n)
- &= i\omega_n + \tilde{\mu}_f -  \mathscr{G}^{-1}_{ff}(i\omega_n),
+ &= i\omega_n + \tilde{\mu}_f -  \mathscr{G}^{-1}_{f	f}(i\omega_n),
 \end{align}
 where the local chemical potential $\tilde{\mu}_f$ is given by
 \begin{align}
@@ -206,7 +207,8 @@ and solve the impurity model for the correlated $f$ orbitals.
 
 \item Obtain the new local Selfenergy $\Sigma^{imp}_{ff}(i\omega_n)$ 
 from the impurity model and calculate the updated 
-Hartree correction
+Hartree correction from the impurity occupations as given by Eq. \eqref{eq:hartree_selfenergy}
+and \eqref{eq:hartree_selfenergy_freq}.
 %full {\GF}
 %\begin{align}
 % G_{mm'}(k,i\omega_n) 
@@ -215,12 +217,12 @@ Hartree correction
 %          + \Sigma^{GW,loc}_f(i\omega_n)
 %          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
 %\end{align}
-\begin{align}
-\Sigma^{H,imp}_{f\sigma}
-&=  U_{ff}(n_{f\sigma}+n_{f\bar{\sigma}})
-+ \sum_{f'\neq f} U'_{ff'}n_{f'\bar{\sigma}}
-+ \sum_{f'\neq f} (U'_{ff'}-J_{ff'}) n_{f'\sigma}.
-\end{align}
+%\begin{align}
+%\Sigma^{H,imp}_{f\sigma}
+%&=  U_{ff}(n_{f\sigma}+n_{f\bar{\sigma}})
+%+ \sum_{f'\neq f} U'_{ff'}n_{f'\bar{\sigma}}
+%+ \sum_{f'\neq f} (U'_{ff'}-J_{ff'}) n_{f'\sigma}.
+%\end{align}
 %Adjust the chemical potential $\mu$ in such a way that the number of electrons
 %$N_e$ is preserved.
 Then go back to step 3. Repeat until convergence
@@ -233,5 +235,196 @@ is reached.
 After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
 can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
 
+
+\section{Hartree- and Exchange term in DMFT}
+The derivation follows the ideas of Haule PRL 115, 196403 (2015).
+
+\subsection{Hartree term}
+The Hartree energy has the general form
+\begin{align}
+E^H[\rho]
+%
+&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
+%
+&= \frac{1}{2} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
+\frac{\rho(\vec{r}) \rho(\vec{r}') }{|\vec{r}-\vec{r}'|},
+\end{align}
+where $\rho(\vec{r})$ is the sum of all spin-components
+\begin{align}
+\rho(\vec{r}) &= \rho_{\uparrow}(\vec{r}) + \rho_{\downarrow}(\vec{r}).
+\end{align}
+
+In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
+and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
+by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
+This leads to 
+\begin{align}
+E^H[\rho]
+%
+&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
+%
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+\braket{\vec{r}|\chi^{\sigma}_k}  \braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l}  
+\braket{\chi^{\sigma}_l | \vec{r}}V_{DMFT}(\vec{r}-\vec{r}') \nonumber \\
+& \hspace{2.7cm} \times 
+\braket{\vec{r}'|\chi^{\sigma'}_m}  \braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  
+\braket{\chi^{\sigma'}_n | \vec{r}'} \\
+%
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+ (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
+    V_{DMFT}(\vec{r}-\vec{r}') 
+  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) \nonumber \\
+& \hspace{2.7cm} \times 
+\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
+\braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  .
+\end{align}
+%
+In the last equation we can now identify the matrix elements of the local screened Coulomb
+interaction
+\begin{align}
+\braket{ln|U|km}
+&=
+\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+ (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
+    V_{DMFT}(\vec{r}-\vec{r}') 
+  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) ,
+\end{align}
+and the DMFT density matrix
+\begin{align}
+\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
+&= n^{\sigma}_{kl}.
+\end{align}
+With this, the Hartree energy takes on the form
+\begin{align}
+E^{DMFT}
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}
+\braket{ln|U|km}
+n^{\sigma}_{kl} n^{\sigma'}_{mn}.
+\end{align}
+In the impurity model we restrict ourselves to diagonal density matrices, which leads to
+\begin{align}
+E^H_{DMFT}
+&= \frac{1}{2}\sum_{\substack{km\\\sigma\sigma'}}
+\braket{km|U|km}
+n^{\sigma}_{k} n^{\sigma'}_{m}.
+\end{align}
+This leads to the following Hartree part of the Selfenergy in DMFT
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma}
+&= \frac{\partial }{\partial n^{\sigma}_l} E^H_{DMFT} \\
+&= \frac{1}{2} \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m}
++
+\frac{1}{2} \sum_{k,\sigma'} \braket{kl|U|kl} n^{\sigma'}_{k} \\
+%
+&= \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m} \\
+%
+&= U_0 (n^{\uparrow}_l + n^{\downarrow}_l)
+               + \sum_{m\neq l} (U_0-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) .
+\label{eq:hartree_selfenergy}
+\end{align}
+
+
+\subsection{Exchange term}
+The exact exchange energy has the general form
+\begin{align}
+E^X[\rho]
+%
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho_{\sigma}(\vec{r},\vec{r}') V_C(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
+%
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
+\frac{\rho_{\sigma}(\vec{r},\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) }{|\vec{r}-\vec{r}'|}.
+\end{align}
+In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
+and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
+by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
+This leads to 
+\begin{align}
+E^X[\rho]
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho_{\sigma}(\vec{r},\vec{r}') V_{DMFT}(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
+%
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\braket{\vec{r} | \chi^{\sigma}_k }\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l } \braket{\chi^{\sigma}_l | \vec{r}'}  V_{DMFT}(\vec{r}-\vec{r}') \nonumber\\
+& \hspace{3.8cm} \times 
+\braket{\vec{r}' | \chi^{\sigma}_m }\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } \braket{\chi^{\sigma}_n | \vec{r}} \\
+% 
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
+V_{DMFT}(\vec{r}-\vec{r}') 
+\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}) \nonumber\\
+& \hspace{3.8cm} \times 
+\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n }
+\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l }.
+\end{align}
+In the last equation we can now identify the matrix elements of the local screened Coulomb
+interaction
+\begin{align}
+\braket{nl|U|km} 
+&= \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
+V_{DMFT}(\vec{r}-\vec{r}') 
+\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}),
+\end{align}
+and the DMFT density matrix
+\begin{align}
+\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } 
+&= n^{\sigma}_{mn}.
+\end{align}
+With this, the exchange energy takes on the form
+\begin{align}
+E^X_{DMFT}
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}}\braket{nl|U|km} n^{\sigma}_{mn} n^{\sigma}_{kl}.
+\end{align}
+In the impurity model we restrict ourselves to diagonal density matrices, which leads to
+\begin{align}
+E^X_{DMFT}
+&= -\frac{1}{2} \sum_{mk,\sigma}\braket{mk|U|km} n^{\sigma}_{m} n^{\sigma}_{k} .
+\end{align}
+This leads to the following exchange part of the Selfenergy in DMFT
+\begin{align}
+\Sigma^{X,DMFT}_{l\sigma}
+&= \frac{\partial }{\partial n^{\sigma}_l} E^X_{DMFT} \\
+%
+&= -\frac{1}{2} \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} 
+   -\frac{1}{2} \sum_{m}\braket{ml|U|lm} n^{\sigma}_{m}  \\
+%
+&= - \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} \\
+%
+&= - U_0\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.
+\end{align}
+
+\subsection{Hartree + exchange Selfenergy}
+For consistency checks, we add up the Hartree and the exchange contribution
+to the Selfenergy and obtain
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma} + \Sigma^{X,DMFT}_{l\sigma}
+%
+&= U_0 n^{\bar{\sigma}}_l 
+%
+               + \sum_{m\neq l} (U_0-2J_{lm}) n^{\bar{\sigma}}_m  \nonumber \\
+& \hspace{1.4cm} + \sum_{m\neq l} (U_0-3J_{lm}) n^{     \sigma }_m  \\
+&= \lim_{\omega_n\rightarrow \infty} \Sigma^{DMFT}(i\omega_n),
+\end{align}
+which is identical to the high-frequency limit of the true DMFT Selfenergy.
+This term is also equal to the sum of all first order diagrams to the
+DMFT Selfenergy, i.e. the Hartree- and the Fock diagram.
+
+\subsection{Dynamical interactions}
+In the case of dynamical interactions $U(\omega)$ in the Hartree and exchange part
+the screened Coulomb matrix elements recover their bare values \cng{is this correct?}, i.e.
+$U_0$ has to be replaced by the bare $V$ (assuming no frequency dependence of the 
+Hund's coupling)
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma}
+&= V (n^{\uparrow}_l + n^{\downarrow}_l)
+               + \sum_{m\neq l} (V-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) 
+\label{eq:hartree_selfenergy_freq} \\
+%
+\Sigma^{X,DMFT}_{l\sigma}
+&= - V\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.               
+\end{align}
 
 \end{document}
