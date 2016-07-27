@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.31)  27 JUL 2016 18:30
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.10.31)  27 JUL 2016 19:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1122,15 +1122,15 @@ ame{equation.2.2}) has been already used, duplicate ignored
                    \relax 
 l.428 \end{align}
                  
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 430.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 432.
  [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 430.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 432.
  (./gw_dmft_docu.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 430.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 430.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 432.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 432.
 Package rerunfilecheck Info: File `gw_dmft_docu.out' has not changed.
 (rerunfilecheck)             Checksum: 778237E2FB126232BD8FC9FDE22988CF;664.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 430.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 432.
  ) 
 Here is how much of TeX's memory you used:
  13980 strings out of 493304
@@ -1153,7 +1153,7 @@ nts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/public/doublestroke/dsrom12.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on gw_dmft_docu.pdf (6 pages, 149755 bytes).
+Output written on gw_dmft_docu.pdf (6 pages, 151515 bytes).
 PDF statistics:
  173 PDF objects out of 1000 (max. 8388607)
  149 compressed objects within 2 object streams
