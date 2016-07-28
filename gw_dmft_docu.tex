@@ -33,10 +33,14 @@
 \newcommand{\unity}{\mathds{1}}
 \renewcommand{\vec}{\mathbf}
 
+\title{GW (oneshot) + DMFT documentation}
 
 \begin{document}
+\maketitle
+\tableofcontents
 
-\section{GW (oneshot) + DMFT documentation}
+
+\section{Introduction}
 
 This document  provides the prescription of the combination of a GW calculation
 for correlated materials with DMFT applied only to a subset of correlated orbitals.
@@ -60,7 +64,7 @@ Selfenergy.
 Extensions to a full GW+DMFT selfconsistency will be discussed elsewhere.
 
 
-\subsection{The GW part}
+\section{The GW part}
 
 On the basis of $H^{DFT}$ a $G_0W_0$ calculation has to be performed on the full
 system. By this, the Selfenergy in the Kohn-Sham basis is obtained for all states
@@ -75,7 +79,7 @@ By this, the GW estimate for the full interacting {\GF} is given by
 \end{align}
 
 
-\subsubsection{Output}
+\subsection{Output for DMFT}
 At this point the basis transformation to the local Wannier basis will be
 performed on the GW side.
 For the next step of the DMFT calculation one needs
@@ -95,7 +99,7 @@ in the Wannier basis for all relevant orbitals
 have to be converted to eV!!}
 
 
-\subsection{The DMFT part}
+\section{The DMFT part}
 
 Within DMFT we then calculate a local correction $\Sigma^{DMFT}$ for a subset of correlated
 Wannier orbitals.
@@ -106,6 +110,8 @@ since the GW output will be given on a very coarse grid.
 Since the Hartree term is already incorporated on the DMFT level, 
 it has to be excluded from the Selfenergies in GW (already taken care of)
 and in DMFT (has to be done in the selfconsistency).
+
+\subsection{The self-consistency cycle}
 
 We then proceed as follows:
 
@@ -231,7 +237,7 @@ is reached.
 \end{enumerate}
 
 
-\subsubsection{Output}
+\subsection{Output}
 After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
 can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
 
@@ -428,5 +434,33 @@ Hund's coupling)
 \end{align}
 \cng{CAUTION!} Does $U_0$ or $F_0$ recover the bare interaction? If $F_0=V$,
 then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$.
+
+
+\section{Implementation details}
+
+\subsection{Impurity solver input}
+
+The CT-HYB impurity solver by Yusuke needs the following input files
+\begin{description}
+\item[dmft.input] Includes information about U,J, number of frequencies, etc. At the moment
+possible: Only 3-fold degenerate orbitals. No freq. dependent U.
+
+\item[hyb\_tau.dat] The hybridization function as a matrix for imaginary time. 
+It needs to be diagonal! \\
+Only real part, one column. Seperate matrix elements
+via two line breaks and \verb|# hyb     2    1| etc. We need \verb|Nmesh+1|
+points where the endpoints $\tau=0,\beta$ are included! By convention has negative sign.
+\cng{The local orbital levels are assumed to be $\tilde{\mu}=0$ and any
+shift is absorbed in the chemical potential! This has to 
+be checked for consistency!!!}
+
+\item[omega\_mesh.dat] Specifies the bosonic frequency grid for some 
+correlation functions. Just reuse the standard template file. Not important for us.
+
+\item[fort.10*] Includes information about the Monte-Carlo configuration used
+for starting the sampling. Is initialized once with Yusuke's code and then overwritten by 
+the solver. No change required here.
+\end{description}
+
 
 \end{document}
