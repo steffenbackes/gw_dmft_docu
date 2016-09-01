@@ -1,13 +1,14 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{The GW part}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Output for DMFT}{section.2}% 3
-\BOOKMARK [1][-]{section.3}{The DMFT part}{}% 4
-\BOOKMARK [2][-]{subsection.3.1}{The self-consistency cycle}{section.3}% 5
-\BOOKMARK [2][-]{subsection.3.2}{Output}{section.3}% 6
-\BOOKMARK [1][-]{section.4}{Hartree- and Exchange term in DMFT}{}% 7
-\BOOKMARK [2][-]{subsection.4.1}{Hartree term}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.2}{Exchange term}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.3}{Hartree + exchange Selfenergy}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.4}{Dynamical interactions}{section.4}% 11
-\BOOKMARK [1][-]{section.5}{Implementation details}{}% 12
-\BOOKMARK [2][-]{subsection.5.1}{Impurity solver input}{section.5}% 13
+\BOOKMARK [1][-]{section.2}{Approximation to the free energy functional [G,W]: Combination of GW and DMFT}{}% 2
+\BOOKMARK [1][-]{section.3}{The GW part}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Output for DMFT}{section.3}% 4
+\BOOKMARK [1][-]{section.4}{The DMFT part}{}% 5
+\BOOKMARK [2][-]{subsection.4.1}{The self-consistency cycle}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.2}{Output}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{Hartree- and Exchange term in DMFT}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{Hartree term}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{Exchange term}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.3}{Hartree + exchange Selfenergy}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.4}{Dynamical interactions}{section.5}% 12
+\BOOKMARK [1][-]{section.6}{Implementation details}{}% 13
+\BOOKMARK [2][-]{subsection.6.1}{Impurity solver input}{section.6}% 14

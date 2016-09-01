@@ -17,7 +17,7 @@
 \usepackage{mathrsfs}
 \usepackage{listings}
 \usepackage[absolute]{textpos}
-\numberwithin{equation}{subsection}
+\numberwithin{equation}{section}
 %\numberwithin{figure}{section}
 %\usepackage[pdfborder=0 0 0]{hyperref}
 \usepackage[colorlinks=True, urlcolor=blue]{hyperref}
@@ -63,6 +63,67 @@ Selfenergy.
 
 Extensions to a full GW+DMFT selfconsistency will be discussed elsewhere.
 
+\section{Approximation to the free energy functional $\Gamma[G,W]$: Combination of GW and DMFT}
+As stated by Almbladh[ref], the free energy of a solid can be written in terms of
+a functional $\Gamma[G,W]$ of the fully dressed Green's function $G$
+and the screened Coulomb interaction $W$. While an analytic expression for 
+$\Gamma$ is not known, it can be shown that it can be separated into 
+a Hartree part $\Gamma^H$ and a correction arising from all other many-body effects
+$\Psi$
+\begin{align}
+\Gamma[G,W] &= \Gamma^H[G,W] + \Psi[G,W].
+\end{align}
+The many-body correction $\Psi[G,W]$ is the sum of all skeleton diagrams that are
+irreducible with respect to both one-electron propagator and
+interaction lines. It has the properties
+\begin{align}
+\frac{\delta \Psi}{\delta G} &= \Sigma^{XC}  \label{eq:sigma_from_psi} \\
+\frac{\delta \Psi}{\delta W} &= -\frac{1}{2}P \label{eq:p_from_psi},
+\end{align}
+where $\Sigma^{XC}$ is the exchange-correlation Selfenergy corresponding to the
+fully dressed Green's function $G$, thus excluding the Hartree part $\Sigma^H$.
+$P$ is the full polarization of the system that screens the bare Coulomb
+interaction $V$ down to the screened interaction $W$.
+
+Since methods like Density Functional Theory can treat the Hartree contribution
+from the Coulomb interaction quite well, we are interested in obtaining
+an (approximative) expression for the many-body correction $\Psi[G,W]$.
+
+One possibility is the GW approximation, which expands $\Psi[G,W]$ in powers of the
+screened interaction $W$ and truncated the series at first order. The resulting expression
+is thus
+\begin{align}
+\Psi[G,W] \approx -\frac{1}{2} \mathrm{Tr}(GWG).
+\end{align}
+Using equations \eqref{eq:sigma_from_psi} and \eqref{eq:p_from_psi},
+we immediately obtain the $GW$ Selfenergy and polarization as
+\begin{align}
+\Sigma^{GW} &= -GW \\
+P^{GW} &= GG.
+\end{align}
+While this approximation goes well beyond the level of a simple Hartree approximation
+and usually treats all states without any separation of spaces,
+it is only an expansion up to first order in $W$ and thus justified only when $W$ is
+small, i.e. in case of weakly correlated systems. Thus, it is tempting to combine
+$GW$ with other methods like DMFT for an improved treatment of correlated systems.
+
+\bigskip
+
+In the GW+DMFT scheme, we first separate the $\Psi$ functional into
+its local and nonlocal parts
+\begin{align}
+\Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G,W],
+\end{align}
+\cng{Is this exact?}
+and approximate the nonlocal part by $GW$, while the local part is approximated by DMFT
+\begin{align}
+\Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G,W].
+\end{align}
+We now have to define what we actually mean by the two objects 
+$\Psi^{GW}_{\mathrm{nonloc}}[G,W]$ and $\Psi^{DMFT}_{\mathrm{loc}}[G,W]$.
+
+Let us start first with the local part: In general, 
+$\Psi^{DMFT}_{\mathrm{loc}}[G,W]$ is a functional of the fully 
 
 \section{The GW part}
 
