@@ -85,12 +85,12 @@ fully dressed Green's function $G$, thus excluding the Hartree part $\Sigma^H$.
 $P$ is the full polarization of the system that screens the bare Coulomb
 interaction $V$ down to the screened interaction $W$.
 
-Since methods like Density Functional Theory can treat the Hartree contribution
-from the Coulomb interaction quite well, we are interested in obtaining
+Since methods like Density Functional Theory already treat the Hartree contribution
+from the Coulomb interaction, we are interested in obtaining
 an (approximative) expression for the many-body correction $\Psi[G,W]$.
 
 One possibility is the GW approximation, which expands $\Psi[G,W]$ in powers of the
-screened interaction $W$ and truncated the series at first order. The resulting expression
+screened interaction $W$ and truncates the series at first order. The resulting expression
 is thus
 \begin{align}
 \Psi[G,W] \approx -\frac{1}{2} \mathrm{Tr}(GWG).
@@ -115,15 +115,131 @@ its local and nonlocal parts
 \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G,W],
 \end{align}
 \cng{Is this exact?}
-and approximate the nonlocal part by $GW$, while the local part is approximated by DMFT
-\begin{align}
-\Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G,W].
-\end{align}
-We now have to define what we actually mean by the two objects 
-$\Psi^{GW}_{\mathrm{nonloc}}[G,W]$ and $\Psi^{DMFT}_{\mathrm{loc}}[G,W]$.
+where usually the nonlocal part is approximated by $GW$, while the local part is usually approximated by DMFT,
+but right now we do not want to decide on a specific method and only focus
+on how to separate the local and nonlocal contributions.
 
-Let us start first with the local part: In general, 
-$\Psi^{DMFT}_{\mathrm{loc}}[G,W]$ is a functional of the fully 
+We only want to impose one specific condition: First, we work in an orbital separated scheme,
+where we separate the full Hilbert space $L+H$ into a correlated subspace $L$ and the remaining subspace $H$.
+Then, our defintion of $\Psi_{\mathrm{loc}}$ is the following: $\Psi_{\mathrm{loc}}$ is generated only from the \underline{local}
+components of $G$ and $W$ in the \underline{correlated subspace}, i.e.
+\begin{align}
+\Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \underbrace{\Psi_{}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}]}_{\Psi_{\mathrm{loc}}}.
+\label{eq:psi_separation_nonloc_loc}
+\end{align}
+By this, all internal processes contributing to $\Psi_{\mathrm{loc}}$ 
+are restricted to the smaller correlated subspace $L$ and its local $G$ and $W$.
+This construction already points to the usage of DMFT for $\Psi_{\mathrm{loc}}$, but it is instructive
+not to fix on a specific method yet.
+% 
+% In general, in an orbitally separated scheme Eq. \eqref{eq:psi_separation_nonloc_loc} is not an 
+% 
+% 
+% 
+% 
+% 
+% \begin{align}
+% \Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G,W].
+% \end{align}
+All other contributions to the full $\Psi$ are now \underline{defined} to be originiating from $\Psi_{\mathrm{nonloc}}[G,W]$.
+We now have to define what we actually mean by the two objects 
+$\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$.
+
+% \bigskip
+% 
+% Let us start first with the local part: In general, 
+% $\Psi^{DMFT}_{\mathrm{loc}}$ is a functional of the fully dressed local Green's function,
+% which in DMFT is obtained from an impurity model
+% \begin{align}
+%  \Psi^{DMFT}_{\mathrm{loc},L}[G^{\mathrm{imp},L},W^{\mathrm{imp},L}],
+% \end{align}
+% so in the evaluation of $\Psi^{DMFT}_{\mathrm{loc},L}$ all internal processes are generated
+% from local objects. 
+
+\bigskip
+
+First, let us start with the nonlocal part $\Psi_{\mathrm{nonloc}}$.
+Rewriting Eq. \eqref{eq:psi_separation_nonloc_loc} in the following way naturally
+leads us to its definition via
+\begin{align}
+ \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] \\
+ &= \underbrace{\Psi[G,W]- \Psi[G^{\mathrm{loc},L},W^{\mathrm{loc},L}]}_{:=\Psi_{\mathrm{nonloc}}}
+    + \Psi_{}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}].
+\end{align}
+By this, we immediately see that applying any approximation $A$ to $\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$
+will give us the approximate functional $\Psi^A = \Psi^A_{\mathrm{nonloc}}+\Psi^A_{\mathrm{loc}}$.
+
+\bigskip
+
+Side remark: Using the same approximation on both terms will not create any doublecounting or loss
+of terms, regardless of whether we use an orbital separated scheme or not.
+
+\bigskip
+
+It starts to get really interesting when we use two different approximations $A$ and $B$
+to treat the two terms
+\begin{align}
+\Psi[G,W] &\approx \Psi^A_{\mathrm{nonloc}}[G,W] + \Psi^B_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] .
+\end{align}
+The main point here is \cng{IS THERE REALLY NO OVERLAP/DOUBLECOUNTING IN THIS SCHEME??}
+
+\bigskip
+
+In the context of GW+DMFT we will now approximate the nonlocal part by GW and the local part
+by DMFT. The GW approximation is usually performed as a single-shot, and thus
+based on the DFT Green's function $G^0$ and RPA screened interaction $W^0$,
+while the local functional from DMFT is obtained from the impurity Green's function and
+interaction, i.e.
+\begin{align}
+\Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] \\
+&= -\frac{1}{2}\Big( G^0W^0G^0 - G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}  \Big)
+                    + \Psi^{DMFT}[G^{\mathrm{imp},L},W^{\mathrm{imp},L}] .
+\end{align}
+Please note that in the orbital separated scheme 
+\begin{align}
+ \Sigma^{GW,\mathrm{loc},L} \neq \sum_k \frac{\delta}{\delta G^L_k}
+             \Big( -\frac{1}{2} G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L} \Big),
+\end{align}
+but this is not relevant here.
+Using equations \eqref{eq:sigma_from_psi} and \eqref{eq:p_from_psi} we obtain for the GW+DMFT
+Selfenergy and polarization
+\begin{align}
+\Sigma_{ab} &= 
+\begin{cases}
+-[G^0W^0]_{ab} + [G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}]_{ab}+ \Sigma_{ab}^{\mathrm{imp},XC,L} & \mbox{ for } a,b \in L  \\
+-[G^0W^0]_{ab}                                                                      & \mbox{ for } a \mbox{ or/and } b \in H 
+\end{cases}\\
+%
+%
+P_{abcd} &= 
+\begin{cases}
+-[G^0G^0]_{abcd} + [G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}]_{abcd}+ P_{abcd}^{\mathrm{imp},L} & \mbox{ for } a,b,c,d \in L  \\
+-[G^0G^0]_{abcd}                                                                      & \mbox{ for } \{a,b,c,d\} \cap H  \neq \emptyset
+\end{cases}
+\end{align}
+
+Limiting cases:
+\begin{description}
+\item[$W$ small:] In this case the Selfenergy will be well described already by GW, so the impurity solution
+will basically give the same result $G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L} = \Sigma^{\mathrm{imp},L}$.
+The two terms cancel and we fully regain the GW result. \cng{NO doublecounting like in FLL LDA+U or LDA+DMFT!}
+\item[W large:] Then the GW Selfenergy contribution within the subspace $L$ is basically given by the impurity solution.
+There is no mismatch of exchange terms originating from outside the space $L$, since only the local impurity exchange
+is removed from GW and replaced by the local impurity DMFT exchange. But this term can be different due to rearrangements
+of the local impurity charge. This contribution is not yet considered in the GW screening since no GW selfconsistency
+has been applied.
+\cng{Can we now do another GW calculation only replacing the new contribution from the impurity states?
+Then we perform a GW selfconsistency including the  local vertex corrections from DMFT, in similar spirit as Boehnke et al.}
+\end{description}
+
+
+
+
+
+
+
+
+
 
 \section{The GW part}
 

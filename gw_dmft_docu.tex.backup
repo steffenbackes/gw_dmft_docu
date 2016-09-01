@@ -17,7 +17,7 @@
 \usepackage{mathrsfs}
 \usepackage{listings}
 \usepackage[absolute]{textpos}
-\numberwithin{equation}{subsection}
+\numberwithin{equation}{section}
 %\numberwithin{figure}{section}
 %\usepackage[pdfborder=0 0 0]{hyperref}
 \usepackage[colorlinks=True, urlcolor=blue]{hyperref}
@@ -31,32 +31,202 @@
 \newcommand{\sgn}{{\mathrm{sgn}}}
 \newcommand{\GF}{Green's function}
 \newcommand{\unity}{\mathds{1}}
+\renewcommand{\vec}{\mathbf}
 
+\title{GW (oneshot) + DMFT documentation}
 
 \begin{document}
+\maketitle
+\tableofcontents
 
-\section{GW (oneshot) + DMFT documentation}
+
+\section{Introduction}
 
 This document  provides the prescription of the combination of a GW calculation
 for correlated materials with DMFT applied only to a subset of correlated orbitals.
 At this level, the GW calculation will be performed only once at the beginning (one-shot)
 based on a DFT Hamiltonian $H^{DFT}$,
-to obtain a Selfenergy $\Sigma^{GW}$ for all states. 
-Based on the new Hamiltonian $H^{GW}$,
-DMFT will be used to selfconsistently generate a non-perturbative Selfenergy for a set of correlated
-local orbitals, and replaces the local component of the Selfenergy $\Sigma^{GW}$ by $\Sigma^{DMFT}$.
+to obtain a nonlocal Selfenergy $\Sigma^{GW}$ for all states. 
+In addition, the local part of $\Sigma^{GW}$ of a subset of strongly correlated orbitals will be replaced by a Selfenergy $\Sigma^{DMFT}$
+obtained within a selfconsistent DMFT scheme, 
+where the selfconsistency is done including the full nonlocal
+effects of the combined Selfenergy.
 
-No further selfconsistency will be performed, {\it i.e.} no update of the single-particle
-spectra of $H^{GW}$ will be done. By this, the final interacting system will be
-described by a {\GF} with the non-interacting DFT dispersion, corrected by
-a non-local Selfenergy where the non-local components
+No further selfconsistency apart from the DMFT cycle will be performed, {\it i.e.} no update of $\Sigma^{GW}$ will be done. By this, the final interacting system will be
+described by a {\GF} with the non-interacting DFT dispersion, corrected by a non-local Selfenergy where the non-local components
 correspond to $\Sigma^{GW}=G_0W_0$, while the local components
 of the correlated orbitals correspond to $\Sigma^{DMFT}$.
+This $\Sigma^{DMFT}$ is usually different to the one obtained by
+a standard DMFT calculation since the selfconsistency is
+done with the inclusion of the nonlocal parts of the 
+Selfenergy.
 
 Extensions to a full GW+DMFT selfconsistency will be discussed elsewhere.
 
+\section{Approximation to the free energy functional $\Gamma[G,W]$: Combination of GW and DMFT}
+As stated by Almbladh[ref], the free energy of a solid can be written in terms of
+a functional $\Gamma[G,W]$ of the fully dressed Green's function $G$
+and the screened Coulomb interaction $W$. While an analytic expression for 
+$\Gamma$ is not known, it can be shown that it can be separated into 
+a Hartree part $\Gamma^H$ and a correction arising from all other many-body effects
+$\Psi$
+\begin{align}
+\Gamma[G,W] &= \Gamma^H[G,W] + \Psi[G,W].
+\end{align}
+The many-body correction $\Psi[G,W]$ is the sum of all skeleton diagrams that are
+irreducible with respect to both one-electron propagator and
+interaction lines. It has the properties
+\begin{align}
+\frac{\delta \Psi}{\delta G} &= \Sigma^{XC}  \label{eq:sigma_from_psi} \\
+\frac{\delta \Psi}{\delta W} &= -\frac{1}{2}P \label{eq:p_from_psi},
+\end{align}
+where $\Sigma^{XC}$ is the exchange-correlation Selfenergy corresponding to the
+fully dressed Green's function $G$, thus excluding the Hartree part $\Sigma^H$.
+$P$ is the full polarization of the system that screens the bare Coulomb
+interaction $V$ down to the screened interaction $W$.
 
-\subsection{The GW part}
+Since methods like Density Functional Theory can treat the Hartree contribution
+from the Coulomb interaction quite well, we are interested in obtaining
+an (approximative) expression for the many-body correction $\Psi[G,W]$.
+
+One possibility is the GW approximation, which expands $\Psi[G,W]$ in powers of the
+screened interaction $W$ and truncates the series at first order. The resulting expression
+is thus
+\begin{align}
+\Psi[G,W] \approx -\frac{1}{2} \mathrm{Tr}(GWG).
+\end{align}
+Using equations \eqref{eq:sigma_from_psi} and \eqref{eq:p_from_psi},
+we immediately obtain the $GW$ Selfenergy and polarization as
+\begin{align}
+\Sigma^{GW} &= -GW \\
+P^{GW} &= GG.
+\end{align}
+While this approximation goes well beyond the level of a simple Hartree approximation
+and usually treats all states without any separation of spaces,
+it is only an expansion up to first order in $W$ and thus justified only when $W$ is
+small, i.e. in case of weakly correlated systems. Thus, it is tempting to combine
+$GW$ with other methods like DMFT for an improved treatment of correlated systems.
+
+\bigskip
+
+In the GW+DMFT scheme, we first separate the $\Psi$ functional into
+its local and nonlocal parts
+\begin{align}
+\Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G,W],
+\end{align}
+\cng{Is this exact?}
+where usually the nonlocal part is approximated by $GW$, while the local part is usually approximated by DMFT,
+but right now we do not want to decide on a specific method and only focus
+on how to separate the local and nonlocal contributions.
+
+We only want to impose one specific condition: First, we work in an orbital separated scheme,
+where we separate the full Hilbert space $L+H$ into a correlated subspace $L$ and the remaining subspace $H$.
+Then, our defintion of $\Psi_{\mathrm{loc}}$ is the following: $\Psi_{\mathrm{loc}}$ is generated only from the \underline{local}
+components of $G$ and $W$ in the \underline{correlated subspace}, i.e.
+\begin{align}
+\Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}].
+\label{eq:psi_separation_nonloc_loc}
+\end{align}
+By this, all internal processes contributing to $\Psi_{\mathrm{loc}}$ 
+are restricted to the smaller correlated subspace $L$ and its local $G$ and $W$.
+This construction already points to the usage of DMFT for $\Psi_{\mathrm{loc}}$, but it is instructive
+not to fix on a specific method yet.
+% 
+% In general, in an orbitally separated scheme Eq. \eqref{eq:psi_separation_nonloc_loc} is not an 
+% 
+% 
+% 
+% 
+% 
+% \begin{align}
+% \Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G,W].
+% \end{align}
+All other contributions to the full $\Psi$ are now defined to be originiating from $\Psi_{\mathrm{nonloc}}[G,W]$.
+We now have to define what we actually mean by the two objects 
+$\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$.
+
+% \bigskip
+% 
+% Let us start first with the local part: In general, 
+% $\Psi^{DMFT}_{\mathrm{loc}}$ is a functional of the fully dressed local Green's function,
+% which in DMFT is obtained from an impurity model
+% \begin{align}
+%  \Psi^{DMFT}_{\mathrm{loc},L}[G^{\mathrm{imp},L},W^{\mathrm{imp},L}],
+% \end{align}
+% so in the evaluation of $\Psi^{DMFT}_{\mathrm{loc},L}$ all internal processes are generated
+% from local objects. 
+
+\bigskip
+
+First, let us start with the nonlocal part $\Psi_{\mathrm{nonloc}}$.
+Rewriting Eq. \eqref{eq:psi_separation_nonloc_loc} in the following way naturally
+leads us to its definition via
+\begin{align}
+ \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] \\
+ &= \underbrace{\Psi[G,W]- \Psi[G^{\mathrm{loc},L},W^{\mathrm{loc},L}]}_{:=\Psi_{\mathrm{nonloc}}}
+    + \Psi_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}].
+\end{align}
+By this, we immediately see that applying any approximation $A$ to $\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$
+will give us the approximate functional $\Psi^A = \Psi^A_{\mathrm{nonloc}}+\Psi^A_{\mathrm{loc}}$.
+
+\bigskip
+
+Side remark: Using the same approximation on both terms will not create any doublecounting or loss
+of terms, regardless of whether we use an orbital separated scheme or not.
+
+\bigskip
+
+It starts to get really interesting when we use two different approximations $A$ and $B$
+to treat the two terms
+\begin{align}
+\Psi[G,W] &\approx \Psi^A_{\mathrm{nonloc}}[G,W] + \Psi^B_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] .
+\end{align}
+The main point here is \cng{IS THERE REALLY NO OVERLAP/DOUBLECOUNTING IN THIS SCHEME??}
+
+\bigskip
+
+In the context of GW+DMFT we will now approximate the nonlocal part by GW and the local part
+by DMFT. The GW approximation is usually performed as a single-shot, and thus
+based on the DFT Green's function $G^0$ and RPA screened interaction $W^0$,
+while the local functional from DMFT is obtained from the impurity Green's function and
+interaction, i.e.
+\begin{align}
+\Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] \\
+&= -\frac{1}{2}\Big( G^0W^0G^0 - G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}  \Big)
+                    + \Psi^{DMFT}[G^{\mathrm{imp},L},W^{\mathrm{imp},L}] .
+\end{align}
+Please note that in the orbital separated scheme 
+\begin{align}
+ \Sigma^{GW,\mathrm{loc},L} \neq \sum_k \frac{\delta}{\delta G^L_k}
+             \Big( -\frac{1}{2} G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L} \Big),
+\end{align}
+but this is not relevant here.
+Using equations \eqref{eq:sigma_from_psi} and \eqref{eq:p_from_psi} we obtain for the GW+DMFT
+Selfenergy and polarization
+\begin{align}
+\Sigma &= 
+\begin{cases}
+-G^0W^0 + G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L} + \Sigma^{\mathrm{imp},L} & \mbox{ for space } L  \\
+-G^0W^0                                                                      & \mbox{ for space } H 
+\end{cases}\\
+%
+%
+P &= 
+\begin{cases}
+G^0G^0 - G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L} + P^{\mathrm{imp},L} & \mbox{ for space } L  \\
+G^0G^0                                                                 & \mbox{ for space } H 
+\end{cases}
+\end{align}
+
+
+
+
+
+
+
+
+
+\section{The GW part}
 
 On the basis of $H^{DFT}$ a $G_0W_0$ calculation has to be performed on the full
 system. By this, the Selfenergy in the Kohn-Sham basis is obtained for all states
@@ -67,64 +237,76 @@ system. By this, the Selfenergy in the Kohn-Sham basis is obtained for all state
 By this, the GW estimate for the full interacting {\GF} is given by
 \begin{align}
  G^{GW}_{\nu\nu'}(k,\omega) 
- &= \left[ \unity(\omega +\mu +i\delta) -H^{DFT}(k) - \Sigma^{GW}(k,\omega)  \right]^{-1}_{\nu\nu'}.
+ &= \left[ \unity(\omega +\mu +i\delta) -H^{DFT}(k)+v^{XC}(k) - \Sigma^{GW}(k,\omega)  \right]^{-1}_{\nu\nu'}.
 \end{align}
 
 
-\subsubsection{Output}
-At this poit the basis transformation to the local Wannier basis will be
+\subsection{Output for DMFT}
+At this point the basis transformation to the local Wannier basis will be
 performed on the GW side.
 For the next step of the DMFT calculation one needs
+on a mesh in k-space in the full Brillouin zone:
 \begin{itemize}
 \item $\epsilon_m(k)$: The eigenvalues  of $H^{DFT}(k)$ in the Wannier basis
 for all relevant orbitals
-\item $\mu$: The chemical potential that yields the correct physical number of electrons $N_e$
+\item $\mu$: The chemical potential that yields the correct physical number of electrons $N_e$. It is not needed if all $\epsilon_m(k)$ are given 
+with respect to the Fermi level.
 for $H^{DFT}$
 \item $v^{XC}_{mm'}(k)$: The value of the exchange-correlation potential 
 in the Wannier basis for all relevant orbitals
-\item $\Sigma_{mm'}(k,\omega)$: The Selfenergy  in the Wannier basis for all relevant orbitals
-on real frequencies $\omega$.
+\item $\Sigma^{GW}_{mm'}(k,i\omega)$: The Selfenergy within GW in the Wannier basis for all relevant orbitals on imaginary frequencies $\omega$.
+\item $\beta$: The inverse temperature used for defining $\omega_n=(2n+1)\pi/\beta$.
 \end{itemize}
+{\it All output from the GW calculation will be in atomic units and
+have to be converted to eV!!}
 
 
-\subsection{The DMFT part}
+\section{The DMFT part}
 
 Within DMFT we then calculate a local correction $\Sigma^{DMFT}$ for a subset of correlated
 Wannier orbitals.
 
-The input of the calculation will be the output of the GW calculation.
-We proceed as follows:
+The input of the calculation will be the output of the GW calculation. First, one will usually apply a Wannier-interpolation of the GW data to obtain a fine k-mesh
+since the GW output will be given on a very coarse grid.
+
+Since the Hartree term is already incorporated on the DMFT level, 
+it has to be excluded from the Selfenergies in GW (already taken care of)
+and in DMFT (has to be done in the selfconsistency).
+
+\subsection{The self-consistency cycle}
+
+We then proceed as follows:
 
 \begin{enumerate}
 
-\item Transform the Selfenergy from GW to the imaginary Matsubara axis by
-\begin{align}
-\Sigma^{GW}_{mm'}(k,i\omega_n)
-&= \frac{1}{2\pi i} \int \, \frac{\Sigma^{GW}_{mm'}(k,\omega)}{\omega - i\omega_n}\ \mathrm{d}\omega , \mbox{\hspace{1cm} or}\\
-&= \frac{1}{\pi} \int \, \frac{\mathrm{Im}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega , \mbox{\hspace{0.7cm} or} \\
-&= \frac{1}{\pi i} \int \, \frac{\mathrm{Re}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega .
-\end{align}
+%\item Transform the Selfenergy from GW to the imaginary Matsubara axis by
+%\begin{align}
+%\Sigma^{GW}_{mm'}(k,i\omega_n)
+%&= \frac{1}{2\pi i} \int \, \frac{\Sigma^{GW}_{mm'}(k,\omega)}{\omega - i\omega_n}\ \mathrm{d}\omega , \mbox{\hspace{1cm} or}\\
+%&= \frac{1}{\pi} \int \, \frac{\mathrm{Im}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega , \mbox{\hspace{0.7cm} or} \\
+%&= \frac{1}{\pi i} \int \, \frac{\mathrm{Re}[\Sigma^{GW}_{mm'}(k,\omega)]}{\omega - i\omega_n} \ \mathrm{d}\omega .
+%\end{align}
 
-\item Calculate the local diagonal part of the GW Selfenergy ONLY for the correlated subset of orbitals $f$
+\item Calculate the local diagonal part of the GW Selfenergy ONLY for the correlated subset of orbitals $f$ that will be later replaced by the DMFT result
 \begin{align}
  \Sigma^{GW,loc}_{f}(i\omega_n)
  &= \frac{1}{N_k}\sum_k \Sigma^{GW}_{ff}(k,i\omega_n).
 \end{align}
 
 
-\item (This step can be omitted if the correct physical number of electrons $N_e$ is already known)
- 
-Construct the initial non-interacting {\GF} on the imaginary Matsubara axis via
-\begin{align}
-   G_{0,mm'}(k,i\omega_n) 
- &= \left[ \unity(i\omega_n +\mu) -H^{DFT}(k)   \right]^{-1}_{mm''},
-\end{align}
- and calculate the total number of electrons
-\begin{align}
-  N_e
- &= \lim_{\tau\rightarrow 0^-} \frac{1}{\beta N_k} 
-                \sum_{i\omega_n}\sum_{k,m}G_{0,mm}(k,i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
-\end{align}
+%\item (This step can be omitted if the correct physical number of electrons $N_e$ is already known)
+% 
+%Construct the initial non-interacting {\GF} on the imaginary Matsubara axis via
+%\begin{align}
+%   G_{0,mm'}(k,i\omega_n) 
+% &= \left[ \unity(i\omega_n +\mu) -H^{DFT}(k)   \right]^{-1}_{mm''},
+%\end{align}
+% and calculate the total number of electrons
+%\begin{align}
+%  N_e
+% &= \lim_{\tau\rightarrow 0^-} \frac{1}{\beta N_k} 
+%                \sum_{i\omega_n}\sum_{k,m}G_{0,mm}(k,i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
+%\end{align}
 
 \item Make a first guess for the local impurity Selfenergy of the correlated
 orbitals $\Sigma^{imp}_{ff}$, for example one can use the GW result
@@ -135,17 +317,29 @@ orbitals $\Sigma^{imp}_{ff}$, for example one can use the GW result
 
 \item Set up the interacting {\GF}, where the local component of the GW
 Selfenergy for the correlated orbitals $f$ is replaced by $\Sigma^{imp}$
+and the Hartree part $\Sigma^{H,imp}_f$ is substracted from $\Sigma^{imp}$. 
+In the first step when using $\Sigma^{imp}_{ff} =  \Sigma^{GW,loc}_{f}$ this 
+term is zero.
 \begin{align}
  G_{mm'}(k,i\omega_n) 
- &= \left[ \unity(\omega+\mu ) -H^{DFT}(k) \right.\\
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right.\\
           &- \Sigma^{GW}(k,i\omega_n) 
           + \Sigma^{GW,loc}_f(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
+          \left. - \Sigma^{imp}(i\omega_n)
+          + \Sigma^{H,imp}_f \right]^{-1}_{mm'}.
 \end{align}
+Adjust the chemical potential $\mu$ in a way such that the desired
+filling
+\begin{align}
+  N_e
+ &= \lim_{\tau\rightarrow 0^-} \frac{1}{\beta N_k} 
+                \sum_{i\omega_n}\sum_{k,m}G_{mm}(k,i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
+\end{align}
+is obtained.
 
 \item Calculate the local {\GF} (for all orbitals) then and Weiss field $\mathscr{G}$ ONLY
 on the subset of correlated orbitals $f$. Neglecting
-offidagonal components in the hybridization we are also only interested 
+offdiagonal components in the hybridization we are also only interested 
 in the diagonal components of $\mathscr{G}$
 % using the local GW Selfenergy where the diagonal components of the
 % correlated orbitals $f$ are replaced by the impurity Selfenergy
@@ -158,24 +352,277 @@ in the diagonal components of $\mathscr{G}$
 %                 - \Sigma^{GW,loc}_{ff}
                 + \Sigma^{imp}_{ff}(i\omega_n) .
 \end{align}
-(Matsubara frequencies are suppressed in the last equation for clarity)
-The Weiss field matrix $\mathscr{G}$ is not explicitely needed, so
+Here, the full $\Sigma^{imp}_{ff}$ has to be used, since 
+the Hartree part is calculated in the impurity model.
+
+The Weiss field matrix $\mathscr{G}$ is not explicitly needed, so
 we do not invert the last equation to obtain $\mathscr{G}$ .
 
 \item Calculate the Hybridization function
 \begin{align}
  \Delta_{ff}(i\omega_n)
- &= i\omega_n + \tilde{\mu}_f -  \mathscr{G}^{-1}_{ff}(i\omega_n),
+ &= i\omega_n + \tilde{\mu}_f -  \mathscr{G}^{-1}_{f	f}(i\omega_n),
 \end{align}
 where the local chemical potential $\tilde{\mu}_f$ is given by
 \begin{align}
  \tilde{\mu}_f = \lim_{\omega_n\rightarrow \infty} \mathrm{Re}\left[ \mathscr{G}^{-1}_{ff}(i\omega_n) \right]
 \end{align}
+and transform $\Delta(i\omega_n)$ to the imaginary time axis $\tau$ by a Fourier transform
+\begin{align}
+ \Delta_{ff}(\tau) &= \frac{1}{\beta} \sum_{i\omega_n} \Delta_{ff}(i\omega_n) \mathrm{e}^{-i\omega_n\tau}
+\end{align}
+and solve the impurity model for the correlated $f$ orbitals.
 
+\item Obtain the new local Selfenergy $\Sigma^{imp}_{ff}(i\omega_n)$ 
+from the impurity model and calculate the updated 
+Hartree correction from the impurity occupations as given by Eq. \eqref{eq:hartree_selfenergy}
+and \eqref{eq:hartree_selfenergy_freq}.
+%full {\GF}
+%\begin{align}
+% G_{mm'}(k,i\omega_n) 
+% &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}_{mm'}(k) \right.\\
+%          &- \Sigma^{GW}(k,i\omega_n) 
+%          + \Sigma^{GW,loc}_f(i\omega_n)
+%          \left. - \Sigma^{imp}(i\omega_n) \right]^{-1}_{mm'}.
+%\end{align}
+%\begin{align}
+%\Sigma^{H,imp}_{f\sigma}
+%&=  U_{ff}(n_{f\sigma}+n_{f\bar{\sigma}})
+%+ \sum_{f'\neq f} U'_{ff'}n_{f'\bar{\sigma}}
+%+ \sum_{f'\neq f} (U'_{ff'}-J_{ff'}) n_{f'\sigma}.
+%\end{align}
+%Adjust the chemical potential $\mu$ in such a way that the number of electrons
+%$N_e$ is preserved.
+Then go back to step 3. Repeat until convergence
+is reached.
 
 \end{enumerate}
 
 
-\subsubsection{Output}
+\subsection{Output}
+After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
+can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
+
+
+\section{Hartree- and Exchange term in DMFT}
+The derivation follows the ideas of Haule PRL 115, 196403 (2015).
+
+\subsection{Hartree term}
+The Hartree energy has the general form
+\begin{align}
+E^H[\rho]
+%
+&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
+%
+&= \frac{1}{2} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
+\frac{\rho(\vec{r}) \rho(\vec{r}') }{|\vec{r}-\vec{r}'|},
+\end{align}
+where $\rho(\vec{r})$ is the sum of all spin-components
+\begin{align}
+\rho(\vec{r}) &= \rho_{\uparrow}(\vec{r}) + \rho_{\downarrow}(\vec{r}).
+\end{align}
+
+In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
+and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
+by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
+This leads to 
+\begin{align}
+E^H[\rho]
+%
+&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
+%
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+\braket{\vec{r}|\chi^{\sigma}_k}  \braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l}  
+\braket{\chi^{\sigma}_l | \vec{r}}V_{DMFT}(\vec{r}-\vec{r}') \nonumber \\
+& \hspace{2.7cm} \times 
+\braket{\vec{r}'|\chi^{\sigma'}_m}  \braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  
+\braket{\chi^{\sigma'}_n | \vec{r}'} \\
+%
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+ (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
+    V_{DMFT}(\vec{r}-\vec{r}') 
+  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) \nonumber \\
+& \hspace{2.7cm} \times 
+\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
+\braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  .
+\end{align}
+%
+In the last equation we can now identify the matrix elements of the local screened Coulomb
+interaction
+\begin{align}
+\braket{ln|U|km}
+&=
+\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+ (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
+    V_{DMFT}(\vec{r}-\vec{r}') 
+  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) ,
+\end{align}
+and the DMFT density matrix
+\begin{align}
+\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
+&= n^{\sigma}_{kl}.
+\end{align}
+With this, the Hartree energy takes on the form
+\begin{align}
+E^{DMFT}
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}
+\braket{ln|U|km}
+n^{\sigma}_{kl} n^{\sigma'}_{mn}.
+\end{align}
+In the impurity model we restrict ourselves to diagonal density matrices, which leads to
+\begin{align}
+E^H_{DMFT}
+&= \frac{1}{2}\sum_{\substack{km\\\sigma\sigma'}}
+\braket{km|U|km}
+n^{\sigma}_{k} n^{\sigma'}_{m}.
+\end{align}
+This leads to the following Hartree part of the Selfenergy in DMFT
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma}
+&= \frac{\partial }{\partial n^{\sigma}_l} E^H_{DMFT} \\
+&= \frac{1}{2} \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m}
++
+\frac{1}{2} \sum_{k,\sigma'} \braket{kl|U|kl} n^{\sigma'}_{k} \\
+%
+&= \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m} \\
+%
+&= U_0 (n^{\uparrow}_l + n^{\downarrow}_l)
+               + \sum_{m\neq l} (U_0-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) .
+\label{eq:hartree_selfenergy}
+\end{align}
+
+
+\subsection{Exchange term}
+The exact exchange energy has the general form
+\begin{align}
+E^X[\rho]
+%
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho_{\sigma}(\vec{r},\vec{r}') V_C(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
+%
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
+\frac{\rho_{\sigma}(\vec{r},\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) }{|\vec{r}-\vec{r}'|}.
+\end{align}
+In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
+and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
+by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
+This leads to 
+\begin{align}
+E^X[\rho]
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho_{\sigma}(\vec{r},\vec{r}') V_{DMFT}(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
+%
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\braket{\vec{r} | \chi^{\sigma}_k }\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l } \braket{\chi^{\sigma}_l | \vec{r}'}  V_{DMFT}(\vec{r}-\vec{r}') \nonumber\\
+& \hspace{3.8cm} \times 
+\braket{\vec{r}' | \chi^{\sigma}_m }\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } \braket{\chi^{\sigma}_n | \vec{r}} \\
+% 
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
+V_{DMFT}(\vec{r}-\vec{r}') 
+\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}) \nonumber\\
+& \hspace{3.8cm} \times 
+\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n }
+\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l }.
+\end{align}
+In the last equation we can now identify the matrix elements of the local screened Coulomb
+interaction
+\begin{align}
+\braket{nl|U|km} 
+&= \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
+V_{DMFT}(\vec{r}-\vec{r}') 
+\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}),
+\end{align}
+and the DMFT density matrix
+\begin{align}
+\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } 
+&= n^{\sigma}_{mn}.
+\end{align}
+With this, the exchange energy takes on the form
+\begin{align}
+E^X_{DMFT}
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}}\braket{nl|U|km} n^{\sigma}_{mn} n^{\sigma}_{kl}.
+\end{align}
+In the impurity model we restrict ourselves to diagonal density matrices, which leads to
+\begin{align}
+E^X_{DMFT}
+&= -\frac{1}{2} \sum_{mk,\sigma}\braket{mk|U|km} n^{\sigma}_{m} n^{\sigma}_{k} .
+\end{align}
+This leads to the following exchange part of the Selfenergy in DMFT
+\begin{align}
+\Sigma^{X,DMFT}_{l\sigma}
+&= \frac{\partial }{\partial n^{\sigma}_l} E^X_{DMFT} \\
+%
+&= -\frac{1}{2} \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} 
+   -\frac{1}{2} \sum_{m}\braket{ml|U|lm} n^{\sigma}_{m}  \\
+%
+&= - \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} \\
+%
+&= - U_0\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.
+\end{align}
+
+\subsection{Hartree + exchange Selfenergy}
+For consistency checks, we add up the Hartree and the exchange contribution
+to the Selfenergy and obtain
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma} + \Sigma^{X,DMFT}_{l\sigma}
+%
+&= U_0 n^{\bar{\sigma}}_l 
+%
+               + \sum_{m\neq l} (U_0-2J_{lm}) n^{\bar{\sigma}}_m  \nonumber \\
+& \hspace{1.4cm} + \sum_{m\neq l} (U_0-3J_{lm}) n^{     \sigma }_m  \\
+&= \lim_{\omega_n\rightarrow \infty} \Sigma^{DMFT}(i\omega_n),
+\end{align}
+which is identical to the high-frequency limit of the true DMFT Selfenergy.
+This term is also equal to the sum of all first order diagrams to the
+DMFT Selfenergy, i.e. the Hartree- and the Fock diagram.
+
+\subsection{Dynamical interactions}
+In the case of dynamical interactions $U(\omega)$ in the Hartree and exchange part
+the screened Coulomb matrix elements recover their bare values \cng{is this correct?}, i.e.
+$U_0$ has to be replaced by the bare $V$ (assuming no frequency dependence of the 
+Hund's coupling)
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma}
+&= V (n^{\uparrow}_l + n^{\downarrow}_l)
+               + \sum_{m\neq l} (V-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) 
+\label{eq:hartree_selfenergy_freq} \\
+%
+\Sigma^{X,DMFT}_{l\sigma}
+&= - V\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.               
+\end{align}
+\cng{CAUTION!} Does $U_0$ or $F_0$ recover the bare interaction? If $F_0=V$,
+then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$.
+
+
+\section{Implementation details}
+
+\subsection{Impurity solver input}
+
+The CT-HYB impurity solver by Yusuke needs the following input files
+\begin{description}
+\item[dmft.input] Includes information about U,J, number of frequencies, etc. At the moment
+possible: Only 3-fold degenerate orbitals. No freq. dependent U.
+
+\item[hyb\_tau.dat] The hybridization function as a matrix for imaginary time. 
+It needs to be diagonal! \\
+Only real part, one column. Seperate matrix elements
+via two line breaks and \verb|# hyb     2    1| etc. We need \verb|Nmesh+1|
+points where the endpoints $\tau=0,\beta$ are included! By convention has negative sign.
+\cng{The local orbital levels are assumed to be $\tilde{\mu}=0$ and any
+shift is absorbed in the chemical potential! This has to 
+be checked for consistency!!!}
+
+\item[omega\_mesh.dat] Specifies the bosonic frequency grid for some 
+correlation functions. Just reuse the standard template file. Not important for us.
+
+\item[fort.10*] Includes information about the Monte-Carlo configuration used
+for starting the sampling. Is initialized once with Yusuke's code and then overwritten by 
+the solver. No change required here.
+\end{description}
+
 
 \end{document}
