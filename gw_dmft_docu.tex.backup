@@ -85,8 +85,8 @@ fully dressed Green's function $G$, thus excluding the Hartree part $\Sigma^H$.
 $P$ is the full polarization of the system that screens the bare Coulomb
 interaction $V$ down to the screened interaction $W$.
 
-Since methods like Density Functional Theory can treat the Hartree contribution
-from the Coulomb interaction quite well, we are interested in obtaining
+Since methods like Density Functional Theory already treat the Hartree contribution
+from the Coulomb interaction, we are interested in obtaining
 an (approximative) expression for the many-body correction $\Psi[G,W]$.
 
 One possibility is the GW approximation, which expands $\Psi[G,W]$ in powers of the
@@ -124,7 +124,7 @@ where we separate the full Hilbert space $L+H$ into a correlated subspace $L$ an
 Then, our defintion of $\Psi_{\mathrm{loc}}$ is the following: $\Psi_{\mathrm{loc}}$ is generated only from the \underline{local}
 components of $G$ and $W$ in the \underline{correlated subspace}, i.e.
 \begin{align}
-\Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}].
+\Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \underbrace{\Psi_{}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}]}_{\Psi_{\mathrm{loc}}}.
 \label{eq:psi_separation_nonloc_loc}
 \end{align}
 By this, all internal processes contributing to $\Psi_{\mathrm{loc}}$ 
@@ -141,7 +141,7 @@ not to fix on a specific method yet.
 % \begin{align}
 % \Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G,W].
 % \end{align}
-All other contributions to the full $\Psi$ are now defined to be originiating from $\Psi_{\mathrm{nonloc}}[G,W]$.
+All other contributions to the full $\Psi$ are now \underline{defined} to be originiating from $\Psi_{\mathrm{nonloc}}[G,W]$.
 We now have to define what we actually mean by the two objects 
 $\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$.
 
@@ -162,9 +162,9 @@ First, let us start with the nonlocal part $\Psi_{\mathrm{nonloc}}$.
 Rewriting Eq. \eqref{eq:psi_separation_nonloc_loc} in the following way naturally
 leads us to its definition via
 \begin{align}
- \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] \\
+ \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] \\
  &= \underbrace{\Psi[G,W]- \Psi[G^{\mathrm{loc},L},W^{\mathrm{loc},L}]}_{:=\Psi_{\mathrm{nonloc}}}
-    + \Psi_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}].
+    + \Psi_{}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}].
 \end{align}
 By this, we immediately see that applying any approximation $A$ to $\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$
 will give us the approximate functional $\Psi^A = \Psi^A_{\mathrm{nonloc}}+\Psi^A_{\mathrm{loc}}$.
@@ -204,26 +204,206 @@ but this is not relevant here.
 Using equations \eqref{eq:sigma_from_psi} and \eqref{eq:p_from_psi} we obtain for the GW+DMFT
 Selfenergy and polarization
 \begin{align}
-\Sigma &= 
+\Sigma_{ab} &= 
 \begin{cases}
--G^0W^0 + G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L} + \Sigma^{\mathrm{imp},L} & \mbox{ for space } L  \\
--G^0W^0                                                                      & \mbox{ for space } H 
+-[G^0W^0]_{ab} + [G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}]_{ab}+ \Sigma_{ab}^{\mathrm{imp},XC,L} & \mbox{ for } a,b \in L  \\
+-[G^0W^0]_{ab}                                                                      & \mbox{ for } a \mbox{ or/and } b \in H 
 \end{cases}\\
 %
 %
-P &= 
+P_{abcd} &= 
 \begin{cases}
-G^0G^0 - G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L} + P^{\mathrm{imp},L} & \mbox{ for space } L  \\
-G^0G^0                                                                 & \mbox{ for space } H 
+-[G^0G^0]_{abcd} + [G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}]_{abcd}+ P_{abcd}^{\mathrm{imp},L} & \mbox{ for } a,b,c,d \in L  \\
+-[G^0G^0]_{abcd}                                                                      & \mbox{ for } \{a,b,c,d\} \cap H  \neq \emptyset
 \end{cases}
 \end{align}
 
+Limiting cases:
+\begin{description}
+\item[$W$ small:] In this case the Selfenergy will be well described already by GW, so the impurity solution
+will basically give the same result $G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L} = \Sigma^{\mathrm{imp},L}$.
+The two terms cancel and we fully regain the GW result. \cng{NO doublecounting like in FLL LDA+U or LDA+DMFT!}
+\item[W large:] Then the GW Selfenergy contribution within the subspace $L$ is basically given by the impurity solution.
+There is no mismatch of exchange terms originating from outside the space $L$, since only the local impurity exchange
+is removed from GW and replaced by the local impurity DMFT exchange. But this term can be different due to rearrangements
+of the local impurity charge. This contribution is not yet considered in the GW screening since no GW selfconsistency
+has been applied.
+\cng{Can we now do another GW calculation only replacing the new contribution from the impurity states?
+Then we perform a GW selfconsistency including the  local vertex corrections from DMFT, in similar spirit as Boehnke et al.}
+\end{description}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Product basis}
+In the GW formalism we encounter objects such as the inverse dielectric function
+\begin{align}
+ \epsilon^{-1},
+\end{align}
+which is a two-particle operator. The standard way to specify the action of a two-particle operator
+is to start from a complete orthonormal single-particle basis $\{ \ket{i} \}$, where
+\begin{align}
+ \braket{\vec{r} | i} &= \psi_i(\vec{r}),
+\end{align}
+with a complex valued function $\psi_i: R^3\rightarrow \mathbb{C}$.
+Then one introduces a two-particle basis $\{ \ket{ij} \}$, which is composed of the single-particle states via
+\begin{align}
+\braket{\vec{r}\vec{r}' | ij} 
+&= \Big( \bra{\vec{r}} \otimes \bra{\vec{r}'} \Big) \Big( \ket{i} \otimes \ket{j} \Big) \\
+&= \psi_i(\vec{r})\psi_j(\vec{r}').
+\end{align}
+In this basis, any two-particle operator $A$ can be represented as a rank-4 tensor
+by its action on the two-particle basis states
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          A(\vec{r},\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}),
+\end{align}
+where we have assumed that 
+\begin{align}
+ \braket{\vec{r}\vec{r}' | A | \vec{r}''\vec{r}''' }
+ &= A(\vec{r},\vec{r}') \delta(\vec{r}-\vec{r}'') \delta(\vec{r}'-\vec{r}'''),
+\end{align}
+which applies to the Coulomb interaction operator and all other operators we will consider here.
+
+Our goal is to obtain a matrix (rank-2) representation of the two-particle operator $A$, so that we can 
+define a proper inverse $A^{-1}$ or a multiplication $AB$ between these operators. 
+This is usually done in two ways:
+
+\subsection{Aryasetiawan-style}
+We start by rewriting the equation for the tensor elements in the two-particle basis in the 
+following way 
+\begin{align}
+ \braket{ij | A | kl }  
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          A(\vec{r},\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}) \\
+%
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_k(\vec{r}) 
+                                          A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_l(\vec{r}') \\
+%
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \underbrace{ \Big( \psi^*_k(\vec{r}) \psi_i(\vec{r}) \Big)^* }_{B^*_a(\vec{r})}
+                                          A(\vec{r},\vec{r}') \underbrace{ \psi^*_j(\vec{r}')\psi_l(\vec{r}') }_{B_b(\vec{r} )} \\
+&= \braket{ B_a | A | B_b } .
+\end{align}
+From these observation we see that we should define new basis states $\{ B_a \}$ by the product of the single-particle
+states by
+\begin{align}
+ \braket{ \vec{r} | B_a } := \psi^*_i(\vec{r}) \psi_j(\vec{r}),
+\end{align}
+where the index $a:=a(i,j)$ lables the combination of the indices $i,j$. As a result, for a finite number of single-particle
+states $N=\mathrm{dim}\{ \ket{i} \}$, we have $N^2$ new basis states $\{ B_a \}$, and could define the relation between the indices
+as
+\begin{align}
+ a(i,j) := iN + j.
+\end{align}
+Though, the new set $\{ B_a \}$ is \textit{not} a basis, since it is overcomplete and in addition not orthonormal.
+For example if there exist at least two real single-particle basis functions $\psi_i,\psi_j$, one has 
+\begin{align}
+\psi_i(\vec{r})\psi_j(\vec{r}) = B_a(\vec{r}) = B_b(\vec{r}) = \psi_j(\vec{r})\psi_i(\vec{r}),
+\end{align}
+where $a\neq b$.
+Also, for a states with indices $a(i,i)$ and $b(i,i)$, which leads to
+\begin{align}
+ \braket{B_a | B_b} &= \int \mathrm{d}\vec{r} \, \psi^*_i(\vec{r}) \psi_i(\vec{r}) \psi^*_j(\vec{r}) \psi_j(\vec{r}) \\
+ &= \int \mathrm{d}\vec{r} \, |\psi_i(\vec{r})|^2 |\psi_j(\vec{r})|^2 
+\end{align}
+which is usually larger than zero for $a\neq b$, i.e. $i=j$ and not equal to $1$ in case $a=b$, i.e. $i\neq j$.
+
+The overlap matrix for the new set $\{ B_a \}$ is therefore different from the unit matrix.
+If we define 
+\begin{align}
+ v := 
+ \begin{pmatrix}
+%   \ket{B_1}\\ \ket{B_2}\\\ket{B_3}\\ \vdots \\ \ket{B_{N^2}}
+\ket{B_1} & \ket{B_2} & \ket{B_3}& \cdots & \ket{B_{N^2}}  
+ \end{pmatrix},
+\end{align}
+then the overlap matrix can be written as
+\begin{align}
+O &= v^{\dagger}\cdot v,
+\end{align}
+since
+\begin{align}
+O_{ab} &= (v^{\dagger}\cdot v)_{ab} \\
+ &= \braket{B_a | B_b} .
+\end{align}
+Due to the overcompleteness, some columns of $O$ will not be linear independent, i.e. some of the Eigenvalues 
+$\lambda_i$ of $O$ will be equal to zero. 
+After diagonalizing $O$ to obtain the Eigenvectors $o_1,o_2,...,o_{N^2}$, we throw away the ones with Eigenvalue zero 
+and set up the matrices
+\begin{align}
+ U &=
+ \begin{pmatrix}
+  o_1 & o_2 & o_3 & \cdots o_{N_r}
+ \end{pmatrix} \in \mathbb{C}^{N^2 \times N_r},
+\end{align}
+where $N_r \leq N^2$ is the number of Eigevectors with nonzero Eigenvalue,
+and
+\begin{align}
+ D^{-1/2} &:= \mathrm{diag}( {\lambda_1}^{-1/2}, \ {\lambda_2}^{-1/2}, \ {\lambda_3}^{-1/2}, \ \cdots,\ {\lambda_{N_r}}^{-1/2}  ) 
+ \in \mathbb{R}^{N_r \times N_r},
+\end{align}
+where $\lambda_i$ are the nonzero Eigenvalues of $O$.
 
 
+The elements of the following vector
+\begin{align}
+\tilde{v} := vUD^{-1/2} ,
+\end{align}
+will then yield a new set of $N_r$ basis functions which are complete and orthonormal, as can be seen from
+the new overlap matrix
+\begin{align}
+\tilde{O} &= \tilde{v}^{\dagger}\cdot \tilde{v} \\
+&= D^{-1/2}U^{\dagger} (v^{\dagger} \cdot v) UD^{-1/2} \\
+&= D^{-1/2} \underbrace{U^{\dagger} O U}_{=D} D^{-1/2} \\
+&= \unity  \in \mathbb{R}^{N_r \times N_r}.
+\end{align}
+
+\textit{Remark:}
+To reduce the size of the basis for computational efficiency, one can also exclude Eigenvectors with a finite, 
+but small Eigenvalue, i.e. below some treshhold $\delta > \lambda_i$.
+Then the new basis will only be approximately complete, but the error can be controlled by choosing
+$\delta$ sufficiently small.
+
+\bigskip
+
+After having obtained the new complete orthonormal basis $\{ \tilde{B}_a  \}$, the matrix elements
+of any two-particle operator are then given as
+\begin{align}
+A_{ab}
+&= \braket{ \tilde{B}_a | A | \tilde{B}_b } \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  A(\vec{r},\vec{r}') \tilde{B}_b(\vec{r}'),
+\end{align}
+so we can define the inverse $A^{-1}$ of any two-particle operator as the standard Matrix inverse, which then fulfills 
+the property
+\begin{align}
+ 
+\end{align}
 
 
+% \begin{align}
+%  \braket{ii | A | jj }  
+% &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 
+%                                           A(\vec{r},\vec{r}') \psi^*_i(\vec{r}')\psi_j(\vec{r}')
+% \end{align}
+% 
+% \begin{align}
+%  \braket{ij | A | ij }  
+% &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_i(\vec{r}) 
+%                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_j(\vec{r}')
+% \end{align}
+% 
+% \begin{align}
+%  \braket{ij | A | ji }  
+% &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 
+%                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_i(\vec{r}')
+% \end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{The GW part}
