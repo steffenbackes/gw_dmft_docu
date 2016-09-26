@@ -234,12 +234,218 @@ $L$ and $H$ which they do not update.}
 \end{description}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section{Product basis}
+In the GW formalism we encounter objects such as the inverse dielectric function
+\begin{align}
+ \epsilon^{-1},
+\end{align}
+which is a two-particle operator. The standard way to specify the action of a two-particle operator
+is to start from a complete orthonormal single-particle basis $\{ \ket{i} \}$, where
+\begin{align}
+ \braket{\vec{r} | i} &= \psi_i(\vec{r}),
+\end{align}
+with a complex valued function $\psi_i: R^3\rightarrow \mathbb{C}$.
+Then one introduces a two-particle basis $\{ \ket{ij} \}$, which is composed of the single-particle states via
+\begin{align}
+\braket{\vec{r}\vec{r}' | ij} 
+&= \Big( \bra{\vec{r}} \otimes \bra{\vec{r}'} \Big) \Big( \ket{i} \otimes \ket{j} \Big) \\
+&= \psi_i(\vec{r})\psi_j(\vec{r}').
+\end{align}
+In this basis, any two-particle operator $A$ can be represented as a rank-4 tensor
+by its action on the two-particle basis states
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          A(\vec{r},\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}),
+\end{align}
+where we have assumed that 
+\begin{align}
+ \braket{\vec{r}\vec{r}' | A | \vec{r}''\vec{r}''' }
+ &= A(\vec{r},\vec{r}') \delta(\vec{r}-\vec{r}'') \delta(\vec{r}'-\vec{r}'''),
+\end{align}
+which applies to the Coulomb interaction operator and all other operators we will consider here.
+
+Our goal is to obtain a matrix (rank-2) representation of the two-particle operator $A$, so that we can 
+define a proper inverse $A^{-1}$ or a multiplication $AB$ between these operators. 
+This is usually done in two ways:
+
+\subsection{Aryasetiawan-style}
+\subsubsection{Defining the new basis set}
+We start by rewriting the equation for the tensor elements in the two-particle basis in the 
+following way 
+\begin{align}
+ \braket{ij | A | kl }  
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          A(\vec{r},\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}) \\
+%
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_k(\vec{r}) 
+                                          A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_l(\vec{r}') \\
+%
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \underbrace{ \Big( \psi^*_k(\vec{r}) \psi_i(\vec{r}) \Big)^* }_{B^*_a(\vec{r})}
+                                          A(\vec{r},\vec{r}') \underbrace{ \psi^*_j(\vec{r}')\psi_l(\vec{r}') }_{B_b(\vec{r} )} \\
+&= \braket{ B_a | A | B_b } .
+\end{align}
+From these observation we see that we should define new basis states $\{ B_a \}$ by the product of the single-particle
+states by
+\begin{align}
+ \braket{ \vec{r} | B_a } := \psi^*_i(\vec{r}) \psi_j(\vec{r}),
+\end{align}
+where the index $a:=a(i,j)$ lables the combination of the indices $i,j$. As a result, for a finite number of single-particle
+states $N=\mathrm{dim}\{ \ket{i} \}$, we have $N^2$ new basis states $\{ B_a \}$, and could define the relation between the indices
+as
+\begin{align}
+ a(i,j) := iN + j.
+\end{align}
+Though, the new set $\{ B_a \}$ is \textit{not} a basis, since it is overcomplete/linearly dependent and in addition not orthonormal.
+For example if there exist at least two real single-particle basis functions $\psi_i,\psi_j$, one has 
+\begin{align}
+\psi_i(\vec{r})\psi_j(\vec{r}) = B_a(\vec{r}) = B_b(\vec{r}) = \psi_j(\vec{r})\psi_i(\vec{r}),
+\end{align}
+where $a\neq b$.
+Also, for a states with indices $a(i,i)$ and $b(i,i)$, which leads to
+\begin{align}
+ \braket{B_a | B_b} &= \int \mathrm{d}\vec{r} \, \psi^*_i(\vec{r}) \psi_i(\vec{r}) \psi^*_j(\vec{r}) \psi_j(\vec{r}) \\
+ &= \int \mathrm{d}\vec{r} \, |\psi_i(\vec{r})|^2 |\psi_j(\vec{r})|^2 
+\end{align}
+which is usually larger than zero for $a\neq b$, i.e. $i=j$ and not equal to $1$ in case $a=b$, i.e. $i\neq j$.
+
+The overlap matrix for the new set $\{ B_a \}$ is therefore different from the unit matrix.
+If we define 
+\begin{align}
+ v := 
+ \begin{pmatrix}
+%   \ket{B_1}\\ \ket{B_2}\\\ket{B_3}\\ \vdots \\ \ket{B_{N^2}}
+\ket{B_1} & \ket{B_2} & \ket{B_3}& \cdots & \ket{B_{N^2}}  
+ \end{pmatrix},
+\end{align}
+then the overlap matrix can be written as
+\begin{align}
+O &= v^{\dagger}\cdot v,
+\end{align}
+since
+\begin{align}
+O_{ab} &= (v^{\dagger}\cdot v)_{ab} \\
+ &= \braket{B_a | B_b} .
+\end{align}
+Due to the overcompleteness, some columns of $O$ will not be linear independent, i.e. some of the Eigenvalues 
+$\lambda_i$ of $O$ will be equal to zero.
+
+\subsubsection{Reduction of the basis set and reorthonormalization}
+
+After diagonalizing $O$ to obtain the Eigenvectors $o_1,o_2,...,o_{N^2}$, we throw away the ones with Eigenvalue zero 
+and set up the matrices
+\begin{align}
+ U &=
+ \begin{pmatrix}
+  o_1 & o_2 & o_3 & \cdots o_{N_r}
+ \end{pmatrix} \in \mathbb{C}^{N^2 \times N_r},
+\end{align}
+where $N_r \leq N^2$ is the number of Eigevectors with nonzero Eigenvalue,
+and
+\begin{align}
+ D^{-1/2} &:= \mathrm{diag}( {\lambda_1}^{-1/2}, \ {\lambda_2}^{-1/2}, \ {\lambda_3}^{-1/2}, \ \cdots,\ {\lambda_{N_r}}^{-1/2}  ) 
+ \in \mathbb{R}^{N_r \times N_r},
+\end{align}
+where $\lambda_i$ are the nonzero Eigenvalues of $O$.
 
 
+The elements of the following vector
+\begin{align}
+\tilde{v} := vUD^{-1/2} ,
+\end{align}
+will then yield a new set of $N_r$ basis functions which are complete and orthonormal, as can be seen from
+the new overlap matrix
+\begin{align}
+\tilde{O} &= \tilde{v}^{\dagger}\cdot \tilde{v} \\
+&= D^{-1/2}U^{\dagger} (v^{\dagger} \cdot v) UD^{-1/2} \\
+&= D^{-1/2} \underbrace{U^{\dagger} O U}_{=D} D^{-1/2} \\
+&= \unity  \in \mathbb{R}^{N_r \times N_r}.
+\end{align}
+
+\textit{Remark:}
+To reduce the size of the basis for computational efficiency, one can also exclude Eigenvectors with a finite, 
+but small Eigenvalue, i.e. below some treshhold $\delta > \lambda_i$.
+Then the new basis will only be approximately complete and orthonormal, but the error can be controlled by choosing
+$\delta$ sufficiently small.
+
+\subsubsection{Matrix inverse}
+
+After having obtained the new complete orthonormal basis $\{ \tilde{B}_a  \}$, the matrix elements
+of any two-particle operator are then given as
+\begin{align}
+A_{ab}
+&= \braket{ \tilde{B}_a | A | \tilde{B}_b } \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  A(\vec{r},\vec{r}') \tilde{B}_b(\vec{r}').
+\end{align}
+The representation of $A$ in the product basis is then given as
+\begin{align}
+A &= \sum_{a,b} \ket{\tilde{B}_a}A_{ab}\bra{\tilde{B}_b} .
+\end{align}
+or in the position representation \cng{DOES THIS MAKE SENSE?}
+\begin{align}
+ A(\vec{r},\vec{r}') &= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} A_{ab}\braket{\tilde{B}_b|\vec{r}'} \\
+ &= \sum_{a,b} \tilde{B}_a(\vec{r}) A_{ab}\tilde{B}^*_b(\vec{r}') .
+\end{align}
+\cng{CHECK HERE IF BOTH REPRESENTATIONS LEAD TO THE SAME RESULT!!! The product basis should recover
+the right A(r-r'), shouldn't it? (I think so...) Can we actually prove this?}
+
+Now we can finally define the inverse $A^{-1}$ of any two-particle operator as the standard Matrix inverse, which then fulfills 
+the property
+\begin{align}
+ (A^{-1}A)_{ab}
+&= \braket{ \tilde{B}_a | A^{-1}A | \tilde{B}_b } \\
+&= \delta_{ab}.
+\end{align}
 
 
+\subsubsection{Switching between the product and the two-particle basis}
+If we want to obtain the original tensor representation of a two-particle operator in the 
+product basis, we have to evaluate \cng{DOES THIS MAKE SENSE?}
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          A(\vec{r},\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}) \\
+&= \sum_{a,b}\int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+         \tilde{B}_a(\vec{r}) A_{ab}\tilde{B}^*_b(\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}).
+\end{align}
+The other way round, if we have a two-particle operator given in the two-particle basis, the product basis
+representation can be obtained by
+\begin{align}
+A_{ab}
+&= \braket{ \tilde{B}_a | A | \tilde{B}_b } \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  A(\vec{r},\vec{r}') \tilde{B}_b(\vec{r}') \\
+&=\sum_{ijkl} \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  
+    \psi_i(\vec{r})\psi_j(\vec{r}') A_{ijkl} \psi^*_l(\vec{r}')\psi^*_k(\vec{r}) \tilde{B}_b(\vec{r}') .
+\end{align}
 
+\clearpage
 
+% \begin{align}
+%  \braket{ii | A | jj }  
+% &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 
+%                                           A(\vec{r},\vec{r}') \psi^*_i(\vec{r}')\psi_j(\vec{r}')
+% \end{align}
+% 
+% \begin{align}
+%  \braket{ij | A | ij }  
+% &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_i(\vec{r}) 
+%                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_j(\vec{r}')
+% \end{align}
+% 
+% \begin{align}
+%  \braket{ij | A | ji }  
+% &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 
+%                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_i(\vec{r}')
+% \end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{The GW part}
