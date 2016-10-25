@@ -9,13 +9,12 @@ def A(r1,r2):
 #	return 1/(0.5+abs(r1-r2))
 	return 1.0
 
-def psi1(x):
-	return np.sqrt(0.5)
-def psi2(x):
-	return x / np.sqrt(2.0/3)
-def psi3(x):
-	return 0.5*(3*x*x-1)/np.sqrt(0.4)
-#	return 0.5*(x*x-4*x+2)
+def psi1(t,p):
+	return np.sin(2*p)*np.sin(t)**2
+def psi2(t,p):
+	return np.cos(p)*np.sin(t)*np.cos(t)
+def psi3(t,p):
+	return np.sin(p)*np.sin(t)*np.cos(t)
 
 
 ##########################################
@@ -46,25 +45,25 @@ def evalOp2pb(r1,r2,Optensor,basis,nb):
 ##########################################
 # Product Basis stuff
 ##########################################
-def Bf1(x):
-	return psi1(x)*psi1(x)
-def Bf2(x):
-	return psi1(x)*psi2(x)
-def Bf3(x):
-	return psi2(x)*psi1(x)
-def Bf4(x):
-	return psi2(x)*psi2(x)
+def Bf1(t,p):
+	return psi1(t,p)*psi1(t,p)/np.sqrt(2.024)
+def Bf2(t,p):
+	return psi1(t,p)*psi2(t,p)/np.sqrt(0.1928)
+def Bf3(t,p):
+	return psi2(t,p)*psi1(t,p)/np.sqrt(0.1928)
+def Bf4(t,p):
+	return psi2(t,p)*psi2(t,p)/np.sqrt(0.175)
 ##########################
-def Bf5(x):
-	return psi3(x)*psi1(x)
-def Bf6(x):
-	return psi3(x)*psi2(x)
-def Bf7(x):
-	return psi3(x)*psi3(x)
-def Bf8(x):
-	return psi2(x)*psi3(x)
-def Bf9(x):
-	return psi1(x)*psi3(x)
+def Bf5(t,p):
+	return psi3(t,p)*psi1(t,p)/np.sqrt(0.1928)
+def Bf6(t,p):
+	return psi3(t,p)*psi2(t,p)/np.sqrt(0.0578)
+def Bf7(t,p):
+	return psi3(t,p)*psi3(t,p)/np.sqrt(0.1735)
+def Bf8(t,p):
+	return psi2(t,p)*psi3(t,p)/np.sqrt(0.0578)
+def Bf9(t,p):
+	return psi1(t,p)*psi3(t,p)/np.sqrt(0.1928)
 
 def getOpElement(i,j,Op,basis,rot,nb):
 	ret = 0.0
@@ -90,7 +89,22 @@ def rotbasis(x,i,basis,rot):
 		ret += rot[j,i] * basis[j](x)
 	return ret
 
-def getOmatrix(basis,rot,nb):
+def getOmatrix(basis,nb):
+	omat = np.zeros((nb,nb))
+	for i in range(nb):
+		print np.round(i*100.0/nb,1),'% done'
+		for j in range(nb):
+		#if 1==1:
+		#	j = i
+			for it in range(Nx):
+				for ip in range(Nx):
+					t = theta_start +it*dtheta
+					p = phi_start +ip*dphi
+
+					omat[i,j] += basis[i](t,p)*basis[j](t,p)
+	return omat*dphi*dtheta
+
+def getOmatrixRot(basis,rot,nb):
 	omat = np.zeros((nb,nb))
 	for i in range(nb):
 		for j in range(nb):
@@ -109,32 +123,21 @@ def getIdentityrrp(r1,r2,basis,rot,nb):
 ##########################################
 
 ########################################################
-Nx = 200
-a = -1.0
-b = +1.0 #2*np.pi
-dx = (b-a)/(Nx-1)
-#basis1 = np.array([ Bf1,Bf2,Bf3,Bf4 ])
+Nx = 100
+phi_start = 0.0
+phi_end = 2*np.pi
+dphi = (phi_end-phi_start)/(Nx-1)
+
+theta_start = 0.0
+theta_end = np.pi
+dtheta = (theta_end-theta_start)/(Nx-1)
+
 basis1 = np.array([ Bf1,Bf2,Bf3,Bf4,Bf5,Bf6,Bf7,Bf8,Bf9 ])
 basis2 = np.array([ psi1,psi2,psi3 ])
-########################################################
-
-print 'Calculate 2-particle tensor...'
-nb2p = len(basis2)
-Opmatrix2p = np.zeros((nb2p,nb2p,nb2p,nb2p))
-for i in range(nb2p):
-	print np.round(i*100.0/nb2p,1),'% done'
-	for j in range(nb2p):
-		for k in range(nb2p):
-			for l in range(nb2p):
-				Opmatrix2p[i,j,k,l] = getOpElement2pb(i,j,k,l,A,basis2)
-np.set_printoptions(precision=3,suppress=True)
-print '2-part Tensor: \n', Opmatrix2p
-
-##################################################################
 ##################################################################
 # now product basis
 
-Omatrix = getOmatrix(basis1,np.eye(len(basis1)), len(basis1))
+Omatrix = getOmatrix(basis1, len(basis1))
 print 'Omatrix: \n',Omatrix.round(4)
 
 w,v = np.linalg.eigh(Omatrix)
@@ -157,7 +160,8 @@ print 'Remaining Eigenvectors:\n',v.round(5)
 
 rot = np.dot(v,D)
 print 'Rotation matrix: \n', rot.round(5)
-Omatrix = getOmatrix(basis1,rot, nobasis)
+exit()
+Omatrix = getOmatrixRot(basis1,rot, nobasis)
 
 print 'Omatrix2: \n',Omatrix.round(5)
 
@@ -170,6 +174,23 @@ for i in range(nobasis):
 
 print 'Opmatrix: \n',Opmatrix.round(5)
 #print 'inverse Opmatrix: \n', np.linalg.inv(Opmatrix)
+
+exit()
+
+##################################################################
+########################################################
+
+print 'Calculate 2-particle tensor...'
+nb2p = len(basis2)
+Opmatrix2p = np.zeros((nb2p,nb2p,nb2p,nb2p))
+for i in range(nb2p):
+	print np.round(i*100.0/nb2p,1),'% done'
+	for j in range(nb2p):
+		for k in range(nb2p):
+			for l in range(nb2p):
+				Opmatrix2p[i,j,k,l] = getOpElement2pb(i,j,k,l,A,basis2)
+np.set_printoptions(precision=3,suppress=True)
+print '2-part Tensor: \n', Opmatrix2p
 
 ##################################################################
 ##################################################################
