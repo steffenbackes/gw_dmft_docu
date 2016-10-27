@@ -237,7 +237,6 @@ $L$ and $H$ which they do not update.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 
 \section{Product basis}
 In the GW formalism we encounter objects such as the inverse dielectric function
@@ -373,7 +372,7 @@ but small Eigenvalue, i.e. below some treshhold $\delta > \lambda_i$.
 Then the new basis will only be approximately complete and orthonormal, but the error can be controlled by choosing
 $\delta$ sufficiently small.
 
-\subsubsection{Matrix inverse}
+\subsubsection{Product basis matrix elements}
 
 After having obtained the new complete orthonormal basis $\{ \tilde{B}_a  \}$, the matrix elements
 of any two-particle operator are then given as
@@ -393,14 +392,6 @@ or in the position representation \cng{DOES THIS MAKE SENSE?}
 \end{align}
 \cng{CHECK HERE IF BOTH REPRESENTATIONS LEAD TO THE SAME RESULT!!! The product basis should recover
 the right A(r-r'), shouldn't it? (I think so...) Can we actually prove this?}
-
-Now we can finally define the inverse $A^{-1}$ of any two-particle operator as the standard Matrix inverse, which then fulfills 
-the property
-\begin{align}
- (A^{-1}A)_{ab}
-&= \braket{ \tilde{B}_a | A^{-1}A | \tilde{B}_b } \\
-&= \delta_{ab}.
-\end{align}
 
 
 \subsubsection{Switching between the product and the two-particle basis}
@@ -423,7 +414,6 @@ A_{ab}
     \psi_i(\vec{r})\psi_j(\vec{r}') A_{ijkl} \psi^*_l(\vec{r}')\psi^*_k(\vec{r}) \tilde{B}_b(\vec{r}') .
 \end{align}
 
-\clearpage
 
 % \begin{align}
 %  \braket{ii | A | jj }  
@@ -442,6 +432,27 @@ A_{ab}
 % &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 
 %                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_i(\vec{r}')
 % \end{align}
+
+\subsubsection{Matrix inverse}
+
+Since in the product basis any two-particle operator can now be
+represented as a matrix/rank-2 tensor, we can finally define its inverse $\tilde{A}^{-1}$ as the standard Matrix inverse, which then in the product basis fulfils the property
+\begin{align}
+ (\tilde{A}^{-1}A)_{ab}
+&= \braket{ \tilde{B}_a | \tilde{A}^{-1}A | \tilde{B}_b } \\
+&= \delta_{ab}.
+\end{align}
+In the position representation
+\begin{align}
+\braket{\vec{r} | \tilde{A}^{-1}A | \vec{r}' }
+ &= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} (\tilde{A}^{-1}A)_{ab}\braket{\tilde{B}_b|\vec{r}'} \\
+%
+&= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} \delta_{ab} \braket{\tilde{B}_b|\vec{r}'} \\
+&= \sum_{a} \braket{\vec{r}|\tilde{B}_a} \braket{\tilde{B}_a|\vec{r}'} \\
+\end{align}
+
+%\braket{\vec{r}|\tilde{B}_a} A_{a\braket{\tilde{B}_b|\vec{r}'}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

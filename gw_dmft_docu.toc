@@ -1,20 +1,21 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}
 \contentsline {section}{\numberline {2}Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{2}{section.2}
-\contentsline {section}{\numberline {3}Product basis}{6}{section.3}
+\contentsline {section}{\numberline {3}Product basis}{5}{section.3}
 \contentsline {subsection}{\numberline {3.1}Aryasetiawan-style}{6}{subsection.3.1}
 \contentsline {subsubsection}{\numberline {3.1.1}Defining the new basis set}{6}{subsubsection.3.1.1}
 \contentsline {subsubsection}{\numberline {3.1.2}Reduction of the basis set and reorthonormalization}{7}{subsubsection.3.1.2}
-\contentsline {subsubsection}{\numberline {3.1.3}Matrix inverse}{8}{subsubsection.3.1.3}
-\contentsline {subsubsection}{\numberline {3.1.4}Switching between the product and the two-particle basis}{9}{subsubsection.3.1.4}
-\contentsline {section}{\numberline {4}The GW part}{10}{section.4}
-\contentsline {subsection}{\numberline {4.1}Output for DMFT}{10}{subsection.4.1}
-\contentsline {section}{\numberline {5}The DMFT part}{10}{section.5}
-\contentsline {subsection}{\numberline {5.1}The self-consistency cycle}{11}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Output}{12}{subsection.5.2}
-\contentsline {section}{\numberline {6}Hartree- and Exchange term in DMFT}{12}{section.6}
-\contentsline {subsection}{\numberline {6.1}Hartree term}{12}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Exchange term}{14}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Hartree + exchange Selfenergy}{15}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}Dynamical interactions}{15}{subsection.6.4}
-\contentsline {section}{\numberline {7}Implementation details}{15}{section.7}
-\contentsline {subsection}{\numberline {7.1}Impurity solver input}{15}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {3.1.3}Product basis matrix elements}{7}{subsubsection.3.1.3}
+\contentsline {subsubsection}{\numberline {3.1.4}Switching between the product and the two-particle basis}{8}{subsubsection.3.1.4}
+\contentsline {subsubsection}{\numberline {3.1.5}Matrix inverse}{8}{subsubsection.3.1.5}
+\contentsline {section}{\numberline {4}The GW part}{9}{section.4}
+\contentsline {subsection}{\numberline {4.1}Output for DMFT}{9}{subsection.4.1}
+\contentsline {section}{\numberline {5}The DMFT part}{9}{section.5}
+\contentsline {subsection}{\numberline {5.1}The self-consistency cycle}{10}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Output}{11}{subsection.5.2}
+\contentsline {section}{\numberline {6}Hartree- and Exchange term in DMFT}{11}{section.6}
+\contentsline {subsection}{\numberline {6.1}Hartree term}{11}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Exchange term}{13}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Hartree + exchange Selfenergy}{14}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Dynamical interactions}{14}{subsection.6.4}
+\contentsline {section}{\numberline {7}Implementation details}{14}{section.7}
+\contentsline {subsection}{\numberline {7.1}Impurity solver input}{14}{subsection.7.1}
