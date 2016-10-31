@@ -1,11 +1,11 @@
 import numpy as np
 
 def A(r1,r2):
-	ret= 0.0
-	if ( abs(r1-r2)<0.0001):
-		ret = 2.0/dx
-	return ret
-#	return 2.0
+#	ret= 0.0
+#	if ( abs(r1-r2)<0.0001):
+#		ret = 2.0/dx
+#	return ret
+	return 2.0
 #	return 2.0
 #	return r1*r2 + r1+r2 - r1**2
 #	return np.exp((-r1**2-r2**2)*2)
@@ -148,9 +148,9 @@ for i in range(nb2p):
 			for l in range(nb2p):
 				Optensor[i,j,k,l] = getOpElement2pb(i,j,k,l,A,basis2)
 		
-				Optensor[i,j,k,l] = 0.0
-				if (i==k and j==l):
-					Optensor[i,j,k,l] = 1.0
+#				Optensor[i,j,k,l] = 0.0
+#				if (i==k and j==l):
+#					Optensor[i,j,k,l] = 1.0
 
 np.set_printoptions(precision=3,suppress=True)
 print 'This is the 2-part Tensor: \n', Optensor

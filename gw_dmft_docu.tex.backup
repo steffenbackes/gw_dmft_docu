@@ -141,8 +141,8 @@ not to fix on a specific method yet.
 % \begin{align}
 % \Psi[G,W] &\approx \Psi^{GW}_{\mathrm{nonloc}}[G,W] + \Psi^{DMFT}_{\mathrm{loc}}[G,W].
 % \end{align}
-All other contributions to the full $\Psi$ are now \underline{defined} to be originiating from $\Psi_{\mathrm{nonloc}}[G,W]$.
-We now have to define what we actually mean by the two objects 
+All other contributions to the full $\Psi$ are now \underline{defined} to be originating from $\Psi_{\mathrm{nonloc}}[G,W]$.
+We now have to explain what we actually mean by the two objects 
 $\Psi_{\mathrm{nonloc}}$ and $\Psi_{\mathrm{loc}}$.
 
 % \bigskip
@@ -181,7 +181,7 @@ to treat the two terms
 \begin{align}
 \Psi[G,W] &\approx \Psi^A_{\mathrm{nonloc}}[G,W] + \Psi^B_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] .
 \end{align}
-The main point here is \cng{IS THERE REALLY NO OVERLAP/DOUBLECOUNTING IN THIS SCHEME??}
+The main point here is \cng{IS THERE REALLY NO OVERLAP/DOUBLECOUNTING IN THIS SCHEME?}
 
 \bigskip
 
@@ -229,7 +229,8 @@ is removed from GW and replaced by the local impurity DMFT exchange. But this te
 of the local impurity charge. This contribution is not yet considered in the GW screening since no GW selfconsistency
 has been applied.
 \cng{Can we now do another GW calculation only replacing the new contribution from the impurity states?
-Then we perform a GW selfconsistency including the  local vertex corrections from DMFT, in similar spirit as Boehnke et al.}
+Then we perform a GW selfconsistency including the  local vertex corrections from DMFT, in similar spirit as Boehnke et al., but additionally with improved transitions between
+$L$ and $H$ which they do not update.}
 \end{description}
 
 
@@ -272,7 +273,145 @@ Our goal is to obtain a matrix (rank-2) representation of the two-particle opera
 define a proper inverse $A^{-1}$ or a multiplication $AB$ between these operators. 
 This is usually done in two ways:
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Index combination}
+In the two-particle basis the structure of the Tensor-elements
+\begin{align}
+ A_{ijkl} &= \braket{ij | A | kl } ,
+\end{align}
+suggests that we could also interpret each basis state as
+\begin{align}
+ \ket{a} := \ket{ ij } &= \ket{i}\times \ket{j} ,
+\end{align}
+with a single basis state $\ket{a}$, where the index $a$ now runs over $N^2$ values
+if we have $N$ single particle states $\ket{i}$. In this notation, we can indeed write the tensor elements
+as matrix elements
+\begin{align}
+ A_{ab} &= \braket{a | A | b } \\
+ &= \braket{ij | A | kl }   \\
+  &= A_{(ij)(kl)} .
+\end{align}
+
+\subsubsection{Properties and consistency}
+
+The combination of the two left, the ``outgoing'' indices $ij$ and the right, the ``incoming'' $kl$ is in principle arbitrary.
+We could also combine the indices $ik$ of the first partcile and $jl$ of the second particle. 
+Though, the $(ij)(kl)$ combination should be preferrable, since it does not mix vectors $\ket{i}$ with their
+dual counterpart $\bra{i}$. 
+
+Furthermore, in cases where we want to apply this scheme, the tensor operations can indeed be rewritten
+as a matrix multiplication in the combined ``ingoing-outgoing'' index notation. For example
+the screened interaction $W$ is given by
+\begin{align}
+W_{ijkl} &= [ v + vPW ]_{ijkl} \\
+&= v_{ijkl} + \sum_{mnop} v_{ijmn}P_{mnop}W_{opkl},
+\end{align}
+with the bare interaction $v$ and the polarization $P$. Using the combined index notation we get the representation
+\begin{align}
+W_{ab} &= W_{(ij)(kl)} \\
+&= v_{(ij)(kl)} + \sum_{(mn)(op)} v_{(ij)(mn)}P_{(mn)(op)}W_{(op)(kl)} \\
+&= v_{ab} + \sum_{cd} v_{ac}P_{cd}W_{da} \\
+&= [v + vPW]_{ab},
+\end{align}
+where $vPW$ is to be understood as the matrix product of $v,P$ and $W$ in the combined index notation.
+
+\subsubsection{Tensor inverse}
+
+Now let us try to obtain a closed expression of $W$ satisfying this expression, which
+is not possible in the 4-index tensor notation.
+For this, we need to define first an object $\unity$ that serves as the identity element, which then will
+allow us to poperly define an inverse of a matrix in the combined index notation.
+The identity element should have the following property
+\begin{align}
+ \unity A &= A =  A \unity ,
+\end{align}
+where $A$ is a two-particle tensor, which means
+\begin{align}
+A_{(ij)(kl)} &= A_{ab} \\
+&= [\unity A]_{ab} \\
+&= \sum_c \unity_{ac} A_{ca} \\
+&= \sum_{mn} \unity_{(ij)(mn)} A_{(mn)(kl)} .
+\end{align}
+From this we conclude that 
+\begin{align}
+ \unity_{(ij)(mn)} &= \delta_{im}\delta_{jn} \\
+ \Rightarrow \unity_{ac} &= \delta_{ac},
+\end{align}
+which leads to the natural definition of the identity element in the combined index notation.
+It can be directly seen that also $ A \unity = A$ is fulfilled.
+
+From this we can define the inverse $A^{-1}$ as the standard matrix inverse in the combined index notation
+that fulfills
+\begin{align}
+A^{-1}A &= AA^{-1} = \unity,
+\end{align}
+since
+\begin{align}
+[A^{-1}A]_{(ij)(kl)} &= [A^{-1}A]_{ab} \\
+&= \delta_{ab} \\
+&= \delta_{ik}\delta_{kl} \\
+&= \unity_{(ij)(kl)}
+\end{align}
+With this, we can finally solve the equation above for the screened interaction
+\begin{align}
+ W &= v + vPW \\
+ \Rightarrow (\unity - vP) W &= v \\
+ \Rightarrow  W &=(\unity - vP)^{-1} v ,
+\end{align}
+By contruction, the tensor elements $W_{ijkl} =[(\unity - vP)^{-1} v]_{ijkl}$
+will now satisfy the equation above for the screened interaction.
+
+\subsubsection{Problems}
+Possible problems are:
+\begin{itemize}
+\item A two-particle operator diagonal in position representation cannot be inverted
+in the combined index-notation! This can be for example a purely local Coulomb interaction!
+
+Consider 
+\begin{align}
+ \braket{\vec{r}\vec{r}' | A | \vec{r}''\vec{r}''' }
+ &= A(\vec{r}) \delta(\vec{r}-\vec{r}') \delta(\vec{r}-\vec{r}'') \delta(\vec{r}'-\vec{r}'''),
+\end{align}
+and we assume that $A(\vec{r})=a>0$ constant, \textit{i.e.} it does not matter where the particles interact.
+As long as their positions are identical they pick up a factor $a$.
+
+This leads to the following tensor elements
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          a \delta(\vec{r}-\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}) \\
+&=a  \int \mathrm{d}\vec{r} \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}) 
+                                          \psi_l(\vec{r})\psi_k(\vec{r}) .
+\end{align}
+For the case of real wave functions we see that we always get a non-zero contribution when we pair 
+two indices with one another, leading to an integral of the form
+\begin{align}
+a  \int \mathrm{d}\vec{r} \, \psi^2_m(\vec{r}) \psi^2_n(\vec{r}) \neq 0
+\end{align}
+For the example of $N=2$ single-particle states $\psi_i(\vec{r})$, we can choose two out of four indices to pair, then
+the last one has to be paired with $N=2$ choices for the index, leading to 8 combinations which are at least non-zero.
+In the combined index notation we then can arrive at the following matrix 
+(\cng{Note: I have confirmed this numerically for a few basis sets})
+\begin{align}
+ A &= a
+ \begin{pmatrix}
+  c_1 & 0 & 0 & c_3 \\
+  0   & c_2 & c_2 & 0 \\
+  0 & c_2 & c_2 & 0 \\
+  c_3 & 0 & 0 & c_4 
+ \end{pmatrix},
+\end{align}
+where we can immediately see that this matrix cannot be inverted since two columns are linearly dependent (even identical).
+
+\item A constant operator $A_{ijkl}=c>0$ can be inverted! (See discussion in next section)
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Aryasetiawan-style}
+\subsubsection{Defining the new basis set}
 We start by rewriting the equation for the tensor elements in the two-particle basis in the 
 following way 
 \begin{align}
@@ -298,7 +437,7 @@ as
 \begin{align}
  a(i,j) := iN + j.
 \end{align}
-Though, the new set $\{ B_a \}$ is \textit{not} a basis, since it is overcomplete and in addition not orthonormal.
+Though, the new set $\{ B_a \}$ is \textit{not} a basis, since it is overcomplete/linearly dependent and in addition not orthonormal.
 For example if there exist at least two real single-particle basis functions $\psi_i,\psi_j$, one has 
 \begin{align}
 \psi_i(\vec{r})\psi_j(\vec{r}) = B_a(\vec{r}) = B_b(\vec{r}) = \psi_j(\vec{r})\psi_i(\vec{r}),
@@ -330,7 +469,10 @@ O_{ab} &= (v^{\dagger}\cdot v)_{ab} \\
  &= \braket{B_a | B_b} .
 \end{align}
 Due to the overcompleteness, some columns of $O$ will not be linear independent, i.e. some of the Eigenvalues 
-$\lambda_i$ of $O$ will be equal to zero. 
+$\lambda_i$ of $O$ will be equal to zero.
+
+\subsubsection{Reduction of the basis set and reorthonormalization}
+
 After diagonalizing $O$ to obtain the Eigenvectors $o_1,o_2,...,o_{N^2}$, we throw away the ones with Eigenvalue zero 
 and set up the matrices
 \begin{align}
@@ -364,22 +506,49 @@ the new overlap matrix
 \textit{Remark:}
 To reduce the size of the basis for computational efficiency, one can also exclude Eigenvectors with a finite, 
 but small Eigenvalue, i.e. below some treshhold $\delta > \lambda_i$.
-Then the new basis will only be approximately complete, but the error can be controlled by choosing
+Then the new basis will only be approximately complete and orthonormal, but the error can be controlled by choosing
 $\delta$ sufficiently small.
 
-\bigskip
+\subsubsection{Product basis matrix elements}
 
 After having obtained the new complete orthonormal basis $\{ \tilde{B}_a  \}$, the matrix elements
 of any two-particle operator are then given as
 \begin{align}
 A_{ab}
 &= \braket{ \tilde{B}_a | A | \tilde{B}_b } \\
-&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  A(\vec{r},\vec{r}') \tilde{B}_b(\vec{r}'),
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  A(\vec{r},\vec{r}') \tilde{B}_b(\vec{r}').
 \end{align}
-so we can define the inverse $A^{-1}$ of any two-particle operator as the standard Matrix inverse, which then fulfills 
-the property
+The representation of $A$ in the product basis is then given as
 \begin{align}
- 
+A &= \sum_{a,b} \ket{\tilde{B}_a}A_{ab}\bra{\tilde{B}_b} .
+\end{align}
+or in the position representation \cng{DOES THIS MAKE SENSE?}
+\begin{align}
+ A(\vec{r},\vec{r}') &= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} A_{ab}\braket{\tilde{B}_b|\vec{r}'} \\
+ &= \sum_{a,b} \tilde{B}_a(\vec{r}) A_{ab}\tilde{B}^*_b(\vec{r}') .
+\end{align}
+\cng{CHECK HERE IF BOTH REPRESENTATIONS LEAD TO THE SAME RESULT!!! The product basis should recover
+the right A(r-r'), shouldn't it? (I think so...) Can we actually prove this?}
+
+
+\subsubsection{Switching between the product and the two-particle basis}
+If we want to obtain the original tensor representation of a two-particle operator in the 
+product basis, we have to evaluate \cng{DOES THIS MAKE SENSE?}
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          A(\vec{r},\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}) \\
+&= \sum_{a,b}\int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+         \tilde{B}_a(\vec{r}) A_{ab}\tilde{B}^*_b(\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}).
+\end{align}
+The other way round, if we have a two-particle operator given in the two-particle basis, the product basis
+representation can be obtained by
+\begin{align}
+A_{ab}
+&= \braket{ \tilde{B}_a | A | \tilde{B}_b } \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  A(\vec{r},\vec{r}') \tilde{B}_b(\vec{r}') \\
+&=\sum_{ijkl} \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  
+    \psi_i(\vec{r})\psi_j(\vec{r}') A_{ijkl} \psi^*_l(\vec{r}')\psi^*_k(\vec{r}) \tilde{B}_b(\vec{r}') .
 \end{align}
 
 
@@ -400,6 +569,37 @@ the property
 % &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 
 %                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_i(\vec{r}')
 % \end{align}
+
+\subsubsection{Tensor inverse}
+
+Since in the product basis any two-particle operator can now be
+represented as a matrix/rank-2 tensor, we can finally define its inverse $\tilde{A}^{-1}$ as the standard Matrix inverse, which then in the product basis fulfils the property
+\begin{align}
+ (\tilde{A}^{-1}A)_{ab}
+&= \braket{ \tilde{B}_a | \tilde{A}^{-1}A | \tilde{B}_b } \\
+&= \delta_{ab}.
+\end{align}
+In the position representation
+\begin{align}
+\braket{\vec{r} | \tilde{A}^{-1}A | \vec{r}' }
+ &= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} (\tilde{A}^{-1}A)_{ab}\braket{\tilde{B}_b|\vec{r}'} \\
+%
+&= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} \delta_{ab} \braket{\tilde{B}_b|\vec{r}'} \\
+&= \sum_{a} \braket{\vec{r}|\tilde{B}_a} \braket{\tilde{B}_a|\vec{r}'} \\
+&= \braket{\vec{r}|\vec{r}'} \\
+&= \delta(\vec{r}-\vec{r}'),
+\end{align}
+if the product basis is complete.
+
+%\braket{\vec{r}|\tilde{B}_a} A_{a\braket{\tilde{B}_b|\vec{r}'}
+
+\subsubsection{Problems}
+Possible problems are:
+\begin{itemize}
+ \item 
+\end{itemize}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

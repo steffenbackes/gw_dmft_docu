@@ -273,6 +273,143 @@ Our goal is to obtain a matrix (rank-2) representation of the two-particle opera
 define a proper inverse $A^{-1}$ or a multiplication $AB$ between these operators. 
 This is usually done in two ways:
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Index combination}
+In the two-particle basis the structure of the Tensor-elements
+\begin{align}
+ A_{ijkl} &= \braket{ij | A | kl } ,
+\end{align}
+suggests that we could also interpret each basis state as
+\begin{align}
+ \ket{a} := \ket{ ij } &= \ket{i}\times \ket{j} ,
+\end{align}
+with a single basis state $\ket{a}$, where the index $a$ now runs over $N^2$ values
+if we have $N$ single particle states $\ket{i}$. In this notation, we can indeed write the tensor elements
+as matrix elements
+\begin{align}
+ A_{ab} &= \braket{a | A | b } \\
+ &= \braket{ij | A | kl }   \\
+  &= A_{(ij)(kl)} .
+\end{align}
+
+\subsubsection{Properties and consistency}
+
+The combination of the two left, the ``outgoing'' indices $ij$ and the right, the ``incoming'' $kl$ is in principle arbitrary.
+We could also combine the indices $ik$ of the first partcile and $jl$ of the second particle. 
+Though, the $(ij)(kl)$ combination should be preferrable, since it does not mix vectors $\ket{i}$ with their
+dual counterpart $\bra{i}$. 
+
+Furthermore, in cases where we want to apply this scheme, the tensor operations can indeed be rewritten
+as a matrix multiplication in the combined ``ingoing-outgoing'' index notation. For example
+the screened interaction $W$ is given by
+\begin{align}
+W_{ijkl} &= [ v + vPW ]_{ijkl} \\
+&= v_{ijkl} + \sum_{mnop} v_{ijmn}P_{mnop}W_{opkl},
+\end{align}
+with the bare interaction $v$ and the polarization $P$. Using the combined index notation we get the representation
+\begin{align}
+W_{ab} &= W_{(ij)(kl)} \\
+&= v_{(ij)(kl)} + \sum_{(mn)(op)} v_{(ij)(mn)}P_{(mn)(op)}W_{(op)(kl)} \\
+&= v_{ab} + \sum_{cd} v_{ac}P_{cd}W_{da} \\
+&= [v + vPW]_{ab},
+\end{align}
+where $vPW$ is to be understood as the matrix product of $v,P$ and $W$ in the combined index notation.
+
+\subsubsection{Tensor inverse}
+
+Now let us try to obtain a closed expression of $W$ satisfying this expression, which
+is not possible in the 4-index tensor notation.
+For this, we need to define first an object $\unity$ that serves as the identity element, which then will
+allow us to poperly define an inverse of a matrix in the combined index notation.
+The identity element should have the following property
+\begin{align}
+ \unity A &= A =  A \unity ,
+\end{align}
+where $A$ is a two-particle tensor, which means
+\begin{align}
+A_{(ij)(kl)} &= A_{ab} \\
+&= [\unity A]_{ab} \\
+&= \sum_c \unity_{ac} A_{ca} \\
+&= \sum_{mn} \unity_{(ij)(mn)} A_{(mn)(kl)} .
+\end{align}
+From this we conclude that 
+\begin{align}
+ \unity_{(ij)(mn)} &= \delta_{im}\delta_{jn} \\
+ \Rightarrow \unity_{ac} &= \delta_{ac},
+\end{align}
+which leads to the natural definition of the identity element in the combined index notation.
+It can be directly seen that also $ A \unity = A$ is fulfilled.
+
+From this we can define the inverse $A^{-1}$ as the standard matrix inverse in the combined index notation
+that fulfills
+\begin{align}
+A^{-1}A &= AA^{-1} = \unity,
+\end{align}
+since
+\begin{align}
+[A^{-1}A]_{(ij)(kl)} &= [A^{-1}A]_{ab} \\
+&= \delta_{ab} \\
+&= \delta_{ik}\delta_{kl} \\
+&= \unity_{(ij)(kl)}
+\end{align}
+With this, we can finally solve the equation above for the screened interaction
+\begin{align}
+ W &= v + vPW \\
+ \Rightarrow (\unity - vP) W &= v \\
+ \Rightarrow  W &=(\unity - vP)^{-1} v ,
+\end{align}
+By contruction, the tensor elements $W_{ijkl} =[(\unity - vP)^{-1} v]_{ijkl}$
+will now satisfy the equation above for the screened interaction.
+
+\subsubsection{Problems}
+Possible problems are:
+\begin{itemize}
+\item A two-particle operator diagonal in position representation cannot be inverted
+in the combined index-notation! This can be for example a purely local Coulomb interaction!
+
+Consider 
+\begin{align}
+ \braket{\vec{r}\vec{r}' | A | \vec{r}''\vec{r}''' }
+ &= A(\vec{r}) \delta(\vec{r}-\vec{r}') \delta(\vec{r}-\vec{r}'') \delta(\vec{r}'-\vec{r}'''),
+\end{align}
+and we assume that $A(\vec{r})=a>0$ constant, \textit{i.e.} it does not matter where the particles interact.
+As long as their positions are identical they pick up a factor $a$.
+
+This leads to the following tensor elements
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}') 
+                                          a \delta(\vec{r}-\vec{r}') \psi_l(\vec{r}')\psi_k(\vec{r}) \\
+&=a  \int \mathrm{d}\vec{r} \, \psi^*_i(\vec{r})\psi^*_j(\vec{r}) 
+                                          \psi_l(\vec{r})\psi_k(\vec{r}) .
+\end{align}
+For the case of real wave functions we see that we always get a non-zero contribution when we pair 
+two indices with one another, leading to an integral of the form
+\begin{align}
+a  \int \mathrm{d}\vec{r} \, \psi^2_m(\vec{r}) \psi^2_n(\vec{r}) \neq 0
+\end{align}
+For the example of $N=2$ single-particle states $\psi_i(\vec{r})$, we can choose two out of four indices to pair, then
+the last one has to be paired with $N=2$ choices for the index, leading to 8 combinations which are at least non-zero.
+In the combined index notation we then can arrive at the following matrix 
+(\cng{Note: I have confirmed this numerically for a few basis sets})
+\begin{align}
+ A &= a
+ \begin{pmatrix}
+  c_1 & 0 & 0 & c_3 \\
+  0   & c_2 & c_2 & 0 \\
+  0 & c_2 & c_2 & 0 \\
+  c_3 & 0 & 0 & c_4 
+ \end{pmatrix},
+\end{align}
+where we can immediately see that this matrix cannot be inverted since two columns are linearly dependent (even identical).
+
+\item A ``constant'' operator $A(\vec{r},\vec{r}')=c\neq 0$  can be inverted! (See discussion in next section)
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Aryasetiawan-style}
 \subsubsection{Defining the new basis set}
 We start by rewriting the equation for the tensor elements in the two-particle basis in the 
@@ -433,7 +570,7 @@ A_{ab}
 %                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_i(\vec{r}')
 % \end{align}
 
-\subsubsection{Matrix inverse}
+\subsubsection{Tensor inverse}
 
 Since in the product basis any two-particle operator can now be
 represented as a matrix/rank-2 tensor, we can finally define its inverse $\tilde{A}^{-1}$ as the standard Matrix inverse, which then in the product basis fulfils the property
@@ -449,9 +586,37 @@ In the position representation
 %
 &= \sum_{a,b} \braket{\vec{r}|\tilde{B}_a} \delta_{ab} \braket{\tilde{B}_b|\vec{r}'} \\
 &= \sum_{a} \braket{\vec{r}|\tilde{B}_a} \braket{\tilde{B}_a|\vec{r}'} \\
+&= \braket{\vec{r}|\vec{r}'} \\
+&= \delta(\vec{r}-\vec{r}'),
 \end{align}
+if the product basis is complete.
 
 %\braket{\vec{r}|\tilde{B}_a} A_{a\braket{\tilde{B}_b|\vec{r}'}
+
+\subsubsection{Problems}
+Possible problems are:
+\begin{itemize}
+ \item A ``constant'' tensor of the form $A(\vec{r},\vec{r}')=c\neq 0$ cannot be inverted! 
+ \cng{I'm not sure, this is maybe correct behaviour?}
+
+ Let us assume we obtain a final basis state $\ket{\tilde{B}_o}$ in a one-dimensional system
+ which is a real odd function in position representation, \textit{i.e.}
+ \begin{align}
+  \tilde{B}_o(r) &= -\tilde{B}_o(-r).
+ \end{align}
+For a constant tensor this leads to the following
+ \begin{align}
+A_{ab}
+&=c \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \tilde{B}^*_a(\vec{r})  \tilde{B}_b(\vec{r}') \\
+&=c \left(\int \mathrm{d}\vec{r} \, \tilde{B}^*_a(\vec{r}) \right) \left( \int \mathrm{d}\vec{r}'\,  \tilde{B}_b(\vec{r}'), \right),   
+\end{align}
+\textit{i.e.} the two integrations over the basis states decouple, and everytime $a$ or $b$ is equal to the
+real odd function $\tilde{B}_o$, we obtain zero. Therefore, the $o$-th column and row is equal to zero.
+Which means, we have at least one Eigenvalue equal to zero and, therefore, the tensor
+in the product basis cannot be inverted.
+ 
+\end{itemize}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

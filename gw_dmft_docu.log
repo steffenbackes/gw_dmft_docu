@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.7.25)  3 OCT 2016 12:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.8.13)  31 OCT 2016 15:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1008,37 +1008,21 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 66.
 
-[2] [3] [4] [5] [6]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 367.
+[2] [3] [4] [5]
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 322.
 
-
-(/usr/share/texlive/texmf-dist/tex/latex/doublestroke/Udsrom.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-) [7] [8]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 483.
+) [6]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 367.
 
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 483.
-
-
-Class scrartcl Warning: Usage of deprecated font command `\it'!
-(scrartcl)              You should note, that in 1994 font command `\it' has
-(scrartcl)              been defined for compatiblitiy to Script 2.0 only.
-(scrartcl)              Now, after two decades of LaTeX2e and NFSS2, you
-(scrartcl)              shouldn't use such commands any longer and within
-(scrartcl)              KOMA-Script usage of `\it' is definitely deprecated.
-(scrartcl)              See `fntguide.pdf' for more information about
-(scrartcl)              recommended font commands.
-(scrartcl)              Note also, that KOMA-Script will remove the definition
-(scrartcl)              of `\it' anytime until release of about version 3.20.
-(scrartcl)              But for now, KOMA-Script will replace deprecated `\it'
-(scrartcl)              by `\normalfont \itshape ' on input line 493.
-
-[9] [10]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 367.
+ [7] [8] [9]
+[10] [11] [12]
 
 Class scrartcl Warning: Usage of deprecated font command `\it'!
 (scrartcl)              You should note, that in 1994 font command `\it' has
@@ -1051,27 +1035,43 @@ Class scrartcl Warning: Usage of deprecated font command `\it'!
 (scrartcl)              Note also, that KOMA-Script will remove the definition
 (scrartcl)              of `\it' anytime until release of about version 3.20.
 (scrartcl)              But for now, KOMA-Script will replace deprecated `\it'
-(scrartcl)              by `\normalfont \itshape ' on input line 636.
+(scrartcl)              by `\normalfont \itshape ' on input line 658.
 
-[11] [12] [13] [14]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 861.
- [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 861.
+[13]
+
+Class scrartcl Warning: Usage of deprecated font command `\it'!
+(scrartcl)              You should note, that in 1994 font command `\it' has
+(scrartcl)              been defined for compatiblitiy to Script 2.0 only.
+(scrartcl)              Now, after two decades of LaTeX2e and NFSS2, you
+(scrartcl)              shouldn't use such commands any longer and within
+(scrartcl)              KOMA-Script usage of `\it' is definitely deprecated.
+(scrartcl)              See `fntguide.pdf' for more information about
+(scrartcl)              recommended font commands.
+(scrartcl)              Note also, that KOMA-Script will remove the definition
+(scrartcl)              of `\it' anytime until release of about version 3.20.
+(scrartcl)              But for now, KOMA-Script will replace deprecated `\it'
+(scrartcl)              by `\normalfont \itshape ' on input line 801.
+
+[14] [15] [16] [17]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1026.
+ [18]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1026.
  (./gw_dmft_docu.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 861.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 861.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1026.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1026.
+
 Package rerunfilecheck Info: File `gw_dmft_docu.out' has not changed.
-(rerunfilecheck)             Checksum: 552BA97C489E12764C831280EEA4C8C3;1513.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 861.
+(rerunfilecheck)             Checksum: 9B1580CFBAA15CAEEFBF386EA78183C9;1876.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1026.
  ) 
 Here is how much of TeX's memory you used:
- 14129 strings out of 493304
- 215346 string characters out of 6139871
+ 14178 strings out of 493304
+ 216025 string characters out of 6139871
  381238 words of memory out of 5000000
- 17211 multiletter control sequences out of 15000+600000
+ 17216 multiletter control sequences out of 15000+600000
  14278 words of font info for 58 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 50i,19n,55p,297b,466s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 50i,19n,55p,297b,476s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texli
@@ -1090,10 +1090,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/doublestroke/dsrom12.pfb></usr/share/texlive/texmf-di
 st/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on gw_dmft_docu.pdf (15 pages, 226130 bytes).
+Output written on gw_dmft_docu.pdf (18 pages, 238715 bytes).
 PDF statistics:
- 405 PDF objects out of 1000 (max. 8388607)
- 365 compressed objects within 4 object streams
- 147 named destinations out of 1000 (max. 500000)
- 169 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 487 PDF objects out of 1000 (max. 8388607)
+ 443 compressed objects within 5 object streams
+ 191 named destinations out of 1000 (max. 500000)
+ 209 words of extra memory for PDF output out of 10000 (max. 10000000)
 
