@@ -17,10 +17,11 @@
 \BOOKMARK [1][-]{section.5}{The DMFT part}{}% 17
 \BOOKMARK [2][-]{subsection.5.1}{The self-consistency cycle}{section.5}% 18
 \BOOKMARK [2][-]{subsection.5.2}{Output}{section.5}% 19
-\BOOKMARK [1][-]{section.6}{Hartree- and Exchange term in DMFT}{}% 20
-\BOOKMARK [2][-]{subsection.6.1}{Hartree term}{section.6}% 21
-\BOOKMARK [2][-]{subsection.6.2}{Exchange term}{section.6}% 22
-\BOOKMARK [2][-]{subsection.6.3}{Hartree + exchange Selfenergy}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.4}{Dynamical interactions}{section.6}% 24
-\BOOKMARK [1][-]{section.7}{Implementation details}{}% 25
-\BOOKMARK [2][-]{subsection.7.1}{Impurity solver input}{section.7}% 26
+\BOOKMARK [2][-]{subsection.5.3}{High-frequency correction}{section.5}% 20
+\BOOKMARK [1][-]{section.6}{Hartree- and Exchange term in DMFT}{}% 21
+\BOOKMARK [2][-]{subsection.6.1}{Hartree term}{section.6}% 22
+\BOOKMARK [2][-]{subsection.6.2}{Exchange term}{section.6}% 23
+\BOOKMARK [2][-]{subsection.6.3}{Hartree + exchange Selfenergy}{section.6}% 24
+\BOOKMARK [2][-]{subsection.6.4}{Dynamical interactions}{section.6}% 25
+\BOOKMARK [1][-]{section.7}{Implementation details}{}% 26
+\BOOKMARK [2][-]{subsection.7.1}{Impurity solver input}{section.7}% 27

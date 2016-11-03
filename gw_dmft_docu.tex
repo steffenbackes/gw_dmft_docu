@@ -281,7 +281,7 @@ In the two-particle basis the structure of the Tensor-elements
 \end{align}
 suggests that we could also interpret each basis state as
 \begin{align}
- \ket{a} := \ket{ ij } &= \ket{i}\times \ket{j} ,
+ \ket{a} := \ket{ ij } &= \ket{i}\otimes \ket{j} ,
 \end{align}
 with a single basis state $\ket{a}$, where the index $a$ now runs over $N^2$ values
 if we have $N$ single particle states $\ket{i}$. In this notation, we can indeed write the tensor elements
@@ -423,7 +423,7 @@ following way
                                           A(\vec{r},\vec{r}') \psi^*_j(\vec{r}')\psi_l(\vec{r}') \\
 %
 &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \underbrace{ \Big( \psi^*_k(\vec{r}) \psi_i(\vec{r}) \Big)^* }_{B^*_a(\vec{r})}
-                                          A(\vec{r},\vec{r}') \underbrace{ \psi^*_j(\vec{r}')\psi_l(\vec{r}') }_{B_b(\vec{r} )} \\
+                                          A(\vec{r},\vec{r}') \underbrace{ \psi^*_j(\vec{r}')\psi_l(\vec{r}') }_{B_b(\vec{r}' )} \\
 &= \braket{ B_a | A | B_b } .
 \end{align}
 From these observation we see that we should define new basis states $\{ B_a \}$ by the product of the single-particle
@@ -797,7 +797,7 @@ and transform $\Delta(i\omega_n)$ to the imaginary time axis $\tau$ by a Fourier
  \Delta(\tau) &= \frac{1}{\beta} \sum_{i\omega_n} \Delta(i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
 \end{align}
 Generate the $K(\tau),K'(\tau)$ functions from the retarded interaction via ($\mathcal{U}(i\nu_n)$
-is real!)
+is real!) (see Chapter \ref{sec:hf_corr_interaction} for important high-frequency correction!)
 \begin{align}
 K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \\
@@ -840,6 +840,198 @@ is reached.
 \subsection{Output}
 After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
 can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
+
+\subsection{High-frequency correction}
+\label{sec:hf_corr_interaction}
+When calculating the functions $K(\tau),K'(\tau)$, the infinite sum over bosonic Matsubara frequencies $\nu_n$ 
+has to be properly treated. 
+
+In order to evaluate the high frequency correction terms analytically, we use the result
+from Cvijovi\'c and Klinowski, Proc. Amer. Math. Soc. 123, (1995):
+\begin{align}
+\frac{ \pi^{2k-1} }{ (-1)^k     2(2k-1)! } B_{2k-1}(x) &= \sum\limits_{n=1 }^{\infty} \frac{\sin( 2n\pi x )}{ (2n)^{2k-1} } \\
+\frac{ \pi^{2k}   }{ (-1)^{k-1} 2(2k)!   } B_{2k  }(x) &= \sum\limits_{n=1 }^{\infty} \frac{\cos( 2n\pi x )}{ (2n)^{2k  } } ,
+\end{align}
+where $x\in(0,1)$ and $E_{k}(x)$ are the Bernoulli polynomials, with the first given as
+\begin{align}
+B_{0}(x) &= 1\\
+B_{1}(x) &= x-\frac{1}{2}\\
+B_{2}(x) &= x^2 - x + \frac{1}{6}\\
+B_{3}(x) &= x^3 - \frac{3}{2}x^2 + \frac{1}{2}x \\
+B_{4}(x) &= x^4 - 2x^3 + x^2 -\frac{1}{30} .
+\end{align}
+With this, we can evaluate the following sums
+\begin{align}
+ \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\cos( \nu_n \tau )}{ \nu_n^2 }
+ &=\frac{\beta}{\pi^2}\sum\limits_{n=1 }^{\infty} \frac{\cos( 2n\pi \tau/\beta )}{ (2n)^2 }   \\
+ &=\frac{\beta}{\pi^2} \frac{ \pi^{2}   }{ (-1)^{1-1} 2(2)!   } B_{2  }(\tau/\beta) \\
+ &= \frac{1}{4\beta}\left( \tau^2 - \tau \beta + \frac{\beta^2}{6} \right) \\
+\end{align}
+\begin{align}
+\frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\cos( \nu_n \tau )}{ \nu_n^4 } 
+&=\frac{\beta^3}{\pi^4}\sum\limits_{n=1 }^{\infty} \frac{\cos( 2n\pi \tau/\beta )}{ (2n)^4 }   \\
+&= \frac{\beta^3}{\pi^4} \frac{ \pi^{4}   }{ (-1)^{2-1} 2(4)!   } B_{4}(\tau/\beta) \\
+&= -\frac{1}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 - \frac{\beta^4}{30}\right)
+\end{align}
+\begin{align}
+ \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\sin( \nu_n \tau )}{ \nu_n }
+ &=\frac{1}{\pi}\sum\limits_{n=1 }^{\infty} \frac{\sin( 2n\pi \tau/\beta )}{ 2n }   \\
+ &=\frac{1}{\pi} \frac{ \pi^{2-1} }{ (-1)^1     2(2-1)! } B_{2-1}(\tau/\beta) \\
+ &= -\frac{1}{2\beta} \left( \tau -\frac{\beta}{2} \right)
+\end{align}
+\begin{align}
+ \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\sin( \nu_n \tau )}{ (\nu_n)^3 }
+ &=\frac{\beta^2}{\pi^3}\sum\limits_{n=1 }^{\infty} \frac{\sin( 2n\pi \tau/\beta )}{ (2n)^3 }   \\
+ &=\frac{\beta^2}{\pi^3} \frac{ \pi^{4-1} }{ (-1)^2     2(4-1)! } B_{4-1}(\tau/\beta)  \\
+&= \frac{1}{12\beta}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
+\end{align}
+Furthermore, we also will need
+\begin{align}
+ \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{1}{\nu_n^2} 
+ &= \frac{\beta}{\pi^2}\sum\limits_{n=1 }^{\infty} \frac{1}{(2n)^2}  \\
+ &= \frac{\beta}{24}
+\end{align}
+\begin{align}
+ \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{1}{\nu_n^4} 
+ &= \frac{\beta^3}{\pi^4}\sum\limits_{n=1 }^{\infty} \frac{1}{(2n)^4}  \\
+ &= \frac{\beta^3}{1440}
+\end{align}
+ 
+ Now we can apply these results to obtain analytic expressions for the high frequency tails
+ in $K(\tau),K'(\tau)$.
+ For large frequencies, since $\mathcal{U}(i\nu_n)$ is real and even, we
+can approximate $\mathcal{U}(i\nu_n)$ as
+\begin{align}
+ \mathcal{U}(i\nu_n) &\approx \mathcal{V} + \frac{c}{(i\nu_n)^2} \\
+ &= \mathcal{V} - \frac{c}{\nu^2_n} ,
+\end{align}
+where 
+\begin{align}
+\mathcal{V}=\lim_{\nu_n\rightarrow \infty} \mathcal{U}(i\nu_n) = \frac{1}{N_q}\sum_q V_q. 
+\end{align}
+
+Assume we use $N_{\nu}$ bosonic frequencies in the calculation, the summation for $K(\tau)$ is split as
+\begin{align}
+K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \\
+%
+&\approx -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \nonumber \\
+    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=N_{\nu}}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \\
+%                                        
+&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2}}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \nonumber \\
+    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \label{eq:k_hf_sum_last}
+\end{align}
+The first term in Eq.\eqref{eq:k_hf_sum_last} is summed numerically in the computer, but the second term
+can be evaluated analytically (derivation is commented out)
+\begin{align}
+& -\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \nonumber\\
+&\hspace{1cm}=-\frac{2}{\beta} \sum_{n=1}^{\infty}
+    \left( 
+            [\mathcal{V}-\mathcal{U}(0)] \frac{\cos(\nu_n\tau)}{\nu_n^2}
+            -c\frac{\cos(\nu_n\tau)}{\nu_n^4}
+            -\frac{\mathcal{V}-\mathcal{U}(0)}{\nu_n^2}
+            + \frac{c}{\nu_n^4}
+    \right) \\
+%    
+&\hspace{1cm} = -2 
+   \left\{ 
+          \frac{\mathcal{V}-\mathcal{U}(0)}{4\beta}\left( \tau^2 - \tau \beta +  \frac{\beta^2}{6} \right)
+          +\frac{c}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 - \frac{\beta^4}{30}\right)
+   \right. \nonumber\\
+&\hspace{2.3cm}\left. -[\mathcal{V}-\mathcal{U}(0)]\frac{\beta}{24} + c\frac{\beta^3}{1440} \right\} \\
+%
+% &\hspace{1cm} = -2 
+%    \left\{ 
+%           \frac{\mathcal{V}-\mathcal{U}(0)}{4\beta}\left( \tau^2 - \tau \beta  \right)
+%           +\frac{c}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 \right)
+%    \right\} \\
+% %
+% &\hspace{1cm} =  
+%           \frac{\mathcal{V}-\mathcal{U}(0)}{2\beta}\left( \beta -\tau \right)\tau
+%           +\frac{c}{24\beta}\left(  2\tau\beta -\tau^2  - \beta^2 \right)\tau^2 \\
+% %
+% &\hspace{1cm} =  
+%           \frac{\mathcal{V}-\mathcal{U}(0)}{2\beta}\left( \beta -\tau \right)\tau
+%           -\frac{c}{24\beta}\left( \beta-\tau \right)^2\tau^2 \\
+% %
+% &\hspace{1cm} =  \frac{\tau}{\beta}(\beta-\tau)
+%           \left( \frac{\mathcal{V}-\mathcal{U}(0)}{2}
+%           -\frac{c}{24}\left( \beta - \tau \right)\tau \right)\\
+%
+&\hspace{1cm} =  \frac{\tau(\beta-\tau)}{2\beta}
+          \left( \mathcal{V}-\mathcal{U}(0)
+          -c\frac{ \tau(\beta - \tau)}{12} \right)
+\end{align}
+(Final summary will be below)
+
+For $K'(\tau)$ we proceed in the same way
+\begin{align}
+K'(\tau) &= \frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu_n}
+                                         \sin(\nu_n\tau) \\
+%                                        
+&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2}}{\nu_n}
+                                        \sin(\nu_n\tau) \nonumber \\
+    &\hspace{0.5cm}+\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu_n}
+                                        \sin(\nu_n\tau) 
+\end{align}
+The last term evaluates as
+\begin{align}
+ \frac{2}{\beta} &\sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu_n}
+                                        \sin(\nu_n\tau) \nonumber \\
+%
+& \hspace{2cm}=\frac{2}{\beta} \sum_{n=1}^{\infty}\left( [\mathcal{V} -\mathcal{U}(0)]\frac{\sin(\nu_n\tau)}{\nu_n}
+                                          - c\frac{\sin(\nu_n\tau)}{\nu^3_n}\right) \\
+%
+& \hspace{2cm}= 2\left( 
+            [\mathcal{V} -\mathcal{U}(0)] \frac{-1}{2\beta} \left( \tau -\frac{\beta}{2} \right) 
+            -\frac{c}{12\beta}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
+   \right) \\ 
+% %
+% & \hspace{2cm}= \frac{1}{\beta}\left( 
+%             [\mathcal{V} -\mathcal{U}(0)] \left( \frac{\beta}{2} -\tau \right) 
+%             -\frac{c}{6}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
+%    \right) \\
+% %
+% & \hspace{2cm}= \frac{1}{\beta}\left( 
+%             [\mathcal{V} -\mathcal{U}(0)] \left( \frac{\beta}{2} -\tau \right) 
+%             -\frac{c}{6}\tau\left( \frac{\beta}{2}-\tau \right) (\beta-\tau)
+%    \right) \\
+%
+& \hspace{2cm}= \frac{\beta -2\tau}{2\beta}\left( 
+            \mathcal{V} -\mathcal{U}(0)
+            -c\frac{\tau(\beta-\tau)}{6}
+   \right) 
+%
+\end{align}
+Summarizing, we obtain for  the high frequency-corrected formulas for $K(\tau),K'(\tau)$
+the following expressions, that are implemented in the code
+\begin{align}
+K(\tau) 
+%
+&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2} \right)
+                                        \frac{ \cos(\nu_n\tau)-1 }{\nu_n^2} \nonumber\\
+ &\hspace{2cm} + \frac{\tau(\beta-\tau)}{2\beta}
+          \left( \mathcal{V}-\mathcal{U}(0)
+          -c\frac{ \tau(\beta - \tau)}{12} \right)\\
+%
+%
+ K'(\tau) 
+%                                        
+&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2} \right)
+                                        \frac{\sin(\nu_n\tau)}{\nu_n} \nonumber \\
+ & \hspace{2cm} +\frac{\beta -2\tau}{2\beta}\left( 
+            \mathcal{V} -\mathcal{U}(0)
+            -c\frac{\tau(\beta-\tau)}{6} \right)
+\end{align}
+Differentiating $K(\tau)$ w.r.t. $\tau$ indeed gives the correct expression for $K(\tau')$ (would have saved a lot of work...)
+
+
+
 
 
 \section{Hartree- and Exchange term in DMFT}
@@ -1061,6 +1253,8 @@ correlation functions. Just reuse the standard template file. Not important for 
 for starting the sampling. Is initialized once with Yusuke's code and then overwritten by 
 the solver. No change required here.
 \end{description}
+
+
 
 
 \end{document}
