@@ -213,8 +213,8 @@ Selfenergy and polarization
 %
 P_{abcd} &= 
 \begin{cases}
--[G^0G^0]_{abcd} + [G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}]_{abcd}+ P_{abcd}^{\mathrm{imp},L} & \mbox{ for } a,b,c,d \in L  \\
--[G^0G^0]_{abcd}                                                                      & \mbox{ for } \{a,b,c,d\} \cap H  \neq \emptyset
+[G^0G^0]_{abcd} - [G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}]_{abcd}+ P_{abcd}^{\mathrm{imp},L} & \mbox{ for } a,b,c,d \in L  \\
+[G^0G^0]_{abcd}                                                                      & \mbox{ for } \{a,b,c,d\} \cap H  \neq \emptyset
 \end{cases}
 \end{align}
 
@@ -232,6 +232,90 @@ has been applied.
 Then we perform a GW selfconsistency including the  local vertex corrections from DMFT, in similar spirit as Boehnke et al., but additionally with improved transitions between
 $L$ and $H$ which they do not update.}
 \end{description}
+The 2-particle selfconsistency cycle over $W$ is not conserving! In what way
+does this affect the spectra? Other two-particle quantities?
+Hartmut said something like Plasmons cannot be properly treated due to the nonconserving
+properties.
+
+\subsection{More discussion of the GW doublecounting factor}
+In the section above we discussed that the "doublecounting" factor
+that has to be subtracted from the GW Selfenergy and Polarization
+should be 
+\begin{align}
+\Sigma^{GW,DC} &= -G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L} \\
+P^{GW,DC} &= G^{0,\mathrm{loc},L}G^{0,\mathrm{loc},L}
+\end{align}
+This method using $\Sigma^{GW,DC} = -G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L}$
+can be understood as calculating a GW Selfenergy excluding any contributions arising
+exclusively in the correlated subspace, and then adding the contributions arising only in
+the correlated subspace via DMFT. 
+
+Other choices have been discussed, for example what we have been using for now
+is to subtract all local terms from GW
+\begin{align}
+\Sigma^{GW,DC^*} &= -[G^{0}W^{0}]^{\mathrm{loc},L} = \frac{1}{N_k}\sum_k \Sigma^{GW,L}  \\
+P^{GW,DC^*} &= [G^{0}G^{0}]^{\mathrm{loc},L} = \frac{1}{N_k}\sum_k P^{GW,L}
+\end{align}
+IMPORTANT: These two doublecounting factors are not equal as long as we restrict 
+to a smaller subspace $L$, since the local component of the Selfenergy and Polarization
+contain terms arising from the interaction with the smaller subspace $L$
+and the remaining part $R = H \setminus L$
+\begin{align}
+\Sigma^{GW,loc} &= -G_{LL}^{0,\mathrm{loc}}W^{0,\mathrm{loc}}_{LL}
+                   -G^{0,\mathrm{loc}}_{RR}W^{0,\mathrm{loc}}_{LRRL}
+\end{align}
+Only when $L=H$ is the full Hilbert space, they are equal since the second term
+is also included. This problem does not arise for the polarization, since
+there is no four-index object like $W$ which couples the two spaces.
+
+\begin{figure}[t]
+\includegraphics[width=1.0\textwidth]{figs/sigma_loc_compare.png}
+\caption{The Selfenergy $\Sigma(i\omega_n)$ obtained from G$_0$W$_0$ (7x7x7 k-points)
+ and GW+DMFT using the
+G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ with $U(\omega)$ interaction determined
+from cRPA.}
+\label{fig:sigma_loc_compare}
+\end{figure}
+
+In Fig.\ref{fig:sigma_loc_compare} we show a comparison between the Selfenergy 
+$\Sigma(i\omega_n)$ obtained from a G$_0$W$_0$ (7x7x7 k-points) calculation,
+and GW+DMFT using the G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ with $U(\omega)$ interaction determined from cRPA.
+The GW-local is the k-averaged part of the GW Selfenergy, and the GW+DMFT Selfenergy
+is the local Selfenergy of the impurity model
+after convergence of the GW+DMFT cycle including the non-local components
+of the GW Selfenergy but subtracting the GW-local part as the doublecounting.
+This means we have thrown away all contributions $G^{0,\mathrm{loc}}_{RR}W^{0,\mathrm{loc}}_{LRRL}$
+arising from the interaction between the correlated subspace and the rest.
+
+The discrepancy between the impurity Selfenergy and the k-averaged
+GW Selfenergy, that can be seen especially in the imaginary part,
+can then in principle have to reasons:
+
+One contribution will be the contributions from the subspace
+with the rest $G^{0,\mathrm{loc}}_{RR}W^{0,\mathrm{loc}}_{LRRL}$, as already discussed.
+Another contribution can arise from the cRPA screening to obtain the effective
+interaction $U(\omega)$. If the bare value is not the proper one, this would also
+lead to a discrepancy especially in the tail sections of the Selfenergy, i.e.
+if the value is too small, the tail will be smaller. 
+
+\subsection{Possible problems with the DC}
+One important factor is the causality of the different DC schemes.
+The GW Selfenergy is causal and the impurity Selfenergy is causal,
+but subtracting a DC term can make the combined Selfenergy noncausal
+\begin{align}
+\Sigma^{GW+DMFT} &= \Sigma^{GW,loc} - \Sigma^{DC} + \Sigma^{imp}.
+\end{align}
+It only comes down to personal preference, whether the DC should be understood
+as taking out contibutions from GW, so that GW is a correction to DMFT
+\begin{align}
+\Sigma^{GW+DMFT} &=  \Sigma^{imp} + \left(\Sigma^{GW,loc} - \Sigma^{DC}\right) ,
+\end{align}
+or whether one takes out contibutions from DMFT, so that DMFT is a correction to GW
+\begin{align}
+\Sigma^{GW+DMFT} &=  \Sigma^{GW,loc} + \left(\Sigma^{imp} - \Sigma^{DC}\right) .
+\end{align}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -664,6 +748,7 @@ performed on the GW side.
 For the next step of the DMFT calculation one needs
 on a mesh in k-space in the full Brillouin zone:
 \begin{itemize}
+\item $\beta$: The inverse temperature used for defining $\omega_n=(2n+1)\pi/\beta$.
 \item $\epsilon_m(k)$: The eigenvalues  of $H^{DFT}(k)$ in the Wannier basis
 for all relevant orbitals
 \item $\mu$: The chemical potential that yields the correct physical number of electrons $N_e$. It is not needed if all $\epsilon_m(k)$ are given 
@@ -672,18 +757,18 @@ for $H^{DFT}$
 \item $v^{XC}_{mm'}(k)$: The value of the exchange-correlation potential 
 in the Wannier basis for all relevant orbitals
 \item $\Sigma^{GW}_{mm'}(k,i\omega)$: The Selfenergy within GW in the Wannier basis for all relevant orbitals on imaginary frequencies $\omega$.
-\item $V_{abcd}(q)$: The bare Coulomb interaction elements in the Wannier basis for all relevant orbitals.
-\item $P^{GW}_{abcd}(q,i\nu)$: The polarization  in the Wannier basis for all relevant orbitals on imaginary frequencies.
 \item $\Sigma^{GW,imp}_{mm'}(i\omega) = -[G^{0,loc,L}W^{0,loc,L}]_{mm'}$
 The selfenergy of the impurity model solved in GW, \textit{i.e.}
 all indices and internal transitions restricted to the correlated subspace
+\item $V_{abcd}(q)$: The bare Coulomb interaction elements in the Wannier basis for all relevant orbitals.
+\cng{?Do we have V in the product basis of the 3d orbitals? When do we construct this? IMPORTANT: IS the spin also incorporated or kept separate?}
+\item $P^{GW}_{abcd}(q,i\nu)$: The polarization  in the Wannier basis for all relevant orbitals on imaginary frequencies.\cng{?Do we have P in the product basis of the 3d orbitals? When do we construct this?}
 \item $P^{GW,imp}_{abcd}(i\nu) = [G^{0,loc,L}G^{0,loc,L}]_{abcd}$
 The polarization of the impurity model solved in GW, \textit{i.e.}
 all indices and internal transitions restricted to the correlated subspace
-\item $\beta$: The inverse temperature used for defining $\omega_n=(2n+1)\pi/\beta$.
 \end{itemize}
 {\it All output from the GW calculation will be in atomic units and
-have to be converted to eV!!}
+has to be converted to eV!!}
 
 
 \section{The DMFT part}
@@ -693,10 +778,6 @@ Wannier orbitals.
 
 The input of the calculation will be the output of the GW calculation. First, one will usually apply a Wannier-interpolation of the GW data to obtain a fine k-mesh
 since the GW output will be given on a very coarse grid.
-
-Since the Hartree term is already incorporated on the DMFT level, 
-it has to be excluded from the Selfenergies in GW (already taken care of)
-and in DMFT (has to be done in the selfconsistency).
 
 \subsection{The self-consistency cycle}
 
@@ -738,8 +819,10 @@ We then proceed as follows:
 \Sigma^{imp}(i\omega_n) &=  \Sigma^{GW,imp}(i\omega_n) \\
 P^{imp}(i\nu_n) &=  P^{GW,imp}(i\nu_n) .
 \end{align}
-Please note that $\Sigma$ is a matrix in the orbital basis and $P$ is a tensor. 
-We will work in the combined index notation to treat $P$ and all further tensors as standard matrices.
+Please note that $\Sigma$ is a matrix in the orbital basis $\Sigma_{mm'}$ and $P$ is a tensor
+$P_{\alpha\beta}$ in the product basis $\{ B_{\alpha} \}$, where $P,V$ and all further tensors are
+treated as standard matrices
+$P_{\alpha\beta} = \braket{ B_{\alpha} | P | B_{\beta} }$, etc.
 
 \item Set up the interacting {\GF} $G$ and the screened interaction $W$, where the impurity component of the GW contribution for the correlated orbitals is replaced by the DMFT contribution.
 %In the first step when using $\Sigma^{imp}_{ff} =  \Sigma^{GW,loc}_{f}$ this 
@@ -767,12 +850,9 @@ is obtained.
 \item Calculate the local {\GF}  and the local screened interaction (for all orbitals) 
 \begin{align}
  G^{loc}(i\omega_n) &= \frac{1}{N_k}\sum_k  G(k,i\omega_n) \\
- W^{loc}(i\nu_n) &= \frac{1}{N_k}\sum_q  W(q,i\nu_n).
+ W^{loc}(i\nu_n) &= \frac{1}{N_q}\sum_q  W(q,i\nu_n).
 \end{align}
-and then derive the Weiss field $\mathscr{G}$ and the effective interaction ONLY
-on the subset of correlated orbitals in the impurity model. Neglecting
-offdiagonal components in the hybridization we are also only interested 
-in the orbital diagonal components.
+and then derive the Weiss field $\mathscr{G}$ and the effective interaction
 % using the local GW Selfenergy where the diagonal components of the
 % correlated orbitals $f$ are replaced by the impurity Selfenergy
 \begin{align}
@@ -796,22 +876,64 @@ and transform $\Delta(i\omega_n)$ to the imaginary time axis $\tau$ by a Fourier
 \begin{align}
  \Delta(\tau) &= \frac{1}{\beta} \sum_{i\omega_n} \Delta(i\omega_n) \mathrm{e}^{-i\omega_n\tau}.
 \end{align}
-Generate the $K(\tau),K'(\tau)$ functions from the retarded interaction via ($\mathcal{U}(i\nu_n)$
-is real!) (see Chapter \ref{sec:hf_corr_interaction} for important high-frequency correction!)
-\begin{align}
-K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
-                                        ( \cos(\nu_n\tau)-1 ) \\
-K'(\tau) &= \frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu_n}
-                                        \sin(\nu_n\tau),
-\end{align}
-and solve the impurity model for the correlated $f$ orbitals.
 
-\item Obtain the new local Selfenergy $\Sigma^{imp}(i\omega_n)$ and the
-susceptibility $\chi^{imp}_{abcd}(i\nu_n)$ from the impurity model.
-Calculate the updated impurity polarization via 
+\item 
+Transform the $\mathcal{U}_{\alpha\beta}(i\nu_n)$ matrix from the product basis to a two-particle
+tensor $\mathcal{U}_{ijkl}(i\nu_n)$ via
 \begin{align}
-P^{imp}(i\nu_n) &= -[\unity - \chi^{imp}(i\nu_n)\mathcal{U}(i\nu_n)]^{-1}\chi^{imp}(i\nu_n),
+\mathcal{U}_{ijkl}(i\nu_n)
+&= \sum_{\alpha\beta} \braket{ij|B_{\alpha}} \mathcal{U}_{\alpha\beta}(i\nu_n) \braket{B_{\beta}|kl} \\
+&= \sum_{\alpha\beta} O^{\alpha}_{ij} \mathcal{U}_{\alpha\beta}(i\nu_n) O^{\beta,*}_{kl} .
 \end{align}
+For now, we restrict ourselves to density-density interactions and use the parametrization
+in terms of Slater integrals.
+
+Therefore, we extract 
+\begin{align}
+U_{avg}(i\nu_n) &= \frac{1}{(2l+1)^2}\sum_{mm'}\mathcal{U}_{mm'mm'}(i\nu_n) = F_0(i\nu_n)\\
+%
+J_{avg}(i\nu_n) &= U_{avg}(i\nu_n) - \frac{1}{2l(2l+1)}\sum_{mm'}
+    \left( \mathcal{U}_{mm'mm'}(i\nu_n) - \mathcal{U}_{mm'm'm}(i\nu_n) \right) \\
+  &= \frac{F_2(i\nu_n)+F_4(i\nu_n)}{14},
+\end{align}
+Since the Hund's coupling does not depend strongly on frequency, we only tread the monopole 
+term $F_0(i\nu_n) = U_{avg}(i\nu_n)$ as frequency dependent.
+Generate the $K(\tau),K'(\tau)$ functions from the retarded interaction via
+% from $\mathcal{U}(i\nu_n)$.
+(see Chapter \ref{sec:hf_corr_interaction} for important high-frequency correction!)
+\begin{align}
+K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{F_0(i\nu_n)-F_0(0)}{\nu^2_n}
+                                        ( \cos(\nu_n\tau)-1 ) \\
+K'(\tau) &= \frac{2}{\beta} \sum_{n>0} \frac{F_0(i\nu_n)-F_0(0)}{\nu_n}
+                                        \sin(\nu_n\tau),
+%K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
+%                                        ( \cos(\nu_n\tau)-1 ) \\
+%K'(\tau) &= \frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu_n}
+%                                        \sin(\nu_n\tau).
+\end{align}
+The static part of the interaction matrix is then generated from $U_{avg}(\infty)$ and 
+$J_{avg}(0)$ by using the construction in terms of Slater integrals.
+
+\item Use $\Delta_{mm'}(\tau),\tilde{\mu}_m,K(\tau),K'(\tau)$ and the density-density interaction matrix $U_{mm'}$
+to solve the impurity model. We assume a diagonal hybridization in our case.
+
+
+\item Obtain the new local Selfenergy $\Sigma^{imp}_{mm'}(i\omega_n)$ and the
+susceptibility $\chi^{imp}_{ijkl}(i\nu_n)$ from the impurity model.
+Transform the susceptibility from the two-particle basis to the product basis via
+\begin{align}
+\chi^{imp}_{\alpha\beta}(i\nu_n)
+&= \sum_{ijkl} \braket{B_{\alpha}|ij} \chi^{imp}_{ijkl}(i\nu_n) \braket{kl|B_{\beta}} \\
+&= \sum_{ijkl} O^{\alpha,*}_{ij} \chi^{imp}_{ijkl}(i\nu_n) O^{\beta}_{kl} ,
+\end{align}
+and us the $\chi^{imp}_{\alpha\beta}(i\nu_n)$ matrix to calculate the updated impurity polarization 
+and impurity screened interaction via 
+\begin{align}
+W^{imp}(i\nu_n) &=  \mathcal{U}(i\nu_n) - \mathcal{U}(i\nu_n)\chi^{imp}(i\nu_n) \mathcal{U}(i\nu_n) \\
+P^{imp}(i\nu_n) &= \mathcal{U}^{-1}(i\nu_n) - W^{imp,-1}(i\nu_n) \nonumber\\
+&= -[\unity - \chi^{imp}(i\nu_n)\mathcal{U}(i\nu_n)]^{-1}\chi^{imp}(i\nu_n) .
+\end{align}
+\cng{or calculate first P,W and then transform to product basis?}
 % and calculate the updated 
 %Hartree correction from the impurity occupations as given by Eq. \eqref{eq:hartree_selfenergy}
 %and \eqref{eq:hartree_selfenergy_freq}.
@@ -831,8 +953,14 @@ P^{imp}(i\nu_n) &= -[\unity - \chi^{imp}(i\nu_n)\mathcal{U}(i\nu_n)]^{-1}\chi^{i
 %\end{align}
 %Adjust the chemical potential $\mu$ in such a way that the number of electrons
 %$N_e$ is preserved.
-Then go back to step 2. Repeat until convergence
-is reached.
+Then go back to step 2. 
+\cng{Do we only need charge-charge susceptibility $\chi(\tau)=\braket{n(\tau)n(0)}$?? Phys.Reb.B.87,125149
+says so?...}
+Repeat until convergence is reached, i.e.
+\begin{align}
+G^{imp}(i\omega_n) &\stackrel{!}{=} G^{loc}(i\omega_n) \\
+W^{imp}(i\nu_n) &\stackrel{!}{=} W^{loc}(i\nu_n) .
+\end{align}
 
 \end{enumerate}
 
@@ -856,9 +984,9 @@ where $x\in(0,1)$ and $E_{k}(x)$ are the Bernoulli polynomials, with the first g
 \begin{align}
 B_{0}(x) &= 1\\
 B_{1}(x) &= x-\frac{1}{2}\\
-B_{2}(x) &= x^2 - x + \frac{1}{6}\\
-B_{3}(x) &= x^3 - \frac{3}{2}x^2 + \frac{1}{2}x \\
-B_{4}(x) &= x^4 - 2x^3 + x^2 -\frac{1}{30} .
+B_{2}(x) &= x^2 - x + \frac{1}{6}
+%B_{3}(x) &= x^3 - \frac{3}{2}x^2 + \frac{1}{2}x \\
+%B_{4}(x) &= x^4 - 2x^3 + x^2 -\frac{1}{30} .
 \end{align}
 With this, we can evaluate the following sums
 \begin{align}
@@ -867,43 +995,42 @@ With this, we can evaluate the following sums
  &=\frac{\beta}{\pi^2} \frac{ \pi^{2}   }{ (-1)^{1-1} 2(2)!   } B_{2  }(\tau/\beta) \\
  &= \frac{1}{4\beta}\left( \tau^2 - \tau \beta + \frac{\beta^2}{6} \right) \\
 \end{align}
-\begin{align}
-\frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\cos( \nu_n \tau )}{ \nu_n^4 } 
-&=\frac{\beta^3}{\pi^4}\sum\limits_{n=1 }^{\infty} \frac{\cos( 2n\pi \tau/\beta )}{ (2n)^4 }   \\
-&= \frac{\beta^3}{\pi^4} \frac{ \pi^{4}   }{ (-1)^{2-1} 2(4)!   } B_{4}(\tau/\beta) \\
-&= -\frac{1}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 - \frac{\beta^4}{30}\right)
-\end{align}
+%\begin{align}
+%\frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\cos( \nu_n \tau )}{ \nu_n^4 } 
+%&=\frac{\beta^3}{\pi^4}\sum\limits_{n=1 }^{\infty} \frac{\cos( 2n\pi \tau/\beta )}{ (2n)^4 }   \\
+%&= \frac{\beta^3}{\pi^4} \frac{ \pi^{4}   }{ (-1)^{2-1} 2(4)!   } B_{4}(\tau/\beta) \\
+%&= -\frac{1}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 - \frac{\beta^4}{30}\right)
+%\end{align}
 \begin{align}
  \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\sin( \nu_n \tau )}{ \nu_n }
  &=\frac{1}{\pi}\sum\limits_{n=1 }^{\infty} \frac{\sin( 2n\pi \tau/\beta )}{ 2n }   \\
  &=\frac{1}{\pi} \frac{ \pi^{2-1} }{ (-1)^1     2(2-1)! } B_{2-1}(\tau/\beta) \\
  &= -\frac{1}{2\beta} \left( \tau -\frac{\beta}{2} \right)
 \end{align}
-\begin{align}
- \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\sin( \nu_n \tau )}{ (\nu_n)^3 }
- &=\frac{\beta^2}{\pi^3}\sum\limits_{n=1 }^{\infty} \frac{\sin( 2n\pi \tau/\beta )}{ (2n)^3 }   \\
- &=\frac{\beta^2}{\pi^3} \frac{ \pi^{4-1} }{ (-1)^2     2(4-1)! } B_{4-1}(\tau/\beta)  \\
-&= \frac{1}{12\beta}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
-\end{align}
+%\begin{align}
+% \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{\sin( \nu_n \tau )}{ (\nu_n)^3 }
+% &=\frac{\beta^2}{\pi^3}\sum\limits_{n=1 }^{\infty} \frac{\sin( 2n\pi \tau/\beta )}{ (2n)^3 }   \\
+% &=\frac{\beta^2}{\pi^3} \frac{ \pi^{4-1} }{ (-1)^2     2(4-1)! } B_{4-1}(\tau/\beta)  \\
+%&= \frac{1}{12\beta}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
+%\end{align}
 Furthermore, we also will need
 \begin{align}
  \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{1}{\nu_n^2} 
  &= \frac{\beta}{\pi^2}\sum\limits_{n=1 }^{\infty} \frac{1}{(2n)^2}  \\
  &= \frac{\beta}{24}
 \end{align}
-\begin{align}
- \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{1}{\nu_n^4} 
- &= \frac{\beta^3}{\pi^4}\sum\limits_{n=1 }^{\infty} \frac{1}{(2n)^4}  \\
- &= \frac{\beta^3}{1440}
-\end{align}
+%\begin{align}
+% \frac{1}{\beta}\sum\limits_{n=1 }^{\infty} \frac{1}{\nu_n^4} 
+% &= \frac{\beta^3}{\pi^4}\sum\limits_{n=1 }^{\infty} \frac{1}{(2n)^4}  \\
+% &= \frac{\beta^3}{1440}
+%\end{align}
  
  Now we can apply these results to obtain analytic expressions for the high frequency tails
  in $K(\tau),K'(\tau)$.
- For large frequencies, since $\mathcal{U}(i\nu_n)$ is real and even, we
+ For large frequencies, since $\mathcal{U}(i\nu_n)$ is read and odd , we
 can approximate $\mathcal{U}(i\nu_n)$ as
 \begin{align}
- \mathcal{U}(i\nu_n) &\approx \mathcal{V} + \frac{c}{(i\nu_n)^2} \\
- &= \mathcal{V} - \frac{c}{\nu^2_n} ,
+ \mathcal{U}(i\nu_n) &\approx \mathcal{V} + \frac{c}{\nu_n}
 \end{align}
 where 
 \begin{align}
@@ -917,33 +1044,53 @@ K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}
 %
 &\approx -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \nonumber \\
-    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=N_{\nu}}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=N_{\nu}}^{\infty} \frac{\mathcal{V} + \frac{c}{\nu_n}-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \\
 %                                        
-&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2}}{\nu^2_n}
+&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}-\frac{c}{\nu_n}}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \nonumber \\
-    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} + \frac{c}{\nu_n}-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \label{eq:k_hf_sum_last}
 \end{align}
 The first term in Eq.\eqref{eq:k_hf_sum_last} is summed numerically in the computer, but the second term
-can be evaluated analytically (derivation is commented out)
+can be evaluated analytically. Unfortunately there is no analytic expression for
 \begin{align}
-& -\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+\sum_{n=1}^{\infty} \frac{\cos(\nu \tau)}{\nu_n^3},
+\end{align}
+so we cannot correct this contribution for now. 
+Therefore, we have to approximate $U(i\nu_n)\approx \mathcal{V}$ for large $\nu_n$.
+
+\begin{align}
+& -\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} -\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \nonumber\\
 &\hspace{1cm}=-\frac{2}{\beta} \sum_{n=1}^{\infty}
     \left( 
             [\mathcal{V}-\mathcal{U}(0)] \frac{\cos(\nu_n\tau)}{\nu_n^2}
-            -c\frac{\cos(\nu_n\tau)}{\nu_n^4}
             -\frac{\mathcal{V}-\mathcal{U}(0)}{\nu_n^2}
-            + \frac{c}{\nu_n^4}
     \right) \\
 %    
-&\hspace{1cm} = -2 
-   \left\{ 
-          \frac{\mathcal{V}-\mathcal{U}(0)}{4\beta}\left( \tau^2 - \tau \beta +  \frac{\beta^2}{6} \right)
-          +\frac{c}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 - \frac{\beta^4}{30}\right)
-   \right. \nonumber\\
-&\hspace{2.3cm}\left. -[\mathcal{V}-\mathcal{U}(0)]\frac{\beta}{24} + c\frac{\beta^3}{1440} \right\} \\
+ &\hspace{1cm} = 
+\frac{\tau(\beta-\tau)}{2\beta}
+          \left[ \mathcal{V}-\mathcal{U}(0) \right]
+\end{align}
+
+%\begin{align}
+%& -\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu^2_n}
+%                                        ( \cos(\nu_n\tau)-1 ) \nonumber\\
+%&\hspace{1cm}=-\frac{2}{\beta} \sum_{n=1}^{\infty}
+%    \left( 
+%            [\mathcal{V}-\mathcal{U}(0)] \frac{\cos(\nu_n\tau)}{\nu_n^2}
+%            -c\frac{\cos(\nu_n\tau)}{\nu_n^4}
+%            -\frac{\mathcal{V}-\mathcal{U}(0)}{\nu_n^2}
+%            + \frac{c}{\nu_n^4}
+%    \right) \\
+%%    
+%&\hspace{1cm} = -2 
+%   \left\{ 
+%          \frac{\mathcal{V}-\mathcal{U}(0)}{4\beta}\left( \tau^2 - \tau \beta +  \frac{\beta^2}{6} %\right)
+%          +\frac{c}{48\beta}\left( \tau^4 - 2\tau^3\beta + \tau^2\beta^2 - \frac{\beta^4}{30}\right)
+%   \right. \nonumber\\
+%&\hspace{2.3cm}\left. -[\mathcal{V}-\mathcal{U}(0)]\frac{\beta}{24} + c\frac{\beta^3}{1440} \right\} %\\
 %
 % &\hspace{1cm} = -2 
 %    \left\{ 
@@ -963,10 +1110,10 @@ can be evaluated analytically (derivation is commented out)
 %           \left( \frac{\mathcal{V}-\mathcal{U}(0)}{2}
 %           -\frac{c}{24}\left( \beta - \tau \right)\tau \right)\\
 %
-&\hspace{1cm} =  \frac{\tau(\beta-\tau)}{2\beta}
-          \left( \mathcal{V}-\mathcal{U}(0)
-          -c\frac{ \tau(\beta - \tau)}{12} \right)
-\end{align}
+%&\hspace{1cm} =  \frac{\tau(\beta-\tau)}{2\beta}
+%          \left( \mathcal{V}-\mathcal{U}(0)
+%          -c\frac{ \tau(\beta - \tau)}{12} \right)
+%\end{align}
 (Final summary will be below)
 
 For $K'(\tau)$ we proceed in the same way
@@ -974,38 +1121,26 @@ For $K'(\tau)$ we proceed in the same way
 K'(\tau) &= \frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu_n}
                                          \sin(\nu_n\tau) \\
 %                                        
-&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2}}{\nu_n}
+&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}}{\nu_n}
                                         \sin(\nu_n\tau) \nonumber \\
-    &\hspace{0.5cm}+\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu_n}
+    &\hspace{0.5cm}+\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} -\mathcal{U}(0)}{\nu_n}
                                         \sin(\nu_n\tau) 
 \end{align}
 The last term evaluates as
 \begin{align}
- \frac{2}{\beta} &\sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu^2_n}-\mathcal{U}(0)}{\nu_n}
-                                        \sin(\nu_n\tau) \nonumber \\
+ \frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} -\mathcal{U}(0)}{\nu_n}
+                                        \sin(\nu_n\tau) 
 %
-& \hspace{2cm}=\frac{2}{\beta} \sum_{n=1}^{\infty}\left( [\mathcal{V} -\mathcal{U}(0)]\frac{\sin(\nu_n\tau)}{\nu_n}
-                                          - c\frac{\sin(\nu_n\tau)}{\nu^3_n}\right) \\
+& =\frac{2}{\beta} \sum_{n=1}^{\infty}\left( [\mathcal{V} -\mathcal{U}(0)]\frac{\sin(\nu_n\tau)}{\nu_n}
+                                          \right) \\
 %
-& \hspace{2cm}= 2\left( 
-            [\mathcal{V} -\mathcal{U}(0)] \frac{-1}{2\beta} \left( \tau -\frac{\beta}{2} \right) 
-            -\frac{c}{12\beta}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
+& = 2\left( 
+            [\mathcal{V} -\mathcal{U}(0)] \frac{-1}{2\beta} \left( \tau -\frac{\beta}{2} \right)             
    \right) \\ 
-% %
-% & \hspace{2cm}= \frac{1}{\beta}\left( 
-%             [\mathcal{V} -\mathcal{U}(0)] \left( \frac{\beta}{2} -\tau \right) 
-%             -\frac{c}{6}\left( \tau^3 - \frac{3}{2}\tau^2\beta + \frac{1}{2}\tau\beta^2 \right) 
-%    \right) \\
-% %
-% & \hspace{2cm}= \frac{1}{\beta}\left( 
-%             [\mathcal{V} -\mathcal{U}(0)] \left( \frac{\beta}{2} -\tau \right) 
-%             -\frac{c}{6}\tau\left( \frac{\beta}{2}-\tau \right) (\beta-\tau)
-%    \right) \\
 %
-& \hspace{2cm}= \frac{\beta -2\tau}{2\beta}\left( 
+& = \frac{\beta -2\tau}{2\beta}\left[ 
             \mathcal{V} -\mathcal{U}(0)
-            -c\frac{\tau(\beta-\tau)}{6}
-   \right) 
+   \right]
 %
 \end{align}
 Summarizing, we obtain for  the high frequency-corrected formulas for $K(\tau),K'(\tau)$
@@ -1013,26 +1148,35 @@ the following expressions, that are implemented in the code
 \begin{align}
 K(\tau) 
 %
-&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2} \right)
-                                        \frac{ \cos(\nu_n\tau)-1 }{\nu_n^2} \nonumber\\
- &\hspace{2cm} + \frac{\tau(\beta-\tau)}{2\beta}
-          \left( \mathcal{V}-\mathcal{U}(0)
-          -c\frac{ \tau(\beta - \tau)}{12} \right)\\
+&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V} \right)
+                                        \frac{ \cos(\nu_n\tau)-1 }{\nu_n^2}
+ + \frac{\tau(\beta-\tau)}{2\beta}
+          \left[ \mathcal{V}-\mathcal{U}(0)
+           \right]\\
 %
 %
  K'(\tau) 
 %                                        
-&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2} \right)
-                                        \frac{\sin(\nu_n\tau)}{\nu_n} \nonumber \\
- & \hspace{2cm} +\frac{\beta -2\tau}{2\beta}\left( 
+&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V} \right)
+                                        \frac{\sin(\nu_n\tau)}{\nu_n} 
+ +\frac{\beta -2\tau}{2\beta}\left[
             \mathcal{V} -\mathcal{U}(0)
-            -c\frac{\tau(\beta-\tau)}{6} \right)
+             \right]
 \end{align}
-Differentiating $K(\tau)$ w.r.t. $\tau$ indeed gives the correct expression for $K(\tau')$ (would have saved a lot of work...)
+Differentiating $K(\tau)$ w.r.t. $\tau$ indeed gives the correct expression for $K(\tau')$ (would have saved a lot of work...) REMEBER: These formulas are derived for $\tau\in(0,\beta)$!
+The Alps solver requires  $K(\tau)$ to be positive and $K(0)=0$, which is fulfilled in this form.
 
+For the solver we need to shift the instantaneous $U_{ij}$ values in \verb|u_matrix.dat| as $U_{ij}\rightarrow U_{ij} +2K'(0) = U_{ij} +\mathcal{V}-U(0)$\cng{check sign},
+which should result in using $\sim\mathcal{V}$ for the values.
+we need to shift the local chemical potential as $\mu\rightarrow \mu + K'(0)$ in \verb|mu_vector.dat|.
 
+For the doublelcounting we should also use the $U_{\infty}$ values \cng{check this more carefully, what about J?}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Hartree- and Exchange term in DMFT}
 The derivation follows the ideas of Haule PRL 115, 196403 (2015).
@@ -1228,6 +1372,149 @@ Hund's coupling)
 then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$.
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Analytic continuation}
+The analytic continuation becomes increasingly hard
+
+\begin{figure}[t]
+\includegraphics[width=1.0\textwidth]{figs/GW_maxent_diffSigma.pdf}
+\caption{The spectral function from G$_0$W$_0$ (7x7x7 k-points) obtained from
+Maxent, using a constant standard deviation $\sigma$. The Green's function
+on the Matsubara axis $i\omega_n$ for 1000 frequenices at $\beta=40$\ 1/eV was continued
+using a gaussian default model.}
+\label{fig:gw_anacont_diff_sigma}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=1.0\textwidth]{figs/GWDMFT_maxent_diffSigma.pdf}
+\caption{The spectral function from GW+DMFT (7x7x7 k-points) obtained from
+Maxent, using the mesured standard deviation $\sigma(\tau)$
+from the impurity solver. The Green's function
+on the imaginary time axis $\tau$ for 2048 points at $\beta=40$\ 1/eV was continued
+using a gaussian default model. The standard deviation was scaled by different
+factors to show the dependence on $\sigma$.}
+\label{fig:gwdmft_anacont_diff_sigma}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Causality constraint}
+
+\textbf{Definition:}
+A Green's function $G$, Selfenergy $\Sigma$, or other functions $F$ derived from them
+is called \textit{causal}, if 
+\begin{align}
+\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}.
+\end{align}
+\cng{Does it have to be strictly negative? }
+For example, if a Green's function is causal then its related
+spectral function $A(\omega) = -\mathrm{Im}G(\omega)/\pi \geq 0$.
+
+\textbf{Theorem:}
+A function $F(\omega)$ is causal if and only if its corresponding
+transform $F(\tau)$ to the imaginary time interval $(0,\beta)$
+has only negative definite even derivatives, i.e.
+\begin{align}
+F(\omega) \mbox{ causal }
+%
+\Leftrightarrow
+%
+\frac{\partial^{2n} }{\partial \tau^{2n}} F(\tau) \leq 0 \ \forall n\in\mathbb{N}.
+\end{align}
+\cng{Maybe its strictly negative?}
+
+\textbf{Proof:}
+
+$\Rightarrow$: Assume that $\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}$.
+Using Cauchy's integral formula we have the relation
+\begin{align}
+F(i\omega_n) &= \frac{1}{\pi} \int_{-\infty}^{\infty} 
+                \frac{\mathrm{Im}F(\omega)}{\omega - i\omega_n}\, \mathrm{d}\omega\\
+%
+F(\tau) &= \frac{1}{\pi} \int_{-\infty}^{\infty} 
+          \mathrm{Im}F(\omega) \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}
+          \, \mathrm{d}\omega                
+\end{align}
+The Kernel in the second expression 
+$K(\tau,\omega) = \mathrm{e}^{-\tau\omega}/ \left( \mathrm{e}^{-\beta\omega}+1 \right)$
+is strictly positive and  decays exponentially for
+large $|\omega|$ for fixed $\tau\in (0,\beta)$
+\begin{align}
+\lim\limits_{\omega\rightarrow \infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}  
+ &= \lim\limits_{\omega\rightarrow \infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{0+1} \\
+  &= 0 \\
+ %
+ %
+ \lim\limits_{\omega\rightarrow -\infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}  
+ &= \lim\limits_{\omega\rightarrow -\infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}}   \\
+ %
+ &= \lim\limits_{\omega\rightarrow -\infty} 
+\mathrm{e}^{(\beta-\tau)\omega} \\
+&= 0.
+\end{align}
+
+In the limits $\tau=0$ or $\tau = \beta$ the Kernel $K(\tau,\omega)$ becomes the Fermi
+distribution function for either negative or positive $\omega$
+\begin{align}
+ \lim\limits_{\tau\rightarrow 0}
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} 
+ &=  \frac{1}{\mathrm{e}^{\beta(-\omega)}+1} \\
+ %
+ %
+  \lim\limits_{\tau\rightarrow \beta}
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} 
+ &= \frac{\mathrm{e}^{-\beta\omega}}{\mathrm{e}^{-\beta\omega}+1} \\
+ &= \frac{1}{\mathrm{e}^{\beta\omega}+1}
+\end{align}
+For the derivatives $\partial_{\tau}^{2n} F(\tau) $ 
+we get the expression
+\begin{align}
+\frac{\partial^{2n} }{\partial \tau^{2n}} F(\tau)
+&=\frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}F(\omega) 
+ \frac{\partial^{2n} }{\partial \tau^{2n}}
+          \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} \, \mathrm{d}\omega   \\
+%             
+&= \frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}F(\omega) 
+\omega^{2n}   K(\tau,\omega) \, \mathrm{d}\omega.
+\end{align}
+Since $\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}$,
+the integral is also strictly non-positive.
+
+\bigskip
+
+$\Leftarrow$:
+
+Do not investigate further since:
+Using this for analytic continuation
+does not work since any least-square fitting even without enforcing
+the derivative constraints is too ill-behaved.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 \section{Implementation details}
 
 \subsection{Impurity solver input}
@@ -1254,7 +1541,38 @@ for starting the sampling. Is initialized once with Yusuke's code and then overw
 the solver. No change required here.
 \end{description}
 
+\clearpage
 
+\subsection{Bandstructure calculation}
+All data in the GW+DMFT calculation is given on the imaginary Matsubara frequency axis. To obtain 
+the Bandstructure on real frequencies, we proceed as follows:
+\begin{enumerate}
+\item First, we create the Green's function for a given $k$-point on the Matsubara axis via
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{GW,loc}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1} 
+%
+\end{align}
+Or, for example, to obtain only the GW Bandstructure we set the impurity contributions to zero
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
+          &\left. \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+           \right]^{-1} 
+%
+\end{align}
+Then the Pade-approximation is applied to $G(k,i\omega_n) $ to obtain $G(k,\omega) $ on the real axis.
+This is done for all k-points.
+The spectral function is then given by
+\begin{align}
+A(k,\omega) = -\frac{1}{\pi} \mathrm{Im}G(k,\omega)
+\end{align}
+
+\end{enumerate}
 
 
 \end{document}

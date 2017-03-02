@@ -5,9 +5,9 @@ def A(r1,r2):
 #	if ( abs(r1-r2)<0.0001):
 #		ret = 2.0/dx
 #	return ret
-	return 2.0
 #	return 2.0
-#	return r1*r2 + r1+r2 - r1**2
+#	return 2.0
+	return r1**2 + r2**2+1
 #	return np.exp((-r1**2-r2**2)*2)
 #	return r1+2*r2
 

@@ -10,11 +10,11 @@ def A(r1,r2):
 	return 1.0
 
 def psi1(t,p):
-	return np.sin(2*p)*np.sin(t)**2
+	return np.sin(2*p)*np.sin(t)**2 # 3dxy
 def psi2(t,p):
-	return np.cos(p)*np.sin(t)*np.cos(t)
+	return np.cos(p)*np.sin(t)*np.cos(t) #3dyz
 def psi3(t,p):
-	return np.sin(p)*np.sin(t)*np.cos(t)
+	return np.sin(p)*np.sin(t)*np.cos(t) #3dxz
 
 
 ##########################################
@@ -48,22 +48,23 @@ def evalOp2pb(r1,r2,Optensor,basis,nb):
 def Bf1(t,p):
 	return psi1(t,p)*psi1(t,p)/np.sqrt(2.024)
 def Bf2(t,p):
-	return psi1(t,p)*psi2(t,p)/np.sqrt(0.1928)
-def Bf3(t,p):
-	return psi2(t,p)*psi1(t,p)/np.sqrt(0.1928)
-def Bf4(t,p):
 	return psi2(t,p)*psi2(t,p)/np.sqrt(0.175)
-##########################
-def Bf5(t,p):
-	return psi3(t,p)*psi1(t,p)/np.sqrt(0.1928)
-def Bf6(t,p):
-	return psi3(t,p)*psi2(t,p)/np.sqrt(0.0578)
-def Bf7(t,p):
+def Bf3(t,p):
 	return psi3(t,p)*psi3(t,p)/np.sqrt(0.1735)
-def Bf8(t,p):
-	return psi2(t,p)*psi3(t,p)/np.sqrt(0.0578)
-def Bf9(t,p):
+##########################
+def Bf4(t,p):
+	return psi1(t,p)*psi2(t,p)/np.sqrt(0.1928)
+def Bf5(t,p):
 	return psi1(t,p)*psi3(t,p)/np.sqrt(0.1928)
+def Bf6(t,p):
+	return psi2(t,p)*psi3(t,p)/np.sqrt(0.0578)
+############################
+def Bf7(t,p):
+	return psi2(t,p)*psi1(t,p)/np.sqrt(0.1928)
+def Bf8(t,p):
+	return psi3(t,p)*psi1(t,p)/np.sqrt(0.1928)
+def Bf9(t,p):
+	return psi3(t,p)*psi2(t,p)/np.sqrt(0.0578)
 
 def getOpElement(i,j,Op,basis,rot,nb):
 	ret = 0.0
@@ -132,7 +133,8 @@ theta_start = 0.0
 theta_end = np.pi
 dtheta = (theta_end-theta_start)/(Nx-1)
 
-basis1 = np.array([ Bf1,Bf2,Bf3,Bf4,Bf5,Bf6,Bf7,Bf8,Bf9 ])
+#basis1 = np.array([ Bf1,Bf2,Bf3,Bf4,Bf5,Bf6,Bf7,Bf8,Bf9 ])
+basis1 = np.array([ Bf1,Bf2,Bf3,Bf4,Bf5,Bf6 ])
 basis2 = np.array([ psi1,psi2,psi3 ])
 ##################################################################
 # now product basis
