@@ -1382,10 +1382,8 @@ then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$
 
 
 \section{Analytic continuation}
-The analytic continuation becomes increasingly hard
-
 \begin{figure}[t]
-\includegraphics[width=1.0\textwidth]{figs/GW_maxent_diffSigma.pdf}
+\includegraphics[width=0.9\textwidth]{figs/GW_maxent_diffSigma.pdf}
 \caption{The spectral function from G$_0$W$_0$ (7x7x7 k-points) obtained from
 Maxent, using a constant standard deviation $\sigma$. The Green's function
 on the Matsubara axis $i\omega_n$ for 1000 frequenices at $\beta=40$\ 1/eV was continued
@@ -1393,16 +1391,92 @@ using a gaussian default model.}
 \label{fig:gw_anacont_diff_sigma}
 \end{figure}
 
+The analytic continuation becomes increasingly hard for the case
+of frequency dependent interactions $U(\omega)$,
+since plasmonic features appear in the spectral function, resp.
+Green's function at multiples of the plasma frequency,
+for example in SrVO$_3$ $\omega_p\approx 15$~eV.
+Therefore, the energy window has to be chosen considerably large, at least $\pm 3\omega_p$
+to obtain a proper normalization of the spectral function.
+
+At the same time the high-energy features cannot be accurately resolved because the
+kernel that has to be inverted becomes very small at high energies
+\begin{align}
+G(i\omega_n) &= \frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}[G(\omega)] 
+                                \frac{1}{\omega-i\omega_n}\mathrm{d}\omega \\
+G(\tau) &= \frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}[G(\omega)]
+                             \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}\mathrm{d}\omega.
+\end{align}
+Performing the analytic continuation from the Matsubara axis $i\omega_n$
+should in principle be easier, since the Kernel $K(\omega,i\omega_n)= \frac{1}{\omega-i\omega_n}$
+does decay significantly slower than the Kernel
+$K(\omega,\tau)=\frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}$
+for the continuation to the imaginary time axis $\tau$.
+Therefore, plasmonic features at large $\omega$ are less suppressed
+by $K(\omega,i\omega_n)$ than by $K(\omega,\tau)$, so small changes on the real
+frequency axis $\omega$ should be more visible in $G(i\omega_n)$ than in $G(\tau)$.
+
+In practice I think it is still better to use Maxent with $G(\tau)$
+directly measured at $\tau_i$, since the Legendre representation usually used
+on both $\tau$ and $i\omega_n$ introduces very spurious correlated errors
+in the measured quantities, where no good error estimate exist.
+Only for $G(\tau)$ we have a well defined measure of the error bar 
+which is measured in the solver and should be used for the Maxent input. 
+Maybe one can use the direct measurement on $i\omega_n$ (more costly)
+in the future?
+
 \begin{figure}[t]
-\includegraphics[width=1.0\textwidth]{figs/GWDMFT_maxent_diffSigma.pdf}
+\includegraphics[width=0.9\textwidth]{figs/GWDMFT_maxent_diffSigma.pdf}
 \caption{The spectral function from GW+DMFT (7x7x7 k-points) obtained from
 Maxent, using the mesured standard deviation $\sigma(\tau)$
 from the impurity solver. The Green's function
 on the imaginary time axis $\tau$ for 2048 points at $\beta=40$\ 1/eV was continued
 using a gaussian default model. The standard deviation was scaled by different
-factors to show the dependence on $\sigma$.}
+factors to show the dependence on $\sigma$. The factor 1 corresponds
+to the initial value of $\sigma$ measured in the Monte Carlo Solver.}
 \label{fig:gwdmft_anacont_diff_sigma}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Dependence on the k-mesh}
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{figs/hdft_kpath.pdf}
+\includegraphics[width=0.5\textwidth]{figs/vxc_kpath.pdf}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figs/ReSigma_kpath.pdf}
+\end{center}
+\caption{Top: The Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$.\\
+Middle: The exchange-correlation potential $V_{XC}$. \\
+Bottom: The real part of the $G_0W_0$ Selfenergy at the lowest Matsubara frequency
+at $\beta=40$\ 1/eV. }
+\label{fig:gw_kpath_kmesh_comp}
+\end{figure}
+
+In Fig. \ref{fig:gw_kpath_kmesh_comp} we show 
+the Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$,
+the exchange-correlation potential $V_{XC}$ and the real part of the $G_0W_0$ 
+Selfenergy at the lowest Matsubara frequency at $\beta=40$\ 1/eV
+along a certain k-path. Calculations based on different k-meshes are compared.
+
+
+All objects have been interpolated to a $30\times30\times30$ k-mesh,
+starting from a $G_0W_0$ on different smaller k-grids. $H_{DFT}$ and $V_{XC}$ show basically
+negligible variation for different number of k-points since their values are directly taken from
+a DFT calculation converged on a much denser grid. The only variation is due
+to the interpolation from the smaller to the larger grid, which becomes more accurate 
+with higher number of k-points.\\
+The Selfenergy has been shifted so that zero corresponds to the value of the
+local Selfenergy for each calculation. Most of the difference is inherent
+due to the small k-resolution of the $G_0W_0$ calculation and not due to the interpolation.
+The difference between $6\times 6 \times 6$ and  $7\times 7 \times 7$ k-points
+is still huge and a denser grid has to be considered for a proper
+calculation (maybe $10\times 10 \times 10$ is enough? Check especially
+for odd/even numbers!)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
