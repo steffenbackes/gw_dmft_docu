@@ -317,6 +317,126 @@ or whether one takes out contibutions from DMFT, so that DMFT is a correction to
 
 
 
+\subsection{High-frequency correction for $G_{loc}W_{loc}$}
+When evaluating the doublecounting factor
+\begin{align}
+\Sigma^{GW,DC} &= -G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L},
+\end{align}
+on the Matsubara axis (it should be calculated directly in the GW code instead),
+we have to correct the frequency sum (orbital indices are suppressed)
+\begin{align}
+\Sigma^{GW,DC}(i\omega_n) 
+&= -\frac{1}{\beta} \sum_{i\nu_n} G^{0,\mathrm{loc}}(i\omega_n+i\nu_n)
+                                        W^{0,\mathrm{loc}}(i\nu_n),
+\end{align}
+where $i\omega_n$ is a fermionic and $i\nu_n$ is a bosonic Matsubara
+frequency. 
+Rewriting the sum (and suppressing the 0,loc lables)
+by using $W(i\nu_n) = W(-i\nu_n) \in \mathbb{R}$ we get
+\begin{align}
+\Sigma^{GW,DC}(i\omega_n) 
+&= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n+i\nu_n)
+                                  W(i\nu_n)\\
+%
+&= -\frac{1}{\beta} G(i\omega_n)W(0)
+-\frac{1}{\beta} \sum_{n=1}^{\infty} \left[ G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n)\right]
+                                        W(i\nu_n).
+%
+\end{align}
+The second term has to be corrected, where we will use corrections up to second order.
+\begin{align}
+& -\frac{1}{\beta} \sum_{n=1}^{\infty} \left[ G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n)\right]
+                                        W(i\nu_n) \\
+%
+&= -\frac{1}{\beta} \sum_{n=1}^{\infty} 
+\left[ \left(G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n) 
+       -\frac{1}{i\omega_n+i\nu_n}-\frac{1}{i\omega_n-i\nu_n}
+       -\frac{g_2}{(i\omega_n+i\nu_n)^2}-\frac{g_2}{(i\omega_n-i\nu_n)^2} \right)
+\right. \\
+%
+& \hspace{7.2cm} \left.
++\left(\frac{1}{i\omega_n+i\nu_n}+\frac{1}{i\omega_n-i\nu_n}
+       +\frac{g_2}{(i\omega_n+i\nu_n)^2}+\frac{g_2}{(i\omega_n-i\nu_n)^2} \right)
+       \right] \\
+%
+%
+& \hspace{2cm} \times \left[
+\left(W(i\nu_n) - w_0 - \frac{w_2}{(i\nu_n)^2}\right) 
++ \left( w_0 + \frac{w_2}{(i\nu_n)^2} \right)
+\right]
+\end{align}
+We have to be careful about the shift in the denominator since
+for large $\nu_n$ 
+\begin{align}
+\frac{1}{i\omega_n + i\nu_n} &\sim \frac{1}{i\nu_n} \\
+%
+\frac{1}{(i\omega_n + i\nu_n)^2} 
+&= \frac{1}{-\omega_n^2 -\nu_n^2 - 2\nu_n\omega_n} \sim -\frac{1}{2\omega_n\nu_n}
+%
+\end{align}
+So even the second order in the Green's function only decays as $1/\nu_n$
+in the frequency sum,
+therefore it is better to put the frequency shift in $W(i\nu)$,
+since the decay is faster with $1/\nu_n^2$.
+
+So rewriting the sum we get 
+\begin{align}
+\Sigma^{GW,DC}(i\omega_n) 
+&= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n+i\nu_n)
+                                  W(i\nu_n)\\
+%
+&= -\frac{1}{\beta} \sum_{ix_n} G(ix_n)
+                                  W(ix_n - i\omega_n) \\
+%
+&= -\frac{1}{\beta} \sum_{n=0}^{\infty}
+\left[ G(ix_n)W(i\omega_n-ix_n) 
+    + G^*(ix_n)W(i\omega_n+ix_n)
+\right]
+\end{align}
+where $ix_n$ is a fermionic Matsubara frequency. Correcting up to
+second order we get
+\begin{align}
+&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+\left[ G(ix_n)W(i\omega_n-ix_n) 
+    + G^*(ix_n)W(i\omega_n+ix_n) 
+\right]\\
+%
+=&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+\left[ \mathrm{Re}G(ix_n)\left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) \right) \right.\nonumber \\
+ & \left. \hspace{1.35cm}   +\mathrm{Im}G(ix_n)\left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) \right)
+\right]\\
+%
+%
+=&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+\left[ \left(\mathrm{Re}G(ix_n) - \frac{g_2}{(ix_n)^2} + \frac{g_2}{(ix_n)^2}\right) \right. \nonumber \\
+%
+& \times \left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) 
+ - 2w_0-\frac{w_2}{(i\omega_n-ix_n)^2} -\frac{w_2}{(i\omega_n+ix_n)^2} \right.\nonumber  \\
+&\left. \hspace{6.3cm}  + 2w_0+\frac{w_2}{(i\omega_n-ix_n)^2}+\frac{w_2}{(i\omega_n-ix_n)^2}\right) \nonumber \\
+%
+%
+%
+&\hspace{1.5cm} +\left(\mathrm{Im}G(ix_n) - \frac{1}{ix_n} + \frac{1}{ix_n}\right) \nonumber \\
+%
+& \times \left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) 
+ -\frac{w_2}{(i\omega_n-ix_n)^2} +\frac{w_2}{(i\omega_n+ix_n)^2} \right. \nonumber \\
+&\left. \hspace{6.3cm}  + \frac{w_2}{(i\omega_n-ix_n)^2}-\frac{w_2}{(i\omega_n-ix_n)^2}\right)
+\end{align}
+
+ASD
+ASd
+ASD
+ASd
+
+\begin{align}
+&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+\left[ G(ix_n)W(i\omega_n-ix_n) 
+    + G^*(ix_n)W(i\omega_n+ix_n) 
+\right]\\
+%
+=&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+s
+\end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -829,7 +949,7 @@ $P_{\alpha\beta} = \braket{ B_{\alpha} | P | B_{\beta} }$, etc.
 %term is zero.
 \begin{align}
  G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right.\\
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{DFT,Hartree} \right.\\
           & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
           + \Sigma^{GW,imp}(i\omega_n)
           \left. - \Sigma^{imp}(i\omega_n)
@@ -1178,7 +1298,29 @@ For the doublelcounting we should also use the $U_{\infty}$ values \cng{check th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Hartree- and Exchange term in DMFT}
+\section{Hartree- and Exchange term}
+In the GW+DMFT cycle we add the GW and the DMFT Selfenergy to the DFT Green's function
+to build up the final interacting Green's function
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{DFT,Hartree} \right.\\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{GW,imp}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1},
+\end{align}
+where $\Sigma^{DFT,Hartree}$ is the Hartree term calculated in DFT.
+The GW Selfenergy does not contain a Hartree component, 
+but the DMFT Selfenergy $\Sigma^{imp}(i\omega_n)$ does, which leads
+to a doublecounting of the Hartree term.
+
+In general we can expect charge transfer when applying the
+DMFT Method to the correlated orbitals, so the Hartree term is also 
+expected to change. 
+Therefore, we will replace the Hartree term by the one from DMFT.
+
+We now derive the expression for the Hartree and exchange terms
+contained in DFT in a local orbital basis.
 The derivation follows the ideas of Haule PRL 115, 196403 (2015).
 
 \subsection{Hartree term}
@@ -1356,7 +1498,7 @@ DMFT Selfenergy, i.e. the Hartree- and the Fock diagram.
 
 \subsection{Dynamical interactions}
 In the case of dynamical interactions $U(\omega)$ in the Hartree and exchange part
-the screened Coulomb matrix elements recover their bare values \cng{is this correct?}, i.e.
+the screened Coulomb matrix elements recover their bare values, i.e.
 $U_0$ has to be replaced by the bare $V$ (assuming no frequency dependence of the 
 Hund's coupling)
 \begin{align}
@@ -1368,9 +1510,117 @@ Hund's coupling)
 \Sigma^{X,DMFT}_{l\sigma}
 &= - V\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.               
 \end{align}
-\cng{CAUTION!} Does $U_0$ or $F_0$ recover the bare interaction? If $F_0=V$,
-then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$.
+\cng{CAUTION!} Usually we consider the monopole term $F_0$
+as frequency dependent, so the interaction matrix elements 
+have to be constructed in the usual way of the Kanamori or Slater integral
+form with the unscreened $F_0$ and $J$ values. I.e
+then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$,
+etc.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{GW+DMFT doublecounting terms}
+In the GW+DMFT cycle we have to deal with two types of doublecounting
+when adding the GW and the DMFT Selfenergy to the Green's function, as
+partially discussed before
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{DFT,Hartree} \right.\nonumber\\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{GW,imp}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1},
+\end{align}
+The first one is the doublecounting of the Hartree term, which arises since it is
+taken into account in the DFT and in the DMFT energies resp. Selfenergy.
+Since DMFT can induce a charge transfer, we will subtract the DFT Hartree
+contribution from the DFT energies, and add the full DMFT Selfenergy
+which contains a selfconsistent Hartree calculated from the 
+new orbital occupations.
+
+The second one is the local part of the Selfenergy, which
+is contained in both the GW and the DMFT Selfenergy. Since we assume that DMFT
+does a better job for the local Selfenergy, we subtract this part from the
+GW Selfenergy and replace it by the local DMFT Selfenergy. 
+
+If the DMFT problem is formulated in the full space and no smaller correlated subspace
+is chosen, then the doublecounting factors become quite simple.
+In the following we will only use a basis of local orbitals,
+since this is the basis in which the DMFT problem is formulated.
+The Hartree doublecounting is then
+\begin{align}
+\Sigma^{DFT,Hartree}_{l\sigma}
+&= \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m} \\
+%
+&= U_0 (n^{\uparrow}_l + n^{\downarrow}_l)
+               + \sum_{m\neq l} U'_{lm} (n^{\uparrow}_m + n^{\downarrow}_m) ,
+\end{align}
+where $U_0$ and $U'$ are the unscreened local interaction parameters,
+with the orbital occupations $n^{\sigma'}_{m}$ calculated from the initial
+local DFT Green's function
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k)  \right]^{-1}.
+\end{align}
+The sum over the orbital indices $l$ runs over all states since no correlated
+subspace is chosen. 
+
+The GW doublecounting can be shown to be
+\begin{align}
+\Sigma^{GW,imp}_L(i\omega_n) 
+&= \sum_k \Sigma^{GW}_L(k,i\omega_n)  \\
+&= -\frac{1}{\beta} \sum_{i\nu_n}\sum_{L'} G_{loc,L'}(i\omega_n-i\nu_n)W_{loc,LL'LL'}(i\nu_n),
+\end{align}
+i.e. the local GW Selfenergy is only given by the local Green's function
+and screened interaction.
+\textbf{This term contains a Hartree part, which should not be incorporated, 
+since it is also not contained in the GW Selfenergy!}
+The Hartree part is obtained from the large $i\omega_n$ limit,
+which means that in the summation above we simply get the unscreened Hartree
+values
+\begin{align}
+\Sigma^{GW,imp,Hartree}_L(i\omega_n) 
+&= \lim_{i\omega_n\rightarrow \infty}\sum_k \Sigma^{GW}_L(k,i\omega_n)  \\
+&= -\frac{1}{\beta} \sum_{i\nu_n}\sum_{L'} G_{loc,L'}(i\omega_n-i\nu_n)V_{loc,LL'LL'} \\
+\end{align}
+This last term contains the fillings \textbf{but right now I don't know
+how to correctly perform the frequency summation! Like it is now this would
+give me the negative Hartree part! Solution is still to be found!!!}
+
+In general, this Hartree term from the local GW Selfenergy should be identical
+to the DFT Hartree term calculated above, since here we use the DFT Green's function
+and the unscreened interaction, which reduces exactly to the sum over
+DFT orbital occupations and interactions. 
+Therefore, the two Hartree correction terms just cancel out
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{DFT,Hartree} \right.\nonumber\\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{GW,imp}(i\omega_n)- \Sigma^{DFT,Hartree}
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1} \\
+&= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right.\nonumber\\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{GW,imp}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1}
+\end{align}
+Since the Hartree DFT Selfenergy is contained in the  $\Sigma^{GW,imp}(i\omega_n)$
+and has a different sign than $H_{DFT}$, it exactly subtracts the Hartree contribution
+from DFT. Therefore, it does not need to be calculated explicitly.
+\textbf{This is only true if $\Sigma^{GW,imp}(i\omega_n)$ is calculated
+as $G_{loc}W_{loc}$ and NOT $[GW]_{loc}$!!}, since in our convention the Hartree part
+is no longer in the GW Selfenergy.
+
+In a GW+DMFT selfconsistency cycle where we do not update the GW calculation
+or interaction, only the DMFT Selfenergy $\Sigma^{imp}(i\omega_n)$
+has to be recalculated and converged. All other Selfenergy or Doublecounting
+terms are determined by the DFT resp. GW result.
 
 
 
