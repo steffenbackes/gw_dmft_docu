@@ -330,7 +330,7 @@ on the Matsubara axis (it should be calculated directly in the GW code instead),
 we have to correct the frequency sum (orbital indices are suppressed)
 \begin{align}
 \Sigma^{GW,DC}(i\omega_n) 
-&= -\frac{1}{\beta} \sum_{i\nu_n} G^{0,\mathrm{loc}}(i\omega_n+i\nu_n)
+&= -\frac{1}{\beta} \sum_{i\nu_n} G^{0,\mathrm{loc}}(i\omega_n - i\nu_n )
                                         W^{0,\mathrm{loc}}(i\nu_n),
 \end{align}
 where $i\omega_n$ is a fermionic and $i\nu_n$ is a bosonic Matsubara
@@ -339,7 +339,7 @@ Rewriting the sum (and suppressing the 0,loc lables)
 by using $W(i\nu_n) = W(-i\nu_n) \in \mathbb{R}$ we get
 \begin{align}
 \Sigma^{GW,DC}(i\omega_n) 
-&= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n+i\nu_n)
+&= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n - i\nu_n)
                                   W(i\nu_n)\\
 %
 &= -\frac{1}{\beta} G(i\omega_n)W(0)
@@ -347,7 +347,11 @@ by using $W(i\nu_n) = W(-i\nu_n) \in \mathbb{R}$ we get
                                         W(i\nu_n).
 %
 \end{align}
-The second term has to be corrected, where we will use corrections up to second order.
+We seperate out the $n=0$ term since the high-frequency
+correction for the bosonic $W(inu_n)$ would diverge at $n=0$.
+
+The second term has to be corrected, where we will use corrections up to second order,
+i.e.
 \begin{align}
 & -\frac{1}{\beta} \sum_{n=1}^{\infty} \left[ G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n)\right]
                                         W(i\nu_n) \\
@@ -379,68 +383,73 @@ for large $\nu_n$
 %
 \end{align}
 So even the second order in the Green's function only decays as $1/\nu_n$
-in the frequency sum,
-therefore it is better to put the frequency shift in $W(i\nu)$,
+in the frequency sum.
+Therefore, it might be better to put the frequency shift in $W(i\nu)$,
 since the decay is faster with $1/\nu_n^2$.
+I tried to derive this but somehow failed to 
+evaluate the terms analytically (see commented out section in tex file)
+% 
+% So rewriting the sum we get 
+% \begin{align}
+% \Sigma^{GW,DC}(i\omega_n) 
+% &= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n+i\nu_n)
+%                                   W(i\nu_n)\\
+% %
+% &= -\frac{1}{\beta} \sum_{ix_n} G(ix_n)
+%                                   W(ix_n - i\omega_n) \\
+% %
+% &= -\frac{1}{\beta} \sum_{n=0}^{\infty}
+% \left[ G(ix_n)W(i\omega_n-ix_n) 
+%     + G^*(ix_n)W(i\omega_n+ix_n)
+% \right]
+% \end{align}
+% where $ix_n$ is a fermionic Matsubara frequency. Correcting up to
+% second order we get
+% \begin{align}
+% &-\frac{1}{\beta} \sum_{n=0}^{\infty}
+% \left[ G(ix_n)W(i\omega_n-ix_n) 
+%     + G^*(ix_n)W(i\omega_n+ix_n) 
+% \right]\\
+% %
+% =&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+% \left[ \mathrm{Re}G(ix_n)\left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) \right) \right.\nonumber \\
+%  & \left. \hspace{1.35cm}   +\mathrm{Im}G(ix_n)\left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) \right)
+% \right]\\
+% %
+% %
+% =&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+% \left[ \left(\mathrm{Re}G(ix_n) - \frac{g_2}{(ix_n)^2} + \frac{g_2}{(ix_n)^2}\right) \right. \nonumber \\
+% %
+% & \times \left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) 
+%  - 2w_0-\frac{w_2}{(i\omega_n-ix_n)^2} -\frac{w_2}{(i\omega_n+ix_n)^2} \right.\nonumber  \\
+% &\left. \hspace{6.3cm}  + 2w_0+\frac{w_2}{(i\omega_n-ix_n)^2}+\frac{w_2}{(i\omega_n-ix_n)^2}\right) \nonumber \\
+% %
+% %
+% %
+% &\hspace{1.5cm} +\left(\mathrm{Im}G(ix_n) - \frac{1}{ix_n} + \frac{1}{ix_n}\right) \nonumber \\
+% %
+% & \times \left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) 
+%  -\frac{w_2}{(i\omega_n-ix_n)^2} +\frac{w_2}{(i\omega_n+ix_n)^2} \right. \nonumber \\
+% &\left. \hspace{6.3cm}  + \frac{w_2}{(i\omega_n-ix_n)^2}-\frac{w_2}{(i\omega_n-ix_n)^2}\right)
+% \end{align}
+% 
+% ASD
+% ASd
+% ASD
+% ASd
+% 
+% \begin{align}
+% &-\frac{1}{\beta} \sum_{n=0}^{\infty}
+% \left[ G(ix_n)W(i\omega_n-ix_n) 
+%     + G^*(ix_n)W(i\omega_n+ix_n) 
+% \right]\\
+% %
+% =&-\frac{1}{\beta} \sum_{n=0}^{\infty}
+% s
+% \end{align}
 
-So rewriting the sum we get 
-\begin{align}
-\Sigma^{GW,DC}(i\omega_n) 
-&= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n+i\nu_n)
-                                  W(i\nu_n)\\
-%
-&= -\frac{1}{\beta} \sum_{ix_n} G(ix_n)
-                                  W(ix_n - i\omega_n) \\
-%
-&= -\frac{1}{\beta} \sum_{n=0}^{\infty}
-\left[ G(ix_n)W(i\omega_n-ix_n) 
-    + G^*(ix_n)W(i\omega_n+ix_n)
-\right]
-\end{align}
-where $ix_n$ is a fermionic Matsubara frequency. Correcting up to
-second order we get
-\begin{align}
-&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-\left[ G(ix_n)W(i\omega_n-ix_n) 
-    + G^*(ix_n)W(i\omega_n+ix_n) 
-\right]\\
-%
-=&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-\left[ \mathrm{Re}G(ix_n)\left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) \right) \right.\nonumber \\
- & \left. \hspace{1.35cm}   +\mathrm{Im}G(ix_n)\left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) \right)
-\right]\\
-%
-%
-=&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-\left[ \left(\mathrm{Re}G(ix_n) - \frac{g_2}{(ix_n)^2} + \frac{g_2}{(ix_n)^2}\right) \right. \nonumber \\
-%
-& \times \left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) 
- - 2w_0-\frac{w_2}{(i\omega_n-ix_n)^2} -\frac{w_2}{(i\omega_n+ix_n)^2} \right.\nonumber  \\
-&\left. \hspace{6.3cm}  + 2w_0+\frac{w_2}{(i\omega_n-ix_n)^2}+\frac{w_2}{(i\omega_n-ix_n)^2}\right) \nonumber \\
-%
-%
-%
-&\hspace{1.5cm} +\left(\mathrm{Im}G(ix_n) - \frac{1}{ix_n} + \frac{1}{ix_n}\right) \nonumber \\
-%
-& \times \left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) 
- -\frac{w_2}{(i\omega_n-ix_n)^2} +\frac{w_2}{(i\omega_n+ix_n)^2} \right. \nonumber \\
-&\left. \hspace{6.3cm}  + \frac{w_2}{(i\omega_n-ix_n)^2}-\frac{w_2}{(i\omega_n-ix_n)^2}\right)
-\end{align}
+Expanding the 
 
-ASD
-ASd
-ASD
-ASd
-
-\begin{align}
-&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-\left[ G(ix_n)W(i\omega_n-ix_n) 
-    + G^*(ix_n)W(i\omega_n+ix_n) 
-\right]\\
-%
-=&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-s
-\end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1584,8 +1593,8 @@ The GW doublecounting can be shown to be
 \end{align}
 i.e. the local GW Selfenergy is only given by the local Green's function
 and screened interaction.
-\textbf{This term contains a Hartree part, which should not be incorporated, 
-since it is also not contained in the GW Selfenergy!}
+This term contains a Hartree part, which should not be incorporated, 
+since it is also not contained in the GW Selfenergy!
 The full Hartree-Fock part is obtained from the large $i\omega_n$ limit,
 which means that in the summation above we simply get the unscreened Hartree
 values
@@ -1598,11 +1607,13 @@ This last term contains the fillings \textbf{but right now I don't know
 how to correctly perform the frequency summation! Like it is now this would
 give me the negative Hartree-Fock part! Solution is still to be found!!!}
 
-In general, the Hartree term from the local GW Selfenergy should be identical
+Within a GW+DMF one-shot scheme, where we use $G_0$ from DFT and the $W_0$
+where the screening is calculated from the RPA polarization 
+based on DFT, the Hartree term from the local GW Selfenergy should be identical
 to the DFT Hartree term calculated above, since here we use the DFT Green's function
 and the unscreened interaction, which reduces exactly to the sum over
 DFT orbital occupations and interactions. 
-Therefore, the two Hartree correction terms just cancel out
+Therefore, in this case the two Hartree correction terms just cancel out
 \begin{align}
  G(k,i\omega_n) 
  &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{DFT,Hartree} \right.\nonumber\\
@@ -1618,15 +1629,10 @@ Therefore, the two Hartree correction terms just cancel out
 \end{align}
 Since the Hartree DFT Selfenergy is contained in the  $\Sigma^{GW,imp}(i\omega_n)$
 and has a different sign than $H_{DFT}$, it exactly subtracts the Hartree contribution
-from DFT. Therefore, it does not need to be calculated explicitly.
+from DFT. Therefore, in this case it does not need to be calculated explicitly.
 \textbf{This is only true if $\Sigma^{GW,imp}(i\omega_n)$ is calculated
 as $G_{loc}W_{loc}$ and NOT $[GW]_{loc}$!!}, since in our convention the Hartree part
 is no longer in the GW Selfenergy.
-We adopt the convention that the GW Doublecounting $\Sigma^{GW,imp}(i\omega_n)$
-will always contain the Hartree part from DFT regardless of how the exchange-correlation
-part of it is determined. Therefore, this term takes care of the Hartree Doublecounting
-from DFT$\leftrightarrow \Sigma^{imp}$ and also of the dynamic Doublecounting between
-$\Sigma^{GW}\leftrightarrow \Sigma^{imp}$.
 
 In a GW+DMFT selfconsistency cycle where we do not update the GW calculation
 or interaction, only the DMFT Selfenergy $\Sigma^{imp}(i\omega_n)$
@@ -1639,8 +1645,18 @@ will be equal to the DFT hartree part, because it only depends on the DFT
 fillings and the bare interaction, which is not affected. 
 Only in case of a GW-like Selfconsistency where $G_0$ is updated we need 
 to update the GW DC Hartree part. 
+Therefore, we will stick to the convention that we always subtract the Hartree part
+from the DFT Hamiltonian and use a $\Sigma^{XC,imp}_{GW}(i\omega_n)$
+doublecounting, regardless of which method, which does \textbf{not} include a Hartree part. 
+This is more consistent since $\Sigma^{XC}_{GW}(k,i\omega_n)$ also
+does not add a Hartree term, so the only overlap has to be considered 
+between $H_{DFT}$ and $\Sigma_{imp}(i\omega_n)$.
 
-
+When performing a pure DMFT calculation where no GW Selfenergy is added,
+we do not subtract the exchange correlation potential $V_{XC}$,
+but will subtract the full local Hartree and Fock exchange terms derived above. 
+By this, the local Hartree and Fock exchange terms are replaced by the DMFT
+result and there is at least no doublecounting with respect to these terms. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
