@@ -1109,7 +1109,7 @@ W^{imp}(i\nu_n) &\stackrel{!}{=} W^{loc}(i\nu_n) .
 After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
 can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
 
-\subsection{High-frequency correction}
+\subsection{High-frequency correction for K($\tau$)}
 \label{sec:hf_corr_interaction}
 When calculating the functions $K(\tau),K'(\tau)$, the infinite sum over bosonic Matsubara frequencies $\nu_n$ 
 has to be properly treated. 
@@ -1311,6 +1311,77 @@ which should result in using $\sim\mathcal{V}$ for the values.
 we need to shift the local chemical potential as $\mu\rightarrow \mu + K'(0)$ in \verb|mu_vector.dat|.
 
 For the doublelcounting we should also use the $U_{\infty}$ values \cng{check this more carefully, what about J?}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{High-frequency terms for $G_{bath}$ and Hybridization fucntion, local $\mu$}
+One of the slowest decaying functions on the Matsubara axis
+are actually the bath Green's function $\mathscr{G}(i\omega_n)$, it's inverse
+and the hybridization function $\Delta(i\omega_n)$.
+The reason is that $\mathscr{G}(i\omega_n)$ is the interacting
+Green's function without the Hartree term, which means it's spectral weight
+is mostly located at binding energies close to the Hartree energy, which
+becomes increasingly large for frequency dependent interactions.
+
+Since $\Delta(i\omega_n)$ is a linear function of $\mathscr{G}^{-1}(i\omega_n)$,
+the same holds for the hybridization function.
+Therefore,
+the determination of for example the local chemical potential as
+\begin{align}
+ \mu_{loc} 
+ &= \lim_{\omega_n\rightarrow \infty} \mathrm{Re}\mathscr{G}^{-1}(i\omega_n),
+\end{align}
+becomes increasingly difficult.
+
+Using the Dyson equation we can calculate this term from the coefficients of the
+Selfenergy and local Green's function, which decay much faster
+\begin{align}
+ \mathrm{Re}\mathscr{G}^{-1}(i\omega_n)
+ &= \mathrm{Re}G^{-1}_{loc}(i\omega_n) + \mathrm{Re}\Sigma(i\omega_n).
+\end{align}
+Keeping terms only up to $\mathcal{O}(1/\omega_n^4)$, at large frequencies the terms can be approximated as
+\begin{align}
+ \mathrm{Re}G^{-1}_{loc}(i\omega_n) + \mathrm{Re}\Sigma(i\omega_n)
+ &= \frac{\mathrm{Re}G_{loc}(i\omega_n)}{\mathrm{Re}G_{loc}(i\omega_n)^2+\mathrm{Im}G_{loc}(i\omega_n)^2}
+     + \mathrm{Re}\Sigma(i\omega_n)\\
+%
+&\approx \frac{ \frac{-g_2}{\omega_n^2} + \frac{g_4}{\omega_n^4}  }
+              { \left[ \frac{-g_2}{\omega_n^2} + \frac{g_4}{\omega_n^4} \right]^2
+             +  \left[ \frac{-g_1}{\omega_n}     + \frac{g_3}{\omega_n^3} \right]^2}
+     + \Sigma_0 + \frac{-\Sigma_2}{\omega_n^2} \\
+%     
+&\approx \frac{ \frac{-g_2}{\omega_n^2} + \frac{g_4}{\omega_n^4}  }
+              { \frac{g_2^2}{\omega_n^4}
+             +   \frac{g_1^2}{\omega_n^2}  + \frac{-2g_1g_3}{\omega_n^4} }
+     + \Sigma_0 - \frac{\Sigma_2}{\omega_n^2} \\
+%     
+&= \frac{ -g_2 + \frac{g_4}{\omega_n^2}  }{ \frac{g_2^2}{\omega_n^2}
+             +   g_1^2  - \frac{2g_1g_3}{\omega_n^2} }
+     + \Sigma_0 - \frac{\Sigma_2}{\omega_n^2} \\
+%     
+&= \Sigma_0 + \frac{ -g_2}{ g_1^2 +  \frac{g_2^2-2g_1g_3}{\omega_n^2} }
+         + \frac{1}{\omega_n^2} \frac{ g_4 }{ g_1^2 +  \frac{g_2^2-2g_1g_3}{\omega_n^2} }
+     - \frac{\Sigma_2}{\omega_n^2} \\
+%
+&\approx \Sigma_0 - g_2/g_1^2
+       %  + \frac{g_4/g_1^2 + \Sigma_2}{\omega_n^2}  
+         + \mathcal{O}(1/\omega_n^2)
+%
+\end{align}
+Since for a usual Green's function $g_1=1$, we usually have 
+\begin{align}
+ \mathrm{Re}\mathscr{G}^{-1}\omega_n
+&\approx \Sigma_0 - g_2
+         %+ \frac{g_4 + \Sigma_2}{\omega_n^2} 
+         + \mathcal{O}(1/\omega_n^2)
+%
+\end{align}
+and therefore
+\begin{align}
+ \mu_{loc} = \Sigma_0 - g_2
+\end{align}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
