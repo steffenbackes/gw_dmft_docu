@@ -327,7 +327,219 @@ or whether one takes out contibutions from DMFT, so that DMFT is a correction to
 
 
 
-\subsection{High-frequency correction for $G_{loc}W_{loc}$}
+
+\subsection{Evaluating the doublecounting factor $\Sigma^{DC}_{GW}=G_{loc}W_{loc}$}
+When evaluating the doublecounting factor 
+\begin{align}
+\Sigma^{DC}_{GW} &= -[G^{\mathrm{loc}}W^{\mathrm{loc}}],
+\end{align}
+we want to construct a Selfenergy which is solution
+of the DMFT impurity problem within the GW approximation. 
+By this, we regain exactly the full GW solution if we ``use GW
+as the impurity solver''. In the GW+DMFT approach we use instead
+DMFT as the impurity solver, which should give us corrections
+that go beyond the GW approximation on the impurity.
+
+Since we usually use the $G_0W_0$ approximation in the continuum,
+for consistency we also have to solve the impurity problem within $G_0W_0$,
+otherwise we would not regain the full $G_0W_0$ solution, as just discussed.
+This means $G^{\mathrm{loc}}$ is the local DFT Green's function
+in the correlated subspace and $W^{\mathrm{loc}}$ is the local 
+\textit{effective} fully screened interaction on the impurity.
+$W^{\mathrm{loc}}$ is just related to the effective ``bare'' interaction
+that is the input for DMFT via the Dyson equation
+\begin{align}
+\mathcal{U}^{-1} &= [W^{loc} ]^{-1} + P^{imp}.
+\end{align}
+$W^{\mathrm{loc}}$ thus contains all the screening processes 
+but is projected onto the correlated subspace.
+
+To derive the expression for $G^{loc}W^{loc}$ we start with the definitions
+from the original paper by Hedin (we set $\hbar=1$).
+For real time in the continuum the Green's function and
+the bare Coulomb potential is defined as
+\begin{align}
+G(1,2) &= -i \langle T \psi(1)\psi^{\dagger}(2) \rangle \\
+V_C(1,2) &= \frac{\delta(t_1-t_2)}{|r_1-r_2|},
+\end{align}
+where the arguments denote the combined space,spin and time dependence
+\begin{align}
+ (1) &= (r_1,\sigma_1,t_1).
+\end{align}
+The Selfenergy in the GW approximation is then given as
+\begin{align}
+ \Sigma(1,2) &= i G(1,2)W(1^+,2),
+\end{align}
+where
+\begin{align}
+ (1^+) &= (r_1,\sigma_1,t_1+\Delta), \hspace{0.5cm} \Delta\rightarrow 0^+.
+\end{align}
+It is instructive to investigate the case of no screening when 
+$W$ is equal to the bare Coulomb potential
+\begin{align}
+ \Sigma(1,2) &= i G(1,2)W(1^+,2)                      \\
+ &= i G(1,2) \frac{\delta(t_1+\Delta-t_2)}{|r_1-r_2|}  \\
+ &= i G(r_1,\sigma_1,t_1;r_2,\sigma_2,t_1+\Delta) \frac{\delta(t_1+\Delta-t_2)}{|r_1-r_2|}  \\
+ &= \langle T \psi_{\sigma_1}(r_1,t_1)\psi^{\dagger}_{\sigma_2}(r_2,t_1+\Delta) \rangle \frac{\delta(t_1+\Delta-t_2)}{|r_1-r_2|}  \\
+ &= -\langle \psi^{\dagger}_{\sigma_2}(r_2)\psi_{\sigma_1}(r_1) \rangle \frac{\delta(t_1+\Delta-t_2)}{|r_1-r_2|}  \\
+ %
+\Rightarrow \Sigma(r_1,\sigma_1,t_1;r_2,\sigma_2,t_2)
+&= -\frac{\langle \psi^{\dagger}_{\sigma_2}(r_2)\psi_{\sigma_1}(r_1) \rangle }{|r_1-r_2|}\delta(t_1-t_2) .
+\end{align}
+In this case the GW is just the bare Fock-exchange!
+There is no Hartree contribution in the GW Selfenergy.
+This means GW is basically just dynamically screened
+exchange? Where do correlation terms come in?
+
+Since we work on the Matsubara axis, we rewrite 
+the equation for imaginary times
+\begin{align}
+G(1,2) &= - \langle T_{\tau} \psi(1)\psi^{\dagger}(2) \rangle \\
+\Sigma(1,2) &= - G(1,2)W(1^+,2),
+\end{align}
+where the arguments now denote the imaginary time argument
+\begin{align}
+ (1) &= (r_1,\sigma_1,\tau_1) \\
+ (1^+) &= (r_1,\sigma_1,\tau_1+\Delta).
+\end{align}
+For consistency we can check that setting $W$ equal
+the bare Coulomb interaction indeed reduces to the
+Fock-exchange with the correct sign. $GV_C$ is positive
+but again exchaning the operators leads to an overall minus sign,
+so the total contribution indeed is negative and identical
+to the result on the real-time axis.
+
+Introducing a local basis 
+$\braket{r|\chi_{m}^{\sigma}}=\chi_{m}^{\sigma}(r)$ we can
+obtain the matrix elements of the Selfenergy in this basis
+\begin{align}
+ \braket{m_1\sigma_1 | \Sigma(\tau_1,\tau_2) | m_2\sigma_2 } 
+ &= \braket{\chi_{m_1}^{\sigma_1} | \Sigma(\tau_1,\tau_2) | \chi_{m_2}^{\sigma_2} }  \\
+ &= -\int\int dr_1dr_2 \  \chi_{m_1}^{\sigma_1*}(r_1) G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2)\\
+           & \hspace{3cm} \times W(r_1,\tau_1+\Delta;r_2,\tau_2)\chi_{m_2}^{\sigma_2}(r_2)
+\end{align}
+Expanding the Green's function in this local basis as
+\begin{align}
+ G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2)
+ &= \sum_{kl} \chi_{k}^{\sigma_1}(r_1) G^{\sigma_1\sigma_2}_{kl}(\tau_1,\tau_2)\chi_{l}^{\sigma_2*}(r_2)
+\end{align}
+we get
+\begin{align}
+ \braket{m_1\sigma_1 | \Sigma(\tau_1,\tau_2) | m_2\sigma_2 } 
+ &= -\sum_{kl}\int\int dr_1dr_2 \  G^{\sigma_1\sigma_2}_{kl}(\tau_1,\tau_2)\\
+           & \hspace{0cm} \times \chi_{m_1}^{\sigma_1*}(r_1)\chi_{l}^{\sigma_2*}(r_2) W(r_1,\tau_1+\Delta;r_2,\tau_2) \chi_{k}^{\sigma_1}(r_1) \chi_{m_2}^{\sigma_2}(r_2)
+\end{align}
+The last term we identify as the matrix element of the fully
+screened interaction
+\begin{align}
+ \braket{m_1 l | W(\tau_1+\Delta,\tau_2) | k m_2} 
+ &=\int\int dr_1dr_2  \chi_{m_1}^{\sigma_1*}(r_1)\chi_{l}^{\sigma_2*}(r_2) W(r_1,\tau_1+\Delta;r_2,\tau_2) \chi_{k}^{\sigma_1}(r_1) \chi_{m_2}^{\sigma_2}(r_2)
+\end{align}
+With this we finally get the expression
+\begin{align}
+ \braket{m_1\sigma_1 | \Sigma(\tau_1,\tau_2) | m_2\sigma_2 } 
+ &= -\sum_{kl} \braket{m_1 l | W(\tau_1+\Delta,\tau_2) | k m_2}G^{\sigma_1\sigma_2}_{kl}(\tau_1,\tau_2)
+\end{align}
+We can simplify this expression by assuming time translational
+invariance and assume the local Green's function to
+be orbital- and spin-diagonal
+\begin{align}
+  \Sigma_m^{\sigma}(\tau) 
+ &= -\sum_{k} \braket{m k | W(\tau+\Delta)|k m} G^{\sigma}_{k}(\tau)
+\end{align}
+Again we see that the GW Selfenergy is basically dynamical
+screened exchange. 
+
+Applying the Fourier transform and inserting the 
+Fourier transform of $G(ix_n)$ and $W(i\nu_n)$ we get for the
+Selfenergy on the Matsubara axis
+\begin{align}
+  \Sigma_m^{\sigma}(i\omega_n) 
+  &= -\sum_k\int_{0}^{\beta}d\tau \ 
+  \left[\frac{1}{\beta}\sum_i \braket{m k | W(i\nu_i)|k m} \mathrm{e}^{-i\nu_i(\tau+\Delta)} \right]
+  \left[\frac{1}{\beta}\sum_j G^{\sigma}_{k}(ix_j) \mathrm{e}^{-i\nu_i\tau} \right]
+  \mathrm{e}^{i\omega_n\tau} \\
+  %
+  &= -\sum_k \sum_{ij} \braket{m k | W(i\nu_i)|k m}G^{\sigma}_{k}(ix_j)
+    \int_{0}^{\beta}d\tau \ 
+  \frac{1}{\beta^2}  \mathrm{e}^{i(\omega_n -\nu_i -x_j)\tau}
+   \mathrm{e}^{-i\nu_i \Delta} \\
+   %
+   &= -\frac{1}{\beta}\sum_k \sum_{j}
+   \braket{m k | W(i\nu_j)|k m}G^{\sigma}_{k}(i\omega_n-i\nu_j)
+   \mathrm{e}^{-i\nu_j \Delta}
+\end{align}
+Or rewriting the frequency sum we get the alternative version
+\begin{align}
+  \Sigma_m^{\sigma}(i\omega_n) 
+   &= -\frac{1}{\beta}\sum_k \sum_{j}
+   \braket{m k | W(i\omega_n- ix_j )|k m}G^{\sigma}_{k}(ix_j)
+   \mathrm{e}^{-i(\omega_n- x_j )\Delta} \\
+   &= -\frac{1}{\beta}\sum_k \sum_{j}
+   \braket{m k | W(i\omega_n- ix_j )|k m}G^{\sigma}_{k}(ix_j)
+   \mathrm{e}^{ix_j \Delta}
+\end{align}
+The last factor $\mathrm{e}^{ix_j \Delta}$ is important
+to ensure convergence of the frequency sum. 
+Since $\Delta\rightarrow 0^+$ we can directly see
+that we regain the correct Fock-exchange when replacing
+$W$ by the constant bare Coulomb interaction!
+For the GW solution of the impurity model 
+the sum over the orbital indices $k$ is performed
+only over the correlated subspace which spans
+the Hilbert space of the Anderson impurity model.
+
+
+It is instructive to look at the case of a simple
+degenerate $t_{2g}$-only model like for SrVO$_3$. In this case
+we define the screened on-site Coulomb matrix element and the 
+screened Hund's exchange as
+\begin{align}
+ \braket{k k | W(i\nu )|k k} &= U_0(i\nu) \\
+ \braket{m k | W(i\nu )|k m} &= J(i\nu), \ \ \ k\neq m.
+\end{align}
+With this we get the explicit expression for
+the $t_{2g}$ Selfenergy
+\begin{align}
+  \Sigma^{\sigma}(i\omega_n) 
+   &= -\frac{1}{\beta}\sum_{ix_j}
+   \Big( U_0(i\omega_n- ix_j )  + 2 J(i\omega_n- ix_j ) \Big)G^{\sigma}(ix_j)
+   \mathrm{e}^{ix_j \Delta}
+\end{align}
+The first term corresponding to 
+$U_0$ is similar to a dynamical self-interaction correction since it 
+originates from an interaction with a state with the
+same orbital and spin index.
+The second term corresponding to $J$ is a dynamical
+intraatomic exchange contribution
+since it 
+originates from an interaction with a state in a different
+orbital and with the same spin index.
+
+Again we see that the GW Selfenergy has the characteristics
+of a dynamically screened Fock-exchange term. 
+% Still, it is responsible for a finite renormalization
+% larger than 1, i.e. it still reduces the Bandwidth!
+% This can be seen from the slope of the Selfenergy
+%  \begin{align}
+%  \lim_{i\omega_n\rightarrow 0} &
+%  \frac{\partial}{\partial i\omega_n}
+%   \Sigma^{\sigma}(i\omega_n)  \\
+%   %
+%    &= -\frac{1}{\beta}\sum_k \sum_{j}
+%    \braket{m k | W(i\nu_j)|k m }
+%    \mathrm{e}^{-i\nu_j \Delta}
+%       \left[ 
+%    \lim_{i\omega_n\rightarrow 0}  \frac{\partial}{\partial i\omega_n}G^{\sigma}_{k}(i\omega_n-i\nu_j) \right]
+%   %
+%   &= -\frac{1}{\beta}\sum_k \sum_{j}
+%   \braket{m k | W(i\nu_j)|k m }
+%   \mathrm{e}^{-i\nu_j \Delta}
+%     \left[ 
+%   \lim_{i\omega_n\rightarrow 0}  \frac{\partial}{\partial i\omega_n}G^{\sigma}_{k}(i\omega_n-i\nu_j) \right]   
+% \end{align}
+
+
 When evaluating the doublecounting factor
 \begin{align}
 \Sigma^{GW,DC} &= -G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L},
