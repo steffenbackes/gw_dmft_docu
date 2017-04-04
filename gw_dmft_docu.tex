@@ -42,26 +42,28 @@
 
 \section{Introduction}
 
-This document  provides the prescription of the combination of a GW calculation
-for correlated materials with DMFT applied only to a subset of correlated orbitals.
-At this level, the GW calculation will be performed only once at the beginning (one-shot)
-based on a DFT Hamiltonian $H^{DFT}$,
-to obtain a nonlocal Selfenergy $\Sigma^{GW}$ for all states. 
-In addition, the local part of $\Sigma^{GW}$ of a subset of strongly correlated orbitals will be replaced by a Selfenergy $\Sigma^{DMFT}$
-obtained within a selfconsistent DMFT scheme, 
-where the selfconsistency is done including the full nonlocal
-effects of the combined Selfenergy.
-
-No further selfconsistency apart from the DMFT cycle will be performed, {\it i.e.} no update of $\Sigma^{GW}$ will be done. By this, the final interacting system will be
-described by a {\GF} with the non-interacting DFT dispersion, corrected by a non-local Selfenergy where the non-local components
-correspond to $\Sigma^{GW}=G_0W_0$, while the local components
-of the correlated orbitals correspond to $\Sigma^{DMFT}$.
-This $\Sigma^{DMFT}$ is usually different to the one obtained by
-a standard DMFT calculation since the selfconsistency is
-done with the inclusion of the nonlocal parts of the 
+This document  provides our prescription of the combination of a GW calculation 
+for correlated materials with DMFT applied only to a subset of correlated 
+orbitals. At this level, the GW calculation will be performed only once at the 
+beginning (one-shot) based on a DFT Hamiltonian $H^{DFT}$ to obtain a nonlocal 
+GW Selfenergy $\Sigma^{GW}$ for all states. In addition, the local part of 
+$\Sigma^{GW}$ of a subset of strongly correlated orbitals will be replaced by a 
+Selfenergy $\Sigma^{DMFT}$ obtained within a selfconsistent DMFT scheme, where 
+the selfconsistency is done including the full nonlocal effects of the combined 
 Selfenergy.
 
-Extensions to a full GW+DMFT selfconsistency will be discussed elsewhere.
+No further selfconsistency apart from the DMFT cycle will be performed, 
+{\it i.e.} no update of $\Sigma^{GW}$ will be done. By this, the final interacting 
+system will be described by a {\GF} with the non-interacting DFT dispersion,
+excluding the exchange-correlation potential, 
+corrected by a non-local GW Selfenergy where the non-local components correspond to 
+$\Sigma^{GW}=G_0W_0$, while the local components of the correlated orbitals 
+correspond to $\Sigma^{DMFT}$. This $\Sigma^{DMFT}$ is usually different to the 
+one obtained by a standard DMFT calculation since the selfconsistency is done 
+with the inclusion of the nonlocal parts of the Selfenergy.
+
+Extensions to a full GW+DMFT selfconsistency will come later,
+but selfconsistency in the effective interaction $U$ is planned.
 
 \section{Approximation to the free energy functional $\Gamma[G,W]$: Combination of GW and DMFT}
 As stated by Almbladh[ref], the free energy of a solid can be written in terms of
@@ -75,7 +77,9 @@ $\Psi$
 \end{align}
 The many-body correction $\Psi[G,W]$ is the sum of all skeleton diagrams that are
 irreducible with respect to both one-electron propagator and
-interaction lines. It has the properties
+interaction lines. The Hartree diagram does not fulfill
+this property so it is not included in this series. 
+It has the properties
 \begin{align}
 \frac{\delta \Psi}{\delta G} &= \Sigma^{XC}  \label{eq:sigma_from_psi} \\
 \frac{\delta \Psi}{\delta W} &= -\frac{1}{2}P \label{eq:p_from_psi},
@@ -85,9 +89,9 @@ fully dressed Green's function $G$, thus excluding the Hartree part $\Sigma^H$.
 $P$ is the full polarization of the system that screens the bare Coulomb
 interaction $V$ down to the screened interaction $W$.
 
-Since methods like Density Functional Theory already treat the Hartree contribution
-from the Coulomb interaction, we are interested in obtaining
-an (approximative) expression for the many-body correction $\Psi[G,W]$.
+Since the screened interaction $W$ is much smaller than the bare interaction
+$V$, a perturbative ansatz should converge much faster
+for $W$ than for $V$ for obtaining the many-body correction $\Psi[G,W]$.
 
 One possibility is the GW approximation, which expands $\Psi[G,W]$ in powers of the
 screened interaction $W$ and truncates the series at first order. The resulting expression
@@ -101,8 +105,11 @@ we immediately obtain the $GW$ Selfenergy and polarization as
 \Sigma^{GW} &= -GW \\
 P^{GW} &= GG.
 \end{align}
-While this approximation goes well beyond the level of a simple Hartree approximation
-and usually treats all states without any separation of spaces,
+Please note that this expression is correct for working on the imaginary
+time or frequency axis. On the real time or frequency axis  the prefactor 
+for $\Sigma^{GW}$ is $i$ instead of $-1$. For $P$ I need to check...
+
+While this approximation goes beyond the level of a static Hartree-Fock approximation,
 it is only an expansion up to first order in $W$ and thus justified only when $W$ is
 small, i.e. in case of weakly correlated systems. Thus, it is tempting to combine
 $GW$ with other methods like DMFT for an improved treatment of correlated systems.
@@ -114,10 +121,11 @@ its local and nonlocal parts
 \begin{align}
 \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G,W],
 \end{align}
-\cng{Is this exact?}
-where usually the nonlocal part is approximated by $GW$, while the local part is usually approximated by DMFT,
-but right now we do not want to decide on a specific method and only focus
-on how to separate the local and nonlocal contributions.
+\cng{Is this probably not exact}
+where usually the nonlocal part is approximated by $GW$, while the local part is 
+usually approximated by DMFT, but right now we do not want to decide on a 
+specific method and only focus on how to separate the local and nonlocal 
+contributions.
 
 We only want to impose one specific condition: First, we work in an orbital separated scheme,
 where we separate the full Hilbert space $L+H$ into a correlated subspace $L$ and the remaining subspace $H$.
@@ -271,9 +279,15 @@ there is no four-index object like $W$ which couples the two spaces.
 \begin{figure}[t]
 \includegraphics[width=1.0\textwidth]{figs/sigma_loc_compare.png}
 \caption{The Selfenergy $\Sigma(i\omega_n)$ obtained from G$_0$W$_0$ (7x7x7 k-points)
- and GW+DMFT using the
-G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ with $U(\omega)$ interaction determined
-from cRPA.}
+ and GW+DMFT using the G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ 
+ with $U(\omega)$ interaction determined from cRPA. As the doublecounting
+ $\Sigma_{GW}^{DC}$ the local part of the GW Selfenergy $\sum_k GW$ on the
+ correlated orbitals been subtracted (green line, called GW-local).
+ One clearly sees a mismatch between this term and the DMFT Selfenergy (black line),
+ which is due to the terms contributing to the local Selfenergy that arise
+ from the coupling between the subspace and the remaining states and 
+ also the nonlocal contributions to the local part which cannot be captured by DMFT.
+}
 \label{fig:sigma_loc_compare}
 \end{figure}
 
