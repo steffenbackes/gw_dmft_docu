@@ -483,6 +483,7 @@ Selfenergy on the Matsubara axis
    \braket{m k | W(i\nu_j)|k m}G^{\sigma}_{k}(i\omega_n-i\nu_j)
    \mathrm{e}^{-i\nu_j \Delta}
 \end{align}
+(This form should not be used, see below)
 Or rewriting the frequency sum we get the alternative version
 \begin{align}
   \Sigma_m^{\sigma}(i\omega_n) 
@@ -495,6 +496,9 @@ Or rewriting the frequency sum we get the alternative version
 \end{align}
 The last factor $\mathrm{e}^{ix_j \Delta}$ is important
 to ensure convergence of the frequency sum. 
+This form is actually much better for practical implementation because
+the slow $1/i\omega_j$ convergence does not include a shift which
+slowes down the convergence even more. 
 Since $\Delta\rightarrow 0^+$ we can directly see
 that we regain the correct Fock-exchange when replacing
 $W$ by the constant bare Coulomb interaction!
@@ -554,6 +558,7 @@ of a dynamically screened Fock-exchange term.
 % \end{align}
 
 \subsection{High-frequency correction for GW-DC 1}
+\cng{This should not be used because this form converges slower}
 When evaluating the frequency sum for the doublecounting in the form 
 \begin{align}
   \Sigma_m^{\sigma}(i\omega_n) 
@@ -561,6 +566,79 @@ When evaluating the frequency sum for the doublecounting in the form
   &= -\frac{1}{\beta}\sum_k \sum_{j}
    \braket{m k | W(i\nu_j)|k m}G^{\sigma}_{k}(i\omega_n-i\nu_j)
    \mathrm{e}^{-i\nu_j \Delta}
+\end{align}
+the convergence is not so good and needs to be corrected
+for the high-frequency parts.
+We use a high-frequency form to fit the Green's function and interaction
+given by
+\begin{align}
+ W(i\nu_n)    &\approx w_0 + \frac{w_2}{(i\nu_n)^2} \ \in \mathbb{R} \\
+ G(i\omega_n) &\approx  \frac{1}{i\omega_n} + \frac{g_2}{(i\omega_n)^2} 
+\end{align}
+We need to evaluate the following high-frequency terms (orbital/spin etc indices
+are suppressed)
+\begin{align}
+& -\frac{1}{\beta}\sum_{j\neq 0} 
+  \left( w_0 + \frac{w_2}{(i\nu_j)^2} \right)
+  \left( \frac{1}{i\omega_n-i\nu_j} + \frac{g_2}{(i\omega_n-i\nu_j)^2} \right)
+   \mathrm{e}^{-i\nu_j \Delta} \\
+% 
+&= -\frac{1}{\beta} \sum_{j\neq 0}
+\left( 
+  \frac{w_0}{i\omega_n-i\nu_j} + \frac{w_0 g_2}{(i\omega_n-i\nu_j)^2}
++ \frac{w_2}{(i\nu_j)^2(i\omega_n-i\nu_j)} + \frac{w_2g_2}{(i\nu_j)^2(i\omega_n-i\nu_j)^2}
+\right)
+\mathrm{e}^{-i\nu_j \Delta}.
+\end{align}
+Evaluating the terms analytically we get for the first term (compare Steffen's PhD thesis
+for the derivation)
+\begin{align}
+   -\frac{1}{\beta}\sum_{j\neq 0} \frac{w_0}{i\omega_n-i\nu_j}\mathrm{e}^{-i\nu_j \Delta}
+&= -\frac{w_0}{\beta}\left(-\frac{1}{i\omega_n-0}\mathrm{e}^{-i0 \Delta} + \sum_{j} \frac{1}{i\omega'_j}\mathrm{e}^{-(i\omega_n-i\omega'_j) \Delta}\right) \\
+&= -\frac{w_0}{\beta}\left( -\frac{1}{i\omega_n}
+       +\mathrm{e}^{-i\omega_n \Delta} \sum_{j\neq 0} \frac{1}{i\omega'_j}\mathrm{e}^{i\omega'_j \Delta} \right) \\
+&= -\frac{w_0}{\beta}
+       \left(-\frac{1}{i\omega_n} +  \frac{\beta}{2}\right) \\
+&= w_0 \left( \frac{1}{i(2n+1)\pi} - \frac{1}{2} \right) .
+\end{align}
+The second term
+\begin{align}
+   -\frac{1}{\beta}\sum_{j\neq 0} \frac{w_0 g_2}{(i\omega_n-i\nu_j)^2}\mathrm{e}^{-i\nu_j \Delta}
+&= -\frac{w_0 g_2}{\beta}\sum_{j\neq 0} \frac{1}{(i\omega'_j)^2}\mathrm{e}^{-(i\omega_n-i\omega'_j) \Delta} \\
+&= -\frac{w_0 g_2}{\beta} \mathrm{e}^{-i\omega_n\Delta} \sum_{j\neq 0} \frac{1}{(i\omega'_j)^2}\mathrm{e}^{i\omega'_j \Delta} \\
+&= -\frac{w_0 g_2}{\beta} \mathrm{e}^{-i\omega_n\Delta}
+     \left(-\frac{1}{(i\omega'_{j=0})^2}\mathrm{e}^{i\omega'_{j=0} \Delta} +  \sum_{j} \frac{1}{(i\omega'_j)^2}\mathrm{e}^{i\omega'_j \Delta} \right) \\
+&= -\frac{w_0 g_2}{\beta} \mathrm{e}^{-i\omega_n\Delta}
+      \left(\frac{\beta^2}{\pi^2} +  \frac{-2\Delta - \beta}{4}\beta \right) \\
+&= w_0 g_2\beta \left( \frac{1}{4} - \frac{1}{\pi^2} \right).
+\end{align}
+The third term
+\begin{align}
+-\frac{1}{\beta}\sum_{j\neq 0} & \frac{w_2}{(i\nu_j)^2(i\omega_n-i\nu_j)}\mathrm{e}^{-i\nu_j \Delta} \\
+&= -\frac{iw_2\beta^2}{(8n- 4)\pi^3}\left( \frac{2n-1}{2n+1}\frac{\pi^2}{6} \right)
+   -\frac{iw_2\beta^2}{(8n+12)\pi^3}\left( \frac{2n+3}{2n+1}\frac{\pi^2}{6} -\frac{8n+12}{(2n+1)^3}\right) \\
+&= -\frac{iw_2\beta^2}{\pi^3}\left( \frac{\pi^2}{12(2n+1)} - \frac{1}{(2n+1)^3} \right)   \\
+&= -\frac{iw_2\beta^2}{(2n+1)\pi^3}\left( \frac{\pi^2}{12} - \frac{1}{(2n+1)^2} \right) .
+\end{align}
+The fourth term
+\begin{align}
+ -\frac{1}{\beta}\sum_{j\neq 0} & \frac{w_2g_2}{(i\nu_j)^2(i\omega_n-i\nu_j)^2} \mathrm{e}^{-i\nu_j \Delta} \\
+&= -\frac{w_2g_2\beta^3}{4\pi^4(2n-1)^2}\left( \frac{(2n-1)^2}{(2n+1)^2}\frac{\pi^2}{6} \right)
+   -\frac{w_2g_2\beta^3}{4\pi^4(2n+3)^2}\left( \frac{(2n+3)^2}{(2n+1)^2}\frac{\pi^2}{6} -12\frac{(2n+3)^2}{(2n+1)^4}\right) \\
+%
+&= -\frac{w_2g_2\beta^3}{4\pi^4}\left(  \frac{\pi^2}{3(2n+1)^2}  -\frac{12}{(2n+1)^4} \right) \\
+&= -\frac{w_2g_2\beta^3}{\pi^4(2n+1)^2}\left(  \frac{\pi^2}{12}  -\frac{3}{(2n+1)^2} \right) .
+\end{align}
+
+
+\subsection{High-frequency correction for GW-DC 2}
+When evaluating the frequency sum for the doublecounting in the form 
+\begin{align}
+  \Sigma_m^{\sigma}(i\omega_n) 
+%
+  &= -\frac{1}{\beta}\sum_k \sum_{j}
+   \braket{m k | W(i\omega_n- ix_j )|k m}G^{\sigma}_{k}(ix_j)
+   \mathrm{e}^{ix_j \Delta}
 \end{align}
 the convergence is quite fast but still needs to be corrected
 for the high-frequency parts.
@@ -570,159 +648,48 @@ given by
  W(i\nu_n)    &\approx w_0 + \frac{w_2}{(i\nu_n)^2} \ \in \mathbb{R} \\
  G(i\omega_n) &\approx  \frac{1}{i\omega_n} + \frac{g_2}{(i\omega_n)^2} 
 \end{align}
-We need to evaluate the following high-frequency form (orbital/spin etc indices
-are suppressed)
+We need to evaluate the following high-frequency terms (orbital/spin etc indices
+are suppressed, and the $j=n$ term is taken out because
+the form of $W$ diverges at this point)
 \begin{align}
-& -\frac{1}{\beta}\sum_j 
-  \left( w_0 + \frac{w_2}{(i\nu_j)^2} \right)
-  \left( \frac{1}{i\omega_n-i\nu_j} + \frac{g_2}{(i\omega_n-i\nu_j)^2} \right)
-   \mathrm{e}^{-i\nu_j \Delta} \\
+& -\frac{1}{\beta}\sum_{j\neq n} 
+  \left( w_0 + \frac{w_2}{(i\omega_n -ix_j)^2} \right)
+  \left( \frac{1}{ix_j} + \frac{g_2}{(ix_j)^2} \right)
+   \mathrm{e}^{ix_j \Delta} \\
 % 
-&= -\frac{1}{\beta} \sum_{j}
+&= -\frac{1}{\beta} \sum_{j\neq n}
 \left( 
-  \frac{w_0}{i\omega_n-i\nu_j} + \frac{w_0 g_2}{(i\omega_n-i\nu_j)^2}
-+ \frac{w_2}{(i\nu_j)^2(i\omega_n-i\nu_j)} + \frac{w_2g_2}{(i\nu_j)^2(i\omega_n-i\nu_j)^2}
+  \frac{w_0}{ix_j} + \frac{w_0 g_2}{(ix_j)^2}
++ \frac{w_2}{ix_j(i\omega_n -ix_j)^2} + \frac{w_2g_2}{(ix_j)^2 (i\omega_n -ix_j)^2}
 \right)
-\mathrm{e}^{-i\nu_j \Delta}.
+\mathrm{e}^{ix_j \Delta}.
 \end{align}
-Evaluating the terms analytically we get for the first term
+Evaluating the terms analytically we get for the first term (compare Steffen's PhD thesis
+for the derivation)
 \begin{align}
-   -\frac{1}{\beta}\sum_j \frac{w_0}{i\omega_n-i\nu_j}\mathrm{e}^{-i\nu_j \Delta}
-&= -\frac{w_0}{\beta}\sum_j \frac{1}{i\omega'_j}\mathrm{e}^{-(i\omega_n-i\omega'_j) \Delta} \\
-&= -\frac{w_0}{\beta}\mathrm{e}^{-i\omega_n \Delta}\sum_j \frac{1}{i\omega'_j}\mathrm{e}^{i\omega'_j \Delta} \\
-&= -\frac{w_0}{2}.
+-\frac{1}{\beta} \sum_{j\neq n}  \frac{w_0}{ix_j} \mathrm{e}^{ix_j \Delta}
+&= -\frac{w_0}{\beta} \left( -\frac{1}{ix_n} \mathrm{e}^{ix_n \Delta}  + \sum_{j}  \frac{1}{ix_j} \mathrm{e}^{ix_j \Delta}\right) \\
+&= w_0 \left( \frac{1}{i(2n+1)\pi} -\frac{1}{2} \right).
 \end{align}
-
-
-\subsection{High-frequency correction for GW-DC 2}
-When evaluating the doublecounting factor
+The second term
 \begin{align}
-\Sigma^{GW,DC} &= -G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L},
+-\frac{1}{\beta} \sum_{j\neq n}  \frac{w_0 g_2}{(ix_j)^2} \mathrm{e}^{ix_j \Delta} 
+&= -\frac{w_0 g_2}{\beta}\left(- \frac{1}{(ix_n)^2} \mathrm{e}^{ix_n \Delta}   + \sum_{j}  \frac{1}{(ix_j)^2} \mathrm{e}^{ix_j \Delta}\right)   \\
+&= -w_0 g_2\left( \frac{\beta}{(2n+1)^2\pi^2} + \frac{-2\Delta-\beta}{4} \right)   \\
+&=  w_0 g_2\beta\left( \frac{1}{4} -\frac{1}{(2n+1)^2\pi^2} \right) .
 \end{align}
-on the Matsubara axis (it should be calculated directly in the GW code instead),
-we have to correct the frequency sum (orbital indices are suppressed)
+The third term (using Maple software)
 \begin{align}
-\Sigma^{GW,DC}(i\omega_n) 
-&= -\frac{1}{\beta} \sum_{i\nu_n} G^{0,\mathrm{loc}}(i\omega_n - i\nu_n )
-                                        W^{0,\mathrm{loc}}(i\nu_n),
+-\frac{1}{\beta} \sum_{j\neq n}  \frac{w_2}{ix_j(i\omega_n -ix_j)^2} \mathrm{e}^{ix_j \Delta} 
+&= i\frac{w_2\beta^2}{\pi^3}\left( \frac{1}{(2n+1)^3} - \frac{\pi^2}{12(2n+1)} \right) \\
+&= i\frac{w_2\beta^2}{(2n+1)\pi^3}\left( \frac{1}{(2n+1)^2} - \frac{\pi^2}{12} \right) 
 \end{align}
-where $i\omega_n$ is a fermionic and $i\nu_n$ is a bosonic Matsubara
-frequency. 
-Rewriting the sum (and suppressing the 0,loc lables)
-by using $W(i\nu_n) = W(-i\nu_n) \in \mathbb{R}$ we get
+The fourth term (using Maple software)
 \begin{align}
-\Sigma^{GW,DC}(i\omega_n) 
-&= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n - i\nu_n)
-                                  W(i\nu_n)\\
-%
-&= -\frac{1}{\beta} G(i\omega_n)W(0)
--\frac{1}{\beta} \sum_{n=1}^{\infty} \left[ G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n)\right]
-                                        W(i\nu_n).
-%
+-\frac{1}{\beta} \sum_{j\neq n}  \frac{w_2g_2}{(ix_j)^2 (i\omega_n -ix_j)^2} \mathrm{e}^{ix_j \Delta} 
+&= \frac{w_2g_2\beta^3}{4\pi^4}\left( \frac{12}{(2n+1)^4} - \frac{\pi^2}{3(2n+1)^2} - \frac{\pi^2}{(2n+1)^2} \right) \\
+&= \frac{w_2g_2\beta^3}{(2n+1)^2\pi^4}\left( \frac{3}{(2n+1)^2} - \frac{\pi^2}{3} \right).
 \end{align}
-We seperate out the $n=0$ term since the high-frequency
-correction for the bosonic $W(inu_n)$ would diverge at $n=0$.
-
-The second term has to be corrected, where we will use corrections up to second order,
-i.e.
-\begin{align}
-& -\frac{1}{\beta} \sum_{n=1}^{\infty} \left[ G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n)\right]
-                                        W(i\nu_n) \\
-%
-&= -\frac{1}{\beta} \sum_{n=1}^{\infty} 
-\left[ \left(G(i\omega_n+i\nu_n)+G(i\omega_n-i\nu_n) 
-       -\frac{1}{i\omega_n+i\nu_n}-\frac{1}{i\omega_n-i\nu_n}
-       -\frac{g_2}{(i\omega_n+i\nu_n)^2}-\frac{g_2}{(i\omega_n-i\nu_n)^2} \right)
-\right. \\
-%
-& \hspace{7.2cm} \left.
-+\left(\frac{1}{i\omega_n+i\nu_n}+\frac{1}{i\omega_n-i\nu_n}
-       +\frac{g_2}{(i\omega_n+i\nu_n)^2}+\frac{g_2}{(i\omega_n-i\nu_n)^2} \right)
-       \right] \\
-%
-%
-& \hspace{2cm} \times \left[
-\left(W(i\nu_n) - w_0 - \frac{w_2}{(i\nu_n)^2}\right) 
-+ \left( w_0 + \frac{w_2}{(i\nu_n)^2} \right)
-\right]
-\end{align}
-We have to be careful about the shift in the denominator since
-for large $\nu_n$ 
-\begin{align}
-\frac{1}{i\omega_n + i\nu_n} &\sim \frac{1}{i\nu_n} \\
-%
-\frac{1}{(i\omega_n + i\nu_n)^2} 
-&= \frac{1}{-\omega_n^2 -\nu_n^2 - 2\nu_n\omega_n} \sim -\frac{1}{2\omega_n\nu_n}
-%
-\end{align}
-So even the second order in the Green's function only decays as $1/\nu_n$
-in the frequency sum.
-Therefore, it might be better to put the frequency shift in $W(i\nu)$,
-since the decay is faster with $1/\nu_n^2$.
-I tried to derive this but somehow failed to 
-evaluate the terms analytically (see commented out section in tex file)
-% 
-% So rewriting the sum we get 
-% \begin{align}
-% \Sigma^{GW,DC}(i\omega_n) 
-% &= -\frac{1}{\beta} \sum_{i\nu_n} G(i\omega_n+i\nu_n)
-%                                   W(i\nu_n)\\
-% %
-% &= -\frac{1}{\beta} \sum_{ix_n} G(ix_n)
-%                                   W(ix_n - i\omega_n) \\
-% %
-% &= -\frac{1}{\beta} \sum_{n=0}^{\infty}
-% \left[ G(ix_n)W(i\omega_n-ix_n) 
-%     + G^*(ix_n)W(i\omega_n+ix_n)
-% \right]
-% \end{align}
-% where $ix_n$ is a fermionic Matsubara frequency. Correcting up to
-% second order we get
-% \begin{align}
-% &-\frac{1}{\beta} \sum_{n=0}^{\infty}
-% \left[ G(ix_n)W(i\omega_n-ix_n) 
-%     + G^*(ix_n)W(i\omega_n+ix_n) 
-% \right]\\
-% %
-% =&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-% \left[ \mathrm{Re}G(ix_n)\left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) \right) \right.\nonumber \\
-%  & \left. \hspace{1.35cm}   +\mathrm{Im}G(ix_n)\left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) \right)
-% \right]\\
-% %
-% %
-% =&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-% \left[ \left(\mathrm{Re}G(ix_n) - \frac{g_2}{(ix_n)^2} + \frac{g_2}{(ix_n)^2}\right) \right. \nonumber \\
-% %
-% & \times \left( W(i\omega_n-ix_n) + W(i\omega_n+ix_n) 
-%  - 2w_0-\frac{w_2}{(i\omega_n-ix_n)^2} -\frac{w_2}{(i\omega_n+ix_n)^2} \right.\nonumber  \\
-% &\left. \hspace{6.3cm}  + 2w_0+\frac{w_2}{(i\omega_n-ix_n)^2}+\frac{w_2}{(i\omega_n-ix_n)^2}\right) \nonumber \\
-% %
-% %
-% %
-% &\hspace{1.5cm} +\left(\mathrm{Im}G(ix_n) - \frac{1}{ix_n} + \frac{1}{ix_n}\right) \nonumber \\
-% %
-% & \times \left( W(i\omega_n-ix_n) - W(i\omega_n+ix_n) 
-%  -\frac{w_2}{(i\omega_n-ix_n)^2} +\frac{w_2}{(i\omega_n+ix_n)^2} \right. \nonumber \\
-% &\left. \hspace{6.3cm}  + \frac{w_2}{(i\omega_n-ix_n)^2}-\frac{w_2}{(i\omega_n-ix_n)^2}\right)
-% \end{align}
-% 
-% ASD
-% ASd
-% ASD
-% ASd
-% 
-% \begin{align}
-% &-\frac{1}{\beta} \sum_{n=0}^{\infty}
-% \left[ G(ix_n)W(i\omega_n-ix_n) 
-%     + G^*(ix_n)W(i\omega_n+ix_n) 
-% \right]\\
-% %
-% =&-\frac{1}{\beta} \sum_{n=0}^{\infty}
-% s
-% \end{align}
-
-Expanding the 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
