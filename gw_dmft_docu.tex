@@ -698,9 +698,12 @@ With this, the final expression implemented in the Code is then given by
   =& \sum_k\Bigg[ -\frac{1}{\beta} 
    \braket{m k | W(0 )|k m}G^{\sigma}_{k}(i\omega_n) \nonumber \\
 %
-   & \hspace{2cm}-\frac{1}{\beta}\sum_{j\neq n}^{\pm N_{max}}\braket{m k |\left( W(i\omega_n- ix_j )-w_0 - \frac{w_2}{(i\omega_n- ix_j)^2}\right) |k m} \nonumber \\
-   & \hspace{4cm} \times\left( G^{\sigma}_{k}(ix_j)-\frac{1}{ix_j} - \frac{g_2}{(ix_j)^2} \right) \nonumber \\
+   & \hspace{2cm}-\frac{1}{\beta}\sum_{j\neq n}^{\pm N_{max}} 
+   \Big[ \braket{m k | W(i\omega_n- ix_j ) |k m}  G^{\sigma}_{k}(ix_j) \nonumber \\
 %
+   &\hspace{3.8cm} -\braket{m k |\left( w_0 + \frac{w_2}{(i\omega_n- ix_j)^2}\right) |k m} 
+       \left( \frac{1}{ix_j} + \frac{g_2}{(ix_j)^2} \right)  \Big]\nonumber \\
+   %
 & +w_0 \left( \frac{1}{i(2n+1)\pi} -\frac{1}{2} \right) 
   + w_0 g_2\beta\left( \frac{1}{4} -\frac{1}{(2n+1)^2\pi^2} \right) \nonumber \\
 & + i\frac{w_2\beta^2}{(2n+1)\pi^3}\left( \frac{1}{(2n+1)^2} - \frac{\pi^2}{12} \right) 
