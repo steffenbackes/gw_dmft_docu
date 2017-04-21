@@ -245,7 +245,7 @@ does this affect the spectra? Other two-particle quantities?
 Hartmut said something like Plasmons cannot be properly treated due to the nonconserving
 properties.
 
-\subsection{More discussion of the GW doublecounting factor}
+\section{The GW+DMFT Doublecounting}
 In the section above we discussed that the "doublecounting" factor
 that has to be subtracted from the GW Selfenergy and Polarization
 should be 
@@ -343,6 +343,7 @@ or whether one takes out contibutions from DMFT, so that DMFT is a correction to
 
 
 \subsection{Evaluating the doublecounting factor $\Sigma^{DC}_{GW}=G_{loc}W_{loc}$}
+\label{sec:glocwloc_dc_factor}
 When evaluating the doublecounting factor 
 \begin{align}
 \Sigma^{DC}_{GW} &= -[G^{\mathrm{loc}}W^{\mathrm{loc}}],
@@ -557,7 +558,7 @@ of a dynamically screened Fock-exchange term.
 %   \lim_{i\omega_n\rightarrow 0}  \frac{\partial}{\partial i\omega_n}G^{\sigma}_{k}(i\omega_n-i\nu_j) \right]   
 % \end{align}
 
-\subsection{High-frequency correction for GW-DC 1}
+\subsection{High-frequency correction for GW-DC version1}
 \cng{This should not be used because this form converges slower}
 When evaluating the frequency sum for the doublecounting in the form 
 \begin{align}
@@ -631,7 +632,7 @@ The fourth term
 \end{align}
 
 
-\subsection{High-frequency correction for GW-DC 2}
+\subsection{High-frequency correction for GW-DC version2}
 When evaluating the frequency sum for the doublecounting in the form 
 \begin{align}
   \Sigma_m^{\sigma}(i\omega_n) 
@@ -709,7 +710,344 @@ With this, the final expression implemented in the Code is then given by
 & + i\frac{w_2\beta^2}{(2n+1)\pi^3}\left( \frac{1}{(2n+1)^2} - \frac{\pi^2}{12} \right) 
   + \frac{w_2g_2\beta^3}{(2n+1)^2\pi^4}\left( \frac{3}{(2n+1)^2} - \frac{\pi^2}{3} \right) \Bigg] .
  \end{align}
+ 
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+ 
+\subsection{Doublecounting of the Hartree Term}
+In the GW+DMFT cycle we have to deal with two types of doublecounting
+when adding the GW and the DMFT Selfenergy to the Green's function, as
+partially discussed before
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{Hartree}_{DFT} \right.\nonumber\\
+          & \hspace{1cm}- \Sigma^{XC}_{GW}(k,i\omega_n) 
+          + \Sigma_{GW}^{DC}(i\omega_n)
+          \left. - \Sigma_{imp}(i\omega_n)
+           \right]^{-1},
+\end{align}
+The first one is the doublecounting of the Hartree term, which arises since it is
+taken into account in the DFT and in the DMFT energies resp. Selfenergy.
+Since DMFT can induce a charge transfer, we will subtract the initial DFT Hartree
+contribution from the DFT energies, and add the full DMFT Selfenergy
+which contains a selfconsistent Hartree calculated from the 
+new orbital occupations.
+
+The second one is the local part of the Selfenergy, which
+is contained in both the GW and the DMFT Selfenergy. Since we assume that DMFT
+does a better job for the local Selfenergy, we subtract this part from the
+GW Selfenergy and replace it by the local DMFT Selfenergy. 
+The form of the Hartree part will be derived in section \ref{sec:hartree_exchange}.
+If there is no charge transfer, the
+Hartree part in the DMFT impurity Selfenergy is identical to the 
+DFT Hartree part, so what has to be subtracted is a Hartree Selfenergy
+given by the DFT fillings.
+The fillings are calculated from the DFT Green's function, so
+in the same sense as the GW doublecounting, we calculate the Hartree solution
+of the impurity model, and subtract it as a doublecounting.
+Therefore, it depends on the local DFT Green's function 
+and the effective screened interaction $U(\omega)$. 
+
+As derived above in section \ref{sec:glocwloc_dc_factor},
+the GW doublecounting $\Sigma_{GW}^{DC}$ does not contain the Hartree but only the exchange part,
+regardless whether it is calculated as $G_{loc}W_{loc}$ or $[GW]_{loc}$.
+Therefore, there is no doublecounting of any Hartree term.
+
+\bigskip
+
+We do not need to worry about any exchange doublecounting because in
+\begin{align}
+ H^{DFT}(k) - v^{XC}(k)
+\end{align}
+there is only the Hartree contribution left. In the full
+combination of 
+\begin{align}
+ \underbrace{H^{DFT}(k) - v^{XC}(k) - \Sigma^{Hartree}_{DFT}}_{\mbox{no exchange}}
+          + \underbrace{\Sigma^{XC}_{GW}(k,i\omega_n) - \Sigma_{GW}^{DC}(i\omega_n)}_{\mbox{only nonlocal exch.}}
+          + \underbrace{\Sigma_{imp}(i\omega_n)}_{\mbox{only local exch.}}
+\end{align}
+we can see that all DFT exchange is first replaced by the improved GW exchange.
+The due to the GW Doublecounting the local exchange of the correlated subspace
+is subtracted, and then again the local impurity exchange is added.
+
+There is still some local exchange in the term 
+$\Sigma^{XC}_{GW}(k,i\omega_n) - \Sigma_{GW}^{DC}(i\omega_n)$ but it is originating
+from outside the correlated subspace or from couplings between the subspace and the remaining
+space, which is not contained in $\Sigma_{imp}(i\omega_n)$.
+
+The GW doublecounting approaches the local Fock part in the large $i\omega_n$ limit,
+which means that we simply get the unscreened Fock-exchange 
+values (compare with Section \ref{sec:glocwloc_dc_factor})
+\begin{align}
+\lim_{i\omega_n\rightarrow \infty} \Sigma^{DC}_{GW,L}(i\omega_n) 
+&= -\frac{1}{\beta} \sum_{i\nu_n}\sum_{L'} G_{loc,L'}(i\omega_n-i\nu_n)V_{loc,LL'LL'} \\
+&= - \sum_{L'} n_LV_{loc,LL'LL'} .
+\end{align}
+
+
+When performing a pure DMFT calculation where no GW Selfenergy is added,
+we do not subtract the exchange correlation potential $V_{XC}$.
+Then we should subtract the full local Hartree \textbf{and} Fock exchange terms.
+By this, the local Hartree and Fock exchange terms are replaced by the DMFT impurity
+result and there is at least no doublecounting with respect to these terms. 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Hartree- and Exchange term}
+\label{sec:hartree_exchange}
+In the GW+DMFT cycle we add the GW and the DMFT Selfenergy to the DFT Green's function
+to build up the final interacting Green's function
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{Hartree}_{DFT} \right.\nonumber\\
+          & \hspace{1cm}- \Sigma^{XC}_{GW}(k,i\omega_n) 
+          + \Sigma_{GW,imp}^{XC}(i\omega_n)
+          \left. - \Sigma_{imp}(i\omega_n)
+           \right]^{-1},
+\end{align}
+where $\Sigma_{DFT}^{Hartree}$ is the Hartree term calculated in DFT.
+The GW Selfenergy does not contain a Hartree component, 
+but the DMFT Selfenergy $\Sigma_{imp}(i\omega_n)$ does, which leads
+to a doublecounting of the Hartree term. Therefore, the DFT Hartree part
+is subtracted via $\Sigma_{DFT}^{Hartree}$.
+
+In general we can expect charge transfer when applying the
+DMFT Method to the correlated orbitals, so the Hartree term is also 
+expected to change. 
+Therefore, we will replace the Hartree term completely by the one from DMFT.
+
+We now derive the expression for the Hartree and exchange terms
+contained in DFT in a local orbital basis.
+The derivation follows the ideas of Haule PRL 115, 196403 (2015).
+We assume a constant interaction for the derivation, and then 
+show what has to be modified when the interactions become
+frequency dependent in section \ref{sef:hartree_fock_freqdep}.
+
+\subsection{Hartree term}
+The Hartree energy has the general form
+\begin{align}
+E^H[\rho]
+%
+&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
+%
+&= \frac{1}{2} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
+\frac{\rho(\vec{r}) \rho(\vec{r}') }{|\vec{r}-\vec{r}'|},
+\end{align}
+where $\rho(\vec{r})$ is the sum of all spin-components
+\begin{align}
+\rho(\vec{r}) &= \rho_{\uparrow}(\vec{r}) + \rho_{\downarrow}(\vec{r}).
+\end{align}
+
+In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
+and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
+by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
+This leads to 
+\begin{align}
+E^H[\rho]
+%
+&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
+%
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+\braket{\vec{r}|\chi^{\sigma}_k}  \braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l}  
+\braket{\chi^{\sigma}_l | \vec{r}}V_{DMFT}(\vec{r}-\vec{r}') \nonumber \\
+& \hspace{2.7cm} \times 
+\braket{\vec{r}'|\chi^{\sigma'}_m}  \braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  
+\braket{\chi^{\sigma'}_n | \vec{r}'} \\
+%
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+ (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
+    V_{DMFT}(\vec{r}-\vec{r}') 
+  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) \nonumber \\
+& \hspace{2.7cm} \times 
+\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
+\braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  .
+\end{align}
+%
+In the last equation we can now identify the matrix elements of the local screened Coulomb
+interaction
+\begin{align}
+\braket{ln|U|km}
+&=
+\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
+ (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
+    V_{DMFT}(\vec{r}-\vec{r}') 
+  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) ,
+\end{align}
+and the DMFT density matrix
+\begin{align}
+\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
+&= n^{\sigma}_{kl}.
+\end{align}
+With this, the Hartree energy takes on the form
+\begin{align}
+E^{DMFT}
+&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}
+\braket{ln|U|km}
+n^{\sigma}_{kl} n^{\sigma'}_{mn}.
+\end{align}
+In the impurity model we restrict ourselves to diagonal density matrices, which leads to
+\begin{align}
+E^H_{DMFT}
+&= \frac{1}{2}\sum_{\substack{km\\\sigma\sigma'}}
+\braket{km|U|km}
+n^{\sigma}_{k} n^{\sigma'}_{m}.
+\end{align}
+This leads to the following Hartree part of the Selfenergy in DMFT
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma}
+&= \frac{\partial }{\partial n^{\sigma}_l} E^H_{DMFT} \\
+&= \frac{1}{2} \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m}
++
+\frac{1}{2} \sum_{k,\sigma'} \braket{kl|U|kl} n^{\sigma'}_{k} \\
+%
+&= \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m} \\
+%
+&= U_0 (n^{\uparrow}_l + n^{\downarrow}_l)
+               + \sum_{m\neq l} (U_0-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) .
+\label{eq:hartree_selfenergy}
+\end{align}
+
+
+\subsection{Exchange term}
+The exact exchange energy has the general form
+\begin{align}
+E^X[\rho]
+%
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho_{\sigma}(\vec{r},\vec{r}') V_C(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
+%
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
+\frac{\rho_{\sigma}(\vec{r},\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) }{|\vec{r}-\vec{r}'|}.
+\end{align}
+In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
+and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
+by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
+This leads to 
+\begin{align}
+E^X[\rho]
+&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\rho_{\sigma}(\vec{r},\vec{r}') V_{DMFT}(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
+%
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+\braket{\vec{r} | \chi^{\sigma}_k }\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l } \braket{\chi^{\sigma}_l | \vec{r}'}  V_{DMFT}(\vec{r}-\vec{r}') \nonumber\\
+& \hspace{3.8cm} \times 
+\braket{\vec{r}' | \chi^{\sigma}_m }\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } \braket{\chi^{\sigma}_n | \vec{r}} \\
+% 
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
+V_{DMFT}(\vec{r}-\vec{r}') 
+\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}) \nonumber\\
+& \hspace{3.8cm} \times 
+\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n }
+\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l }.
+\end{align}
+In the last equation we can now identify the matrix elements of the local screened Coulomb
+interaction
+\begin{align}
+\braket{nl|U|km} 
+&= \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
+(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
+V_{DMFT}(\vec{r}-\vec{r}') 
+\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}),
+\end{align}
+and the DMFT density matrix
+\begin{align}
+\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } 
+&= n^{\sigma}_{mn}.
+\end{align}
+With this, the exchange energy takes on the form
+\begin{align}
+E^X_{DMFT}
+&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}}\braket{nl|U|km} n^{\sigma}_{mn} n^{\sigma}_{kl}.
+\end{align}
+In the impurity model we restrict ourselves to diagonal density matrices, which leads to
+\begin{align}
+E^X_{DMFT}
+&= -\frac{1}{2} \sum_{mk,\sigma}\braket{mk|U|km} n^{\sigma}_{m} n^{\sigma}_{k} .
+\end{align}
+This leads to the following exchange part of the Selfenergy in DMFT
+\begin{align}
+\Sigma^{X,DMFT}_{l\sigma}
+&= \frac{\partial }{\partial n^{\sigma}_l} E^X_{DMFT} \\
+%
+&= -\frac{1}{2} \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} 
+   -\frac{1}{2} \sum_{m}\braket{ml|U|lm} n^{\sigma}_{m}  \\
+%
+&= - \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} \\
+%
+&= - U_0\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.
+\end{align}
+
+\subsection{Hartree + exchange Selfenergy}
+For consistency checks, we add up the Hartree and the exchange contribution
+to the Selfenergy and obtain
+\begin{align}
+\Sigma^{H,DMFT}_{l\sigma} + \Sigma^{X,DMFT}_{l\sigma}
+%
+&= U_0 n^{\bar{\sigma}}_l 
+%
+               + \sum_{m\neq l} (U_0-2J_{lm}) n^{\bar{\sigma}}_m  \nonumber \\
+& \hspace{1.4cm} + \sum_{m\neq l} (U_0-3J_{lm}) n^{     \sigma }_m  \\
+&= \lim_{\omega_n\rightarrow \infty} \Sigma^{DMFT}(i\omega_n),
+\end{align}
+which is identical to the high-frequency limit of the true DMFT Selfenergy.
+This term is also equal to the sum of all first order diagrams to the
+DMFT Selfenergy, i.e. the Hartree- and the Fock diagram.
+
+\subsection{Dynamical interactions}
+\label{sef:hartree_fock_freqdep}
+In the case of dynamical interactions $U(i\omega_n)$ in the Hartree and exchange part
+the screened Coulomb matrix elements recover their bare values, i.e.
+$U_0$ has to be replaced by the bare $V$ plus an additional term in the Hartree part
+\begin{align}
+ \Sigma^{Hartree}_{l\sigma}
+&= -2K'(0^+)(N-1) + \sum_{m,\sigma'} \braket{lm|V_{bare}|lm} n^{\sigma'}_{m} \\
+\Sigma^{Fock}_{l\sigma}
+&= - \sum_{m}\braket{lm|V_{bare}|ml} n^{\sigma}_{m} 
+\end{align}
+Here, $N=\sum_{m\sigma} n_m^{\sigma}$ is the total local charge,
+and $K'(\tau) = \partial_{\tau} K(\tau)$, as defined in section \ref{sec:gwdmft_cycle}.
+$K'(0^+)$ is given as
+\begin{align}
+ K'(0^+)
+ &= \frac{1}{2}\left[ V_{bare} - U(0) \right].
+\end{align}
+In our case, when we only use a frequency dependent monopole term $F_0$,
+$K(\tau)$ is not orbital dependent and depends only on the monopole term
+\begin{align}
+ K'(0^+)
+ &= \frac{1}{2}\left[ F_0(\infty) - F_0(0) \right].
+\end{align}
+Usually we consider the monopole term $F_0$
+as frequency dependent, so the interaction matrix elements 
+have to be constructed in the usual way of the Kanamori or Slater integral
+form with the unscreened $F_0$ and $J$ values. If $J$ is not considered as
+frequency dependent, like we do here, one has to choose whether to 
+use the value at zero frequencies, the bare value or something in-between.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1173,6 +1511,7 @@ The input of the calculation will be the output of the GW calculation. First, on
 since the GW output will be given on a very coarse grid.
 
 \subsection{The self-consistency cycle}
+\label{sec:gwdmft_cycle}
 
 We then proceed as follows:
 
@@ -1209,8 +1548,8 @@ We then proceed as follows:
 
 \item Make a first guess for the local DMFT impurity Selfenergy  $\Sigma^{imp}$ and polarization $P^{imp}$, for example one can use the GW result
 \begin{align}
-\Sigma^{imp}(i\omega_n) &=  \Sigma^{GW,imp,XC}(i\omega_n) + \Sigma^{imp,Hartree} \\
-P^{imp}(i\nu_n) &=  P_{GW,imp}(i\nu_n) .
+\Sigma^{imp}(i\omega_n) &=  \Sigma^{DC}_{GW}(i\omega_n) + \Sigma^{Hartree}_{DFT} \\
+P^{imp}(i\nu_n) &=  P_{GW}^{DC}(i\nu_n) .
 \end{align}
 Please note that $\Sigma$ is a matrix in the orbital basis $\Sigma_{mm'}$ and $P$ is a tensor
 $P_{\alpha\beta}$ in the product basis $\{ B_{\alpha} \}$, where $P,V$ and all further tensors are
@@ -1224,11 +1563,11 @@ $P_{\alpha\beta} = \braket{ B_{\alpha} | P | B_{\beta} }$, etc.
  G(k,i\omega_n) 
  &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{Hartree}_{DFT} \right.\\
           & \hspace{1cm}- \Sigma^{XC}_{GW}(k,i\omega_n) 
-          + \Sigma_{GW,imp}^{XC}(i\omega_n)
+          + \Sigma_{GW}^{DC}(i\omega_n)
           \left. - \Sigma_{imp}(i\omega_n)
            \right]^{-1} \\
 %
-W(q,i\nu_n) &= \left[ V^{-1}(q) - P_{GW}(q,i\nu_n) + P_{GW,imp}(i\nu_n) 
+W(q,i\nu_n) &= \left[ V^{-1}(q) - P_{GW}(q,i\nu_n) + P_{GW}^{DC}(i\nu_n) 
                               -P_{imp}(i\nu_n)\right]^{-1}
 \end{align}
 Adjust the chemical potential $\mu$ in a way such that the desired
@@ -1420,10 +1759,10 @@ Furthermore, we also will need
  
  Now we can apply these results to obtain analytic expressions for the high frequency tails
  in $K(\tau),K'(\tau)$.
- For large frequencies, since $\mathcal{U}(i\nu_n)$ is read and odd , we
+ For large frequencies, since $\mathcal{U}(i\nu_n)$ is real and even , we
 can approximate $\mathcal{U}(i\nu_n)$ as
 \begin{align}
- \mathcal{U}(i\nu_n) &\approx \mathcal{V} + \frac{c}{\nu_n}
+ \mathcal{U}(i\nu_n) &\approx \mathcal{V} - \frac{c}{\nu_n^2 },
 \end{align}
 where 
 \begin{align}
@@ -1437,21 +1776,17 @@ K(\tau) &= -\frac{2}{\beta} \sum_{n>0} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}
 %
 &\approx -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \nonumber \\
-    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=N_{\nu}}^{\infty} \frac{\mathcal{V} + \frac{c}{\nu_n}-\mathcal{U}(0)}{\nu^2_n}
+    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=N_{\nu}}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu_n^2}-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \\
 %                                        
-&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}-\frac{c}{\nu_n}}{\nu^2_n}
+&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \frac{\mathcal{U}(i\nu_n)-\mathcal{V}+\frac{c}{\nu_n^2}}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \nonumber \\
-    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} + \frac{c}{\nu_n}-\mathcal{U}(0)}{\nu^2_n}
+    &\hspace{0.5cm}-\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} - \frac{c}{\nu_n^2}-\mathcal{U}(0)}{\nu^2_n}
                                         ( \cos(\nu_n\tau)-1 ) \label{eq:k_hf_sum_last}
 \end{align}
-The first term in Eq.\eqref{eq:k_hf_sum_last} is summed numerically in the computer, but the second term
-can be evaluated analytically. Unfortunately there is no analytic expression for
-\begin{align}
-\sum_{n=1}^{\infty} \frac{\cos(\nu \tau)}{\nu_n^3},
-\end{align}
-so we cannot correct this contribution for now. 
-Therefore, we have to approximate $U(i\nu_n)\approx \mathcal{V}$ for large $\nu_n$.
+This becomes too long, and either way all terms fall off quite quickly.
+Therefore, for now we just approximate $U(i\nu_n)\approx \mathcal{V}$ for large $\nu_n$.
+THis should be rechecked later.
 
 \begin{align}
 & -\frac{2}{\beta} \sum_{n=1}^{\infty} \frac{\mathcal{V} -\mathcal{U}(0)}{\nu^2_n}
@@ -1559,11 +1894,13 @@ K(\tau)
 Differentiating $K(\tau)$ w.r.t. $\tau$ indeed gives the correct expression for $K(\tau')$ (would have saved a lot of work...) REMEBER: These formulas are derived for $\tau\in(0,\beta)$!
 The Alps solver requires  $K(\tau)$ to be positive and $K(0)=0$, which is fulfilled in this form.
 
-For the solver we need to shift the instantaneous $U_{ij}$ values in \verb|u_matrix.dat| as $U_{ij}\rightarrow U_{ij} +2K'(0) = U_{ij} +\mathcal{V}-U(0)$\cng{check sign},
-which should result in using $\sim\mathcal{V}$ for the values.
-we need to shift the local chemical potential as $\mu\rightarrow \mu + K'(0)$ in \verb|mu_vector.dat|.
-
-For the doublelcounting we should also use the $U_{\infty}$ values \cng{check this more carefully, what about J?}
+For the solver we need to provide the instantaneous $U_{ij}$ values in 
+\verb|u_matrix.dat|,  which means we have to use the bare 
+$\sim\mathcal{V}$ values. The local chemical potential is written
+in \verb|mu_vector.dat|. All necessary shifts that need to be done for the solver, like
+$U_{ij} \rightarrow U_{ij} + 2K'(0)$ and $\mu\rightarrow + K'(0)$ 
+\cng{is this the right sign} are done in the ALPS solver, so we do not
+need to worry about this.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1636,357 +1973,6 @@ and therefore
 \end{align}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Hartree- and Exchange term}
-In the GW+DMFT cycle we add the GW and the DMFT Selfenergy to the DFT Green's function
-to build up the final interacting Green's function
-\begin{align}
- G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{Hartree}_{DFT} \right.\nonumber\\
-          & \hspace{1cm}- \Sigma^{XC}_{GW}(k,i\omega_n) 
-          + \Sigma_{GW,imp}^{XC}(i\omega_n)
-          \left. - \Sigma_{imp}(i\omega_n)
-           \right]^{-1},
-\end{align}
-where $\Sigma_{DFT}^{Hartree}$ is the Hartree term calculated in DFT.
-The GW Selfenergy does not contain a Hartree component, 
-but the DMFT Selfenergy $\Sigma_{imp}(i\omega_n)$ does, which leads
-to a doublecounting of the Hartree term. Therefore, the DFT Hartree part
-is subtracted via $\Sigma_{DFT}^{Hartree}$.
-
-In general we can expect charge transfer when applying the
-DMFT Method to the correlated orbitals, so the Hartree term is also 
-expected to change. 
-Therefore, we will replace the Hartree term completely by the one from DMFT.
-
-We now derive the expression for the Hartree and exchange terms
-contained in DFT in a local orbital basis.
-The derivation follows the ideas of Haule PRL 115, 196403 (2015).
-
-\subsection{Hartree term}
-The Hartree energy has the general form
-\begin{align}
-E^H[\rho]
-%
-&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
-%
-&= \frac{1}{2} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
-\frac{\rho(\vec{r}) \rho(\vec{r}') }{|\vec{r}-\vec{r}'|},
-\end{align}
-where $\rho(\vec{r})$ is the sum of all spin-components
-\begin{align}
-\rho(\vec{r}) &= \rho_{\uparrow}(\vec{r}) + \rho_{\downarrow}(\vec{r}).
-\end{align}
-
-In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
-and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
-by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
-This leads to 
-\begin{align}
-E^H[\rho]
-%
-&= \frac{1}{2}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-\rho(\vec{r}) V_C(\vec{r}-\vec{r}') \rho(\vec{r}') \\
-%
-&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
-\braket{\vec{r}|\chi^{\sigma}_k}  \braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l}  
-\braket{\chi^{\sigma}_l | \vec{r}}V_{DMFT}(\vec{r}-\vec{r}') \nonumber \\
-& \hspace{2.7cm} \times 
-\braket{\vec{r}'|\chi^{\sigma'}_m}  \braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  
-\braket{\chi^{\sigma'}_n | \vec{r}'} \\
-%
-&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
- (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
-    V_{DMFT}(\vec{r}-\vec{r}') 
-  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) \nonumber \\
-& \hspace{2.7cm} \times 
-\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
-\braket{\chi^{\sigma'}_m|\rho|\chi^{\sigma'}_n}  .
-\end{align}
-%
-In the last equation we can now identify the matrix elements of the local screened Coulomb
-interaction
-\begin{align}
-\braket{ln|U|km}
-&=
-\int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' 
- (\chi^{\sigma}_l)^*(\vec{r}) (\chi^{\sigma'}_n)^*(\vec{r}')
-    V_{DMFT}(\vec{r}-\vec{r}') 
-  \chi^{\sigma'}_m(\vec{r}')  \chi^{\sigma}_k(\vec{r}) ,
-\end{align}
-and the DMFT density matrix
-\begin{align}
-\braket{\chi^{\sigma}_k|\rho|\chi^{\sigma}_l} 
-&= n^{\sigma}_{kl}.
-\end{align}
-With this, the Hartree energy takes on the form
-\begin{align}
-E^{DMFT}
-&= \frac{1}{2}\sum_{\substack{klmn\\\sigma\sigma'}}
-\braket{ln|U|km}
-n^{\sigma}_{kl} n^{\sigma'}_{mn}.
-\end{align}
-In the impurity model we restrict ourselves to diagonal density matrices, which leads to
-\begin{align}
-E^H_{DMFT}
-&= \frac{1}{2}\sum_{\substack{km\\\sigma\sigma'}}
-\braket{km|U|km}
-n^{\sigma}_{k} n^{\sigma'}_{m}.
-\end{align}
-This leads to the following Hartree part of the Selfenergy in DMFT
-\begin{align}
-\Sigma^{H,DMFT}_{l\sigma}
-&= \frac{\partial }{\partial n^{\sigma}_l} E^H_{DMFT} \\
-&= \frac{1}{2} \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m}
-+
-\frac{1}{2} \sum_{k,\sigma'} \braket{kl|U|kl} n^{\sigma'}_{k} \\
-%
-&= \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m} \\
-%
-&= U_0 (n^{\uparrow}_l + n^{\downarrow}_l)
-               + \sum_{m\neq l} (U_0-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) .
-\label{eq:hartree_selfenergy}
-\end{align}
-
-
-\subsection{Exchange term}
-The exact exchange energy has the general form
-\begin{align}
-E^X[\rho]
-%
-&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-\rho_{\sigma}(\vec{r},\vec{r}') V_C(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
-%
-&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,
-\frac{\rho_{\sigma}(\vec{r},\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) }{|\vec{r}-\vec{r}'|}.
-\end{align}
-In order to evaluate these term for DMFT we introduce a local orbital basis  $\ket{\chi^{\sigma}_m}$, 
-and replace the bare Coulomb interaction $V_C(\vec{r}-\vec{r}')$ 
-by an effective screened Coulomb interaction $V_{DMFT}(\vec{r}-\vec{r}')$.
-This leads to 
-\begin{align}
-E^X[\rho]
-&= -\frac{1}{2}\sum_{\sigma} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-\rho_{\sigma}(\vec{r},\vec{r}') V_{DMFT}(\vec{r}-\vec{r}') \rho_{\sigma}(\vec{r}',\vec{r}) \\
-%
-&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-\braket{\vec{r} | \chi^{\sigma}_k }\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l } \braket{\chi^{\sigma}_l | \vec{r}'}  V_{DMFT}(\vec{r}-\vec{r}') \nonumber\\
-& \hspace{3.8cm} \times 
-\braket{\vec{r}' | \chi^{\sigma}_m }\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } \braket{\chi^{\sigma}_n | \vec{r}} \\
-% 
-&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}} \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
-V_{DMFT}(\vec{r}-\vec{r}') 
-\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}) \nonumber\\
-& \hspace{3.8cm} \times 
-\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n }
-\braket{\chi^{\sigma}_k | \rho_{\sigma} | \chi^{\sigma}_l }.
-\end{align}
-In the last equation we can now identify the matrix elements of the local screened Coulomb
-interaction
-\begin{align}
-\braket{nl|U|km} 
-&= \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, 
-(\chi^{\sigma}_n)^*(\vec{r}) (\chi^{\sigma}_l)^*(\vec{r}')  
-V_{DMFT}(\vec{r}-\vec{r}') 
-\chi^{\sigma}_m (\vec{r}') \chi^{\sigma}_k (\vec{r}),
-\end{align}
-and the DMFT density matrix
-\begin{align}
-\braket{\chi^{\sigma}_m | \rho_{\sigma} | \chi^{\sigma}_n } 
-&= n^{\sigma}_{mn}.
-\end{align}
-With this, the exchange energy takes on the form
-\begin{align}
-E^X_{DMFT}
-&= -\frac{1}{2} \sum_{\substack{klmn\\\sigma}}\braket{nl|U|km} n^{\sigma}_{mn} n^{\sigma}_{kl}.
-\end{align}
-In the impurity model we restrict ourselves to diagonal density matrices, which leads to
-\begin{align}
-E^X_{DMFT}
-&= -\frac{1}{2} \sum_{mk,\sigma}\braket{mk|U|km} n^{\sigma}_{m} n^{\sigma}_{k} .
-\end{align}
-This leads to the following exchange part of the Selfenergy in DMFT
-\begin{align}
-\Sigma^{X,DMFT}_{l\sigma}
-&= \frac{\partial }{\partial n^{\sigma}_l} E^X_{DMFT} \\
-%
-&= -\frac{1}{2} \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} 
-   -\frac{1}{2} \sum_{m}\braket{ml|U|lm} n^{\sigma}_{m}  \\
-%
-&= - \sum_{k}\braket{lk|U|kl} n^{\sigma}_{k} \\
-%
-&= - U_0\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.
-\end{align}
-
-\subsection{Hartree + exchange Selfenergy}
-For consistency checks, we add up the Hartree and the exchange contribution
-to the Selfenergy and obtain
-\begin{align}
-\Sigma^{H,DMFT}_{l\sigma} + \Sigma^{X,DMFT}_{l\sigma}
-%
-&= U_0 n^{\bar{\sigma}}_l 
-%
-               + \sum_{m\neq l} (U_0-2J_{lm}) n^{\bar{\sigma}}_m  \nonumber \\
-& \hspace{1.4cm} + \sum_{m\neq l} (U_0-3J_{lm}) n^{     \sigma }_m  \\
-&= \lim_{\omega_n\rightarrow \infty} \Sigma^{DMFT}(i\omega_n),
-\end{align}
-which is identical to the high-frequency limit of the true DMFT Selfenergy.
-This term is also equal to the sum of all first order diagrams to the
-DMFT Selfenergy, i.e. the Hartree- and the Fock diagram.
-
-\subsection{Dynamical interactions}
-In the case of dynamical interactions $U(\omega)$ in the Hartree and exchange part
-the screened Coulomb matrix elements recover their bare values, i.e.
-$U_0$ has to be replaced by the bare $V$ (assuming no frequency dependence of the 
-Hund's coupling)
-\begin{align}
-\Sigma^{H,DMFT}_{l\sigma}
-&= V (n^{\uparrow}_l + n^{\downarrow}_l)
-               + \sum_{m\neq l} (V-2J_{lm}) (n^{\uparrow}_m + n^{\downarrow}_m) 
-\label{eq:hartree_selfenergy_freq} \\
-%
-\Sigma^{X,DMFT}_{l\sigma}
-&= - V\, n^{\sigma}_l -  \sum_{k\neq l} J_{lk} \, n^{\sigma}_{k}.               
-\end{align}
-\cng{CAUTION!} Usually we consider the monopole term $F_0$
-as frequency dependent, so the interaction matrix elements 
-have to be constructed in the usual way of the Kanamori or Slater integral
-form with the unscreened $F_0$ and $J$ values. I.e
-then $U_0$ has to be replaced in the 5-orbital model by $V + \frac{8}{7}J_{avg}$,
-etc.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{GW+DMFT doublecounting terms}
-In the GW+DMFT cycle we have to deal with two types of doublecounting
-when adding the GW and the DMFT Selfenergy to the Green's function, as
-partially discussed before
-\begin{align}
- G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{Hartree}_{DFT} \right.\nonumber\\
-          & \hspace{1cm}- \Sigma^{XC}_{GW}(k,i\omega_n) 
-          + \Sigma_{GW,imp}^{XC}(i\omega_n)
-          \left. - \Sigma_{imp}(i\omega_n)
-           \right]^{-1},
-\end{align}
-The first one is the doublecounting of the Hartree term, which arises since it is
-taken into account in the DFT and in the DMFT energies resp. Selfenergy.
-Since DMFT can induce a charge transfer, we will subtract the DFT Hartree
-contribution from the DFT energies, and add the full DMFT Selfenergy
-which contains a selfconsistent Hartree calculated from the 
-new orbital occupations.
-
-The second one is the local part of the Selfenergy, which
-is contained in both the GW and the DMFT Selfenergy. Since we assume that DMFT
-does a better job for the local Selfenergy, we subtract this part from the
-GW Selfenergy and replace it by the local DMFT Selfenergy. 
-
-If the DMFT problem is formulated in the full space and no smaller correlated subspace
-is chosen, then the doublecounting factors become quite simple.
-In the following we will only use a basis of local orbitals,
-since this is the basis in which the DMFT problem is formulated.
-The Hartree doublecounting is then
-\begin{align}
-\Sigma^{DFT,Hartree}_{l\sigma}
-&= \sum_{m,\sigma'} \braket{lm|U|lm} n^{\sigma'}_{m} \\
-%
-&= U_0 (n^{\uparrow}_l + n^{\downarrow}_l)
-               + \sum_{m\neq l} U'_{lm} (n^{\uparrow}_m + n^{\downarrow}_m) ,
-\end{align}
-where $U_0$ and $U'$ are the unscreened local interaction parameters,
-with the orbital occupations $n^{\sigma'}_{m}$ calculated from the initial
-local DFT Green's function
-\begin{align}
- G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k)  \right]^{-1}.
-\end{align}
-The sum over the orbital indices $l$ runs over all states since no correlated
-subspace is chosen. 
-
-The GW doublecounting can be shown to be
-\begin{align}
-\Sigma^{GW,imp}_L(i\omega_n) 
-&= \sum_k \Sigma^{GW}_L(k,i\omega_n)  \\
-&= -\frac{1}{\beta} \sum_{i\nu_n}\sum_{L'} G_{loc,L'}(i\omega_n-i\nu_n)W_{loc,LL'LL'}(i\nu_n),
-\end{align}
-i.e. the local GW Selfenergy is only given by the local Green's function
-and screened interaction.
-This term contains a Hartree part, which should not be incorporated, 
-since it is also not contained in the GW Selfenergy!
-The full Hartree-Fock part is obtained from the large $i\omega_n$ limit,
-which means that in the summation above we simply get the unscreened Hartree
-values
-\begin{align}
-\Sigma^{GW,imp,Hartree}_L(i\omega_n) 
-&= \lim_{i\omega_n\rightarrow \infty}\sum_k \Sigma^{GW}_L(k,i\omega_n)  \\
-&= -\frac{1}{\beta} \sum_{i\nu_n}\sum_{L'} G_{loc,L'}(i\omega_n-i\nu_n)V_{loc,LL'LL'} \\
-\end{align}
-This last term contains the fillings \textbf{but right now I don't know
-how to correctly perform the frequency summation! Like it is now this would
-give me the negative Hartree-Fock part! Solution is still to be found!!!}
-
-Within a GW+DMF one-shot scheme, where we use $G_0$ from DFT and the $W_0$
-where the screening is calculated from the RPA polarization 
-based on DFT, the Hartree term from the local GW Selfenergy should be identical
-to the DFT Hartree term calculated above, since here we use the DFT Green's function
-and the unscreened interaction, which reduces exactly to the sum over
-DFT orbital occupations and interactions. 
-Therefore, in this case the two Hartree correction terms just cancel out
-\begin{align}
- G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) + \Sigma^{DFT,Hartree} \right.\nonumber\\
-          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
-          + \Sigma^{GW,imp}(i\omega_n)- \Sigma^{DFT,Hartree}
-          \left. - \Sigma^{imp}(i\omega_n)
-           \right]^{-1} \\
-&= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right.\nonumber\\
-          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
-          + \Sigma^{GW,imp}(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n)
-           \right]^{-1}
-\end{align}
-Since the Hartree DFT Selfenergy is contained in the  $\Sigma^{GW,imp}(i\omega_n)$
-and has a different sign than $H_{DFT}$, it exactly subtracts the Hartree contribution
-from DFT. Therefore, in this case it does not need to be calculated explicitly.
-\textbf{This is only true if $\Sigma^{GW,imp}(i\omega_n)$ is calculated
-as $G_{loc}W_{loc}$ and NOT $[GW]_{loc}$!!}, since in our convention the Hartree part
-is no longer in the GW Selfenergy.
-
-In a GW+DMFT selfconsistency cycle where we do not update the GW calculation
-or interaction, only the DMFT Selfenergy $\Sigma^{imp}(i\omega_n)$
-has to be recalculated and converged. All other Selfenergy or Doublecounting
-terms are determined by the DFT resp. GW result.
-
-Even when we perform a selfconsistent calculation for the screened interaction
-by calculating $P_{imp}$ selfconsistently, the Hartree term in the GW Doublecounting
-will be equal to the DFT hartree part, because it only depends on the DFT
-fillings and the bare interaction, which is not affected. 
-Only in case of a GW-like Selfconsistency where $G_0$ is updated we need 
-to update the GW DC Hartree part. 
-Therefore, we will stick to the convention that we always subtract the Hartree part
-from the DFT Hamiltonian and use a $\Sigma^{XC,imp}_{GW}(i\omega_n)$
-doublecounting, regardless of which method, which does \textbf{not} include a Hartree part. 
-This is more consistent since $\Sigma^{XC}_{GW}(k,i\omega_n)$ also
-does not add a Hartree term, so the only overlap has to be considered 
-between $H_{DFT}$ and $\Sigma_{imp}(i\omega_n)$.
-
-When performing a pure DMFT calculation where no GW Selfenergy is added,
-we do not subtract the exchange correlation potential $V_{XC}$,
-but will subtract the full local Hartree and Fock exchange terms derived above. 
-By this, the local Hartree and Fock exchange terms are replaced by the DMFT
-result and there is at least no doublecounting with respect to these terms. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1997,7 +1983,9 @@ result and there is at least no doublecounting with respect to these terms.
 
 \section{Analytic continuation}
 \begin{figure}[t]
-\includegraphics[width=0.9\textwidth]{figs/GW_maxent_diffSigma.pdf}
+\begin{center}
+\includegraphics[width=0.75\textwidth]{figs/GW_maxent_diffSigma.pdf} 
+\end{center}
 \caption{The spectral function from G$_0$W$_0$ (7x7x7 k-points) obtained from
 Maxent, using a constant standard deviation $\sigma$. The Green's function
 on the Matsubara axis $i\omega_n$ for 1000 frequenices at $\beta=40$\ 1/eV was continued
@@ -2040,7 +2028,9 @@ Maybe one can use the direct measurement on $i\omega_n$ (more costly)
 in the future?
 
 \begin{figure}[t]
-\includegraphics[width=0.9\textwidth]{figs/GWDMFT_maxent_diffSigma.pdf}
+\begin{center}
+\includegraphics[width=0.75\textwidth]{figs/GWDMFT_maxent_diffSigma.pdf} 
+\end{center}
 \caption{The spectral function from GW+DMFT (7x7x7 k-points) obtained from
 Maxent, using the mesured standard deviation $\sigma(\tau)$
 from the impurity solver. The Green's function
@@ -2050,6 +2040,30 @@ factors to show the dependence on $\sigma$. The factor 1 corresponds
 to the initial value of $\sigma$ measured in the Monte Carlo Solver.}
 \label{fig:gwdmft_anacont_diff_sigma}
 \end{figure}
+
+\textbf{Essential tip:}
+A very efficient way of dealing with the plasmonic weight at high frequencies
+is by incorporating them already in the default model. What works quite well
+is adding gaussians  at multiple of the plasma frequency 
+$\pm n\omega_0$, with $n\sim 4$, that become smaller in weight.
+Usually, the positions of these gaussians will not be modified becuase the 
+analytic continuation is not sensitive enough to determine their correct position
+but they are essential for redistributing spectral weight away from the Fermi level.
+Another option is to add, instead of gaussians, only a constant value,
+which reaches up to high energies. The important point here is that 
+the spectral weight at the Fermi level, which is usually a bigger gaussian in
+the default model, is properly reduced so that the analytic continuation
+does not have to shift spectral weight from the Fermi level over long distances to higher
+energies.
+
+With both of these models, I noticed that the resulting spectral
+function around the Fermi level is only very weakly dependent on the choice
+of $\sigma$, which makes the result very robust and trustworthy.  
+Also the position of the (first) upper and lower Hubbard bands seem to be 
+quite robust. On both the imaginary time and frequency axis it worked quite well
+and gave very similar results.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2101,7 +2115,9 @@ for odd/even numbers!)
 
 \section{Dependence on GW frequency mesh}
 \begin{figure}[h]
-\includegraphics[width=0.75\textwidth]{figs/freqdep/NiO_fcomp_DOS.pdf}\\
+\begin{center}
+\includegraphics[width=0.6\textwidth]{figs/freqdep/NiO_fcomp_DOS.pdf} 
+\end{center}
 \includegraphics[width=0.49\textwidth]{figs/freqdep/NiO_fcomp_sigmai.pdf}
 \includegraphics[width=0.49\textwidth]{figs/freqdep/NiO_fcomp_sigmar.pdf}
 \caption{Top: The GW quasiparticle DOS for NiO with different number of
@@ -2112,6 +2128,46 @@ in the real part it is shown at the X point for the first $e_g$ orbital.}
 \label{fig:gw_freqdep_comp}
 \end{figure}
 
+In the GW Code the frequency dependent objects are stored on a specific
+frequency mesh, which is also used for integration when evaluating the 
+Selfenergy 
+\begin{align}
+ \Sigma^{GW}(i\omega) &= \int \mathrm{d}{i\nu}\ G(i\omega-i\nu) W(i\nu).
+\end{align}
+In the gw.inp input file one has the parameters
+\begin{description}
+\item[iop\_fgrid]:
+\begin{description}
+ \item[1] Equally spaced mesh
+ \item[2] single Gauss-Laguerre quadrature
+ \item[3] Double Gauss-Legendre quadrature from 0 to omegmax and from omegmax to infinity
+ \item[4] Fermion Matsubara frequencies
+\end{description}
+The default is the double Gauss-Legendre quadrature, in which the semi-infinite 
+integral from 0 to infinity is divided into two intervals $[0, \omega_0]$ and 
+$[\omega_0, \infty]$, and the integration in each interval is carried out by 
+standard Gauss-Legendre quadrature. The default value for $\omega_0 = 0.42$~Hartree
+$\approx 11.4$~eV.
+\item[nomeg] total number of frequencies
+\item[omegmax] This is $\omega_0$ for GW calculations.
+In the case of cRPA calculations, omegmax and omegmin indicate the upper and 
+lower bounds of the frequency grid on which the screened Coulomb interactions 
+are calculated.
+\item[nomeg\_blk] This is a technical parameter that can be used when nomeg is 
+very large. In that case, the memory size required can be huge and therefore the 
+loop over the frequency can be divided into blocks with the size of nomeg\_blk. 
+\end{description}
+
+For insulators the number of frequencies does not have a big effect, 
+but in metals like SrVO3, or NiO (metal in DFT) I noticed a very significant influence.
+In Fig. \ref{fig:gw_freqdep_comp} the effect of using different number of frequencies
+on the GW DOS and the Selfenergy is shown.
+In general it seems that nomeg=16 is significantly too low, and 
+nomeg=48 is almost enough. nomeg=64 should be sufficiently converged, but
+usually impossible to calculate for larger k-meshes due to memory constraints.
+
+I also did tests using different omegmax values but it seems the default
+one is quite ok, and one only needs to use as much frequencies as possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
