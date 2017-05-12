@@ -1005,36 +1005,84 @@ which is identical to the high-frequency limit of the true DMFT Selfenergy.
 This term is also equal to the sum of all first order diagrams to the
 DMFT Selfenergy, i.e. the Hartree- and the Fock diagram.
 
-\subsection{Dynamical interactions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Hartree+Fock term in DMFT with Dynamical interactions}
 \label{sef:hartree_fock_freqdep}
-In the case of dynamical interactions $U(i\omega_n)$ in the Hartree and exchange part
-the screened Coulomb matrix elements recover their bare values, i.e.
-$U_0$ has to be replaced by the bare $V$ plus an additional term in the Hartree part
-\begin{align}
- \Sigma^{Hartree}_{l\sigma}
-&= -2K'(0^+)(N-1) + \sum_{m,\sigma'} \braket{lm|V_{bare}|lm} n^{\sigma'}_{m} \\
-\Sigma^{Fock}_{l\sigma}
-&= - \sum_{m}\braket{lm|V_{bare}|ml} n^{\sigma}_{m} 
-\end{align}
-Here, $N=\sum_{m\sigma} n_m^{\sigma}$ is the total local charge,
-and $K'(\tau) = \partial_{\tau} K(\tau)$, as defined in section \ref{sec:gwdmft_cycle}.
-$K'(0^+)$ is given as
-\begin{align}
- K'(0^+)
- &= \frac{1}{2}\left[ V_{bare} - U(0) \right].
-\end{align}
+In the case of dynamical interactions $U(i\omega_n)$ in 
+the screened Coulomb matrix elements recover their bare values
+for large frequencies. This leads to a slightly
+different expression for the Hartree and Fock term of the Selfenergy when
+solving the impurity model. 
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{figs/hfdiag.pdf}
+\end{center}
+\caption{The local Hartree (a) and Fock diagram (b)}
+\label{fig:1storder_diags}
+\end{figure}
+
 In our case, when we only use a frequency dependent monopole term $F_0$,
-$K(\tau)$ is not orbital dependent and depends only on the monopole term
+all elements of the Coulomb interaction matrix have the same frequency
+dependence and only differ in a constant spin- and orbital
+dependent offset. This frequency dependence is described by
+$K(\tau)$, as defined in section \ref{sec:gwdmft_cycle}.
+$K'(\tau) = \partial_{\tau} K(\tau)$, has the following form at $\tau=0^+$
 \begin{align}
  K'(0^+)
- &= \frac{1}{2}\left[ F_0(\infty) - F_0(0) \right].
+ &= \frac{1}{2}\left[ V_{bare} - U(0) \right] \\
+  &= \frac{1}{2}\left[ U(\infty) - U(0) \right].
 \end{align}
-Usually we consider the monopole term $F_0$
-as frequency dependent, so the interaction matrix elements 
-have to be constructed in the usual way of the Kanamori or Slater integral
-form with the unscreened $F_0$ and $J$ values. If $J$ is not considered as
-frequency dependent, like we do here, one has to choose whether to 
-use the value at zero frequencies, the bare value or something in-between.
+Since only the monopole term $F_0$ is frequency
+dependent, this results in 
+\begin{align}
+ K'(0^+)
+ &= \frac{1}{2}\left[ F_0(\infty) - F_0(0) \right]
+\end{align}
+which is spin- and orbital independent.
+
+\subsection{Hartree Term}
+We start by evaluating the Hartree diagram, shown in Fig. \ref{fig:1storder_diags} (a).
+\begin{align}
+\Sigma^{H}_{m\sigma}(i\omega)
+&= \frac{1}{\beta} \sum_{a\sigma'}\sum_{i\omega_n'} U_{ma}(0) G_{a\sigma'}(i\omega_n') \\
+&= \sum_{a\sigma'} U_{ma}(0) n_{a\sigma'} \\
+&= \sum_{a\sigma'} \left[ U_{ma}(0) - U_{ma}(\infty) + U_{ma}(\infty) \right] n_{a\sigma'} \\
+&= \sum_{a\sigma'} \left[ U_{ma}(0) - U_{ma}(\infty) \right] n_{a\sigma'} + \sum_{a\sigma'} U_{ma}(\infty)n_{a\sigma'} \\
+&= -2K'(0^+)N + \sum_{a\sigma'} U_{ma}(\infty)n_{a\sigma'},
+\end{align}
+where $N=\sum_{a\sigma}n_{a\sigma}$.
+
+\subsection{Fock Term}
+We start by evaluating the Fock diagram, shown in Fig. \ref{fig:1storder_diags} (b).
+\begin{align}
+\Sigma^{F}_{m\sigma}(i\omega)
+&= -\frac{1}{\beta} \sum_a \sum_{i\nu_n} J_{ma}(i\nu_n) G_{a\sigma}(i\omega_n-i\nu_n) \\
+&= -\frac{1}{\beta} \sum_a\sum_{i\nu_n} \left[ J_{ma}(i\nu_n) - J_{ma}(\infty)+J_{ma}(\infty) \right] G_{a\sigma}(i\omega_n-i\nu_n) \\
+%
+&= -\frac{1}{\beta}\sum_a \sum_{i\nu_n} J_{ma}(\infty)G_{a\sigma}(i\omega_n-i\nu_n) \nonumber \\
+& \hspace{0.5cm}  -\frac{1}{\beta} \sum_a \underbrace{\sum_{i\nu_n} \left[ J_{ma}(i\nu_n) - J_{ma}(\infty)\right] G_{a\sigma}(i\omega_n-i\nu_n)}_{\rightarrow 0 \mbox{ for }i\omega\rightarrow \infty} \\ 
+%
+&= - \sum_aJ_{ma}(\infty)n_{a\sigma}.
+\end{align}
+
+\subsection{Hartree+Fock Term}
+This leads to the final expression
+\begin{align}
+\Sigma^{H}_{m\sigma}
+&= -2K'(0^+)N + \sum_{a\sigma'} U_{ma}(\infty)n_{a\sigma'} \\
+%
+\Sigma^{F}_{m\sigma}
+&= - \sum_aJ_{ma}(\infty)n_{a\sigma} \\
+%
+\Sigma^{HF}_{m\sigma}
+&= -2K'(0^+)N + \sum_{a} U_{ma}(\infty)n_{a\bar{\sigma}} 
+             + \sum_{a} [U_{ma}(\infty)-J_{ma}(\infty)]n_{a\sigma} .
+\end{align}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
