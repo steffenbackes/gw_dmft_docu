@@ -17,36 +17,90 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{2}{section.2}}
-\newlabel{eq:sigma_from_psi}{{2.2}{2}{Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{equation.2.2}{}}
-\newlabel{eq:p_from_psi}{{2.3}{2}{Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{equation.2.3}{}}
-\newlabel{eq:psi_separation_nonloc_loc}{{2.8}{3}{Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{equation.2.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Product basis}{5}{section.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Index combination}{6}{subsection.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Properties and consistency}{6}{subsubsection.3.1.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Tensor inverse}{7}{subsubsection.3.1.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Problems}{8}{subsubsection.3.1.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Aryasetiawan-style}{9}{subsection.3.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Defining the new basis set}{9}{subsubsection.3.2.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Reduction of the basis set and reorthonormalization}{10}{subsubsection.3.2.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Product basis matrix elements}{10}{subsubsection.3.2.3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Switching between the product and the two-particle basis}{11}{subsubsection.3.2.4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Tensor inverse}{11}{subsubsection.3.2.5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.6}Problems}{12}{subsubsection.3.2.6}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}The GW part}{13}{section.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Output for DMFT}{13}{subsection.4.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}The DMFT part}{14}{section.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The self-consistency cycle}{14}{subsection.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Output}{15}{subsection.5.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}High-frequency correction}{16}{subsection.5.3}}
-\newlabel{sec:hf_corr_interaction}{{5.3}{16}{High-frequency correction}{subsection.5.3}{}}
-\newlabel{eq:k_hf_sum_last}{{5.46}{18}{High-frequency correction}{equation.5.46}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Hartree- and Exchange term in DMFT}{19}{section.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Hartree term}{19}{subsection.6.1}}
-\newlabel{eq:hartree_selfenergy}{{6.14}{20}{Hartree term}{equation.6.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Exchange term}{21}{subsection.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Hartree + exchange Selfenergy}{22}{subsection.6.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Dynamical interactions}{22}{subsection.6.4}}
-\newlabel{eq:hartree_selfenergy_freq}{{6.30}{22}{Dynamical interactions}{equation.6.30}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Implementation details}{22}{section.7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Impurity solver input}{22}{subsection.7.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{3}{section.2}}
+\newlabel{eq:sigma_from_psi}{{2.2}{3}{Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{equation.2.2}{}}
+\newlabel{eq:p_from_psi}{{2.3}{3}{Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{equation.2.3}{}}
+\newlabel{eq:psi_separation_nonloc_loc}{{2.8}{4}{Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{equation.2.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}The GW+DMFT Doublecounting}{6}{section.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The Selfenergy $\Sigma (i\omega _n)$ obtained from G$_0$W$_0$ (7x7x7 k-points) and GW+DMFT using the G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ with $U(\omega )$ interaction determined from cRPA. As the doublecounting $\Sigma _{GW}^{DC}$ the local part of the GW Selfenergy $\DOTSB \sum@ \slimits@ _k GW$ on the correlated orbitals been subtracted (green line, called GW-local). One clearly sees a mismatch between this term and the DMFT Selfenergy (black line), which is due to the terms contributing to the local Selfenergy that arise from the coupling between the subspace and the remaining states and also the nonlocal contributions to the local part which cannot be captured by DMFT. \relax }}{7}{figure.caption.2}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:sigma_loc_compare}{{1}{7}{The Selfenergy $\Sigma (i\omega _n)$ obtained from G$_0$W$_0$ (7x7x7 k-points) and GW+DMFT using the G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ with $U(\omega )$ interaction determined from cRPA. As the doublecounting $\Sigma _{GW}^{DC}$ the local part of the GW Selfenergy $\sum _k GW$ on the correlated orbitals been subtracted (green line, called GW-local). One clearly sees a mismatch between this term and the DMFT Selfenergy (black line), which is due to the terms contributing to the local Selfenergy that arise from the coupling between the subspace and the remaining states and also the nonlocal contributions to the local part which cannot be captured by DMFT. \relax }{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Possible problems with the DC}{7}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Evaluating the doublecounting factor $\Sigma ^{DC}_{GW}=G_{loc}W_{loc}$}{8}{subsection.3.2}}
+\newlabel{sec:glocwloc_dc_factor}{{3.2}{8}{Evaluating the doublecounting factor $\Sigma ^{DC}_{GW}=G_{loc}W_{loc}$}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}High-frequency correction for GW-DC version1}{11}{subsection.3.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}High-frequency correction for GW-DC version2}{13}{subsection.3.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Doublecounting of the Hartree Term}{14}{subsection.3.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Hartree- and Exchange term}{16}{section.4}}
+\newlabel{sec:hartree_exchange}{{4}{16}{Hartree- and Exchange term}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Hartree term}{16}{subsection.4.1}}
+\newlabel{eq:hartree_selfenergy}{{4.15}{17}{Hartree term}{equation.4.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Exchange term}{17}{subsection.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The local Hartree (a) and Fock diagram (b)\relax }}{19}{figure.caption.3}}
+\newlabel{fig:1storder_diags}{{2}{19}{The local Hartree (a) and Fock diagram (b)\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Hartree + exchange Selfenergy}{19}{subsection.4.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Hartree+Fock term in DMFT with Dynamical interactions}{19}{section.5}}
+\newlabel{sef:hartree_fock_freqdep}{{5}{19}{Hartree+Fock term in DMFT with Dynamical interactions}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Hartree Term}{20}{subsection.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Fock Term}{20}{subsection.5.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Hartree+Fock Term}{21}{subsection.5.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Product basis}{21}{section.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Index combination}{22}{subsection.6.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}Properties and consistency}{22}{subsubsection.6.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.2}Tensor inverse}{23}{subsubsection.6.1.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.3}Problems}{24}{subsubsection.6.1.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Aryasetiawan-style}{25}{subsection.6.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1}Defining the new basis set}{25}{subsubsection.6.2.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2}Reduction of the basis set and reorthonormalization}{26}{subsubsection.6.2.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3}Product basis matrix elements}{26}{subsubsection.6.2.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.4}Switching between the product and the two-particle basis}{27}{subsubsection.6.2.4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.5}Tensor inverse}{27}{subsubsection.6.2.5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.6}Problems}{28}{subsubsection.6.2.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}The GW part}{29}{section.7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Output for DMFT}{29}{subsection.7.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}The DMFT part}{30}{section.8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}The self-consistency cycle}{30}{subsection.8.1}}
+\newlabel{sec:gwdmft_cycle}{{8.1}{30}{The self-consistency cycle}{subsection.8.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Output}{32}{subsection.8.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}High-frequency correction for K($\tau $)}{32}{subsection.8.3}}
+\newlabel{sec:hf_corr_interaction}{{8.3}{32}{High-frequency correction for K($\tau $)}{subsection.8.3}{}}
+\newlabel{eq:k_hf_sum_last}{{8.45}{34}{High-frequency correction for K($\tau $)}{equation.8.45}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}High-frequency terms for $G_{bath}$ and Hybridization fucntion, local $\mu $}{35}{subsection.8.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Analytic continuation}{36}{section.9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The spectral function from G$_0$W$_0$ (7x7x7 k-points) obtained from Maxent, using a constant standard deviation $\sigma $. The Green's function on the Matsubara axis $i\omega _n$ for 1000 frequenices at $\beta =40$\ 1/eV was continued using a gaussian default model.\relax }}{37}{figure.caption.4}}
+\newlabel{fig:gw_anacont_diff_sigma}{{3}{37}{The spectral function from G$_0$W$_0$ (7x7x7 k-points) obtained from Maxent, using a constant standard deviation $\sigma $. The Green's function on the Matsubara axis $i\omega _n$ for 1000 frequenices at $\beta =40$\ 1/eV was continued using a gaussian default model.\relax }{figure.caption.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The spectral function from GW+DMFT (7x7x7 k-points) obtained from Maxent, using the mesured standard deviation $\sigma (\tau )$ from the impurity solver. The Green's function on the imaginary time axis $\tau $ for 2048 points at $\beta =40$\ 1/eV was continued using a gaussian default model. The standard deviation was scaled by different factors to show the dependence on $\sigma $. The factor 1 corresponds to the initial value of $\sigma $ measured in the Monte Carlo Solver.\relax }}{38}{figure.caption.5}}
+\newlabel{fig:gwdmft_anacont_diff_sigma}{{4}{38}{The spectral function from GW+DMFT (7x7x7 k-points) obtained from Maxent, using the mesured standard deviation $\sigma (\tau )$ from the impurity solver. The Green's function on the imaginary time axis $\tau $ for 2048 points at $\beta =40$\ 1/eV was continued using a gaussian default model. The standard deviation was scaled by different factors to show the dependence on $\sigma $. The factor 1 corresponds to the initial value of $\sigma $ measured in the Monte Carlo Solver.\relax }{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Dependence on the k-mesh}{39}{section.10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  These plots show a comparison of the convergence of $H_{DFT}$, $V_{XC}$ and $\Sigma ^{GW}_{XC}$ in the Wannier basis as a function of number of k-points for SrVO$_3$.  Top Left: The Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$.  Top Right: The exchange-correlation potential $V_{XC}$.   Bottom: The real part of the \textbf  {local} $G_0W_0$ Selfenergy, which is equal for all 3 $t_{2g}$ orbitals, evaluated at the lowest Matsubara frequency ($\beta =40$\ 1/eV). \relax }}{39}{figure.caption.6}}
+\newlabel{fig:gw_kpath_kmesh_comp}{{5}{39}{These plots show a comparison of the convergence of $H_{DFT}$, $V_{XC}$ and $\Sigma ^{GW}_{XC}$ in the Wannier basis as a function of number of k-points for SrVO$_3$.\\ Top Left: The Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$.\\ Top Right: The exchange-correlation potential $V_{XC}$. \\ Bottom: The real part of the \textbf {local} $G_0W_0$ Selfenergy, which is equal for all 3 $t_{2g}$ orbitals, evaluated at the lowest Matsubara frequency ($\beta =40$\ 1/eV). \relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}SrVO$_3$}{40}{subsection.10.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Top: The exchange-correlation potential $V_{XC}$ for the 3dxy and 3dxz orbital for FeSe   Bottom: The real part of the $G_0W_0$ Selfenergy at the lowest Matsubara frequency for the 3dxy and 3dxz orbital. \relax }}{40}{figure.caption.7}}
+\newlabel{fig:FeSe_kpath_kmesh_comp}{{6}{40}{Top: The exchange-correlation potential $V_{XC}$ for the 3dxy and 3dxz orbital for FeSe \\ Bottom: The real part of the $G_0W_0$ Selfenergy at the lowest Matsubara frequency for the 3dxy and 3dxz orbital. \relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {11}FeSe}{41}{section.11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The spectral function of FeSe calculated within GW. Upper panel shows the result for a $8\times 8\times 5$ k-mesh, and the lower one for a $9\times 9\times 6$ k-mesh. The green lines are the DFT result. The artefacts at the M point (yellow circle) are a result of the k-mesh being still too coarse.\relax }}{42}{figure.caption.8}}
+\newlabel{fig:FeSe_GW_spec_comp}{{7}{42}{The spectral function of FeSe calculated within GW. Upper panel shows the result for a $8\times 8\times 5$ k-mesh, and the lower one for a $9\times 9\times 6$ k-mesh. The green lines are the DFT result. The artefacts at the M point (yellow circle) are a result of the k-mesh being still too coarse.\relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {12}Dependence on GW frequency mesh}{43}{section.12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Top: The GW quasiparticle DOS for NiO with different number of frequenices used for sampling the Polarization/Selfenergy. Bottom: The resulting selfenergy for different number of frequencies. In the imaginary part the Selfenergy at the Gamma point for the $e_g$ orbitals is shown, while in the real part it is shown at the X point for the first $e_g$ orbital.\relax }}{43}{figure.caption.9}}
+\newlabel{fig:gw_freqdep_comp}{{8}{43}{Top: The GW quasiparticle DOS for NiO with different number of frequenices used for sampling the Polarization/Selfenergy. Bottom: The resulting selfenergy for different number of frequencies. In the imaginary part the Selfenergy at the Gamma point for the $e_g$ orbitals is shown, while in the real part it is shown at the X point for the first $e_g$ orbital.\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces This plot shows the real part of the impurty hybridization function $\Delta (i\omega _n)$ for FeSe, using different frequency grids for the calculation of the GW Selfenergy. Since the tail of the GW Selfenergy is usually not well behaved, also the tail of $\Delta (i\omega _n)$ is usually wrong. For 20 frequencies the tail deviates very quickly from the correct behaviour, while for 30 frequencies the deviations sets in later, but still does not allow a proper high frequency fitting of the tail.\relax }}{45}{figure.caption.10}}
+\newlabel{fig:FeSe_hybrid_tail}{{9}{45}{This plot shows the real part of the impurty hybridization function $\Delta (i\omega _n)$ for FeSe, using different frequency grids for the calculation of the GW Selfenergy. Since the tail of the GW Selfenergy is usually not well behaved, also the tail of $\Delta (i\omega _n)$ is usually wrong. For 20 frequencies the tail deviates very quickly from the correct behaviour, while for 30 frequencies the deviations sets in later, but still does not allow a proper high frequency fitting of the tail.\relax }{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {13}Doublecounting effects on the hybridization}{46}{section.13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces This plot shows the local GW Selfenergy (averaged over k-points) in comparison to the $G_{loc}W_{loc}$ doublecounting, which only includes the GW contribution on the impurity, and therefore is smaller than the local GW part. The difference between the two (pink line) is what remains in the local GW Selfenergy from non-local propagators. It is still comparable in size to the GW Selfenergy and decays similarly slow, so still contains many high-energies features.\relax }}{47}{figure.caption.11}}
+\newlabel{fig:Sigma_compare_loc_GW_DC}{{10}{47}{This plot shows the local GW Selfenergy (averaged over k-points) in comparison to the $G_{loc}W_{loc}$ doublecounting, which only includes the GW contribution on the impurity, and therefore is smaller than the local GW part. The difference between the two (pink line) is what remains in the local GW Selfenergy from non-local propagators. It is still comparable in size to the GW Selfenergy and decays similarly slow, so still contains many high-energies features.\relax }{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces This plot shows the impurty hybridization function $\Delta (i\omega _n)$ for SrVO$_3$, for the two different types of doublecounting that we use. For the $[GW]_{loc}$ Doublecounting, the full local part of the GW Selfenergy is substracted, while for the $G_{loc}W_{loc}$ Doublecounting only the impurity GW contribution is subtracted. Therefore, there is a local Selfenergy component remaining in the hybridization function, giving rise to high energy features in the bath, that can be identified as very slowly decaying tails in $\Delta (i\omega _n)$.\relax }}{48}{figure.caption.12}}
+\newlabel{fig:hybrid_comp_SVO}{{11}{48}{This plot shows the impurty hybridization function $\Delta (i\omega _n)$ for SrVO$_3$, for the two different types of doublecounting that we use. For the $[GW]_{loc}$ Doublecounting, the full local part of the GW Selfenergy is substracted, while for the $G_{loc}W_{loc}$ Doublecounting only the impurity GW contribution is subtracted. Therefore, there is a local Selfenergy component remaining in the hybridization function, giving rise to high energy features in the bath, that can be identified as very slowly decaying tails in $\Delta (i\omega _n)$.\relax }{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {14}Preliminary GW+DMFT results}{49}{section.14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {14.1}SrVO$_3$}{49}{subsection.14.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The spectral function for SrVO$_3$ within GW+DMFT with the $G_{loc}W_{loc}$ doublecounting. The green lines show the DFT dispersion\relax }}{49}{figure.caption.13}}
+\newlabel{fig:results_BS_svo}{{12}{49}{The spectral function for SrVO$_3$ within GW+DMFT with the $G_{loc}W_{loc}$ doublecounting. The green lines show the DFT dispersion\relax }{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {14.2}FeSe}{50}{subsection.14.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The spectral function for FeSe within GW+DMFT with the $G_{loc}W_{loc}$ doublecounting. The green lines show the DFT dispersion\relax }}{50}{figure.caption.14}}
+\newlabel{fig:results_BS_fese}{{13}{50}{The spectral function for FeSe within GW+DMFT with the $G_{loc}W_{loc}$ doublecounting. The green lines show the DFT dispersion\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {14.3}NiO}{51}{subsection.14.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces The local spectral function for NiO within GW+DMFT, using a dp model, compared to PES experiment.\relax }}{51}{figure.caption.15}}
+\newlabel{fig:results_DOS_nio}{{14}{51}{The local spectral function for NiO within GW+DMFT, using a dp model, compared to PES experiment.\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {15}Causality constraint}{52}{section.15}}
+\@writefile{toc}{\contentsline {section}{\numberline {16}Implementation details}{53}{section.16}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.1}Impurity solver input}{53}{subsection.16.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {16.2}Bandstructure calculation}{54}{subsection.16.2}}

@@ -2118,42 +2118,132 @@ and gave very similar results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 
 \section{Dependence on the k-mesh}
+
+This section discusses the sensitivity of the GW calculation on the number of
+k-points. There are three quantities of interest:\\
+The Kohn-Sham DFT Hamiltonian $H_{DFT}$, the exchange-correlation
+potential $V_{XC}$  and the GW Selfenergy $\Sigma^{GW}_{XC}$.
+All of them are given in the Basis of Wannier orbitals.
+
+In general the GW calculation is limited to k-meshes with a size from
+$5\times 5\times 5$ to maximum $10\times 10\times 10$, depending on how large the system
+is. Currently the limitation of the GW calculation is the memory and disk space.
+For example a $8\times 8\times 8$ calculation for SrVO$_3$ exceeds the 128Gbyte
+RAM on a single node on Hedin and uses more than 1Tbyte of disk space.
+The computation time is still manageable with less than one week.
+
+After the GW calculation the result is interpolated to a very dense k-mesh
+by a 3D cubic interpolation scheme, which so far has been very reliable.
+
 \begin{figure}[h]
-\includegraphics[width=0.5\textwidth]{figs/hdft_kpath.pdf}
-\includegraphics[width=0.5\textwidth]{figs/vxc_kpath.pdf}
+\includegraphics[width=0.5\textwidth]{figs/kmesh/hdft_kpath.pdf}
+\includegraphics[width=0.5\textwidth]{figs/kmesh/vxc_kpath.pdf}
 \begin{center}
-\includegraphics[width=0.7\textwidth]{figs/ReSigma_kpath.pdf}
+\includegraphics[width=0.7\textwidth]{figs/kmesh/ReSigma_kpath.pdf}
 \end{center}
-\caption{Top: The Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$.\\
-Middle: The exchange-correlation potential $V_{XC}$. \\
-Bottom: The real part of the $G_0W_0$ Selfenergy at the lowest Matsubara frequency
-at $\beta=40$\ 1/eV. }
+\caption{
+These plots show a comparison of the convergence of $H_{DFT}$, $V_{XC}$ and
+$\Sigma^{GW}_{XC}$ in the Wannier basis as a function of number of k-points for SrVO$_3$.\\
+Top Left: The Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$.\\
+Top Right: The exchange-correlation potential $V_{XC}$. \\
+Bottom: The real part of the \textbf{local} $G_0W_0$ Selfenergy, which is equal for 
+all 3 $t_{2g}$ orbitals, evaluated at the lowest Matsubara frequency ($\beta=40$\ 1/eV). }
 \label{fig:gw_kpath_kmesh_comp}
 \end{figure}
+
+\subsection{SrVO$_3$}
+
+
 
 In Fig. \ref{fig:gw_kpath_kmesh_comp} we show 
 the Eigenvalues of the DFT tight-binding Hamiltonian $H_{DFT}$,
 the exchange-correlation potential $V_{XC}$ and the real part of the $G_0W_0$ 
 Selfenergy at the lowest Matsubara frequency at $\beta=40$\ 1/eV
-along a certain k-path. Calculations based on different k-meshes are compared.
+along a certain k-path. Calculations based on different k-meshes in the GW calculation
+are compared.
+All objects have been interpolated to a $30\times30\times30$ k-mesh.
+
+$H_{DFT}$ shows basically negligible variation for different number of k-points 
+since the values are directly taken from the DFT calculation converged on a much denser grid.
+The only variation is due to the interpolation from the smaller to the larger grid,
+which becomes more accurate  with higher number of k-points.
+
+Interestingly, $V_{XC}$ shows a much larger variation than $H_{DFT}$, for example of up 
+to $50$~meV along the X-M direction. Since for all calculations $V_{XC}$ in the Kohn-Sham
+space is identical, this indicates that $V_{XC}$ is either more difficult to interpolate
+because it is less smooth than $H_{DFT}$, or that it is itself
+more sensitive to the accuracy of the Wannier orbitals, which becomes more accurate
+with larger k-meshes.
+ 
+The GW Selfenergy $\Sigma^{GW}_{XC}$ shows a really strong variation with different k-meshes
+and still changes more than 100meV at some k-points when increasing the mesh
+from $7\times 7 \times 7$ to $8\times 8 \times 8$.
+These changes of the "bandwidth" that can be seen in the plot directly amount to a different 
+renormalization due to the GW selfenergy, which will later have an effect
+on the GW+DMFT cycle.
+
+\bigskip
+
+\textbf{Plan: I think I would be satisfied with a $9\times 9  \times 9$
+calculation. This might be possible if I can get $\sim$900 cores on Hedin for maybe a week...}
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/vxc_kpath_xy.pdf}
+\includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/vxc_kpath_xz.pdf}
+\includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/ReSigma_kpath_xy.pdf}
+\includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/ReSigma_kpath_xz.pdf}
+\caption{Top: The exchange-correlation potential $V_{XC}$
+for the 3dxy and 3dxz orbital for FeSe \\
+Bottom: The real part of the $G_0W_0$ Selfenergy at the lowest Matsubara frequency
+for the 3dxy and 3dxz orbital. }
+\label{fig:FeSe_kpath_kmesh_comp}
+\end{figure}
+
+\section{FeSe}
 
 
-All objects have been interpolated to a $30\times30\times30$ k-mesh,
-starting from a $G_0W_0$ on different smaller k-grids. $H_{DFT}$ and $V_{XC}$ show basically
-negligible variation for different number of k-points since their values are directly taken from
-a DFT calculation converged on a much denser grid. The only variation is due
-to the interpolation from the smaller to the larger grid, which becomes more accurate 
-with higher number of k-points.\\
-The Selfenergy has been shifted so that zero corresponds to the value of the
-local Selfenergy for each calculation. Most of the difference is inherent
-due to the small k-resolution of the $G_0W_0$ calculation and not due to the interpolation.
-The difference between $6\times 6 \times 6$ and  $7\times 7 \times 7$ k-points
-is still huge and a denser grid has to be considered for a proper
-calculation (maybe $10\times 10 \times 10$ is enough? Check especially
-for odd/even numbers!)
 
+Here we compare the exchange correlation potential and the GW Selfenergy
+for FeSe. The Kohn-Sham Hamiltonian was basically identical for all
+k-meshes, so we do not show it here.
+
+Fig.~\ref{fig:FeSe_kpath_kmesh_comp} shows $V_{XC}$ and $\Sigma^{GW}_{XC}$ again
+along a certain k-path.
+The variations are a bit larger compared to SrVO$_3$, especially around
+the M point one can observe artefacts. Especially the Selfenergy
+varies dramatically in the 3dxz orbital, with variation of about $300$~meV.
+These variations directly translate to shifts of "bands", also around the Fermi
+level. 
+This can be seen clearly when calculating the full
+GW spectral function, shown in Fig.~\ref{fig:FeSe_GW_spec_comp}.
+There are artefacts appearing basically at all high-symmetry points,
+but especially severe around the M point.
+In this case the $9\times 9\times 6 $ mesh fixes these problems, but 
+even this mesh cannot be considered to be converged sufficiently.
+
+Interestingly, the calculations with odd number of k-points
+along each axis seem to show less artefacts, probably because the
+high-symmetry points are excluded and obtained only by interpolation.
+
+\textbf{Plan: I think I would be satisfied with a $9\times 9  \times 7$
+calculation. This is currently running...}
+
+\begin{figure}[h]
+\includegraphics[width=0.9\textwidth]{figs/kmesh/FeSe/FeSe_bands_GW_k885.png}
+\includegraphics[width=0.9\textwidth]{figs/kmesh/FeSe/FeSe_bands_GW_k996.png}
+
+\caption{The spectral function of FeSe calculated within GW. Upper panel
+shows the result for a $8\times 8\times 5$ k-mesh,
+and the lower one for a $9\times 9\times 6$ k-mesh. 
+The green lines are the DFT result. The artefacts at the M point (yellow circle)
+are a result of the k-mesh being still too coarse.}
+\label{fig:FeSe_GW_spec_comp}
+\end{figure}
+
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2182,6 +2272,7 @@ Selfenergy
 \begin{align}
  \Sigma^{GW}(i\omega) &= \int \mathrm{d}{i\nu}\ G(i\omega-i\nu) W(i\nu).
 \end{align}
+
 In the gw.inp input file one has the parameters
 \begin{description}
 \item[iop\_fgrid]:
@@ -2213,10 +2304,292 @@ on the GW DOS and the Selfenergy is shown.
 In general it seems that nomeg=16 is significantly too low, and 
 nomeg=48 is almost enough. nomeg=64 should be sufficiently converged, but
 usually impossible to calculate for larger k-meshes due to memory constraints.
+For SrVO$_3$ I currently cannot use more that 22, and in FeSe not more than 30.
+The dependency in the systems I investigated (NiO, FeSe, SrVO3) is very
+similar, with SrVO$_3$ converging a bit faster than the other two.
+
 
 I also did tests using different omegmax values but it seems the default
 one is quite ok, and one only needs to use as much frequencies as possible.
 
+\bigskip
+
+\underline{\textbf{Important Warning:}}
+
+In Fig. \ref{fig:gw_freqdep_comp} in the lower right the
+real part of the GW Selfenergy is shown. One observes a slight oscillating behaviour 
+for a low number of frequencies but close to the converged value.
+\textbf{A very severe problem} is that this Selfenergy does not have a
+proper high-frequency behaviour, with the high-frequency tail not decaying 
+as $\sim c_0 + \frac{c_2}{(i\omega)^2} + ...$.
+This can be remedied with using more frequencies, but the problem persists 
+even until 30 frequencies.
+Even though the deviation is not large, this creates a significant problem
+when evaluating the hybridization function $\Delta(i\omega)$
+\begin{align}
+\Delta(i\omega) &= i\omega + \mu - \mathscr{G}_{bath}^{-1}(i\omega) \\
+&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega).
+\end{align}
+As discussed in more detail in the next section, 
+we still retain effects of a term of the following form in $\Delta(i\omega)$
+\[
+\sum_k \Sigma^{GW}(k) - \Sigma^{DC} \neq 0.
+\]
+
+Now the situation is the following:\\
+The high freqeuency tail of $\Sigma^{DC}$ is correct, because we evaluate
+it directly at finite temperature using all Matsubara frequencies,
+and not inside the GW code. 
+On the other hand, the high freqeuency tail of $\sum_k \Sigma^{GW}(k)$
+is usually not correct, if only a small number of frequencies
+has been used in the GW calculation.
+\textbf{As a result the determination of the impurity levels}
+\[
+\mu_{imp} = \lim_{i\omega \rightarrow \infty} 
+\mathrm{Re}\left[G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega) \right]
+\]
+\textbf{is extremely inaccurate or even becomes impossible}.
+The calculation of the Fourier transform $\Delta(\tau)$ needed for the impurity
+solver becomes inaccurate as well, since it relies on a proper high-frequency
+treatment of the tails of $\Delta(i\omega)$.
+
+This can be seen clearly in Fig.~\ref{fig:FeSe_hybrid_tail}, which shows the resulting
+impurity hybridization function $\Delta(i\omega_n)$ for FeSe, using different
+frequency grids for the calculation of the GW Selfenergy. 
+Even for 30 frequencies the tail is too ill-behaved to perform a realiable
+high frequency fit. Please note that this does not depend on how many Matsubara frequencies
+are used in the DMFT calculation itself. If the number of $i\omega_n$ were increased,
+the tail in the following plot would never recover and just diverge linearly to infinity
+(can be seen in the red line quite clearly):
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{figs/freqdep/FeSe_hybrid_tail.pdf} 
+\end{center}
+\caption{This plot shows the real part of the impurty hybridization function
+$\Delta(i\omega_n)$ for FeSe, using different frequency grids for the
+calculation of the GW Selfenergy. Since the tail of the GW Selfenergy
+is usually not well behaved, also the tail of
+$\Delta(i\omega_n)$ is usually wrong. For 20 frequencies the tail deviates
+very quickly from the correct behaviour, while for 30 
+frequencies the deviations sets in later, but still does not allow a proper
+high frequency fitting of the tail.}
+\label{fig:FeSe_hybrid_tail}
+\end{figure}
+
+\textbf{Solution for now}: In principle one should increase the number of
+frequencies in the GW calculation, but for this we need at least 60 frequencies
+which is impossible right now in terms of calculation time and memory consumption.
+Therefore, we fit the GW Selfenergy in a frequency range which is still reliable
+but as large as possible with the following form
+\begin{align}
+\mathrm{Re}\Sigma(i\omega) \sim  c_0 + \frac{c_2}{(i\omega)^2} + \frac{c_4}{(i\omega)^4}
+\end{align}
+and replace the tail completely by this expression.
+In FeSe in Fig.~\ref{fig:FeSe_hybrid_tail} this is the case around $100$~eV,
+where we cut all further values and replace them by the fitted expression above.
+This is done for all orbital components of the GW Selfenergy at each k-point.
+
+This of course introduces some kind of error, since around $100$~eV
+the GW Selfenergy is not sufficiently described by such a term as the one above.
+Still, this is probably the better way since the high-frequency tail without 
+this treatment would be even more wrong, and would prevent a calculation of 
+the impurity levels and $\Delta(\tau)$, as discussed above.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Doublecounting effects on the hybridization}
+
+It is interesting to investigate the effects of the Doublecounting
+used in GW+DMFT on the hybridization function.
+\begin{align}
+\Delta(i\omega) &= i\omega + \mu - \mathscr{G}_{bath}^{-1}(i\omega) \\
+&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega).
+\end{align}
+The hybridization function $\Delta(i\omega_n)$ effectively encodes the bath
+of the impurity and thus carries the information about the surrounding lattice.
+In standard lattice DMFT without extensions this bath is purely noninteracting
+and just given by the free lattice dispersion.
+
+In LDA+DMFT, since we perform a downfolding from the full space
+to a low-energy subspace, where the bath now encodes all information 
+about the outer space, the bath is no longer non-interacting.
+It contains all interaction effects residing in the outer space
+on the DFT level. Thus, which is an important point!, purely
+on a one-particle level, i.e. the hybridization function can still 
+be written like a non-interacting lattice hybridization
+\begin{align}
+\Delta(i\omega) &= \sum_{kj} \frac{|V^j_k|^2}{i\omega_n - \epsilon_k^j}
+\end{align}
+From the definition 
+$\Delta(i\omega) = i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega)$
+I think it makes sense that $\Delta(i\omega)$ can also encode an interacting
+bath, that contains interactions in the outer space,
+since it is basically the local lattice Green's function minus the local interactions.
+\textbf{(But I need to go through
+the DMFT derivation again...)}
+
+\bigskip
+
+In GW+DMFT the hybridization or resp. the bath can become even "more interacting",
+depending on what kind of doublecounting we use:
+\begin{itemize}
+\item If the full local GW Selfenergy is subtracted as the doublecounting
+\[
+\Sigma^{DC} = \left[GW \right]_{loc},
+\]
+
+then basically also all the local Selfenergy effects in $G_{loc}$ are 
+originating purely from $\Sigma_{imp}$, since 
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{DC}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1} 
+%
+\end{align}
+ This part is then subtracted
+when creating $\Delta(i\omega)$, thus there is effectively no remainder of a 
+local Selfenergy in $\Delta(i\omega)$. This usually gives a fast
+decaying high-frequency tail of $\Delta(i\omega)$.
+
+\item If only the impurity contribution is subtracted from GW
+\[
+\Sigma^{DC} = G_{loc}W_{loc},
+\]
+
+then the local Selfenergy effects in $G_{loc}$ are 
+originating not only from $\Sigma_{imp}$ BUT there is also
+a contribution from GW since
+\[
+\sum_k \Sigma^{GW}(k) - \Sigma^{DC} \neq 0,
+\]
+that stems from the contributions of nonlocal propagators
+to the local Selfenergy, that are not captured by DMFT.
+As an example we compare the local GW Selfenergy, the Doublecounting term
+and the remaining component in Fig.~\ref{fig:Sigma_compare_loc_GW_DC}
+for SrVO$_3$:
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figs/SrVO3_s_gw_DC.pdf} 
+\end{center}
+\caption{This plot shows the local GW Selfenergy (averaged over k-points)
+in comparison to the $G_{loc}W_{loc}$ doublecounting, which only includes
+the GW contribution on the impurity, and therefore is smaller
+than the local GW part.
+The difference between the two (pink line) is what remains in the local
+GW Selfenergy from non-local propagators. It is still comparable in
+size to the GW Selfenergy and decays similarly slow, so still
+contains many high-energies features.}
+\label{fig:Sigma_compare_loc_GW_DC}
+\end{figure}
+
+This has the effect that now there is effectively a remainder of a 
+local GW Selfenergy in $\Delta(i\omega)$. This leads to very slowly
+decaying high-frequency tail of $\Delta(i\omega)$, since the remaining
+Selfenergy still creates features plasmonic-like features at higher energy,
+which are now encoded in the effective DMFT bath.
+Now the hybridization function can no longer 
+be written like a non-interacting lattice hybridization
+\begin{align}
+\Delta(i\omega) &= \sum_{kj} \frac{|V^j_k|^2}{i\omega_n - \epsilon_k^j}
+\end{align}
+But I think this is also the case for the other doublecounting?
+Since it contains nonlocal components of the GW Selfenergy?...
+But here in this case the bath carries information about a local Selfenergy
+that also resides on the impurity, but cannot be generated from only
+the local interactions on the impurity!!
+The meaning is not clear to me yet...
+
+\bigskip
+
+As an example we show the hybridization function for SrVO$_3$
+in Fig.~\ref{fig:hybrid_comp_SVO} calculated from a GW+DMFT calculation
+with the two different doublecountings.
+We immediately see that the energy scales of the impurity bath
+are different by orders of magnitude. 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figs/SrVO3_hybrid_dc_comp.pdf} 
+\end{center}
+\caption{This plot shows the impurty hybridization function
+$\Delta(i\omega_n)$ for SrVO$_3$, for the two different types
+of doublecounting that we use. 
+For the $[GW]_{loc}$ Doublecounting, the full local part of the GW
+Selfenergy  is substracted, while for the $G_{loc}W_{loc}$ Doublecounting
+only the impurity GW contribution is subtracted. Therefore, 
+there is a local Selfenergy component remaining in the hybridization
+function, giving rise to high energy features in the bath, that can 
+be identified as very slowly decaying tails in $\Delta(i\omega_n)$.}
+\label{fig:hybrid_comp_SVO}
+\end{figure}
+
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+
+\section{Preliminary GW+DMFT results}
+
+\subsection{SrVO$_3$}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_gwdmft_bands.pdf} 
+\end{center}
+\caption{The spectral function for SrVO$_3$ within GW+DMFT with
+the $G_{loc}W_{loc}$ doublecounting.
+The green lines show the DFT dispersion}
+\label{fig:results_BS_svo}
+\end{figure}
+
+\clearpage
+
+\subsection{FeSe}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figs/results/FeSe_gwdmft_bands.pdf} 
+\end{center}
+\caption{The spectral function for FeSe within GW+DMFT with
+the $G_{loc}W_{loc}$ doublecounting.
+The green lines show the DFT dispersion}
+\label{fig:results_BS_fese}
+\end{figure}
+
+\clearpage
+
+
+\subsection{NiO}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figs/results/NiO_dos.pdf} 
+\end{center}
+\caption{The local spectral function for NiO within GW+DMFT,
+using a dp model, compared to PES experiment.}
+\label{fig:results_DOS_nio}
+\end{figure}
+
+Well, this doesn't look so bad for the first try of
+doing GW+DMFT for a d-p model.
+Unfortunately the eg's are not insulating...
+
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

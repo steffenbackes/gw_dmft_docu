@@ -1,27 +1,49 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}
-\contentsline {section}{\numberline {2}Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{2}{section.2}
-\contentsline {section}{\numberline {3}Product basis}{5}{section.3}
-\contentsline {subsection}{\numberline {3.1}Index combination}{6}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}Properties and consistency}{6}{subsubsection.3.1.1}
-\contentsline {subsubsection}{\numberline {3.1.2}Tensor inverse}{7}{subsubsection.3.1.2}
-\contentsline {subsubsection}{\numberline {3.1.3}Problems}{8}{subsubsection.3.1.3}
-\contentsline {subsection}{\numberline {3.2}Aryasetiawan-style}{9}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Defining the new basis set}{9}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Reduction of the basis set and reorthonormalization}{10}{subsubsection.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.3}Product basis matrix elements}{10}{subsubsection.3.2.3}
-\contentsline {subsubsection}{\numberline {3.2.4}Switching between the product and the two-particle basis}{11}{subsubsection.3.2.4}
-\contentsline {subsubsection}{\numberline {3.2.5}Tensor inverse}{11}{subsubsection.3.2.5}
-\contentsline {subsubsection}{\numberline {3.2.6}Problems}{12}{subsubsection.3.2.6}
-\contentsline {section}{\numberline {4}The GW part}{13}{section.4}
-\contentsline {subsection}{\numberline {4.1}Output for DMFT}{13}{subsection.4.1}
-\contentsline {section}{\numberline {5}The DMFT part}{14}{section.5}
-\contentsline {subsection}{\numberline {5.1}The self-consistency cycle}{14}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Output}{15}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}High-frequency correction}{16}{subsection.5.3}
-\contentsline {section}{\numberline {6}Hartree- and Exchange term in DMFT}{19}{section.6}
-\contentsline {subsection}{\numberline {6.1}Hartree term}{19}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Exchange term}{21}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Hartree + exchange Selfenergy}{22}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}Dynamical interactions}{22}{subsection.6.4}
-\contentsline {section}{\numberline {7}Implementation details}{22}{section.7}
-\contentsline {subsection}{\numberline {7.1}Impurity solver input}{22}{subsection.7.1}
+\contentsline {section}{\numberline {2}Approximation to the free energy functional $\Gamma [G,W]$: Combination of GW and DMFT}{3}{section.2}
+\contentsline {section}{\numberline {3}The GW+DMFT Doublecounting}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Possible problems with the DC}{7}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Evaluating the doublecounting factor $\Sigma ^{DC}_{GW}=G_{loc}W_{loc}$}{8}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}High-frequency correction for GW-DC version1}{11}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}High-frequency correction for GW-DC version2}{13}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Doublecounting of the Hartree Term}{14}{subsection.3.5}
+\contentsline {section}{\numberline {4}Hartree- and Exchange term}{16}{section.4}
+\contentsline {subsection}{\numberline {4.1}Hartree term}{16}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Exchange term}{17}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Hartree + exchange Selfenergy}{19}{subsection.4.3}
+\contentsline {section}{\numberline {5}Hartree+Fock term in DMFT with Dynamical interactions}{19}{section.5}
+\contentsline {subsection}{\numberline {5.1}Hartree Term}{20}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Fock Term}{20}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Hartree+Fock Term}{21}{subsection.5.3}
+\contentsline {section}{\numberline {6}Product basis}{21}{section.6}
+\contentsline {subsection}{\numberline {6.1}Index combination}{22}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Properties and consistency}{22}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}Tensor inverse}{23}{subsubsection.6.1.2}
+\contentsline {subsubsection}{\numberline {6.1.3}Problems}{24}{subsubsection.6.1.3}
+\contentsline {subsection}{\numberline {6.2}Aryasetiawan-style}{25}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Defining the new basis set}{25}{subsubsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.2}Reduction of the basis set and reorthonormalization}{26}{subsubsection.6.2.2}
+\contentsline {subsubsection}{\numberline {6.2.3}Product basis matrix elements}{26}{subsubsection.6.2.3}
+\contentsline {subsubsection}{\numberline {6.2.4}Switching between the product and the two-particle basis}{27}{subsubsection.6.2.4}
+\contentsline {subsubsection}{\numberline {6.2.5}Tensor inverse}{27}{subsubsection.6.2.5}
+\contentsline {subsubsection}{\numberline {6.2.6}Problems}{28}{subsubsection.6.2.6}
+\contentsline {section}{\numberline {7}The GW part}{29}{section.7}
+\contentsline {subsection}{\numberline {7.1}Output for DMFT}{29}{subsection.7.1}
+\contentsline {section}{\numberline {8}The DMFT part}{30}{section.8}
+\contentsline {subsection}{\numberline {8.1}The self-consistency cycle}{30}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Output}{32}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}High-frequency correction for K($\tau $)}{32}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}High-frequency terms for $G_{bath}$ and Hybridization fucntion, local $\mu $}{35}{subsection.8.4}
+\contentsline {section}{\numberline {9}Analytic continuation}{36}{section.9}
+\contentsline {section}{\numberline {10}Dependence on the k-mesh}{39}{section.10}
+\contentsline {subsection}{\numberline {10.1}SrVO$_3$}{40}{subsection.10.1}
+\contentsline {section}{\numberline {11}FeSe}{41}{section.11}
+\contentsline {section}{\numberline {12}Dependence on GW frequency mesh}{43}{section.12}
+\contentsline {section}{\numberline {13}Doublecounting effects on the hybridization}{46}{section.13}
+\contentsline {section}{\numberline {14}Preliminary GW+DMFT results}{49}{section.14}
+\contentsline {subsection}{\numberline {14.1}SrVO$_3$}{49}{subsection.14.1}
+\contentsline {subsection}{\numberline {14.2}FeSe}{50}{subsection.14.2}
+\contentsline {subsection}{\numberline {14.3}NiO}{51}{subsection.14.3}
+\contentsline {section}{\numberline {15}Causality constraint}{52}{section.15}
+\contentsline {section}{\numberline {16}Implementation details}{53}{section.16}
+\contentsline {subsection}{\numberline {16.1}Impurity solver input}{53}{subsection.16.1}
+\contentsline {subsection}{\numberline {16.2}Bandstructure calculation}{54}{subsection.16.2}
