@@ -2545,20 +2545,73 @@ be identified as very slowly decaying tails in $\Delta(i\omega_n)$.}
 \clearpage
 
 \section{Preliminary GW+DMFT results}
-
 \subsection{SrVO$_3$}
 
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_DC_comparison.pdf} 
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_DC_comparison2.pdf} 
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_hybrid_dc_comp.pdf}  
+\end{minipage}
+\caption{\textbf{Left side}: Comparison of the imaginary part of the local Selfenergy
+for GW+DMFT calculations with different doublecountings. The upper plot shows the impurity Selfenergy
+for the $[GW]_{loc}$ and the $G_{loc}W_{loc}$ doublecounting, in comparison to the
+local GW Selfenergy.\\
+The middle plot compares the total local Selfenergies after contributions from
+nonlocal propagators from GW have been added.\\
+The lower plot compares a standard LDA+DMFT calculation to the two different GW+DMFT 
+selfenenergies.\\
+\textbf{Right side}:
+Comparison of the hybridization function $\Delta$ obtained with the DMFT and the two different GW+DMFT
+doublecountings. The upper plot shows $\Delta$ on the imaginary Matsubara axis, the lower
+one on the real axis after analytical continuation.}
+\label{fig:results_sigma_hybrid_svo}
+\end{figure}
+
+\clearpage
+
 \begin{figure}[h]
-\begin{center}
-\includegraphics[width=1\textwidth]{figs/results/SrVO3_gwdmft_bands.pdf} 
-\end{center}
-\caption{The spectral function for SrVO$_3$ within GW+DMFT with
-the $G_{loc}W_{loc}$ doublecounting.
+\begin{minipage}{0.5\textwidth}
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_specFunc_comparison.pdf} 
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_bands_DMFT.png}  
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_bands_GWDMFT_gwl.png}  
+\includegraphics[width=1\textwidth]{figs/results/SrVO3_bands_GWDMFT_glwl.png}  
+\end{minipage}
+
+\caption{
+\textbf{Upper Left}: The local spectral function of SrVO$_3$, with a comparison
+between LDA+DMFT, GW and the two GW+DMFT Doublecountings.\\
+\textbf{Lower left, Right}:
+The k-resolved spectral function for SrVO$_3$, with a comparison
+between LDA+DMFT, GW and the two GW+DMFT Doublecountings.
 The green lines show the DFT dispersion}
 \label{fig:results_BS_svo}
 \end{figure}
 
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figs/results/SrVO_spec_ARPES.pdf} 
+\end{center}
+\caption{
+The local spectral function from the GW+DMFT calculation with the 
+$G_{loc}W_{loc}$ doublecounting, compared to the PES experiment from Sekiyama,
+and from Santander-Syro. The latter has been obtained from ARPES around the 
+$\Gamma_{003}$ point and integrated along the $k=\langle 100 \rangle$ direction.}
+\label{fig:results_arpes_svo}
+\end{figure}
+
+
 \clearpage
+
+
+
+
 
 \subsection{FeSe}
 \begin{figure}[h]
