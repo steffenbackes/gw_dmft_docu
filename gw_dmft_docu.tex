@@ -2138,6 +2138,10 @@ The computation time is still manageable with less than one week.
 After the GW calculation the result is interpolated to a very dense k-mesh
 by a 3D cubic interpolation scheme, which so far has been very reliable.
 
+\clearpage
+
+\subsection{SrVO$_3$}
+
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{figs/kmesh/hdft_kpath.pdf}
 \includegraphics[width=0.5\textwidth]{figs/kmesh/vxc_kpath.pdf}
@@ -2153,9 +2157,6 @@ Bottom: The real part of the \textbf{local} $G_0W_0$ Selfenergy, which is equal 
 all 3 $t_{2g}$ orbitals, evaluated at the lowest Matsubara frequency ($\beta=40$\ 1/eV). }
 \label{fig:gw_kpath_kmesh_comp}
 \end{figure}
-
-\subsection{SrVO$_3$}
-
 
 
 In Fig. \ref{fig:gw_kpath_kmesh_comp} we show 
@@ -2190,6 +2191,12 @@ on the GW+DMFT cycle.
 \textbf{Plan: I think I would be satisfied with a $9\times 9  \times 9$
 calculation. This might be possible if I can get $\sim$900 cores on Hedin for maybe a week...}
 
+
+
+\clearpage
+
+\section{FeSe}
+
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/vxc_kpath_xy.pdf}
 \includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/vxc_kpath_xz.pdf}
@@ -2201,10 +2208,6 @@ Bottom: The real part of the $G_0W_0$ Selfenergy at the lowest Matsubara frequen
 for the 3dxy and 3dxz orbital. }
 \label{fig:FeSe_kpath_kmesh_comp}
 \end{figure}
-
-\section{FeSe}
-
-
 
 Here we compare the exchange correlation potential and the GW Selfenergy
 for FeSe. The Kohn-Sham Hamiltonian was basically identical for all
