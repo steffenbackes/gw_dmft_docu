@@ -1091,7 +1091,59 @@ This leads to the final expression
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- 
+\section{Local $\mu$ for frequency dependent interactions}
+Following Werner, Millis PRL \textbf{99} 146404, when we apply a 
+Lang-Firsov transformation to the Hubbard-Holstein Hamiltonian
+that includes the electron-phonon coupling we obtain the new 
+effective screened interaction and local chemical potential
+as
+\begin{align}
+U_{scr}   &=   U - 2K'(0^+) \\
+\mu_{scr} &= \mu - K'(0^+). \label{eq:mu_scr}
+\end{align}
+Now imagine a simple one-orbital model on the Bethe lattice at half-filling. The high-frequency
+limit (Hartree-Fock term) of the Selfenergy is then given by
+\begin{align}
+\Sigma^{HF} &= Un - 2K'(0^+)N \nonumber \\
+&= \frac{U}{2} - 2K'(0^+).
+\end{align}
+If electron-phonon coupling is absent, $K(0^+)=0$ and we regain
+the standard expression $\Sigma^{HF} = U/2$.
+On the Bethe lattice, the local interacting Green's function is given by
+\begin{align}
+G(i\omega)
+&= \int\mathrm{d}\epsilon \, \frac{D(\epsilon)}{i\omega + \mu - \epsilon - \Sigma(i\omega_n)}.
+\end{align}
+From this equation we see that upon selfsonsistency, for half-filling $\mu$ has 
+to be equal to the Hartree term of the Selfenergy
+\begin{align}
+\mu &= \frac{U}{2} - 2K'(0^+) \nonumber \\
+&= \frac{1}{2} \left[ U - 2K'(0^+) \right] -K'(0^+) \nonumber \\
+&= \frac{U_{scr}}{2} -K'(0^+) .
+\end{align}
+Again, if electron-phonon coupling is absent, we regain
+the standard expression $\mu = U/2$ for half-filling. 
+
+\textbf{If we now were to use this $\mu$ as an input for the Impurity solver, this would lead
+to an inconsistency, since an additional factor of $K'(0^+)$ will be subtracted.}
+Eq.\eqref{eq:mu_scr} requires the effective $\mu$ for the solver to be 
+$U/2 - K'(0^+)$, while subtracting the additional factor would lead to 
+$U/2 - 3K'(0^+)$.
+
+\bigskip
+This can be remedied in the following way:
+\begin{itemize}
+\item In practice, do not subtract but add a factor of $K'(0^+)$
+to the $\mu$ that leads to half-filling of the local Green's function
+(this is how TRIQS avoids this issue)
+\item Add a factor of $2K'(0^+)$ by hand before passing it to the solver, which then subtracts
+a factor of $K'(0^+)$ to get the right value
+\item Increase the Hartree-Fock part of the Selfenergy by a factor of $2K'(0^+)$,
+so the $\mu$ in the local Green's function will be correspondingly larger and lead to
+the correct value after the solver has subtracted another factor
+(This seems to be what is happening in ALPS).
+\end{itemize}
+
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
