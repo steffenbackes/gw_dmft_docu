@@ -39,6 +39,7 @@
 \maketitle
 \tableofcontents
 
+\clearpage
 
 \section{Introduction}
 
@@ -46,21 +47,22 @@ This document  provides our prescription of the combination of a GW calculation
 for correlated materials with DMFT applied only to a subset of correlated 
 orbitals. At this level, the GW calculation will be performed only once at the 
 beginning (one-shot) based on a DFT Hamiltonian $H^{DFT}$ to obtain a nonlocal 
-GW Selfenergy $\Sigma^{GW}$ for all states. In addition, the local part of 
+GW Selfenergy $\Sigma^{GW}=-G_0W_0$. In addition, the local part of 
 $\Sigma^{GW}$ of a subset of strongly correlated orbitals will be replaced by a 
 Selfenergy $\Sigma^{DMFT}$ obtained within a selfconsistent DMFT scheme, where 
-the selfconsistency is done including the full nonlocal effects of the combined 
+the selfconsistency is done including the full nonlocal effects of the GW
 Selfenergy.
 
-No further selfconsistency apart from the DMFT cycle will be performed, 
-{\it i.e.} no update of $\Sigma^{GW}$ will be done. By this, the final interacting 
-system will be described by a {\GF} with the non-interacting DFT dispersion,
-excluding the exchange-correlation potential, 
-corrected by a non-local GW Selfenergy where the non-local components correspond to 
-$\Sigma^{GW}=G_0W_0$, while the local components of the correlated orbitals 
-correspond to $\Sigma^{DMFT}$. This $\Sigma^{DMFT}$ is usually different to the 
-one obtained by a standard DMFT calculation since the selfconsistency is done 
-with the inclusion of the nonlocal parts of the Selfenergy.
+No further selfconsistency apart from the DMFT cycle will be performed for now, 
+{\it i.e.} no update of $\Sigma^{GW}$ will be done. 
+%By this, the final interacting 
+%system will be described by a {\GF} with the non-interacting DFT dispersion,
+%excluding the exchange-correlation potential, 
+%corrected by a non-local GW Selfenergy where the non-local components correspond to 
+%$\Sigma^{GW}=G_0W_0$, while the local components of the correlated orbitals 
+%correspond to $\Sigma^{DMFT}$. This $\Sigma^{DMFT}$ is usually different to the 
+%one obtained by a standard DMFT calculation since the selfconsistency is done 
+%with the inclusion of the nonlocal parts of the Selfenergy.
 
 Extensions to a full GW+DMFT selfconsistency will come later,
 but selfconsistency in the effective interaction $U$ is planned.
@@ -107,7 +109,7 @@ P^{GW} &= GG.
 \end{align}
 Please note that this expression is correct for working on the imaginary
 time or frequency axis. On the real time or frequency axis  the prefactor 
-for $\Sigma^{GW}$ is $i$ instead of $-1$. For $P$ I need to check...
+for $\Sigma^{GW}$ is $i$ instead of $-1$. \cng{For $P$ I need to check...}
 
 While this approximation goes beyond the level of a static Hartree-Fock approximation,
 it is only an expansion up to first order in $W$ and thus justified only when $W$ is
@@ -121,7 +123,7 @@ its local and nonlocal parts
 \begin{align}
 \Psi[G,W] &= \Psi_{\mathrm{nonloc}}[G,W] + \Psi_{\mathrm{loc}}[G,W],
 \end{align}
-\cng{Is this probably not exact}
+\cng{This is probably not exact in general}\\
 where usually the nonlocal part is approximated by $GW$, while the local part is 
 usually approximated by DMFT, but right now we do not want to decide on a 
 specific method and only focus on how to separate the local and nonlocal 
@@ -184,12 +186,12 @@ of terms, regardless of whether we use an orbital separated scheme or not.
 
 \bigskip
 
-It starts to get really interesting when we use two different approximations $A$ and $B$
+It will now be interesting when we use two different approximations $A$ and $B$
 to treat the two terms
 \begin{align}
 \Psi[G,W] &\approx \Psi^A_{\mathrm{nonloc}}[G,W] + \Psi^B_{\mathrm{loc}}[G^{\mathrm{loc},L},W^{\mathrm{loc},L}] .
 \end{align}
-The main point here is \cng{IS THERE REALLY NO OVERLAP/DOUBLECOUNTING IN THIS SCHEME?}
+\cng{Is there really no overlap/doublecounting in this scheme?}
 
 \bigskip
 
@@ -230,7 +232,7 @@ Limiting cases:
 \begin{description}
 \item[$W$ small:] In this case the Selfenergy will be well described already by GW, so the impurity solution
 will basically give the same result $G^{0,\mathrm{loc},L}W^{0,\mathrm{loc},L} = \Sigma^{\mathrm{imp},L}$.
-The two terms cancel and we fully regain the GW result. \cng{NO doublecounting like in FLL LDA+U or LDA+DMFT!}
+The two terms cancel and we fully regain the GW result. There is no doublecounting like in FLL LDA+U or LDA+DMFT.
 \item[W large:] Then the GW Selfenergy contribution within the subspace $L$ is basically given by the impurity solution.
 There is no mismatch of exchange terms originating from outside the space $L$, since only the local impurity exchange
 is removed from GW and replaced by the local impurity DMFT exchange. But this term can be different due to rearrangements
@@ -240,9 +242,9 @@ has been applied.
 Then we perform a GW selfconsistency including the  local vertex corrections from DMFT, in similar spirit as Boehnke et al., but additionally with improved transitions between
 $L$ and $H$ which they do not update.}
 \end{description}
-The 2-particle selfconsistency cycle over $W$ is not conserving! In what way
+Remark: The 2-particle selfconsistency cycle over $W$ is not conserving! In what way
 does this affect the spectra? Other two-particle quantities?
-Hartmut said something like Plasmons cannot be properly treated due to the nonconserving
+Plasmons might not be properly treated due to the nonconserving
 properties.
 
 \section{The GW+DMFT Doublecounting}
@@ -258,7 +260,7 @@ can be understood as calculating a GW Selfenergy excluding any contributions ari
 exclusively in the correlated subspace, and then adding the contributions arising only in
 the correlated subspace via DMFT. 
 
-Other choices have been discussed, for example what we have been using for now
+Other choices have been discussed, for example what we have been using previously
 is to subtract all local terms from GW
 \begin{align}
 \Sigma^{GW,DC^*} &= -[G^{0}W^{0}]^{\mathrm{loc},L} = \frac{1}{N_k}\sum_k \Sigma^{GW,L}  \\
@@ -338,8 +340,7 @@ or whether one takes out contibutions from DMFT, so that DMFT is a correction to
 \begin{align}
 \Sigma^{GW+DMFT} &=  \Sigma^{GW,loc} + \left(\Sigma^{imp} - \Sigma^{DC}\right) .
 \end{align}
-
-
+For now we do not seem to have this problem with the Doublecounting.
 
 
 \subsection{Evaluating the doublecounting factor $\Sigma^{DC}_{GW}=G_{loc}W_{loc}$}
@@ -499,7 +500,7 @@ The last factor $\mathrm{e}^{ix_j \Delta}$ is important
 to ensure convergence of the frequency sum. 
 This form is actually much better for practical implementation because
 the slow $1/i\omega_j$ convergence does not include a shift which
-slowes down the convergence even more. 
+slows down the convergence even more. 
 Since $\Delta\rightarrow 0^+$ we can directly see
 that we regain the correct Fock-exchange when replacing
 $W$ by the constant bare Coulomb interaction!
@@ -736,7 +737,10 @@ taken into account in the DFT and in the DMFT energies resp. Selfenergy.
 Since DMFT can induce a charge transfer, we will subtract the initial DFT Hartree
 contribution from the DFT energies, and add the full DMFT Selfenergy
 which contains a selfconsistent Hartree calculated from the 
-new orbital occupations.
+new orbital occupations. This Hartree correction is the Hartree term of the impurity,
+i.e. it is only calculated from the correlated orbitals.
+If the DFT charge is close to the exact charge, this term 
+will be quite good, but if not DMFT can introduce a correction to that.
 
 The second one is the local part of the Selfenergy, which
 is contained in both the GW and the DMFT Selfenergy. Since we assume that DMFT
@@ -767,9 +771,9 @@ We do not need to worry about any exchange doublecounting because in
 there is only the Hartree contribution left. In the full
 combination of 
 \begin{align}
- \underbrace{H^{DFT}(k) - v^{XC}(k) - \Sigma^{Hartree}_{DFT}}_{\mbox{no exchange}}
+ \underbrace{H^{DFT}(k) - v^{XC}(k) - \Sigma^{Hartree}_{DFT}}_{\mbox{no exchange/no Hartree}}
           + \underbrace{\Sigma^{XC}_{GW}(k,i\omega_n) - \Sigma_{GW}^{DC}(i\omega_n)}_{\mbox{only nonlocal exch.}}
-          + \underbrace{\Sigma_{imp}(i\omega_n)}_{\mbox{only local exch.}}
+          + \underbrace{\Sigma_{imp}(i\omega_n)}_{\mbox{only local exch./Hartree}}
 \end{align}
 we can see that all DFT exchange is first replaced by the improved GW exchange.
 The due to the GW Doublecounting the local exchange of the correlated subspace
@@ -1568,7 +1572,7 @@ system. By this, the Selfenergy in the Kohn-Sham basis is obtained for all state
 By this, the GW estimate for the full interacting {\GF} is given by
 \begin{align}
  G^{GW}_{\nu\nu'}(k,\omega) 
- &= \left[ \unity(\omega +\mu +i\delta) -H^{DFT}(k)+v^{XC}(k) - \Sigma^{GW}(k,\omega)  \right]^{-1}_{\nu\nu'}.
+ &= \left[ \unity(\omega +\mu ) -H^{DFT}(k)+v^{XC}(k) - \Sigma^{GW}(k,\omega)  \right]^{-1}_{\nu\nu'}.
 \end{align}
 
 
@@ -1797,9 +1801,9 @@ W^{imp}(i\nu_n) &\stackrel{!}{=} W^{loc}(i\nu_n) .
 \end{enumerate}
 
 
-\subsection{Output}
-After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
-can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
+%\subsection{Output}
+%After convergence, {\it e.g.} the local spectral function $A_m(\omega)$
+%can be obtained by analytic continuation of $ G^{loc}_{mm}(i\omega_n) $.
 
 \subsection{High-frequency correction for K($\tau$)}
 \label{sec:hf_corr_interaction}
@@ -2247,7 +2251,7 @@ calculation. This might be possible if I can get $\sim$900 cores on Hedin for ma
 
 \clearpage
 
-\section{FeSe}
+\subsection{FeSe}
 
 \begin{figure}[h]
 \includegraphics[width=0.5\textwidth]{figs/kmesh/FeSe/vxc_kpath_xy.pdf}
@@ -2670,12 +2674,15 @@ $\Gamma_{003}$ point and integrated along the $k=\langle 100 \rangle$ direction.
 
 \subsection{FeSe}
 \begin{figure}[h]
-\begin{center}
-\includegraphics[width=1\textwidth]{figs/results/FeSe_gwdmft_bands.pdf} 
-\end{center}
-\caption{The spectral function for FeSe within GW+DMFT with
-the $G_{loc}W_{loc}$ doublecounting.
-The green lines show the DFT dispersion}
+\includegraphics[width=1\textwidth]{figs/results/FeSe_bands_GW.pdf} 
+\includegraphics[width=1\textwidth]{figs/results/FeSe_bands_GWDMFT.pdf} 
+
+\vspace*{-0.5cm}
+\caption{Top: The spectral function for FeSe within $G_0W_0$.\\
+Bottom: The spectral function for FeSe within GW+DMFT,
+using the $G_{loc}W_{loc}$ doublecounting and the full orbital dependent 
+non-Slater interaction matrix from cRPA. The green lines show the DFT dispersion.
+}
 \label{fig:results_BS_fese}
 \end{figure}
 
