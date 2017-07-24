@@ -120,6 +120,23 @@ def getIdentityrrp(r1,r2,basis,rot,nb):
 	for i in range(nb):
 		ret += rotbasis(r1,i,basis,rot)*rotbasis(r2,i,basis,rot)
 	return ret
+
+def getTrafoElement(i,j,b, basisProd, basis2Part, rot):
+	elem = 0.0
+	for it in range(Nx):
+		for ip in range(Nx):
+			t = theta_start +it*dtheta
+			p = phi_start +ip*dphi
+
+			# rot by hand
+			B_a = 0.0
+			for c in range(len(basisProd)):
+				B_a += rot[c,a] * basisProd[c](t,p)
+			
+			elem += basis2Part[i](t,p) * B_a * basis2Part[j](t,p)
+
+	return elem*dphi*dtheta
+
 ##########################################
 ##########################################
 
@@ -162,6 +179,30 @@ print 'Remaining Eigenvectors:\n',v.round(5)
 
 rot = np.dot(v,D)
 print 'Rotation matrix: \n', rot.round(5)
+
+
+Pmat = np.zeros(( len(basis2)**2, len(basis1)  ))
+
+for i in range(len(basis2)):
+	for j in range(len(basis2)):
+		print np.round((i*len(basis2)+j)*100.0/len(basis2)**2,1),'% done'
+		for a in range(len(basis1)):
+			Pmat[i*len(basis2)+j,a] = getTrafoElement(i,j,a, basis1, basis2, rot)
+
+print 'Final Pmat: \n', Pmat.round(5)
+
+PmatdPmat = np.zeros(( len(basis1),len(basis1) ))
+for i in range(len(basis2)):
+	for j in range(len(basis2)):
+		for k in range(len(basis2)):
+			for l in range(len(basis2)):
+				for a in range(len(basis1)):
+					for b in range(len(basis1)):
+						PmatdPmat[a,b] += Pmat[i*len(basis2)+k,a]*Pmat[l*len(basis2)+j,b]
+print 'Pmat^dag Pmat: \n', PmatdPmat.round(5)
+
+
+
 exit()
 Omatrix = getOmatrixRot(basis1,rot, nobasis)
 

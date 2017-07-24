@@ -1469,6 +1469,29 @@ A_{ab}
     \psi_i(\vec{r})\psi_j(\vec{r}') A_{ijkl} \psi^*_l(\vec{r}')\psi^*_k(\vec{r}) \tilde{B}_b(\vec{r}') .
 \end{align}
 
+If we define the "overlap" between the original two-particle
+basis and the new product basis by
+\begin{align}
+P_{ij,a}
+&= \int  \mathrm{d}\vec{r}\, \psi^*_i(\vec{r}) \tilde{B}_a(\vec{r}) \psi_j(\vec{r}) ,
+\end{align}
+we can write the transformation as follows
+\begin{align}
+A_{ijkl} &= \braket{ij | A | kl }  \\
+&= \sum_{a,b}\int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r}) \tilde{B}_a(\vec{r}) \psi_k(\vec{r})
+      \   A_{ab}\ \psi_l(\vec{r}') \tilde{B}^*_b(\vec{r}') \psi^*_j(\vec{r}') \\
+&= \sum_{a,b} P_{ik,a} A_{ab} P^*_{lj,b}
+\end{align}
+and the other way round
+\begin{align}
+A_{ab}
+&=\sum_{ijkl} \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \,  \psi_i(\vec{r}) \tilde{B}^*_a(\vec{r}) \psi^*_k(\vec{r}) 
+     \ A_{ijkl}\  \psi^*_l(\vec{r}') \tilde{B}_b(\vec{r}') \psi_j(\vec{r}') \\
+%
+&= \sum_{ijkl} P^*_{ik,a}  A_{ijkl} P_{lj,b}.
+\end{align}
+Here we see that we cannot write this transformation as a simple matrix equation
+if we were to combine the two first $(ij)$ and last $(kl)$ indices.
 
 % \begin{align}
 %  \braket{ii | A | jj }  
