@@ -1493,6 +1493,18 @@ A_{ab}
 Here we see that we cannot write this transformation as a simple matrix equation
 if we were to combine the two first $(ij)$ and last $(kl)$ indices.
 
+For the special case of 
+\begin{align}
+A_{ijkl} &= \braket{ij|A|ij}\delta_{ik}\delta_{jl} + \braket{ij|A|ji}\delta_{il}\delta_{jk} \\
+&= U_{ij} \delta_{ik}\delta_{jl} + J_{ij}\delta_{jk},
+\end{align}
+we get the following form
+\begin{align}
+U_{ij} &= \sum_{a,b} P_{ii,a} A_{ab} P^*_{jj,b} \\
+J_{ij} &= \sum_{a,b} P_{ij,a} A_{ab} P^*_{ij,b} \\
+A_{ab} &= \sum_{ij} P^*_{ii,a}  U_{ij} P_{jj,b} + P^*_{ij,a}  J_{ij} P_{ij,b}.
+\end{align}
+
 % \begin{align}
 %  \braket{ii | A | jj }  
 % &= \int \int \mathrm{d}\vec{r}\mathrm{d}\vec{r}' \, \psi^*_i(\vec{r})\psi_j(\vec{r}) 

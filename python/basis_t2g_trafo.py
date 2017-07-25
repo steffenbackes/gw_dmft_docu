@@ -75,12 +75,7 @@ def getTrafoElement(i,j,a, basisProd, basis2Part, rot):
 			t = theta_start +it*dtheta
 			p = phi_start +ip*dphi
 
-			# rot by hand
-			B_a = 0.0
-			for c in range(len(basisProd)):
-				B_a += rot[c,a] * basisProd[c](t,p)
-			
-			elem += basis2Part[i](t,p) * B_a * basis2Part[j](t,p)
+			elem += basis2Part[i](t,p) * rotbasis(t,p,a,basisProd,rot) * basis2Part[j](t,p)
 
 	return elem*dphi*dtheta
 
@@ -141,8 +136,9 @@ print 'Final Pmat: \n', Pmat.round(5)
 A = np.zeros((len(basis2),len(basis2),len(basis2),len(basis2)))
 for i in range(len(basis2)):
 	for j in range(len(basis2)):
-		A[i,j,i,j] = 1.0
-A = np.ones((len(basis2),len(basis2),len(basis2),len(basis2)))
+		A[i,j,i,j] = 100.0
+		A[i,j,j,i] = 100.0
+#A = np.ones((len(basis2),len(basis2),len(basis2),len(basis2)))
 
 Aprod = np.zeros(( len(basis1), len(basis1)  ))
 for a in range(nobasis):
@@ -152,6 +148,38 @@ for a in range(nobasis):
 				for k in range(len(basis2)):
 					for l in range(len(basis2)):
 						Aprod[a,b] += Pmat[i*len(basis2)+k,a] * A[i,j,k,l] * Pmat[l*len(basis2)+j,b]
-print 'Aprod: \n',Aprod.round(5)
+print 'Aprod: \n'
+for a in range(nobasis):
+	for b in range(nobasis):
+		print '{:+08.4f}'.format(Aprod[a,b]),'  ',
+	print ''
 
+
+print 'A back to 2Part:'
+A2part = np.zeros(( len(basis2), len(basis2),len(basis2),len(basis2)  ))
+for i in range(len(basis2)):
+	for j in range(len(basis2)):
+		for k in range(len(basis2)):
+			for l in range(len(basis2)):
+				for a in range(nobasis):
+					for b in range(nobasis):
+						A2part[i,j,k,l] += Pmat[i*len(basis2)+k,a] * Aprod[a,b] * Pmat[l*len(basis2)+j,b]
+				print '{:1d} {:1d} {:1d} {:1d} :'.format(i,j,k,l),
+				print '{:+08.4f}'.format(A2part[i,j,k,l]),'  ',
+				print ''
+
+#################################
+Aprod = np.zeros(( len(basis1), len(basis1)  ))
+for a in range(nobasis):
+	for b in range(nobasis):
+		for i in range(len(basis2)):
+			for j in range(len(basis2)):
+				for k in range(len(basis2)):
+					for l in range(len(basis2)):
+						Aprod[a,b] += Pmat[i*len(basis2)+k,a] * A2part[i,j,k,l] * Pmat[l*len(basis2)+j,b]
+print 'And back to Aprod: \n'
+for a in range(nobasis):
+	for b in range(nobasis):
+		print '{:+08.4f}'.format(Aprod[a,b]),'  ',
+	print ''
 
