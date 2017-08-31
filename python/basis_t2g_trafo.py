@@ -133,6 +133,8 @@ print 'Final Pmat: \n', Pmat.round(5)
 
 ################################################
 
+exit()
+
 A = np.zeros((len(basis2),len(basis2),len(basis2),len(basis2)))
 for i in range(len(basis2)):
 	for j in range(len(basis2)):

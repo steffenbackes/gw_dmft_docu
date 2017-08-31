@@ -2112,7 +2112,80 @@ and therefore
 \end{align}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Relation between $U(i\nu_n)$, $W(i\nu_n)$ and $P(i\nu_n)$}
+In the GW+DMFT cycle we have to update the local polarization $P$
+from the GW with the DMFT polarization.
+The relations between the fully screened interaction $W(i\nu_n)$, the partially
+screened interaction $U(i\nu_n)$, the Polarization $P(i\nu_n)$ and the charge-susceptibility
+$\chi^{ch}(i\nu_n)$ is as follows:
+\begin{align}
+ U(i\nu_n) &= \left[  W^{-1}(i\nu_n) + P(i\nu_n)  \right]^{-1} \\
+ W(i\nu_n) &= U(i\nu_n) -U(i\nu_n) \chi^{ch}(i\nu_n)U(i\nu_n)  \\
+ P(i\nu_n) &= -\left[ \unity - \chi^{ch}(i\nu_n)U(i\nu_n) \right]^{-1} \chi^{ch}(i\nu_n).
+\end{align}
+The charge susceptibility $\chi^{ch}$ is given by
+\begin{align}
+ \chi^{ch}_{ij}(\tau) 
+ &= \langle T \bar{n}_i(\tau) \bar{n}_j(0) \rangle ,
+\end{align}
+where $\bar{n}_i(\tau) = \sum_{\sigma} \left( n^{\sigma}_i(\tau) - \langle n^{\sigma}_i\rangle \right)$.
+
+In the impurity solver we can measure the time-dependent density-density
+correlation function $\chi_{ij}^{\sigma\sigma'}(\tau)$ given by
+\begin{align}
+ \chi_{ij}^{\sigma\sigma'}(\tau) 
+ &= \langle T n_i^{\sigma}(\tau) n_j^{\sigma'}(0) \rangle \\
+ %
+ \chi_{ij}^{\sigma\sigma'}(i\nu_n) 
+ &= \int_0^{\beta} \chi_{ij}^{\sigma\sigma'}(\tau) \mathrm{e}^{i\nu_n\tau} \,\mathrm{d}\tau.
+\end{align}
+This is a bosonic response function and real-valued on the imaginary $\tau$- and $i\nu_n$ axis.
+
+The charge-susceptibility $\chi^{ch}(i\nu_n)$ can be expressed in terms of
+the time-dependent density-density correlation function $\chi$ by
+\begin{align}
+ \chi^{ch}_{ij}(\tau) 
+ &= \langle T \bar{n}_i(\tau) \bar{n}_j(0) \rangle \\
+ %
+ &= \langle T \left( n_i(\tau)-\langle n_i \rangle \right) 
+              \left( n_j(0)-\langle n_j \rangle \right)\rangle \\
+ %
+ &= \langle T \left( n_i(\tau)n_j(0) - n_i(\tau)\langle n_j \rangle
+                                     - \langle n_i \rangle n_j(0)
+                                     + \langle n_i \rangle\langle n_j \rangle
+              \right)\rangle \\ 
+ &= \langle T n_i(\tau)n_j(0) \rangle - \langle n_i \rangle\langle n_j \rangle \\
+ %
+ &= \langle T \left( n^{\uparrow}_i(\tau)+n^{\downarrow}_i(\tau) \right)
+              \left( n^{\uparrow}_j(0)+n^{\downarrow}_j(0) \right)\rangle  \nonumber \\
+ & \hspace{0.5cm}  -\langle n^{\uparrow}_i+n^{\downarrow}_i  \rangle\langle n^{\uparrow}_j+n^{\downarrow}_j  \rangle \\
+ %
+ &=  \chi_{ij}^{\uparrow\uparrow}(\tau) + \chi_{ij}^{\downarrow\downarrow}(\tau) 
+    +\chi_{ij}^{\uparrow\downarrow}(\tau)  +\chi_{ij}^{\downarrow\uparrow}(\tau)  \nonumber \\
+ & \hspace{0.3cm} - \left( \chi_{ii}^{\uparrow\uparrow}(0)+\chi_{ii}^{\downarrow\downarrow}(0)  \right)
+                    \left( \chi_{jj}^{\uparrow\uparrow}(0)+\chi_{jj}^{\downarrow\downarrow}(0)  \right),
+ \end{align}
+ where we have used that 
+ \begin{align}
+  \chi_{ii}^{\sigma\sigma}(0) 
+  &= \langle T n^{\sigma}_i(0) n^{\sigma}_i(0) \rangle \\
+  &= \langle  n^{\sigma}_i(0) \rangle \\
+  &= \langle n^{\sigma}_i \rangle.
+ \end{align}
+Using the Fourier transform we get the charge susceptibility on the Matsubara
+frequency axis
+\begin{align}
+ \chi^{ch}_{ij}(i\nu_n) 
+ &=   \chi_{ij}^{\uparrow\uparrow}(i\nu_n) + \chi_{ij}^{\downarrow\downarrow}(i\nu_n) 
+    +\chi_{ij}^{\uparrow\downarrow}(i\nu_n)  +\chi_{ij}^{\downarrow\uparrow}(i\nu_n) \nonumber \\
+ & \hspace{0.3cm} - \delta(i\nu_n) \beta \langle n^{\uparrow}_i+n^{\downarrow}_i  \rangle\langle n^{\uparrow}_j+n^{\downarrow}_j  \rangle.
+\end{align}
+
+
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
