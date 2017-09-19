@@ -247,6 +247,11 @@ does this affect the spectra? Other two-particle quantities?
 Plasmons might not be properly treated due to the nonconserving
 properties.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{The GW+DMFT Doublecounting}
 In the section above we discussed that the "doublecounting" factor
 that has to be subtracted from the GW Selfenergy and Polarization
@@ -324,6 +329,9 @@ With the other DC there seemed to be a shift in the chemical potential where
 the bands are slightly too low, but the reason for this is not fully clear and
 maybe something else might be responsible, but I don't think so.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Possible problems with the DC}
 One important factor is the causality of the different DC schemes.
 The GW Selfenergy is causal and the impurity Selfenergy is causal,
@@ -342,6 +350,116 @@ or whether one takes out contibutions from DMFT, so that DMFT is a correction to
 \end{align}
 For now we do not seem to have this problem with the Doublecounting.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Evaluating the local polarization $P_{loc}$ to obtain $W_{loc}$}
+\label{sec:local_polarization}
+In order to evaluate the doublecounting factor
+\begin{align}
+\Sigma^{DC}_{GW} &= -[G^{\mathrm{loc}}W^{\mathrm{loc}}],
+\end{align}
+we will solve the impurity model within the $G_0W_0$ approximation.
+Therefore, $G^{\mathrm{loc}}=G^{\mathrm{DFT}}$.
+But what one should use for $W^{\mathrm{loc}}$ is not trivial.
+There are basically two options one could use
+\begin{itemize}
+ \item Calculate $W(r,r')$ in the GW calculation and project it
+ onto the localized basis set. This object is then used to calculate the 
+ doublecounting (This is what we have used so far).
+ This is in priniciple not correct, since the impurity problem
+ only knows about the effective impurity interaction $U$, that is then
+ screened by local processes, while such a $W$ from GW contains in general
+ different screening processes:
+ 
+ Usually the cRPA calculation for $U$ is done by excluding the correlated bands 
+ from the screening process, so non-local processes in these bands are removed as well.
+ These processes are not accounted for in the impurity model. If we use the fully screened
+ $W$ from the GW calculation these processes are included, so this $W$ will obviously
+ be different from $[U^{-1} - P_{\mathrm{loc}} ]^{-1}$. 
+ 
+ \item The other way is to use the effective impurity interaction $U$, calculate
+ the polarization of the impurity in GW from the DFT input via
+ $P_{\mathrm{loc}} = G_{\mathrm{loc}}G_{\mathrm{loc}}$ and screen the interaction
+ via $W_{\mathrm{loc}} = [U^{-1} - P_{\mathrm{loc}} ]^{-1}$.
+ This corresponds to a GW solution of the impurity model and the DMFT solution should
+ recover this GW solution if correlations are weak. 
+\end{itemize}
+
+Now we will describe how to evalute the local polarization and interaction
+from the DFT impurity input via
+\begin{align}
+ P_{\mathrm{loc}} &= G_{\mathrm{loc}}G_{\mathrm{loc}} \\
+ W_{\mathrm{loc}} &= [U^{-1}_{\mathrm{loc}} - P_{\mathrm{loc}} ]^{-1}.
+\end{align}
+
+We will start with the equation for the polarization in the
+continuum and then project onto a local basis set
+The polarization in the RPA approximation is given as
+(see Eq. (1) in Phys. Rev. 139, 3A (1965))
+\begin{align}
+P(1,2) &= -i G(1,2)G(2,1),
+\end{align}
+where the arguments denote the combined space, spin and time dependence
+\begin{align}
+ (1) &= (r_1,\sigma_1,t_1).
+\end{align}
+When comparing to the expression for $W$ (see Eq. (11) in Phys. Rev. 139, 3A (1965))
+\begin{align}
+ W(1,2)
+ &= v(1,2)
+  + \int  W(1,3) P(3,4) v(4,2) \, \mathrm{d}(3)\mathrm{d}(4),
+\end{align}
+we note that, due to $W$ and $v$ being spin-independent,
+that the integral over spin simplifies to a summation of spin only on the polarization
+\begin{align}
+ W(1,2)
+ &= v(1,2) \nonumber \\
+  &+ \int  W(r_1,t_1;r_3,t_3) \nonumber \\
+  &\times \sum_{\sigma_3\sigma_4} P(r_3,\sigma_3,t_3;r_4,\sigma_4,t_4)  \nonumber \\
+  &\times v(r_4,t_4;r_2,t_2)\, \mathrm{d}(r_3,t_3)\mathrm{d}(r_4,t_4).
+\end{align}
+Therefore, the polarization used for the screening is the spin-summation over the 
+spin-dependent polarization that we calculate from the
+Green's functions.
+
+For imaginary times the definition of the Green's function
+is missing the imaginary unit $i$, therefore, the polarization is then
+given as \cng{CHECK THIS}
+\begin{align}
+P(1,2) &=  G(1,2)G(2,1),
+\end{align}
+where the arguments denote the combined space, spin and imaginary time dependence
+\begin{align}
+ (1) &= (r_1,\sigma_1,\tau_1).
+\end{align}
+
+Introducing a local basis 
+$\braket{r|\chi_{m}^{\sigma}}=\chi_{m}^{\sigma}(r)$ we can
+obtain the matrix elements of the Polarization in this basis
+\begin{align}
+ \braket{m_1\sigma_1 | P(\tau_1,\tau_2) | m_2\sigma_2 } 
+ &= \braket{\chi_{m_1}^{\sigma_1} | P(\tau_1,\tau_2) | \chi_{m_2}^{\sigma_2} }  \nonumber \\
+ &= \int\int \mathrm{d}r_1\mathrm{d}r_2 \  \chi_{m_1}^{\sigma_1*}(r_1) 
+                                 G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2) \nonumber \\
+           & \hspace{3cm} \times G(r_2,\sigma_2,\tau_2;r_1,\sigma_1,\tau_1)\chi_{m_2}^{\sigma_2}(r_2).
+\end{align}
+Expanding the Green's function in this local basis as
+\begin{align}
+ G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2)
+ &= \sum_{ab} \chi_{a}^{\sigma_1}(r_1) G^{\sigma_1\sigma_2}_{ab}(\tau_1,\tau_2)\chi_{b}^{\sigma_2*}(r_2)
+\end{align}
+we get
+\begin{align}
+ \braket{m_1\sigma_1 | P(\tau_1,\tau_2) | m_2\sigma_2 } 
+ &= \sum_{abcd}\int\int \mathrm{d}r_1\mathrm{d}r_2 \
+                         \chi_{a}^{\sigma_1}(r_1) G^{\sigma_1\sigma_2}_{ab}(\tau_1,\tau_2)\chi_{b}^{\sigma_2*}(r_2) \nonumber \\
+    &\hspace{1cm} \times \chi_{c}^{\sigma_2}(r_2) G^{\sigma_2\sigma_1}_{cd}(\tau_2,\tau_1)\chi_{d}^{\sigma_1*}(r_1)
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Evaluating the doublecounting factor $\Sigma^{DC}_{GW}=G_{loc}W_{loc}$}
 \label{sec:glocwloc_dc_factor}
@@ -373,7 +491,7 @@ but is projected onto the correlated subspace.
 To derive the expression for $G^{loc}W^{loc}$ we start with the definitions
 from the original paper by Hedin (we set $\hbar=1$).
 For real time in the continuum the Green's function and
-the bare Coulomb potential is defined as
+the bare Coulomb potential is defined as (see Eq. (1) in Phys. Rev. 139, 3A (1965))
 \begin{align}
 G(1,2) &= -i \langle T \psi(1)\psi^{\dagger}(2) \rangle \\
 V_C(1,2) &= \frac{\delta(t_1-t_2)}{|r_1-r_2|},
@@ -383,6 +501,7 @@ where the arguments denote the combined space,spin and time dependence
  (1) &= (r_1,\sigma_1,t_1).
 \end{align}
 The Selfenergy in the GW approximation is then given as
+(see Eq. (10) in Phys. Rev. 139, 3A (1965))
 \begin{align}
  \Sigma(1,2) &= i G(1,2)W(1^+,2),
 \end{align}
@@ -558,6 +677,9 @@ of a dynamically screened Fock-exchange term.
 %     \left[ 
 %   \lim_{i\omega_n\rightarrow 0}  \frac{\partial}{\partial i\omega_n}G^{\sigma}_{k}(i\omega_n-i\nu_j) \right]   
 % \end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{High-frequency correction for GW-DC version1}
 \cng{This should not be used because this form converges slower}
