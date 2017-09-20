@@ -252,6 +252,317 @@ properties.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Expressing $v$, $W$, $U$, $P=GG$ in a local basis}
+
+In the GW+DMFT method we often face the problem of expressing objects that appear
+routinely in the GW framework in the language of DMFT, i.e. in a localized basis set.
+All objects in GW are formulated in the continuum, that is as functions
+of one (or two) continuous real space coordinates $\mathbf{r}$, spin $\sigma$ and continuous time $t$
+\begin{align}
+ F(1,2) &= F(\mathbf{r}_1,\sigma_1,t_1;\mathbf{r}_2,\sigma_2,t_2).
+\end{align}
+On the other hand, objects in the DMFT framework are formulated in 
+a basis set of local orbitals $\chi^{\sigma}_m(\mathbf{r})$
+\begin{align}
+ G^{\sigma}_{m_1m_2}(t), F^{\sigma_1\sigma_2}_{m_1m_2m_3m_4}(t).
+\end{align}
+Often we need to translate between the two description, for example
+when evaluating the GW+DMFT doublecounting, i.e. the GW solution of
+the impurity model, or when obtaining the effective interaction
+parameters $U_{abcd}$.
+
+To derive the expression for the screened interaction $W$ in a localized basis,
+we will start with the equation for $W$ and the polarization $P$ within GW in the
+continuum and then project onto a local basis set
+$W$ and the polarization in the RPA approximation is given as
+(see Eq. (1) in Phys. Rev. 139, 3A (1965))
+\begin{align}
+W(1,2)
+ &= v(1,2)
+  + \int  W(1,3) P(3,4) v(4,2) \, \mathrm{d}(3)\mathrm{d}(4) \label{eq:w_continuum} \\
+%
+P(1,2) &= -i G(1,2)G(2,1),
+\end{align}
+where the arguments denote the combined space, spin and real time dependence
+\begin{align}
+ (1) &= (r_1,\sigma_1,t_1).
+\end{align}
+The bare Coulomb interaction $v$ and the screened $W$ are spin-independent by definition.
+The polarization $P$ in general is spin-dependent.
+
+For imaginary times the definition of the Green's function
+is missing the imaginary unit $i$, therefore, the polarization is then
+given as \cng{CHECK THIS}
+\begin{align}
+P(1,2) &=  G(1,2)G(2,1),
+\end{align}
+where the arguments denote the combined space, spin and imaginary time dependence
+\begin{align}
+ (1) &= (r_1,\sigma_1,\tau_1).
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Definition of the local Polarization $P_{ijkl}$}
+
+Introducing a local basis 
+$\braket{r|\chi_{m}^{\sigma}}=\chi_{m}^{\sigma}(r)$ we can
+expand the Green's function in this local basis as
+\begin{align}
+G(1,2) &=  G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2) \\
+ &= \sum_{ab} \chi_{a}^{\sigma_1}(r_1) G^{\sigma_1\sigma_2}_{ab}(\tau_1,\tau_2)\chi_{b}^{\sigma_2*}(r_2). 
+\end{align}
+We will now project Eq.~\eqref{eq:w_continuum} onto this basis set to obtain the
+matrix element $\braket{ab|W|cd} = W_{abcd}$ .
+
+We drop the $\sigma$ arguments in $W$ and $v$ (they are spin independent) 
+and break up the integral over the combined index $(1)$ into a sum over spin and integral over space and 
+time for better readability.
+\begin{align}
+ \int \mathrm{d}(1) = \sum_{\sigma_1} \int\mathrm{d}(r_1\tau_1) .
+\end{align}
+
+The matrix elements of $W$ are then given as
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) &= \braket{ab|W(\tau_1,\tau_2)|cd}  \\
+%
+&= \int \chi^{\sigma*}_a(r_1) \chi^{\sigma'*}_b(r_2)
+          W(r_1\tau_1,r_2\tau_2)
+        \chi^{\sigma''}_c(r_1) \chi^{\sigma'''}_d(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 \\
+%
+&= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
+& \hspace{0.5cm}  + \sum_{\sigma_3\sigma_4}\int 
+                     \chi^{\sigma*}_a(r_1) \chi^{\sigma'*}_b(r_2) W(r_1\tau_1,r_3\tau_3) 
+                              P(r_3\sigma_3\tau_3,r_4\sigma_4\tau_4)  \nonumber \\
+&  \hspace{1.5cm}\times       v(r_4\tau_4,r_2\tau_2) \chi^{\sigma''}_c(r_1) \chi^{\sigma'''}_d(r_2)
+                             \, \mathrm{d}(r_3\tau_3)\mathrm{d}(r_4\tau_4) \mathrm{d}r_1\mathrm{d}r_2.
+%
+\end{align}
+Using the RPA expression of the polarizatin $P$ with the Green's function in the local basis
+\begin{align}
+ P(r_3\sigma_3\tau_3,r_4\sigma_4\tau_4)
+ &=  G(3,4)G(4,3)                         \\
+%
+&= \sum_{ijkl} \chi_{i}^{\sigma_3}(r_3) G^{\sigma_3\sigma_4}_{ij}(\tau_3,\tau_4)\chi_{j}^{\sigma_4*}(r_4) \nonumber \\
+& \hspace{0.8cm} \times \chi_{k}^{\sigma_4}(r_4) G^{\sigma_4\sigma_3}_{kl}(\tau_4,\tau_3)\chi_{l}^{\sigma_3*}(r_3),
+\end{align}
+we get the expression
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) 
+%
+&= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
+& \hspace{0.5cm}  + \sum_{\substack{\sigma_3\sigma_4 \\ ijkl }}\int 
+                     \chi^{\sigma*}_a(r_1) \chi^{\sigma'*}_b(r_2) W(r_1\tau_1,r_3\tau_3) 
+                              \chi_{i}^{\sigma_3}(r_3) \chi_{j}^{\sigma_4*}(r_4)  \nonumber \\
+&  \hspace{1.5cm}\times       G^{\sigma_3\sigma_4}_{ij}(\tau_3,\tau_4) G^{\sigma_4\sigma_3}_{kl}(\tau_4,\tau_3)
+                              \chi_{k}^{\sigma_4}(r_4)\chi_{l}^{\sigma_3*}(r_3) \nonumber \\
+&  \hspace{1.5cm}\times       v(r_4\tau_4,r_2\tau_2) \chi^{\sigma''}_c(r_1) \chi^{\sigma'''}_d(r_2)
+                             \, \mathrm{d}(r_3\tau_3)\mathrm{d}(r_4\tau_4) \mathrm{d}r_1\mathrm{d}r_2.
+%
+\end{align}
+Collecting the basisfunctions with corresponding arguments we can identify
+the matrix elements
+\begin{align}
+ W_{alci}(\tau_1,\tau_3)
+ &= \int \chi^{\sigma*}_a(r_1) \chi_{l}^{\sigma_3*}(r_3)
+              W(r_1\tau_1,r_3\tau_3) 
+         \chi^{\sigma''}_c(r_1) \chi_{i}^{\sigma_3}(r_3) \, \mathrm{d}r_1\mathrm{d}r_3 \\
+%
+v_{jbkd}(\tau_4,\tau_2)
+ &= \int \chi_{j}^{\sigma_4*}(r_4) \chi^{\sigma'*}_b(r_2)
+              v(r_4\tau_4,r_2\tau_2)
+         \chi_{k}^{\sigma_4}(r_4) \chi^{\sigma'''}_d(r_2) \, \mathrm{d}r_4\mathrm{d}r_2,
+\end{align}
+which leads to 
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) 
+%
+&= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
+& \hspace{0.5cm}  + \sum_{\substack{\sigma_3\sigma_4 \\ ijkl }}\int 
+                     W_{alci}(\tau_1,\tau_3) 
+                     G^{\sigma_3\sigma_4}_{ij}(\tau_3,\tau_4) G^{\sigma_4\sigma_3}_{kl}(\tau_4,\tau_3)
+                     v_{jbkd}(\tau_4,\tau_2)
+                    \, \mathrm{d}\tau_3\mathrm{d}\tau_4 .
+%
+\end{align}
+This expression corresponds to the Diagram shown in Fig.~\ref{fig:w_rpa}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.55\textwidth]{figs/rpa_diag.pdf}
+\end{center}
+\caption{The screened interaction $W=v+WPv$, calculated within the RPA approximation,
+where the bare Coulomb interaction $v$ is screened by the polarization bubble
+$P=GG$.}
+\label{fig:w_rpa}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+From this expression we \textit{define} the coefficients of  polarization $P$ in
+the local basis as
+\begin{align}
+ P^{\sigma\sigma'}_{ijkl}(\tau,\tau') 
+ &:= G^{\sigma\sigma'}_{ij}(\tau,\tau') G^{\sigma'\sigma}_{lk}(\tau',\tau),
+\end{align}
+which leads to the final expression
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) 
+%
+&= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
+& \hspace{0.5cm}  + \sum_{\substack{\sigma_3\sigma_4 \\ ijkl }}\int 
+                     W_{alci}(\tau_1,\tau_3) 
+                     P^{\sigma_3\sigma_4}_{ijlk}(\tau_3,\tau_4) 
+                     v_{jbkd}(\tau_4,\tau_2)
+                    \, \mathrm{d}\tau_3\mathrm{d}\tau_4 .
+%
+\end{align}
+Other definitions of the $P_{ijkl}$ elements are possible and can be found in the literature.
+The only thing important is that the notation is consistent.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The local $W_{abcd}$ and $P_{ijkl}$ on Matsubara frequencies}
+Using the definition of the Fourier transform
+\begin{align}
+ F(\tau)   &= \frac{1}{\beta} \sum_{i\nu_n} F(i\nu_n)\mathrm{e}^{-i\nu_n\tau} \\
+ F(i\nu_n) &= \int_{0}^{\beta} F(\tau)\mathrm{e}^{i\nu_n\tau} \, \mathrm{d}\tau,
+\end{align}
+and exploiting time-translational invariance of $W,v,P$, e.g.
+\begin{align}
+ W(\tau_1,\tau_2) = W(\tau_1-\tau_2) = W(\tau),
+\end{align}
+we first get the usual Dyson-like equation (good exercise, it's not difficult)
+\begin{align}
+W_{abcd}(i\nu_n)
+%
+&= v_{abcd}  + \sum_{\substack{\sigma\sigma' \\ ijkl }}
+                     W_{alci}(i\nu_n) P^{\sigma\sigma'}_{ijlk}(i\nu_n)
+                     v_{jbkd}, \label{eq:w_dyson_like}
+\end{align}
+where we have used that the bare Coulomb interaction is static
+\begin{align}
+ v(r_1\tau_1,r_2\tau_2) &= v(r_1,r_2) \delta(\tau_1-\tau_2).
+\end{align}
+For the polarization we get
+\begin{align}
+ P^{\sigma\sigma'}_{ijkl}(i\nu_n)
+ &= \int_{0}^{\beta} \frac{1}{\beta^2}
+      \left( \sum_{i\omega_n} G^{\sigma\sigma'}_{ij}(i\omega'_n) \mathrm{e}^{-i\omega_n\tau} \right)
+      \left( \sum_{i\omega'_n} G^{\sigma'\sigma}_{lk}(i\omega'_n) \mathrm{e}^{+i\omega'_n\tau} \right)
+      \mathrm{e}^{i\nu_n\tau} \, \mathrm{d}\tau  \\
+%
+ &= \sum_{\substack{i\omega_n\\i\omega'_n}} G^{\sigma\sigma'}_{ij}(i\omega_n)
+                                            G^{\sigma'\sigma'}_{lk}(i\omega_n')
+      \frac{1}{\beta^2} \int_{0}^{\beta} \mathrm{e}^{i(\nu_n+\omega_n'-\omega_n) \tau}   \, \mathrm{d}\tau  \\
+%
+ &=\frac{1}{\beta} \sum_{i\omega_n} G^{\sigma\sigma'}_{ij}(i\omega_n)
+                     G^{\sigma'\sigma}_{lk}(i\omega_n-i\nu_n).
+\end{align}
+
+
+
+
+\subsection{Obtaining the local $U_{ab}$, $J_{ab}$ from $W_{abcd}$ and $P_{ijkl}$ }
+In general we want to calculate the screened interaction $W$ from 
+a Dyson-like equation by inverting Eq.~\ref{eq:w_dyson_like}
+\begin{align}
+ W &= [v^{-1} - P ]^{-1}.
+\end{align}
+In general one needs to employ a product basis ansatz
+to invert the 4-index objects like described in Sec.~\ref{sec:product_basis}.
+However, in practice there are some simplifications.
+
+First, we assume the local Green's functions to be spin- and orbital diagonal, i.e.
+\begin{align}
+ G^{\sigma\sigma'}_{ij}(i\omega_n)
+ &= G^{\sigma}_{i}(i\omega_n)\delta_{\sigma\sigma'}\delta_{ij}.
+\end{align}
+Second, if we assume that only the Hubbard and Hund's terms of the local interaction
+\begin{align}
+ U^{\mathrm{bare}}_{ab} &= \braket{ab|v|ab} = v_{abab} \\
+ J^{\mathrm{bare}}_{ab} &= \braket{ab|v|ba} = v_{abba},
+\end{align}
+are relevant and all other terms are sufficiently small, like 
+we do in DMFT, the screened interaction parameters can be written as
+\begin{align}
+U^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abab}(i\nu_n) \\
+%
+&= v_{abab}  + \sum_{ i k \sigma}
+                     W_{akai} (i\nu_n) P^{\sigma}_{iikk}(i\nu_n)
+                     v_{ibkb}\delta_{ik} \\
+%
+& = U^{\mathrm{bare}}_{ab}  + \sum_{i \sigma}
+                     U^{\mathrm{scr}}_{ai} (i\nu_n) P^{\sigma}_{iiii}(i\nu_n)
+                     U^{\mathrm{bare}}_{ib} , 
+\end{align}
+and 
+\begin{align}
+J^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abba}(i\nu_n) \\
+%
+&= v_{abba}  + \sum_{ i k \sigma}
+                     W_{akbi} (i\nu_n) P^{\sigma}_{iikk}(i\nu_n)
+                     v_{ibka}\delta_{ia}\delta_{kb} \\
+%
+& = J^{\mathrm{bare}}_{ab}  + \sum_{\sigma}
+                     J^{\mathrm{scr}}_{ab} (i\nu_n) P^{\sigma}_{aabb}(i\nu_n)
+                     J^{\mathrm{bare}}_{ab} .
+\end{align}
+The equation for $U^{\mathrm{scr}}_{ab}$ has now been reduced to a simple matrix equation
+\begin{align}
+U^{\mathrm{scr}}(i\nu_n) 
+& = U^{\mathrm{bare}}  + U^{\mathrm{scr}} (i\nu_n) P^{\mathrm{diag}}(i\nu_n) U^{\mathrm{bare}},
+\end{align}
+where $P^{\mathrm{diag}}$ is a diagonal matrix consisting of the $P^{\sigma}_{iiii}$ elements 
+summed over all spin components
+\begin{align}
+ P^{\mathrm{diag}}_{ab}(i\nu_n) &= \sum_{\sigma} P^{\sigma}_{aaaa}(i\nu_n) \delta_{ab}.
+\end{align}
+The equation for $J^{\mathrm{scr}}_{ab}$ has even become a simple scalar equation.
+These relations can be easily inverted, which finally yields the expressions
+\begin{align}
+ U^{\mathrm{scr}}_{ab}(i\nu_n) 
+ &= \left( U^{\mathrm{bare}} \left[\unity -  P^{\mathrm{diag}}(i\nu_n) U^{\mathrm{bare}} \right]^{-1} \right)_{ab} \\
+ &=  \left( \left[ \left(U^{\mathrm{bare}}\right)^{-1} -  P^{\mathrm{diag}}(i\nu_n) \right]^{-1} \right)_{ab} \\
+ %
+ J^{\mathrm{scr}}_{ab}(i\nu_n) 
+ &= \frac{ J^{\mathrm{bare}}_{ab} }{ 1 - P_{ab}(i\nu_n)J^{\mathrm{bare}}_{ab} }  \\
+ &= \left[  \left(J^{\mathrm{bare}}_{ab} \right)^{-1} - P_{ab}(i\nu_n) \right]^{-1},
+\end{align}
+where  $P_{ab} = \sum_{\sigma} P^{\sigma}_{aabb}$, and the inverse in the equation for $U^{\mathrm{scr}}$
+is defined as the standard matrix inverse. In the equation for $J^{\mathrm{scr}}$ it is just 
+a scalar inverse.
+
+Inverting the equations for the bare values one obtains the corresponding expressions
+\begin{align}
+ U^{\mathrm{bare}}_{ab}
+ &= \left( \left[\unity + U^{\mathrm{scr}}(i\nu_n) P^{\mathrm{diag}}(i\nu_n) \right]^{-1} U^{\mathrm{scr}}(i\nu_n) \right)_{ab} \\
+ &=  \left( \left[ \left(U^{\mathrm{scr}}(i\nu_n)\right)^{-1} +  P^{\mathrm{diag}}(i\nu_n) \right]^{-1} \right)_{ab} \\
+ %
+ J^{\mathrm{bare}}_{ab} 
+ &= \frac{ J^{\mathrm{scr}}_{ab}(i\nu_n) }{ 1 + J^{\mathrm{scr}}_{ab}(i\nu_n) P_{ab}(i\nu_n) } \\
+ &= \left[  \left(J^{\mathrm{scr}}_{ab}(i\nu_n) \right)^{-1} + P_{ab}(i\nu_n) \right]^{-1} .
+\end{align}
+
+All elements of the local polarization that are relevant can be conveniently
+calculated from the scalar equation for the Hunds parameters
+\begin{align}
+ P_{ab}(i\nu_n) 
+ &= \frac{1}{J^{\mathrm{bare}}_{ab}} - \frac{1}{J^{\mathrm{scr}}_{ab}(i\nu_n)} .
+\end{align}
+\textbf{Attention:} This is valid only if no approximation is made on the frequency dependence
+of the interaction! If $J^{\mathrm{scr}}$ is taken from the impurity model
+considering only $F_0$ screening this equation is obviously not valid!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{The GW+DMFT Doublecounting}
 In the section above we discussed that the "doublecounting" factor
 that has to be subtracted from the GW Selfenergy and Polarization
@@ -332,30 +643,7 @@ maybe something else might be responsible, but I don't think so.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Possible problems with the DC}
-One important factor is the causality of the different DC schemes.
-The GW Selfenergy is causal and the impurity Selfenergy is causal,
-but subtracting a DC term can make the combined Selfenergy noncausal
-\begin{align}
-\Sigma^{GW+DMFT} &= \Sigma^{GW,loc} - \Sigma^{DC} + \Sigma^{imp}.
-\end{align}
-It only comes down to personal preference, whether the DC should be understood
-as taking out contibutions from GW, so that GW is a correction to DMFT
-\begin{align}
-\Sigma^{GW+DMFT} &=  \Sigma^{imp} + \left(\Sigma^{GW,loc} - \Sigma^{DC}\right) ,
-\end{align}
-or whether one takes out contibutions from DMFT, so that DMFT is a correction to GW
-\begin{align}
-\Sigma^{GW+DMFT} &=  \Sigma^{GW,loc} + \left(\Sigma^{imp} - \Sigma^{DC}\right) .
-\end{align}
-For now we do not seem to have this problem with the Doublecounting.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Evaluating the local polarization $P_{loc}$ to obtain $W_{loc}$}
-\label{sec:local_polarization}
+\subsection{Different variants of $W_{\mathrm{loc}}$}
 In order to evaluate the doublecounting factor
 \begin{align}
 \Sigma^{DC}_{GW} &= -[G^{\mathrm{loc}}W^{\mathrm{loc}}],
@@ -363,6 +651,7 @@ In order to evaluate the doublecounting factor
 we will solve the impurity model within the $G_0W_0$ approximation.
 Therefore, $G^{\mathrm{loc}}=G^{\mathrm{DFT}}$.
 But what one should use for $W^{\mathrm{loc}}$ is not trivial.
+
 There are basically two options one could use
 \begin{itemize}
  \item Calculate $W(r,r')$ in the GW calculation and project it
@@ -387,76 +676,81 @@ There are basically two options one could use
  recover this GW solution if correlations are weak. 
 \end{itemize}
 
-Now we will describe how to evalute the local polarization and interaction
-from the DFT impurity input via
+Another point to this discussion:
+First, the following identity
 \begin{align}
- P_{\mathrm{loc}} &= G_{\mathrm{loc}}G_{\mathrm{loc}} \\
- W_{\mathrm{loc}} &= [U^{-1}_{\mathrm{loc}} - P_{\mathrm{loc}} ]^{-1}.
+ \left[ GG \right]_{\mathrm{loc}} = G_{\mathrm{loc}}G_{\mathrm{loc}},
 \end{align}
+tells us that the local projection of the polarization is equal
+to the polarization calculated from local quantities.
+This means that either calculating $P$ in the continuum and then projecting
+it onto the local basis, or first projecting the Green's function onto the local basis
+and then calculating $P$ yields the same result. 
 
-We will start with the equation for the polarization in the
-continuum and then project onto a local basis set
-The polarization in the RPA approximation is given as
-(see Eq. (1) in Phys. Rev. 139, 3A (1965))
+Therefore, if one would not adopt a cRPA procedure to calculate the effective $U$
+but instead remove the local polarization $P$ (like one does in a full GW+DMFT selfconsistent scheme)
 \begin{align}
-P(1,2) &= -i G(1,2)G(2,1),
+ U^{-1}_{loc} = W^{-1}_{loc} + P_{loc},
 \end{align}
-where the arguments denote the combined space, spin and time dependence
-\begin{align}
- (1) &= (r_1,\sigma_1,t_1).
-\end{align}
-When comparing to the expression for $W$ (see Eq. (11) in Phys. Rev. 139, 3A (1965))
-\begin{align}
- W(1,2)
- &= v(1,2)
-  + \int  W(1,3) P(3,4) v(4,2) \, \mathrm{d}(3)\mathrm{d}(4),
-\end{align}
-we note that, due to $W$ and $v$ being spin-independent,
-that the integral over spin simplifies to a summation of spin only on the polarization
-\begin{align}
- W(1,2)
- &= v(1,2) \nonumber \\
-  &+ \int  W(r_1,t_1;r_3,t_3) \nonumber \\
-  &\times \sum_{\sigma_3\sigma_4} P(r_3,\sigma_3,t_3;r_4,\sigma_4,t_4)  \nonumber \\
-  &\times v(r_4,t_4;r_2,t_2)\, \mathrm{d}(r_3,t_3)\mathrm{d}(r_4,t_4).
-\end{align}
-Therefore, the polarization used for the screening is the spin-summation over the 
-spin-dependent polarization that we calculate from the
-Green's functions.
+there should be no difference in the procedure, because if we screen $U$ again by
+the local RPA polarization we get back the local $W$ calculated from GW.
 
-For imaginary times the definition of the Green's function
-is missing the imaginary unit $i$, therefore, the polarization is then
-given as \cng{CHECK THIS}
+However,
+this is in general not true since additional approximations on the effective
+interaction are employed when constructing the impurity model.
+We will only consider dynamical screening on the monopole term $F_0$
+and neglect all higher orders. The $J_{ab}$ elements will therefore be constant
+and usually taken as their zero frequency values.
+As a result the local screened interaction $W^{-1}_{loc,eff}$ will be different 
+from the projected screened interaction
 \begin{align}
-P(1,2) &=  G(1,2)G(2,1),
+W^{-1}_{loc,eff} =  U^{-1}_{loc} - P_{loc} \neq \left[ v^{-1} - P \right]_{loc} = W^{-1}_{loc} 
 \end{align}
-where the arguments denote the combined space, spin and imaginary time dependence
-\begin{align}
- (1) &= (r_1,\sigma_1,\tau_1).
-\end{align}
+since additional approximations on $U^{-1}_{loc}$ have been emplyed.
+Therefore, it is in general important to calculate $W_{loc}$ used in the Doublecounting
+directly from the final effective impurity interaction $U_{loc}$,
+instead of taking the projected $W$ from the GW calculation.
 
-Introducing a local basis 
-$\braket{r|\chi_{m}^{\sigma}}=\chi_{m}^{\sigma}(r)$ we can
-obtain the matrix elements of the Polarization in this basis
+\begin{figure}[t]
+\includegraphics[width=1.0\textwidth]{figs/sigma_loc_compare.png}
+\caption{The Selfenergy $\Sigma(i\omega_n)$ obtained from G$_0$W$_0$ (7x7x7 k-points)
+ and GW+DMFT using the G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ 
+ with $U(\omega)$ interaction determined from cRPA. As the doublecounting
+ $\Sigma_{GW}^{DC}$ the local part of the GW Selfenergy $\sum_k GW$ on the
+ correlated orbitals been subtracted (green line, called GW-local).
+ One clearly sees a mismatch between this term and the DMFT Selfenergy (black line),
+ which is due to the terms contributing to the local Selfenergy that arise
+ from the coupling between the subspace and the remaining states and 
+ also the nonlocal contributions to the local part which cannot be captured by DMFT.
+}
+\label{fig:W_loc_comparison}
+\end{figure}
+
+A comparison between the two different $W$ can be seen in Fig.~\ref{fig:W_loc_comparison}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Possible problems with the DC}
+One important factor is the causality of the different DC schemes.
+The GW Selfenergy is causal and the impurity Selfenergy is causal,
+but subtracting a DC term can make the combined Selfenergy noncausal
 \begin{align}
- \braket{m_1\sigma_1 | P(\tau_1,\tau_2) | m_2\sigma_2 } 
- &= \braket{\chi_{m_1}^{\sigma_1} | P(\tau_1,\tau_2) | \chi_{m_2}^{\sigma_2} }  \nonumber \\
- &= \int\int \mathrm{d}r_1\mathrm{d}r_2 \  \chi_{m_1}^{\sigma_1*}(r_1) 
-                                 G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2) \nonumber \\
-           & \hspace{3cm} \times G(r_2,\sigma_2,\tau_2;r_1,\sigma_1,\tau_1)\chi_{m_2}^{\sigma_2}(r_2).
+\Sigma^{GW+DMFT} &= \Sigma^{GW,loc} - \Sigma^{DC} + \Sigma^{imp}.
 \end{align}
-Expanding the Green's function in this local basis as
+It only comes down to personal preference, whether the DC should be understood
+as taking out contibutions from GW, so that GW is a correction to DMFT
 \begin{align}
- G(r_1,\sigma_1,\tau_1;r_2,\sigma_2,\tau_2)
- &= \sum_{ab} \chi_{a}^{\sigma_1}(r_1) G^{\sigma_1\sigma_2}_{ab}(\tau_1,\tau_2)\chi_{b}^{\sigma_2*}(r_2)
+\Sigma^{GW+DMFT} &=  \Sigma^{imp} + \left(\Sigma^{GW,loc} - \Sigma^{DC}\right) ,
 \end{align}
-we get
+or whether one takes out contibutions from DMFT, so that DMFT is a correction to GW
 \begin{align}
- \braket{m_1\sigma_1 | P(\tau_1,\tau_2) | m_2\sigma_2 } 
- &= \sum_{abcd}\int\int \mathrm{d}r_1\mathrm{d}r_2 \
-                         \chi_{a}^{\sigma_1}(r_1) G^{\sigma_1\sigma_2}_{ab}(\tau_1,\tau_2)\chi_{b}^{\sigma_2*}(r_2) \nonumber \\
-    &\hspace{1cm} \times \chi_{c}^{\sigma_2}(r_2) G^{\sigma_2\sigma_1}_{cd}(\tau_2,\tau_1)\chi_{d}^{\sigma_1*}(r_1)
+\Sigma^{GW+DMFT} &=  \Sigma^{GW,loc} + \left(\Sigma^{imp} - \Sigma^{DC}\right) .
 \end{align}
+For now we do not seem to have this problem with the Doublecounting.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1279,6 +1573,8 @@ the correct value after the solver has subtracted another factor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Product basis}
+\label{sec:product_basis}
+
 In the GW formalism we encounter objects such as the inverse dielectric function
 \begin{align}
  \epsilon^{-1},
@@ -2236,7 +2532,7 @@ and therefore
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Relation between $U(i\nu_n)$, $W(i\nu_n)$ and $P(i\nu_n)$}
+\subsection{Relation between $U(i\nu_n)$, $W(i\nu_n)$ and $P(i\nu_n)$ in the impurity}
 In the GW+DMFT cycle we have to update the local polarization $P$
 from the GW with the DMFT polarization.
 The relations between the fully screened interaction $W(i\nu_n)$, the partially
