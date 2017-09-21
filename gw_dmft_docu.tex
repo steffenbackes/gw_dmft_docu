@@ -1128,6 +1128,30 @@ With this, the final expression implemented in the Code is then given by
   + \frac{w_2g_2\beta^3}{(2n+1)^2\pi^4}\left( \frac{3}{(2n+1)^2} - \frac{\pi^2}{3} \right) \Bigg] .
  \end{align}
  
+\subsection{Complex term in $W$?}
+To be checked:
+
+It seems that the screening can make $W$ complex and it takes the form
+\begin{align}
+ W(i\nu_n)    &\approx w_0 + \frac{w_1}{i\nu_n} + \frac{w_2}{(i\nu_n)^2} .
+\end{align}
+Including this term, we have to calculate two additional contributions:
+(we set the exponential term directly to zero since these sums converge, so the limit and sum can be
+swapped)
+\begin{align}
+-\frac{1}{\beta} \sum_{j\neq n}  \frac{w_1}{i\omega_n-i\nu_j} \frac{1}{ix_j} 
+&= \frac{w_1}{\beta} \sum_{j\neq n}  \frac{1}{2(n-j)\frac{\pi}{\beta} (2j+1)\frac{\pi}{\beta}} \\
+&= \frac{w_1\beta}{2\pi^2} \sum_{j\neq n}  \frac{1}{(n-j)(2j+1)} \\
+&= -\frac{ w_1 \beta }{(2n+1)^2 \pi^2} ,
+\end{align}
+and 
+\begin{align}
+-\frac{1}{\beta} \sum_{j\neq n}  \frac{w_1}{i\omega_n-i\nu_j} \frac{g_2}{(ix_j)^2} 
+&= -i\frac{w_1g_2}{\beta} \sum_{j\neq n}  \frac{1}{2(n-j)\frac{\pi}{\beta} (2j+1)^2\frac{\pi^2}{\beta^2}} \\
+&= -i\frac{w_1 g_2 \beta^2}{2\pi^3} \sum_{j\neq n}  \frac{1}{(n-j)(2j+1)^2} \\
+&= -i\frac{w_1 g_2 \beta^2}{(2n+1)^3 \pi} \left( n^2 + n + \frac{1}{4} - \frac{2}{\pi^2} \right).
+\end{align}
+ 
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
