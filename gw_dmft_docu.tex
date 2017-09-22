@@ -730,18 +730,41 @@ where only $F_0$ screening has been initially considered.
 \end{figure}
 
 A comparison between the different types of $W$ can be seen in Fig.~\ref{fig:W_loc_comparison}.
-We observe that the local projection $W_{loc}$ is significantly stronger screened 
-than screening the cRPA bare interaction by the local RPA polarization 
-$P_{\mathrm{loc}}=G_{\mathrm{loc}}G_{\mathrm{loc}}$. 
-This difference is due to the fact that in the cRPA scheme the screening added or removed is based on
-a band description, in contrast to the local screening calculated in a local orbital basis.
-From this observation we can conclude that removing transitions between bands involves more
+We observe that the local projection $W_{loc}$ is extremely close to the
+bare cRPA interaction screened by the local RPA polarization $P_{\mathrm{loc}}=G_{\mathrm{loc}}G_{\mathrm{loc}}$.
+This means that for the monopole terms of the interaction
+the cRPA scheme of removing transitions between bands is basically identical
+to the scheme of removing transitions between orbitals.
+
+On the other hand, for the Hund's terms there is a siginificat deviation between the procedures,
+where the local orbital-based screening obtains a much larger value.
+This means that for the Hund's terms removing transitions between bands involves more
 screening processes which are not originating from local transitions in the $t_{2g}$ orbitals.
 Thus, eventually, the cRPA scheme yields a larger effective bare interaction 
 for the impurity model, compared to removing the local polarization from the fully screened interaction.
-Is this the reason why Boehnke et. al obtain a smaller interaction?
+This should be investigated further.
 
+\begin{figure}[t]
+\includegraphics[width=1.0\textwidth]{figs/Wloc/Sigma_comp.pdf}
+\caption{The local GW Selfenergy calculated as $\Sigma=G_{\mathrm{loc}}W_{\mathrm{loc}}$
+using the different types of the screened interaction $W$ discussed
+in Fig.~\ref{fig:W_loc_comparison}.
+}
+\label{fig:Sigma_GW_comparison}
+\end{figure}
 
+A comparison of the different Selfenergies $\Sigma=G_{\mathrm{loc}}W_{\mathrm{loc}}$
+can be seen in Fig.~\ref{fig:Sigma_GW_comparison}.
+Interestingly, we see that the Selfenergy calculated from the fully screened interaction 
+$W$ directly in the GW code gives the most strongly correlated result.
+The other two methods are less correlated but very similar, where
+the approximation of $F_0$ screening only reduces the high-frequency value 
+of $\Sigma$ slightly.
+The difference between the first and the two latter might arise from
+the fact that in the first the screened Hund's terms are smaller, which
+leads to actually stronger corrlations in systems with only one
+electron, as discussed elsewhere.
+The resulting quasi-particle weights are $0.556$, $0.604$ and $0.609$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
