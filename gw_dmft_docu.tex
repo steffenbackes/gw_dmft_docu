@@ -292,7 +292,7 @@ The polarization $P$ in general is spin-dependent.
 
 For imaginary times the definition of the Green's function
 is missing the imaginary unit $i$, therefore, the polarization is then
-given as \cng{CHECK THIS}
+given as
 \begin{align}
 P(1,2) &=  G(1,2)G(2,1),
 \end{align}
@@ -482,10 +482,10 @@ First, we assume the local Green's functions to be spin- and orbital diagonal, i
 Second, if we assume that only the Hubbard and Hund's terms of the local interaction
 \begin{align}
  U^{\mathrm{bare}}_{ab} &= \braket{ab|v|ab} = v_{abab} \\
- J^{\mathrm{bare}}_{ab} &= \braket{ab|v|ba} = v_{abba},
+ J^{\mathrm{bare}}_{ab} &= \braket{ab|v|ba} = v_{abba} ,
 \end{align}
 are relevant and all other terms are sufficiently small, like 
-we do in DMFT, the screened interaction parameters can be written as
+we do in a standard Hubbard model DMFT calculation, the screened interaction parameters can be written as
 \begin{align}
 U^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abab}(i\nu_n) \\
 %
@@ -507,7 +507,7 @@ J^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abba}(i\nu_n) \\
 %
 & = J^{\mathrm{bare}}_{ab}  + \sum_{\sigma}
                      J^{\mathrm{scr}}_{ab} (i\nu_n) P^{\sigma}_{aabb}(i\nu_n)
-                     J^{\mathrm{bare}}_{ab} .
+                     J^{\mathrm{bare}}_{ab} \mbox{ for } a\neq b \mbox{ !}
 \end{align}
 The equation for $U^{\mathrm{scr}}_{ab}$ has now been reduced to a simple matrix equation
 \begin{align}
@@ -528,7 +528,7 @@ These relations can be easily inverted, which finally yields the expressions
  %
  J^{\mathrm{scr}}_{ab}(i\nu_n) 
  &= \frac{ J^{\mathrm{bare}}_{ab} }{ 1 - P_{ab}(i\nu_n)J^{\mathrm{bare}}_{ab} }  \\
- &= \left[  \left(J^{\mathrm{bare}}_{ab} \right)^{-1} - P_{ab}(i\nu_n) \right]^{-1},
+ &= \left[  \left(J^{\mathrm{bare}}_{ab} \right)^{-1} - P_{ab}(i\nu_n) \right]^{-1} \mbox{ for } a\neq b,
 \end{align}
 where  $P_{ab} = \sum_{\sigma} P^{\sigma}_{aabb}$, and the inverse in the equation for $U^{\mathrm{scr}}$
 is defined as the standard matrix inverse. In the equation for $J^{\mathrm{scr}}$ it is just 
@@ -542,14 +542,17 @@ Inverting the equations for the bare values one obtains the corresponding expres
  %
  J^{\mathrm{bare}}_{ab} 
  &= \frac{ J^{\mathrm{scr}}_{ab}(i\nu_n) }{ 1 + J^{\mathrm{scr}}_{ab}(i\nu_n) P_{ab}(i\nu_n) } \\
- &= \left[  \left(J^{\mathrm{scr}}_{ab}(i\nu_n) \right)^{-1} + P_{ab}(i\nu_n) \right]^{-1} .
+ &= \left[  \left(J^{\mathrm{scr}}_{ab}(i\nu_n) \right)^{-1} + P_{ab}(i\nu_n) \right]^{-1} \mbox{ for } a\neq b.
 \end{align}
 
-All elements of the local polarization that are relevant can be conveniently
-calculated from the scalar equation for the Hunds parameters
+The elements of the local polarization that are relevant can be 
+calculated as
 \begin{align}
+ P_{aa}(i\nu_n)  
+ &= \left[ \left(U^{\mathrm{bare}}\right)^{-1} - \left(U^{\mathrm{scr}}(i\nu_n)\right)^{-1} \right]_{aa} \\
+%
  P_{ab}(i\nu_n) 
- &= \frac{1}{J^{\mathrm{bare}}_{ab}} - \frac{1}{J^{\mathrm{scr}}_{ab}(i\nu_n)} .
+ &= \frac{1}{J^{\mathrm{bare}}_{ab}} - \frac{1}{J^{\mathrm{scr}}_{ab}(i\nu_n)} \mbox{ for } a\neq b.
 \end{align}
 \textbf{Attention:} This is valid only if no approximation is made on the frequency dependence
 of the interaction! If $J^{\mathrm{scr}}$ is taken from the impurity model
@@ -649,7 +652,7 @@ In order to evaluate the doublecounting factor
 \Sigma^{DC}_{GW} &= -[G^{\mathrm{loc}}W^{\mathrm{loc}}],
 \end{align}
 we will solve the impurity model within the $G_0W_0$ approximation.
-Therefore, $G^{\mathrm{loc}}=G^{\mathrm{DFT}}$.
+Therefore, $G^{\mathrm{loc}}=G^{\mathrm{loc}}_{\mathrm{DFT}}$.
 But what one should use for $W^{\mathrm{loc}}$ is not trivial.
 
 There are basically two options one could use
@@ -660,7 +663,7 @@ There are basically two options one could use
  This is in priniciple not correct, since the impurity problem
  only knows about the effective impurity interaction $U$, that is then
  screened by local processes, while such a $W$ from GW contains in general
- different screening processes:
+ different screening processes (see discussion also below):
  
  Usually the cRPA calculation for $U$ is done by excluding the correlated bands 
  from the screening process, so non-local processes in these bands are removed as well.
@@ -712,21 +715,32 @@ directly from the final effective impurity interaction $U_{loc}$,
 instead of taking the projected $W$ from the GW calculation.
 
 \begin{figure}[t]
-\includegraphics[width=1.0\textwidth]{figs/sigma_loc_compare.png}
-\caption{The Selfenergy $\Sigma(i\omega_n)$ obtained from G$_0$W$_0$ (7x7x7 k-points)
- and GW+DMFT using the G$_0$W$_0$ input for a $t_{2g}$-only model for SrVO$_3$ 
- with $U(\omega)$ interaction determined from cRPA. As the doublecounting
- $\Sigma_{GW}^{DC}$ the local part of the GW Selfenergy $\sum_k GW$ on the
- correlated orbitals been subtracted (green line, called GW-local).
- One clearly sees a mismatch between this term and the DMFT Selfenergy (black line),
- which is due to the terms contributing to the local Selfenergy that arise
- from the coupling between the subspace and the remaining states and 
- also the nonlocal contributions to the local part which cannot be captured by DMFT.
+\includegraphics[width=1.0\textwidth]{figs/Wloc/W_loc_comp.pdf}
+\caption{The bare and screened interaction parameters $U_0$ (left) and $J$ (right)
+for the $t_{2g}$ orbitals in SrVO$_3$ on the Matsubara axis. 
+cRPA (bare) indicates the effective bare value of the interaction
+where transitions only in the $t_{2g}$ manifold have been removed, while $W_{loc}$
+is the value including all transitions.
+The cRPA screened values are obtained by screening the cRPA (bare) values by the local
+polarization $P_{\mathrm{loc}}=G_{\mathrm{loc}}G_{\mathrm{loc}}$.
+The $U_{\mathrm{imp}}$ values are obtained in the same way by starting from the effective impurity interaction
+where only $F_0$ screening has been initially considered.
 }
 \label{fig:W_loc_comparison}
 \end{figure}
 
-A comparison between the two different $W$ can be seen in Fig.~\ref{fig:W_loc_comparison}
+A comparison between the different types of $W$ can be seen in Fig.~\ref{fig:W_loc_comparison}.
+We observe that the local projection $W_{loc}$ is significantly stronger screened 
+than screening the cRPA bare interaction by the local RPA polarization 
+$P_{\mathrm{loc}}=G_{\mathrm{loc}}G_{\mathrm{loc}}$. 
+This difference is due to the fact that in the cRPA scheme the screening added or removed is based on
+a band description, in contrast to the local screening calculated in a local orbital basis.
+From this observation we can conclude that removing transitions between bands involves more
+screening processes which are not originating from local transitions in the $t_{2g}$ orbitals.
+Thus, eventually, the cRPA scheme yields a larger effective bare interaction 
+for the impurity model, compared to removing the local polarization from the fully screened interaction.
+Is this the reason why Boehnke et. al obtain a smaller interaction?
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
