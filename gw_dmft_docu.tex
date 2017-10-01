@@ -2664,14 +2664,99 @@ frequency axis
 \end{align}
 
 
-Being restricted only to the two-index susceptibility $\chi_{ij}$,
-and assuming that only Hubbard- and Hund's terms of the interaction
-are relevant like in section~\ref{sec:glocwloc_dc_factor}, 
-we can simplify the equation for $s$
-we can calculate the polarization elements as
+We will now derive the relation between the screened interaction $W$ and the density-density
+correlation function $\chi$, starting from the general equation
 \begin{align}
- s
+W(1,2)
+&=v(1,2) - \int v(1,2) \braket{T\rho'(3)\rho'(4)} v(4,2) \, \mathrm{d}(3)\mathrm{d}(4), 
 \end{align}
+where
+\begin{align}
+ \rho'(1) &= \psi^{\dagger}(1)\psi(1) - \braket{ \psi^{\dagger}(1)\psi(1) }.
+\end{align}
+Introducing a local basis $\chi^{\sigma}_m(r)$ and expanding the density operators as
+\begin{align}
+\rho(r\sigma\tau) &= \sum_{ij} \chi^{\sigma}_i(r) \rho^{\sigma}_{ij}(\tau) \chi^{*\sigma}_j(r),
+\end{align}
+we obtain the matrix element
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) 
+&= v_{abcd}(\tau_1,\tau_2)  
+- \int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2) v(r_1\tau_1,r_3\tau_3)   \nonumber \\
+            & \hspace{3cm} \times \braket{T\rho'(r_3\sigma_3\tau_3)\rho'(r_4\sigma_4\tau_4)}
+                            v(r_4\tau_4,r_1\tau_1) \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2) \nonumber \\
+            &\hspace{3cm} \times \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
+                                             \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= v_{abcd}(\tau_1,\tau_2)  
+- \sum_{ijkl}\int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2)
+                                    v(r_1\tau_1,r_3\tau_3) \chi^{\sigma_3}_i(r_3) \chi^{*\sigma_3}_j(r_3) \nonumber\\
+               &\hspace{3cm} \times   \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
+                            \chi^{\sigma_4}_k(r_4) \chi^{*\sigma_4}_l(r_4)
+                            v(r_4\tau_4,r_1\tau_1)                                         \nonumber \\
+               &\hspace{3cm} \times  \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
+                                                        \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= v_{abcd}(\tau_1,\tau_2)  
+- \sum_{\substack{ijkl\\ \sigma_3\sigma_4}}\int v_{ajci}(\tau_1,\tau_3)  \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}    \nonumber\\
+               &\hspace{3cm} \times   v_{lbkd}(\tau_4,\tau_1)   \, \mathrm{d}\tau_3 \mathrm{d}\tau_4 .
+\end{align}
+Since we work with the charge density-density correlation function, we use
+\begin{align}
+\sum_{\sigma_3\sigma_4} \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
+ &= \chi^{ch}_{ik}(\tau_3,\tau_4) \delta_{ij} \delta_{kl},
+\end{align}
+and after a Fourier transform, using time-translational invariance, we obtain
+\begin{align}
+W_{abcd}(i\nu_n) 
+%
+&= v_{abcd}(i\nu_n)  
+- \sum_{ik} v_{aici}(i\nu_n)  \chi^{ch}_{ik}(i\nu_n)  v_{kbkd}(i\nu_n) .
+\end{align}
+If we now assume that only the Hubbard- and Hund's terms are relevant
+\begin{align}
+ U^{bare}_{ab}(i\nu_n) &= v_{abab}(i\nu_n) \\
+ J^{bare}_{ab}(i\nu_n) &= v_{abba}(i\nu_n),
+\end{align}
+and neglect all others, we obtain
+\begin{align}
+U^{scr}_{ab}(i\nu_n) 
+&= U^{bare}_{ab}(i\nu_n) - \sum_{ij} U^{bare}_{ai}(i\nu_n)  \chi^{ch}_{ij}(i\nu_n)  U^{bare}_{jb}(i\nu_n) \\
+%
+J^{scr}_{ab}(i\nu_n) 
+&= J^{bare}_{ab}(i\nu_n) - \sum_{ij} v_{aibi}(i\nu_n)  \chi^{ch}_{ij}(i\nu_n)  v_{jbja}(i\nu_n) \nonumber \\
+&= J^{bare}_{ab}(i\nu_n) \ \ \forall a\neq b.
+\end{align}
+This means by using only the charge density-density correlation function
+there is no screening of the Hund's terms!
+These equations now have become standard matrix multiplications
+\begin{align}
+U^{scr}_{ab}(i\nu_n) 
+&= U^{bare}_{ab}(i\nu_n) - \left[ U^{bare}(i\nu_n)  \chi^{ch}(i\nu_n)  U^{bare}(i\nu_n) \right]_{ab} \\
+%
+J^{scr}_{ab}(i\nu_n) 
+&= J^{bare}_{ab}(i\nu_n) \ \ \forall a\neq b.
+\end{align}
+Using the equation for the polarization that was derived in Chapter~\ref{sec:glocwloc_dc_factor}
+under the same assumptions, we get for the impurity case
+\begin{align}
+ P^{imp}_{aa}(i\nu_n) &= \left[ U^{bare}(i\nu_n) \right]^{-1}_{aa} 
+                           - \left[ U^{bare}(i\nu_n)\chi(i\nu_n)U^{bare}(i\nu_n) \right]^{-1}_{aa} \nonumber \\
+                      &= \left[ U^{bare}(i\nu_n) - (\chi^{ch}(i\nu_n))^{-1} \right]^{-1}_{aa} \\
+%
+ P^{imp}_{ab}(i\nu_n) &= 0 \ \ \forall a\neq b.
+\end{align}
+This last equation for offdiagonal components of the polarization 
+are quite interesting. They vanish since there is no screening from 
+the charge density-density correlation function on the Hund's coupling terms.
+Therefore, special care should be taken when replacing the local part
+of the GW polarization by the impurity polarization. Should we keep the offdiagonal
+components from the RPA polarization or should we just set them to zero?
+The question is whether the RPA result is more correct than simply neglecting these terms.
+It should be quite obvious that exactly zero is not physical since the Hund's terms
+are screened. But maybe the RPA overestimates this screening significantly and 
+an approximation by zero is still better?
+This needs to be discussed.
 
 
 
