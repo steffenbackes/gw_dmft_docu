@@ -1283,7 +1283,7 @@ result and there is at least no doublecounting with respect to these terms.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Hartree- and Exchange term}
+\section{Local Hartree- and Exchange term}
 \label{sec:hartree_exchange}
 In the GW+DMFT cycle we add the GW and the DMFT Selfenergy to the DFT Green's function
 to build up the final interacting Green's function
@@ -1562,6 +1562,75 @@ This leads to the final expression
 \Sigma^{HF}_{m\sigma}
 &= -2K'(0^+)N + \sum_{a} U_{ma}(\infty)n_{a\bar{\sigma}} 
              + \sum_{a} [U_{ma}(\infty)-J_{ma}(\infty)]n_{a\sigma} .
+\end{align}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Non-local Hartree+Fock}
+\label{sec:nonlocal_hartree_fock}
+Here we want to evaluate the Hartree-Fock Selfenergy for a general
+static but non-local interaction 
+\begin{align}
+v_{abcd}(q) = U_{abcd} + V_{abcd}(q),
+\end{align}
+where $U$ is a local interaction and $V$ the non-local part, e.g. a nearest-neighbour
+interaction.
+
+
+\subsection{Hartree Term}
+We start by evaluating the Hartree diagram, shown in Fig. \ref{fig:1storder_diags} (a).
+\begin{align}
+\Sigma^{H}_{m\sigma}(k)
+&= \frac{1}{N_k}\sum_{a\sigma'q} v_{mama}(0) n_{a\sigma'}(q) \\
+&= \sum_{a} v_{mama}(0) N_{a},
+\end{align}
+where $N_{a}=\frac{1}{N_k}\sum_{\sigma q}n_{a\sigma}$.
+
+\subsection{Fock Term}
+We start by evaluating the Fock diagram, shown in Fig. \ref{fig:1storder_diags} (b).
+\begin{align}
+\Sigma^{F}_{m\sigma}(k)
+&= -\frac{1}{N_k} \sum_{aq} v_{maam}(q) n^{\sigma}_a(k-q) \\
+&= -\frac{1}{N_k} \sum_{aq} v_{maam}(k-q) n^{\sigma}_a(q).
+\end{align}
+
+\subsection{Hartree+Fock Term}
+This leads to the final expression
+\begin{align}
+\Sigma^{HF}_{m\sigma}(k)
+&= \sum_{a} v_{mama}(0) N_{a}
+  -\frac{1}{N_k} \sum_{aq} v_{maam}(k-q) n^{\sigma}_a(q) \\
+%
+&= \frac{1}{N_k}\sum_{aq}\Big(  v_{mama}(0) n^{\bar{\sigma}}_{a}(q)
+                        + \left[ v_{mama}(0) - v_{maam}(k-q) \right] n^{\sigma}_a(q) \Big).
+\end{align}
+
+Assuming that only the Hubbard and Hund's terms contribute and that the non-local
+Hund's term is negligible
+\begin{align}
+v_{mama}(0) 
+&= U_{mama} + V_{mama}(0) \\
+&= U_{ma} + V_{ma}(0) \\
+%
+v_{maam}(k-q) 
+&= U_{maam} + V_{maam}(k-q) \\
+&= J_{ma} + V_{mm}(k-q)\delta_{am} ,
+\end{align}
+we get the following form
+\begin{align}
+\Sigma^{HF}_{m\sigma}(k)
+&= \frac{1}{N_k}\sum_{aq}\Big(  \left[ U_{ma} + V_{ma}(0) \right] n^{\bar{\sigma}}_{a}(q) \nonumber\\
+        & \hspace{1.95cm}   + \left[  U_{ma} + V_{ma}(0) - J_{ma} - V_{mm}(k-q)\delta_{am} \right] n^{\sigma}_a(q) \Big).\\
+%
+&= \sum_{a}\Big(  U_{ma} n^{\bar{\sigma}}_{a}  + \left[  U_{ma}- J_{ma} \right] n^{\sigma}_a \Big)
+              +  \sum_{a}V_{ma}(0) N_a      \nonumber \\
+       &\hspace{1cm} -\frac{1}{N_k}\sum_{q} V_{mm}(k-q) n^{\sigma}_m(q) 
 \end{align}
 
 
