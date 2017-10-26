@@ -252,7 +252,7 @@ properties.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Expressing $v$, $W$, $U$, $P=GG$ in a local basis}
+\section{Expressing objects from the continuum in a local basis: $v$, $W$, $U$, $P$}
 
 In the GW+DMFT method we often face the problem of expressing objects that appear
 routinely in the GW framework in the language of DMFT, i.e. in a localized basis set.
@@ -303,7 +303,7 @@ where the arguments denote the combined space, spin and imaginary time dependenc
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Definition of the local Polarization $P_{ijkl}$}
+\subsection{Definition of the local GW Polarization $P_{ijkl}=[GG]_{ijkl}$}
 
 Introducing a local basis 
 $\braket{r|\chi_{m}^{\sigma}}=\chi_{m}^{\sigma}(r)$ we can
@@ -464,7 +464,7 @@ For the polarization we get
 
 
 
-\subsection{Obtaining the local $U_{ab}$, $J_{ab}$ from $W_{abcd}$ and $P_{ijkl}$ }
+\subsection{Relation between the local $U_{ab}$, $J_{ab}$ and $W_{abcd}$ and $P_{ijkl}$ }
 In general we want to calculate the screened interaction $W$ from 
 a Dyson-like equation by inverting Eq.~\ref{eq:w_dyson_like}
 \begin{align}
@@ -472,7 +472,8 @@ a Dyson-like equation by inverting Eq.~\ref{eq:w_dyson_like}
 \end{align}
 In general one needs to employ a product basis ansatz
 to invert the 4-index objects like described in Sec.~\ref{sec:product_basis}.
-However, in practice there are some simplifications.
+However, in practice when we want to obtain the polarization of the impurity
+model within the RPA approximation there are significant simplifications.
 
 First, we assume the local Green's functions to be spin- and orbital diagonal, i.e.
 \begin{align}
@@ -557,6 +558,173 @@ calculated as
 \textbf{Attention:} This is valid only if no approximation is made on the frequency dependence
 of the interaction! If $J^{\mathrm{scr}}$ is taken from the impurity model
 considering only $F_0$ screening this equation is obviously not valid!
+
+\subsection{Obtaining $W(i\nu_n)$ and $P(i\nu_n)$ of the impurity from 
+the charge-charge correlation function  $\chi_{ij}$}
+In the GW+DMFT cycle we have to update the local polarization $P$
+from the GW with the DMFT polarization.
+The relations between the fully screened interaction $W(i\nu_n)$, the partially
+screened interaction $U(i\nu_n)$, the Polarization $P(i\nu_n)$ and the charge-susceptibility
+$\chi^{ch}(i\nu_n)$ is as follows:
+\begin{align}
+ U(i\nu_n) &= \left[  W^{-1}(i\nu_n) + P(i\nu_n)  \right]^{-1} \\
+ W(i\nu_n) &= U(i\nu_n) -U(i\nu_n) \chi^{ch}(i\nu_n)U(i\nu_n)  \\
+ P(i\nu_n) &= -\left[ \unity - \chi^{ch}(i\nu_n)U(i\nu_n) \right]^{-1} \chi^{ch}(i\nu_n) \\
+           &= \left[ U(i\nu_n) - \chi^{-1}_{ch}(i\nu_n) \right]^{-1}.
+\end{align}
+The charge susceptibility $\chi^{ch}$ is given by
+\begin{align}
+ \chi^{ch}_{ij}(\tau) 
+ &= \langle T \bar{n}_i(\tau) \bar{n}_j(0) \rangle ,
+\end{align}
+where $\bar{n}_i(\tau) = \sum_{\sigma} \left( n^{\sigma}_i(\tau) - \langle n^{\sigma}_i\rangle \right)$.
+
+In the impurity solver we can measure the time-dependent density-density
+correlation function $\chi_{ij}^{\sigma\sigma'}(\tau)$ given by
+\begin{align}
+ \chi_{ij}^{\sigma\sigma'}(\tau) 
+ &= \langle T n_i^{\sigma}(\tau) n_j^{\sigma'}(0) \rangle \\
+ %
+ \chi_{ij}^{\sigma\sigma'}(i\nu_n) 
+ &= \int_0^{\beta} \chi_{ij}^{\sigma\sigma'}(\tau) \mathrm{e}^{i\nu_n\tau} \,\mathrm{d}\tau.
+\end{align}
+This is a bosonic response function and real-valued on the imaginary $\tau$- and $i\nu_n$ axis.
+
+The charge-susceptibility $\chi^{ch}(i\nu_n)$ can be expressed in terms of
+the time-dependent density-density correlation function $\chi$ by
+\begin{align}
+ \chi^{ch}_{ij}(\tau) 
+ &= \langle T \bar{n}_i(\tau) \bar{n}_j(0) \rangle \\
+ %
+ &= \langle T \left( n_i(\tau)-\langle n_i \rangle \right) 
+              \left( n_j(0)-\langle n_j \rangle \right)\rangle \\
+ %
+ &= \langle T \left( n_i(\tau)n_j(0) - n_i(\tau)\langle n_j \rangle
+                                     - \langle n_i \rangle n_j(0)
+                                     + \langle n_i \rangle\langle n_j \rangle
+              \right)\rangle \\ 
+ &= \langle T n_i(\tau)n_j(0) \rangle - \langle n_i \rangle\langle n_j \rangle \\
+ %
+ &= \langle T \left( n^{\uparrow}_i(\tau)+n^{\downarrow}_i(\tau) \right)
+              \left( n^{\uparrow}_j(0)+n^{\downarrow}_j(0) \right)\rangle  \nonumber \\
+ & \hspace{0.5cm}  -\langle n^{\uparrow}_i+n^{\downarrow}_i  \rangle\langle n^{\uparrow}_j+n^{\downarrow}_j  \rangle \\
+ %
+ &=  \chi_{ij}^{\uparrow\uparrow}(\tau) + \chi_{ij}^{\downarrow\downarrow}(\tau) 
+    +\chi_{ij}^{\uparrow\downarrow}(\tau)  +\chi_{ij}^{\downarrow\uparrow}(\tau)  \nonumber \\
+ & \hspace{0.3cm} - \left( \chi_{ii}^{\uparrow\uparrow}(0)+\chi_{ii}^{\downarrow\downarrow}(0)  \right)
+                    \left( \chi_{jj}^{\uparrow\uparrow}(0)+\chi_{jj}^{\downarrow\downarrow}(0)  \right),
+ \end{align}
+ where we have used that 
+ \begin{align}
+  \chi_{ii}^{\sigma\sigma}(0) 
+  &= \langle T n^{\sigma}_i(0) n^{\sigma}_i(0) \rangle \\
+  &= \langle  n^{\sigma}_i(0) \rangle \\
+  &= \langle n^{\sigma}_i \rangle.
+ \end{align}
+Using the Fourier transform we get the charge susceptibility on the Matsubara
+frequency axis
+\begin{align}
+ \chi^{ch}_{ij}(i\nu_n) 
+ &=   \chi_{ij}^{\uparrow\uparrow}(i\nu_n) + \chi_{ij}^{\downarrow\downarrow}(i\nu_n) 
+    +\chi_{ij}^{\uparrow\downarrow}(i\nu_n)  +\chi_{ij}^{\downarrow\uparrow}(i\nu_n) \nonumber \\
+ & \hspace{0.3cm} - \delta(i\nu_n) \beta \langle n^{\uparrow}_i+n^{\downarrow}_i  \rangle\langle n^{\uparrow}_j+n^{\downarrow}_j  \rangle.
+\end{align}
+
+
+We will now derive the relation between the screened interaction $W$ and the density-density
+correlation function $\chi$, starting from the general equation
+\begin{align}
+W(1,2)
+&=v(1,2) - \int v(1,2) \braket{T\rho'(3)\rho'(4)} v(4,2) \, \mathrm{d}(3)\mathrm{d}(4), 
+\end{align}
+where
+\begin{align}
+ \rho'(1) &= \psi^{\dagger}(1)\psi(1) - \braket{ \psi^{\dagger}(1)\psi(1) }.
+\end{align}
+Introducing a local basis $\chi^{\sigma}_m(r)$ and expanding the density operators as
+\begin{align}
+\rho(r\sigma\tau) &= \sum_{ij} \chi^{\sigma}_i(r) \rho^{\sigma}_{ij}(\tau) \chi^{*\sigma}_j(r),
+\end{align}
+we obtain the matrix element
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) 
+&= v_{abcd}(\tau_1,\tau_2)  
+- \int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2) v(r_1\tau_1,r_3\tau_3)   \nonumber \\
+            & \hspace{3cm} \times \braket{T\rho'(r_3\sigma_3\tau_3)\rho'(r_4\sigma_4\tau_4)}
+                            v(r_4\tau_4,r_1\tau_1) \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2) \nonumber \\
+            &\hspace{3cm} \times \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
+                                             \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= v_{abcd}(\tau_1,\tau_2)  
+- \sum_{ijkl}\int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2)
+                                    v(r_1\tau_1,r_3\tau_3) \chi^{\sigma_3}_i(r_3) \chi^{*\sigma_3}_j(r_3) \nonumber\\
+               &\hspace{3cm} \times   \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
+                            \chi^{\sigma_4}_k(r_4) \chi^{*\sigma_4}_l(r_4)
+                            v(r_4\tau_4,r_1\tau_1)                                         \nonumber \\
+               &\hspace{3cm} \times  \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
+                                                        \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= v_{abcd}(\tau_1,\tau_2)  
+- \sum_{\substack{ijkl\\ \sigma_3\sigma_4}}\int v_{ajci}(\tau_1,\tau_3)  \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}    \nonumber\\
+               &\hspace{3cm} \times   v_{lbkd}(\tau_4,\tau_1)   \, \mathrm{d}\tau_3 \mathrm{d}\tau_4 .
+\end{align}
+Since we work with the charge density-density correlation function, we use
+\begin{align}
+\sum_{\sigma_3\sigma_4} \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
+ &= \chi^{ch}_{ik}(\tau_3,\tau_4) \delta_{ij} \delta_{kl},
+\end{align}
+and after a Fourier transform, using time-translational invariance, we obtain
+\begin{align}
+W_{abcd}(i\nu_n) 
+%
+&= v_{abcd}(i\nu_n)  
+- \sum_{ik} v_{aici}(i\nu_n)  \chi^{ch}_{ik}(i\nu_n)  v_{kbkd}(i\nu_n) .
+\end{align}
+If we now assume that only the Hubbard- and Hund's terms are relevant
+\begin{align}
+ U^{bare}_{ab}(i\nu_n) &= v_{abab}(i\nu_n) \\
+ J^{bare}_{ab}(i\nu_n) &= v_{abba}(i\nu_n),
+\end{align}
+and neglect all others, we obtain
+\begin{align}
+U^{scr}_{ab}(i\nu_n) 
+&= U^{bare}_{ab}(i\nu_n) - \sum_{ij} U^{bare}_{ai}(i\nu_n)  \chi^{ch}_{ij}(i\nu_n)  U^{bare}_{jb}(i\nu_n) \\
+%
+J^{scr}_{ab}(i\nu_n) 
+&= J^{bare}_{ab}(i\nu_n) - \sum_{ij} v_{aibi}(i\nu_n)  \chi^{ch}_{ij}(i\nu_n)  v_{jbja}(i\nu_n) \nonumber \\
+&= J^{bare}_{ab}(i\nu_n) \ \ \forall a\neq b.
+\end{align}
+This means by using only the charge density-density correlation function
+there is no screening of the Hund's terms!
+These equations now have become standard matrix multiplications
+\begin{align}
+U^{scr}_{ab}(i\nu_n) 
+&= U^{bare}_{ab}(i\nu_n) - \left[ U^{bare}(i\nu_n)  \chi^{ch}(i\nu_n)  U^{bare}(i\nu_n) \right]_{ab} \\
+%
+J^{scr}_{ab}(i\nu_n) 
+&= J^{bare}_{ab}(i\nu_n) \ \ \forall a\neq b.
+\end{align}
+Using the equation for the polarization that was derived in Chapter~\ref{sec:glocwloc_dc_factor}
+under the same assumptions, we get for the impurity case
+\begin{align}
+ P^{imp}_{aa}(i\nu_n) &= \left[ U^{bare}(i\nu_n) \right]^{-1}_{aa} 
+                           - \left[ U^{bare}(i\nu_n)\chi(i\nu_n)U^{bare}(i\nu_n) \right]^{-1}_{aa} \nonumber \\
+                      &= \left[ U^{bare}(i\nu_n) - (\chi^{ch}(i\nu_n))^{-1} \right]^{-1}_{aa} \\
+%
+ P^{imp}_{ab}(i\nu_n) &= 0 \ \ \forall a\neq b.
+\end{align}
+This last equation for offdiagonal components of the polarization 
+are quite interesting. They vanish since there is no screening from 
+the charge density-density correlation function on the Hund's coupling terms.
+Therefore, special care should be taken when replacing the local part
+of the GW polarization by the impurity polarization. Should we keep the offdiagonal
+components from the RPA polarization or should we just set them to zero?
+The question is whether the RPA result is more correct than simply neglecting these terms.
+It should be quite obvious that exactly zero is not physical since the Hund's terms
+are screened. But maybe the RPA overestimates this screening significantly and 
+an approximation by zero is still better?
+This needs to be discussed.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1276,6 +1444,66 @@ we do not subtract the exchange correlation potential $V_{XC}$.
 Then we should subtract the full local Hartree \textbf{and} Fock exchange terms.
 By this, the local Hartree and Fock exchange terms are replaced by the DMFT impurity
 result and there is at least no doublecounting with respect to these terms. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Representation of the $\Gamma \approx 1$ approximation
+in a local basis}
+In section \ref{sec:glocwloc_dc_factor} we evaluated the GW Selfenergy
+from the expression 
+\begin{align}
+ \Sigma = GW,
+\end{align}
+where we have already approximated the vertex $\Gamma$ by $1$.
+But this raises the question in which representation one should approximate
+the vertex; should one assume the continuum representation
+\begin{align}
+ \Gamma(1,2;3) \approx  \delta(1,2)\delta(1,3),
+\end{align}
+or the representation in a local basis set, similar to something like
+\begin{align}
+ \Gamma_{ijklmn} \approx  \delta_{ijklm} .
+\end{align}
+These two approaches are obviously different, since the second is more restrictive.
+Therefore, we will rederive the expression for the Selfenergy starting
+from the general relation
+\begin{align}
+\Sigma(1,2)
+&= \int W(1^+,3) G(1,4) \Gamma(4,2;3) \, \mathrm{d}(3)\mathrm{d}(4)
+\end{align}
+
+As before, we will now take the matrix elements of $\Sigma$ in the local
+basis and expand the Green's function in the local basis as
+\begin{align}
+ G(1,4)  
+ &= \sum_{ijR_iR_j} \chi_{iR_i}(r_1) G_{ij}(\tau_1,\tau_4) \chi^*_{jR_j}(r_4),
+\end{align}
+and the screened interaction in the product basis as
+\begin{align}
+ W(1^+,3)  
+ &= \sum_{\alpha\beta} B_{\alpha}(r_1) W_{\alpha\beta}(\tau_1^+,\tau_3) B^*_{\beta}(r_3).
+\end{align}
+
+With this we get the following:
+\begin{align}
+\Sigma^{R_1R_2}_{ab}(\tau_1,\tau_2)
+&= \int \chi^*_{aR_1}(r_1) W(1^+,3) G(1,4) \Gamma(4,2;3) \chi_{bR_2}(r_2) 
+                                             \,\mathrm{d}r_1\mathrm{d}r_2 \mathrm{d}(3)\mathrm{d}(4) \\
+%
+&= \sum_{ijR_iR_j}\sum_{\alpha\beta}
+   \int \chi^*_{aR_1}(r_1) B_{\alpha}(r_1) W_{\alpha\beta}(\tau_1^+,\tau_3) B^*_{\beta}(r_3) \nonumber\\
+  &\times \chi_{iR_i}(r_1) G_{ij}(\tau_1,\tau_4) \chi^*_{jR_j}(r_4)
+   \Gamma(4,2;3) \chi_{bR_2}(r_2) \,\mathrm{d}r_1\mathrm{d}r_2 \mathrm{d}(3)\mathrm{d}(4) .
+\end{align}
+From this expression we identify the matrix element of the 
+vertex as
+\begin{align}
+\Gamma^{R_jR_2}_{jb,\beta}(\tau_4,\tau_2;\tau_3)
+&= \int \chi^*_{jR_j}(r_4) \chi_{bR_2}(r_2) \Gamma(4,2;3) B^*_{\beta}(r_3)
+    \,\mathrm{d}r_2\mathrm{d}r_3 \mathrm{d}r_4
+\end{align}
+
+
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2662,170 +2890,6 @@ and therefore
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Relation between $U(i\nu_n)$, $W(i\nu_n)$ and $P(i\nu_n)$ in the impurity}
-In the GW+DMFT cycle we have to update the local polarization $P$
-from the GW with the DMFT polarization.
-The relations between the fully screened interaction $W(i\nu_n)$, the partially
-screened interaction $U(i\nu_n)$, the Polarization $P(i\nu_n)$ and the charge-susceptibility
-$\chi^{ch}(i\nu_n)$ is as follows:
-\begin{align}
- U(i\nu_n) &= \left[  W^{-1}(i\nu_n) + P(i\nu_n)  \right]^{-1} \\
- W(i\nu_n) &= U(i\nu_n) -U(i\nu_n) \chi^{ch}(i\nu_n)U(i\nu_n)  \\
- P(i\nu_n) &= -\left[ \unity - \chi^{ch}(i\nu_n)U(i\nu_n) \right]^{-1} \chi^{ch}(i\nu_n) \\
-           &= \left[ U(i\nu_n) - \chi^{-1}_{ch}(i\nu_n) \right]^{-1}.
-\end{align}
-The charge susceptibility $\chi^{ch}$ is given by
-\begin{align}
- \chi^{ch}_{ij}(\tau) 
- &= \langle T \bar{n}_i(\tau) \bar{n}_j(0) \rangle ,
-\end{align}
-where $\bar{n}_i(\tau) = \sum_{\sigma} \left( n^{\sigma}_i(\tau) - \langle n^{\sigma}_i\rangle \right)$.
-
-In the impurity solver we can measure the time-dependent density-density
-correlation function $\chi_{ij}^{\sigma\sigma'}(\tau)$ given by
-\begin{align}
- \chi_{ij}^{\sigma\sigma'}(\tau) 
- &= \langle T n_i^{\sigma}(\tau) n_j^{\sigma'}(0) \rangle \\
- %
- \chi_{ij}^{\sigma\sigma'}(i\nu_n) 
- &= \int_0^{\beta} \chi_{ij}^{\sigma\sigma'}(\tau) \mathrm{e}^{i\nu_n\tau} \,\mathrm{d}\tau.
-\end{align}
-This is a bosonic response function and real-valued on the imaginary $\tau$- and $i\nu_n$ axis.
-
-The charge-susceptibility $\chi^{ch}(i\nu_n)$ can be expressed in terms of
-the time-dependent density-density correlation function $\chi$ by
-\begin{align}
- \chi^{ch}_{ij}(\tau) 
- &= \langle T \bar{n}_i(\tau) \bar{n}_j(0) \rangle \\
- %
- &= \langle T \left( n_i(\tau)-\langle n_i \rangle \right) 
-              \left( n_j(0)-\langle n_j \rangle \right)\rangle \\
- %
- &= \langle T \left( n_i(\tau)n_j(0) - n_i(\tau)\langle n_j \rangle
-                                     - \langle n_i \rangle n_j(0)
-                                     + \langle n_i \rangle\langle n_j \rangle
-              \right)\rangle \\ 
- &= \langle T n_i(\tau)n_j(0) \rangle - \langle n_i \rangle\langle n_j \rangle \\
- %
- &= \langle T \left( n^{\uparrow}_i(\tau)+n^{\downarrow}_i(\tau) \right)
-              \left( n^{\uparrow}_j(0)+n^{\downarrow}_j(0) \right)\rangle  \nonumber \\
- & \hspace{0.5cm}  -\langle n^{\uparrow}_i+n^{\downarrow}_i  \rangle\langle n^{\uparrow}_j+n^{\downarrow}_j  \rangle \\
- %
- &=  \chi_{ij}^{\uparrow\uparrow}(\tau) + \chi_{ij}^{\downarrow\downarrow}(\tau) 
-    +\chi_{ij}^{\uparrow\downarrow}(\tau)  +\chi_{ij}^{\downarrow\uparrow}(\tau)  \nonumber \\
- & \hspace{0.3cm} - \left( \chi_{ii}^{\uparrow\uparrow}(0)+\chi_{ii}^{\downarrow\downarrow}(0)  \right)
-                    \left( \chi_{jj}^{\uparrow\uparrow}(0)+\chi_{jj}^{\downarrow\downarrow}(0)  \right),
- \end{align}
- where we have used that 
- \begin{align}
-  \chi_{ii}^{\sigma\sigma}(0) 
-  &= \langle T n^{\sigma}_i(0) n^{\sigma}_i(0) \rangle \\
-  &= \langle  n^{\sigma}_i(0) \rangle \\
-  &= \langle n^{\sigma}_i \rangle.
- \end{align}
-Using the Fourier transform we get the charge susceptibility on the Matsubara
-frequency axis
-\begin{align}
- \chi^{ch}_{ij}(i\nu_n) 
- &=   \chi_{ij}^{\uparrow\uparrow}(i\nu_n) + \chi_{ij}^{\downarrow\downarrow}(i\nu_n) 
-    +\chi_{ij}^{\uparrow\downarrow}(i\nu_n)  +\chi_{ij}^{\downarrow\uparrow}(i\nu_n) \nonumber \\
- & \hspace{0.3cm} - \delta(i\nu_n) \beta \langle n^{\uparrow}_i+n^{\downarrow}_i  \rangle\langle n^{\uparrow}_j+n^{\downarrow}_j  \rangle.
-\end{align}
-
-
-We will now derive the relation between the screened interaction $W$ and the density-density
-correlation function $\chi$, starting from the general equation
-\begin{align}
-W(1,2)
-&=v(1,2) - \int v(1,2) \braket{T\rho'(3)\rho'(4)} v(4,2) \, \mathrm{d}(3)\mathrm{d}(4), 
-\end{align}
-where
-\begin{align}
- \rho'(1) &= \psi^{\dagger}(1)\psi(1) - \braket{ \psi^{\dagger}(1)\psi(1) }.
-\end{align}
-Introducing a local basis $\chi^{\sigma}_m(r)$ and expanding the density operators as
-\begin{align}
-\rho(r\sigma\tau) &= \sum_{ij} \chi^{\sigma}_i(r) \rho^{\sigma}_{ij}(\tau) \chi^{*\sigma}_j(r),
-\end{align}
-we obtain the matrix element
-\begin{align}
-W_{abcd}(\tau_1,\tau_2) 
-&= v_{abcd}(\tau_1,\tau_2)  
-- \int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2) v(r_1\tau_1,r_3\tau_3)   \nonumber \\
-            & \hspace{3cm} \times \braket{T\rho'(r_3\sigma_3\tau_3)\rho'(r_4\sigma_4\tau_4)}
-                            v(r_4\tau_4,r_1\tau_1) \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2) \nonumber \\
-            &\hspace{3cm} \times \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
-                                             \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
-%
-&= v_{abcd}(\tau_1,\tau_2)  
-- \sum_{ijkl}\int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2)
-                                    v(r_1\tau_1,r_3\tau_3) \chi^{\sigma_3}_i(r_3) \chi^{*\sigma_3}_j(r_3) \nonumber\\
-               &\hspace{3cm} \times   \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
-                            \chi^{\sigma_4}_k(r_4) \chi^{*\sigma_4}_l(r_4)
-                            v(r_4\tau_4,r_1\tau_1)                                         \nonumber \\
-               &\hspace{3cm} \times  \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
-                                                        \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
-%
-&= v_{abcd}(\tau_1,\tau_2)  
-- \sum_{\substack{ijkl\\ \sigma_3\sigma_4}}\int v_{ajci}(\tau_1,\tau_3)  \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}    \nonumber\\
-               &\hspace{3cm} \times   v_{lbkd}(\tau_4,\tau_1)   \, \mathrm{d}\tau_3 \mathrm{d}\tau_4 .
-\end{align}
-Since we work with the charge density-density correlation function, we use
-\begin{align}
-\sum_{\sigma_3\sigma_4} \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
- &= \chi^{ch}_{ik}(\tau_3,\tau_4) \delta_{ij} \delta_{kl},
-\end{align}
-and after a Fourier transform, using time-translational invariance, we obtain
-\begin{align}
-W_{abcd}(i\nu_n) 
-%
-&= v_{abcd}(i\nu_n)  
-- \sum_{ik} v_{aici}(i\nu_n)  \chi^{ch}_{ik}(i\nu_n)  v_{kbkd}(i\nu_n) .
-\end{align}
-If we now assume that only the Hubbard- and Hund's terms are relevant
-\begin{align}
- U^{bare}_{ab}(i\nu_n) &= v_{abab}(i\nu_n) \\
- J^{bare}_{ab}(i\nu_n) &= v_{abba}(i\nu_n),
-\end{align}
-and neglect all others, we obtain
-\begin{align}
-U^{scr}_{ab}(i\nu_n) 
-&= U^{bare}_{ab}(i\nu_n) - \sum_{ij} U^{bare}_{ai}(i\nu_n)  \chi^{ch}_{ij}(i\nu_n)  U^{bare}_{jb}(i\nu_n) \\
-%
-J^{scr}_{ab}(i\nu_n) 
-&= J^{bare}_{ab}(i\nu_n) - \sum_{ij} v_{aibi}(i\nu_n)  \chi^{ch}_{ij}(i\nu_n)  v_{jbja}(i\nu_n) \nonumber \\
-&= J^{bare}_{ab}(i\nu_n) \ \ \forall a\neq b.
-\end{align}
-This means by using only the charge density-density correlation function
-there is no screening of the Hund's terms!
-These equations now have become standard matrix multiplications
-\begin{align}
-U^{scr}_{ab}(i\nu_n) 
-&= U^{bare}_{ab}(i\nu_n) - \left[ U^{bare}(i\nu_n)  \chi^{ch}(i\nu_n)  U^{bare}(i\nu_n) \right]_{ab} \\
-%
-J^{scr}_{ab}(i\nu_n) 
-&= J^{bare}_{ab}(i\nu_n) \ \ \forall a\neq b.
-\end{align}
-Using the equation for the polarization that was derived in Chapter~\ref{sec:glocwloc_dc_factor}
-under the same assumptions, we get for the impurity case
-\begin{align}
- P^{imp}_{aa}(i\nu_n) &= \left[ U^{bare}(i\nu_n) \right]^{-1}_{aa} 
-                           - \left[ U^{bare}(i\nu_n)\chi(i\nu_n)U^{bare}(i\nu_n) \right]^{-1}_{aa} \nonumber \\
-                      &= \left[ U^{bare}(i\nu_n) - (\chi^{ch}(i\nu_n))^{-1} \right]^{-1}_{aa} \\
-%
- P^{imp}_{ab}(i\nu_n) &= 0 \ \ \forall a\neq b.
-\end{align}
-This last equation for offdiagonal components of the polarization 
-are quite interesting. They vanish since there is no screening from 
-the charge density-density correlation function on the Hund's coupling terms.
-Therefore, special care should be taken when replacing the local part
-of the GW polarization by the impurity polarization. Should we keep the offdiagonal
-components from the RPA polarization or should we just set them to zero?
-The question is whether the RPA result is more correct than simply neglecting these terms.
-It should be quite obvious that exactly zero is not physical since the Hund's terms
-are screened. But maybe the RPA overestimates this screening significantly and 
-an approximation by zero is still better?
-This needs to be discussed.
 
 
 
