@@ -1447,8 +1447,10 @@ result and there is at least no doublecounting with respect to these terms.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Representation of the $\Gamma \approx 1$ approximation
-in a local basis}
+
+\clearpage 
+
+\section{The GW expression and Vertex approximation in a local basis}
 In section \ref{sec:glocwloc_dc_factor} we evaluated the GW Selfenergy
 from the expression 
 \begin{align}
@@ -1465,23 +1467,128 @@ or the representation in a local basis set, similar to something like
  \Gamma_{ijklmn} \approx  \delta_{ijklm} .
 \end{align}
 These two approaches are obviously different, since the second is more restrictive.
-Therefore, we will rederive the expression for the Selfenergy starting
-from the general relation
+Therefore, we will now derive the expression for the Selfenergy
+in a local basis set without any further approximation, only
+applying the approximation of the vertex in the continuum.
+We assume that the local Wannier-like basis $\{ \chi_{iR}(r) \}$ set is complete 
+and orthonormal 
+and that an orthonormalized and complete product basis $\{ B^q_\alpha(r) \}$
+exists to represent two-particle quantities in the continuum.
+
+We will therefore start from the general relations
 \begin{align}
+W(1,2)
+ &= v(1,2)
+  + \int  W(1,3) P(3,4) v(4,2) \, \mathrm{d}(3)\mathrm{d}(4) \label{eq:w_continuum} \\
+%
+P(1,2) &= \int G(2,3)G(4,2^+) \Gamma(3,4;1) \, \mathrm{d}(3)\mathrm{d}(4) \\
+%
 \Sigma(1,2)
 &= \int W(1^+,3) G(1,4) \Gamma(4,2;3) \, \mathrm{d}(3)\mathrm{d}(4)
 \end{align}
 
+\subsection{The Polarization $P=GG\Gamma$}
+We use the expansion of the Green's function in the local basis as
+\begin{align}
+ G(2,3)  
+ &= \sum_{ijR_iR_j} \chi_{iR_i}(r_2) G^{R_iR_j}_{ij}(\tau_2,\tau_3) \chi^*_{jR_j}(r_3),
+\end{align}
+and calculate the elements of the polarization $P_{\alpha\beta}$
+in the product basis, which takes the form
+\begin{align}
+ P_{\alpha\beta}(q,\tau_1,\tau_2)
+ &= \int (B^{q}_{\alpha})^*(r_1) P(r_1\tau_1,r_2\tau_2) B^{q}_{\beta}(r_2) 
+ \, \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= \sum_{ \substack{ijR_iR_j \\ klR_kR_l}} \int (B^{q}_{\alpha})^*(r_1) 
+     \chi_{iR_i}(r_2) G^{R_iR_j}_{ij}(\tau_2,\tau_3) \chi^*_{jR_j}(r_3) \nonumber \\
+& \hspace{1.5cm}\times  \chi_{kR_k}(r_4) G^{R_kR_l}_{kl}(\tau_4,\tau_2^+) \chi^*_{lR_l}(r_2) \nonumber \\
+& \hspace{1.5cm}	\times  \Gamma(3,4;1)  B^{q}_{\beta}(r_2) 
+       \,  \mathrm{d}r_1 \mathrm{d}r_2\mathrm{d}(3)\mathrm{d}(4) .
+\end{align}
+From this expression we identify the matrix element of the 
+vertex as
+\begin{align}
+\Gamma^{R_jR_k}_{jk,\alpha}(q,\tau_3,\tau_4;\tau_1)
+&= \int \chi^*_{jR_j}(r_3) \chi_{kR_k}(r_4) \Gamma(3,4;1) (B^{q}_{\alpha})^*(r_1)
+    \,\mathrm{d}r_3\mathrm{d}r_4 \mathrm{d}r_1,
+\end{align}
+resulting in the general expression
+\begin{align}
+ P_{\alpha\beta}(q,\tau_1,\tau_2)
+%
+&= \sum_{ \substack{ijR_iR_j \\ klR_kR_l}} \int 
+     \chi^*_{lR_l}(r_2) \chi_{iR_i}(r_2) B^{q}_{\beta}(r_2)
+      G^{R_iR_j}_{ij}(\tau_2,\tau_3) G^{R_kR_l}_{kl}(\tau_4,\tau_2^+)  \nonumber \\
+& \hspace{1.5cm} \times  \Gamma^{R_jR_k}_{jk,\alpha}(\tau_3,\tau_4;\tau_1)  
+          \,  \mathrm{d}r_2\mathrm{d}\tau_3 \mathrm{d}\tau_4 \\
+%
+&= \sum_{ \substack{ijR_iR_j \\ klR_kR_l}} \int 
+     M^{\beta}_{lR_l,iR_i}(q)
+      G^{R_iR_j}_{ij}(\tau_2,\tau_3) G^{R_kR_l}_{kl}(\tau_4,\tau_2^+)  
+      \Gamma^{R_jR_k}_{jk,\alpha}(q,\tau_3,\tau_4;\tau_1)  
+          \,  \mathrm{d}\tau_3 \mathrm{d}\tau_4.
+\end{align}
+where we have introduced the overlap matrix element $M^{\beta,q}_{lR_l,iR_i}$
+between a product of single-particle Wannier-functions
+and the product basis as
+\begin{align}
+ M^{\beta}_{lR_l,iR_i}(q)
+ &= \int \chi^*_{lR_l}(r_2) \chi_{iR_i}(r_2) B^{q}_{\beta}(r_2) \, \mathrm{d}r_2.
+\end{align}
+Approximating the vertex as $\Gamma(3,4;1) \approx \delta(3-4)\delta(3-1)$
+leads to
+\begin{align}
+\Gamma^{R_jR_k}_{jk,\alpha}(q,\tau_3,\tau_4;\tau_1)
+&= \int \chi^*_{jR_j}(r_3) \chi_{kR_k}(r_3) (B^{q}_{\alpha})^*(r_3)
+    \delta(\tau_3-\tau_4)\delta(\tau_3-\tau_1)\,\mathrm{d}r_3 \\
+%
+&= \left(M^{\alpha}_{kR_k,jR_j}\right)^*(q) \delta(\tau_3-\tau_4)\delta(\tau_3-\tau_1).
+\end{align}
+With this, we obtain for the polarization in the RPA approximation
+evaluated from the lattice Green's function
+\begin{align}
+ P_{\alpha\beta}(q,\tau_1,\tau_2)
+%
+&= \sum_{ \substack{ijR_iR_j \\ klR_kR_l}} \int 
+     M^{\beta}_{lR_l,iR_i}(q)
+      G^{R_iR_j}_{ij}(\tau_2,\tau_1) G^{R_kR_l}_{kl}(\tau_1,\tau_2^+)  
+     \left(M^{\alpha}_{kR_k,jR_j}\right)^*(q).
+\end{align}
+and using time-translational invariance this takes the final form
+\begin{align}
+ P_{\alpha\beta}(q,\tau)
+%
+&= \sum_{ \substack{ijR_iR_j \\ klR_kR_l}} \int 
+     M^{\beta}_{lR_l,iR_i}(q)
+      G^{R_iR_j}_{ij}(-\tau) G^{R_kR_l}_{kl}(\tau^+)  
+     \left(M^{\alpha}_{kR_k,jR_j}\right)^*(q). \label{eq:final_pol_loc_basis}
+\end{align}
+
+\subsection{The screened interaction $W$}
+The screened interaction will be calculated
+as usual from the matrix representation in the product basis
+\begin{align}
+ W_{\alpha\beta}(q,\tau)
+ &= \left[ v^{-1}(q) + P(q,\tau) \right]^{-1}_{\alpha\beta}.
+\end{align}
+
+
+\subsection{The Selfenergy $\Sigma=GW\Gamma$}
+
+Now that we have the screened interaction in the product
+basis representation, we can calculate the Selfenergy.
 As before, we will now take the matrix elements of $\Sigma$ in the local
 basis and expand the Green's function in the local basis as
 \begin{align}
  G(1,4)  
- &= \sum_{ijR_iR_j} \chi_{iR_i}(r_1) G_{ij}(\tau_1,\tau_4) \chi^*_{jR_j}(r_4),
+ &= \sum_{ijR_iR_j} \chi_{iR_i}(r_1) G^{R_iR_j}_{ij}(\tau_1,\tau_4) \chi^*_{jR_j}(r_4),
 \end{align}
 and the screened interaction in the product basis as
 \begin{align}
  W(1^+,3)  
- &= \sum_{\alpha\beta} B_{\alpha}(r_1) W_{\alpha\beta}(\tau_1^+,\tau_3) B^*_{\beta}(r_3).
+ &= \sum_{\alpha\beta q} B^q_{\alpha}(r_1) W_{\alpha\beta}(q,\tau_1^+,\tau_3) 
+     (B^q_{\beta})^*(r_3).
 \end{align}
 
 With this we get the following:
@@ -1490,21 +1597,134 @@ With this we get the following:
 &= \int \chi^*_{aR_1}(r_1) W(1^+,3) G(1,4) \Gamma(4,2;3) \chi_{bR_2}(r_2) 
                                              \,\mathrm{d}r_1\mathrm{d}r_2 \mathrm{d}(3)\mathrm{d}(4) \\
 %
-&= \sum_{ijR_iR_j}\sum_{\alpha\beta}
-   \int \chi^*_{aR_1}(r_1) B_{\alpha}(r_1) W_{\alpha\beta}(\tau_1^+,\tau_3) B^*_{\beta}(r_3) \nonumber\\
-  &\times \chi_{iR_i}(r_1) G_{ij}(\tau_1,\tau_4) \chi^*_{jR_j}(r_4)
+&= \sum_{ijR_iR_j}\sum_{\alpha\beta q}
+   \int \chi^*_{aR_1}(r_1) B^q_{\alpha}(r_1) W_{\alpha\beta}(q,\tau_1^+,\tau_3) (B^q_{\beta})^*(r_3) \nonumber\\
+  &\times \chi_{iR_i}(r_1) G^{R_iR_j}_{ij}(\tau_1,\tau_4) \chi^*_{jR_j}(r_4)
    \Gamma(4,2;3) \chi_{bR_2}(r_2) \,\mathrm{d}r_1\mathrm{d}r_2 \mathrm{d}(3)\mathrm{d}(4) .
 \end{align}
 From this expression we identify the matrix element of the 
 vertex as
 \begin{align}
-\Gamma^{R_jR_2}_{jb,\beta}(\tau_4,\tau_2;\tau_3)
-&= \int \chi^*_{jR_j}(r_4) \chi_{bR_2}(r_2) \Gamma(4,2;3) B^*_{\beta}(r_3)
-    \,\mathrm{d}r_2\mathrm{d}r_3 \mathrm{d}r_4
+\Gamma^{R_jR_2}_{jb,\beta}(q,\tau_4,\tau_2;\tau_3)
+&= \int \chi^*_{jR_j}(r_4) \chi_{bR_2}(r_2) \Gamma(4,2;3) (B^q_{\beta})^*(r_3)
+    \,\mathrm{d}r_2\mathrm{d}r_3 \mathrm{d}r_4,
+\end{align}
+which leads to the general expression
+\begin{align}
+\Sigma^{R_1R_2}_{ab}(\tau_1,\tau_2)
+%
+&= \sum_{ijR_iR_j}\sum_{\alpha\beta q}
+   \int \chi^*_{aR_1}(r_1)\chi_{iR_i}(r_1) B^q_{\alpha}(r_1) W_{\alpha\beta}(\tau_1^+,\tau_3)  \nonumber\\
+  & \hspace{2cm}\times  G^{R_iR_j}_{ij}(\tau_1,\tau_4) 
+   \Gamma^{R_jR_2}_{jb,\beta}(q,\tau_4,\tau_2;\tau_3)  \,\mathrm{d}r_1 \mathrm{d}\tau_3\mathrm{d}\tau_4 .\\
+%
+&= \sum_{ijR_iR_j}\sum_{\alpha\beta q}
+   \int M^{\alpha}_{aR_1,iR_i}(q) W_{\alpha\beta}(q,\tau_1^+,\tau_3)  
+   G^{R_iR_j}_{ij}(\tau_1,\tau_4) 
+   \Gamma^{R_jR_2}_{jb,\beta}(q,\tau_4,\tau_2;\tau_3)  \, \mathrm{d}\tau_3\mathrm{d}\tau_4 ,
+\end{align}
+where we have introduced the overlap matrix element $M^{\alpha}_{aR_1,iR_i}$
+between a product of single-particle Wannier-functions
+and the product basis as
+\begin{align}
+ M^{\alpha}_{aR_1,iR_i}(q)
+ &= \int \chi^*_{aR_1}(r_1)\chi_{iR_i}(r_1) B^q_{\alpha}(r_1) \, \mathrm{d}r_1.
 \end{align}
 
+We now approximate the vertex in the continuum by the first term
+\begin{align}
+ \Gamma(4,2;3) \approx \delta(4-2)\delta(4-3) , 
+\end{align}
+ which leads to the following representation in
+ the local basis
+\begin{align}
+\Gamma^{R_jR_2}_{jb,\beta}(q,\tau_4,\tau_2;\tau_3)
+&= \int \chi^*_{jR_j}(r_4) \chi_{bR_2}(r_4)  (B^q_{\beta})^*(r_4)
+    \delta(\tau_4-\tau_2)\delta(\tau_4-\tau_3)\, \mathrm{d}r_4 \\
+%
+&= \left( M^{\beta}_{bR_2,jR_j} \right)^*(q)  \delta(\tau_4-\tau_2)\delta(\tau_4-\tau_3).
+\end{align}
+Using this expression we obtain for the GW Selfenergy
+\begin{align}
+ \Sigma^{R_1R_2}_{ab}(\tau_1,\tau_2)
+%
+&= \sum_{ijR_iR_j}\sum_{\alpha\beta q}
+   M^{\alpha}_{aR_1,iR_i}(q) W_{\alpha\beta}(q,\tau_1^+,\tau_2) \left( M^{\beta}_{bR_2,jR_j} \right)^*(q)  
+   G^{R_iR_j}_{ij}(\tau_1,\tau_2)  \\
+&= \sum_{ijR_iR_j} W^{R_1R_jR_iR_2}_{ajib}(\tau_1^+,\tau_2)  G^{R_iR_j}_{ij}(\tau_1,\tau_2) .
+\end{align}
+Using translational invariance, which implies that $G$ and $W$ only
+depend on $R=R_1-R_2$ and $R'=R_i-R_j$, we can insert the 
+Fourier transforms of $G$ and $W$ to 
+calculate $\Sigma$ in momentum space
+\begin{align}
+ \Sigma_{ab}(k,\tau_1,\tau_2)
+ &= \sum_{R} \Sigma^{R}_{ab}(\tau_1,\tau_2) \mathrm{e}^{-ikR}\\
+% 
+&= \sum_{R} \sum_{ijR'} \int W_{ajib}(p,p',\tau_1^+,\tau_2)
+    \mathrm{e}^{ipR}\mathrm{e}^{ip'R'} \,\mathrm{d}p\mathrm{d}p'  \nonumber\\
+& \hspace{1.5cm}   \times\int G_{ij}(q, \tau_1,\tau_2) \mathrm{e}^{iqR'} \, \mathrm{d}q
+   \, \mathrm{e}^{-ikR}.
+\end{align}
+This expression simplifies by using
+\begin{align}
+ \sum_R \mathrm{e}^{i( p -k  )R} = \delta(p-k) \\
+ \sum_{R'} \mathrm{e}^{i( p' + q  )R'} = \delta(p' + q) ,
+\end{align}
+which leads to
+\begin{align}
+ \Sigma_{ab}(k,\tau_1,\tau_2)
+% 
+&=  \sum_{ij} \int W_{ajib}(k,-q,\tau_1^+,\tau_2)
+     G_{ij}(q, \tau_1,\tau_2)  \, \mathrm{d}q
+\end{align}
+Using time-translational invariance and the fact
+that $W$ only depends only on the momentum difference we get the final
+expression
+ \begin{align}
+ \Sigma_{ab}(k,\tau)
+% 
+&=  \sum_{ij} \int W_{ajib}(k+q,\tau^+)
+     G_{ij}(q, \tau)  \, \mathrm{d}q . 
+\end{align}
+It is important to note that no product basis or overlap elements are explitly involved 
+to evaluate the Selfenergy.
 
- 
+\subsection{Upfolding 2-partice quantities to the product basis in the continuum}
+We have basically already seen in Eq.~\eqref{eq:final_pol_loc_basis}
+at the example of the polarization how 2-particle quantities in the 
+local basis are transformed to the product basis in the continuum.
+In general, for a 2-particle operator $A$ represented in the local
+basis the product basis matrix elements are given by
+\begin{align}
+ A_{\alpha\beta}(q)
+ &= \sum_{\substack{ijkl\\R_iR_jR_kR_l}}\int (B^q_{\alpha})^*(r_1)
+         \chi_{iR_i}(r_1)\chi_{jR_j}(r_2) 
+         A^{R_iR_jR_kR_l}_{ijkl} \chi^*_{kR_k}(r_1)\chi^*_{lR_l}(r_2)
+          B^q_{\beta}(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 \\
+%
+&= \sum_{\substack{ijkl\\R_iR_jR_kR_l}}
+        (M^{\alpha}_{iR_i,kR_k})^*(q)
+         A^{R_iR_jR_kR_l}_{ijkl} M^{\beta}_{lR_l,jR_j}(q).
+\end{align}
+
+An important case is when $A$ is purely local, like e.g.
+ the impurity polarization. For a local object we have
+\begin{align}
+ A^{R_iR_jR_kR_l}_{ijkl} 
+ &= A_{ijkl} \delta_{R_iR_jR_kR_l}, 
+\end{align}
+which leads to
+\begin{align}
+ A^{loc}_{\alpha\beta}(q)
+%
+&= \sum_{\substack{ijkl\\R}}
+        (M^{\alpha}_{iR,kR})^*(q)
+         A_{ijkl} M^{\beta}_{lR,jR}(q).
+\end{align}
+
+\clearpage 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
