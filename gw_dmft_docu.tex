@@ -424,6 +424,7 @@ The only thing important is that the notation is consistent.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{The local $W_{abcd}$ and $P_{ijkl}$ on Matsubara frequencies}
+\label{sec:local_w_p_matsubara}
 Using the definition of the Fourier transform
 \begin{align}
  F(\tau)   &= \frac{1}{\beta} \sum_{i\nu_n} F(i\nu_n)\mathrm{e}^{-i\nu_n\tau} \\
@@ -1333,6 +1334,113 @@ With this, the final expression implemented in the Code is then given by
   + \frac{w_2g_2\beta^3}{(2n+1)^2\pi^4}\left( \frac{3}{(2n+1)^2} - \frac{\pi^2}{3} \right) \Bigg] .
  \end{align}
  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+\subsection{High-frequency correction for $P=G_{loc}G_{loc}$}
+For the local polarization used for the doublecounting we have to evaluate
+the expression (see chapter~\ref{sec:local_w_p_matsubara})
+\begin{align}
+ P^{\sigma\sigma'}_{ijkl}(i\nu_n)
+%
+ &=\frac{1}{\beta} \sum_{i\omega_n} G^{\sigma\sigma'}_{ij}(i\omega_n)
+                     G^{\sigma'\sigma}_{lk}(i\omega_n-i\nu_n) \mathrm{e}^{i\omega_n\Delta},
+\end{align}
+with $\Delta \rightarrow 0^+$.
+For the high-frequency correction we expand the Green's function
+at large frequencies as
+\begin{align}
+ G^{\sigma\sigma'}_{ij}(i\omega_n)
+ &\approx \frac{1}{i\omega_n} + \frac{c^{\sigma\sigma'}_{ij}}{(i\omega_n)^2}.
+\end{align}
+This leads to the following corrected summation
+\begin{align}
+ P^{\sigma\sigma'}_{ijkl}(i\nu_n)
+%
+ &=\frac{1}{\beta} \sum_{n=-N}^{N}\left[ G^{\sigma\sigma'}_{ij}(i\omega_n)
+                                   G^{\sigma'\sigma}_{lk}(i\omega_n-i\nu_n)
+           -\left( \frac{1}{i\omega_n} + \frac{g^{\sigma\sigma'}_{ij}}{(i\omega_n)^2}\right)
+            \left(\frac{1}{i\omega_n-i\nu_n} + \frac{g^{\sigma'\sigma}_{lk}}{(i\omega_n-i\nu_n)^2}\right)\right] \nonumber \\
+%
+&\hspace{0.5cm}+ \frac{1}{\beta} \sum_{i\omega_n} 
+            \left( \frac{1}{i\omega_n} + \frac{g^{\sigma\sigma'}_{ij}}{(i\omega_n)^2}\right)
+            \left( \frac{1}{i\omega_n-i\nu_n} + \frac{g^{\sigma'\sigma}_{lk}}{(i\omega_n-i\nu_n)^2}\right)
+             \mathrm{e}^{i\omega_n\Delta}.
+\end{align}
+The second term can be evaluated analytically with the following contributions:
+The first term is
+\begin{align}
+\frac{1}{\beta} \sum_{i\omega} \frac{1}{i\omega_n}\frac{1}{i\omega_n-i\nu_n} \mathrm{e}^{i\omega_n\Delta}
+&= \begin{cases}
+    - \beta / 4 & \mbox{ for } n=0 \\
+     0 & \mbox{ else}
+   \end{cases}.
+\end{align}
+
+The second term is
+\begin{align}
+\frac{1}{\beta} \sum_{i\omega} \frac{1}{i\omega_n}\frac{g^{\sigma'\sigma}_{lk}}{(i\omega_n-i\nu_n)^2} \mathrm{e}^{i\omega_n\Delta}
+&= \begin{cases}
+    0 & \mbox{ for } n=0 \\
+    i \beta^2 g^{\sigma'\sigma}_{lk} / 8n\pi & \mbox{ else}
+   \end{cases}.
+\end{align}
+The third term is
+\begin{align}
+\frac{1}{\beta} \sum_{i\omega} \frac{g^{\sigma\sigma'}_{ij}}{(i\omega_n)^2}\frac{1}{i\omega_n-i\nu_n} \mathrm{e}^{i\omega_n\Delta}
+&= \begin{cases}
+    0 & \mbox{ for } n=0 \\
+    -i \beta^2 g^{\sigma\sigma'}_{ij} / 8n\pi & \mbox{ else}
+   \end{cases}.
+\end{align}
+
+The last and fourth term is
+\begin{align}
+\frac{1}{\beta} \sum_{i\omega} \frac{g^{\sigma\sigma'}_{ij}}{(i\omega_n)^2}\frac{g^{\sigma'\sigma}_{lk}}{(i\omega_n-i\nu_n)^2} \mathrm{e}^{i\omega_n\Delta}
+&= \begin{cases}
+    \beta^3 g^{\sigma\sigma'}_{ij}g^{\sigma'\sigma}_{lk}/48 & \mbox{ for } n=0 \\
+    \beta^3 g^{\sigma\sigma'}_{ij}g^{\sigma'\sigma}_{lk}/8n^2\pi^2 & \mbox{ else}
+   \end{cases}.
+\end{align}
+
+The full expression thus reads
+\begin{align}
+ P^{\sigma\sigma'}_{ijkl}(i\nu_n)
+%
+ &=\frac{1}{\beta} \sum_{n=-N}^{N}\left[ G^{\sigma\sigma'}_{ij}(i\omega_n)
+                                   G^{\sigma'\sigma}_{lk}(i\omega_n-i\nu_n)
+           -\left( \frac{1}{i\omega_n} + \frac{g^{\sigma\sigma'}_{ij}}{(i\omega_n)^2}\right)
+            \left(\frac{1}{i\omega_n-i\nu_n} + \frac{g^{\sigma'\sigma}_{lk}}{(i\omega_n-i\nu_n)^2}\right)\right] \nonumber \\
+%
+&\hspace{0.5cm}+ 
+\begin{cases}
+  (\beta^3 g^{\sigma\sigma'}_{ij}g^{\sigma'\sigma}_{lk} - 12\beta)/48 & \mbox{ for } n=0 \\
+  \beta^3 g^{\sigma\sigma'}_{ij}g^{\sigma'\sigma}_{lk}/8n^2\pi^2
+  + i \beta^2 (g^{\sigma'\sigma}_{lk}-g^{\sigma\sigma'}_{ij}) / 8n\pi & \mbox{ else} 
+\end{cases}.
+\end{align}
+
+Assuming the local Green's function is diagonal in orbital and spin-indices,
+we get the following expression
+\begin{align}
+ P^{\sigma}_{iikk}(i\nu_n)
+%
+ &=\frac{1}{\beta} \sum_{n=-N}^{N}\left[ G^{\sigma}_{i}(i\omega_n)
+                                   G^{\sigma}_{k}(i\omega_n-i\nu_n)
+           -\left( \frac{1}{i\omega_n} + \frac{g^{\sigma}_{i}}{(i\omega_n)^2}\right)
+            \left(\frac{1}{i\omega_n-i\nu_n} + \frac{g^{\sigma}_{k}}{(i\omega_n-i\nu_n)^2}\right)\right] \nonumber \\
+%
+&\hspace{0.5cm}+ 
+\begin{cases}
+  (\beta^3 g^{\sigma}_{i}g^{\sigma}_{k} - 12\beta)/48 & \mbox{ for } n=0 \\
+  \beta^3 g^{\sigma}_{i}g^{\sigma}_{k}/8n^2\pi^2
+  + i \beta^2 (g^{\sigma}_{k}-g^{\sigma}_{i}) / 8n\pi & \mbox{ else} 
+\end{cases}.
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Complex term in $W$?}
 To be checked:
 
