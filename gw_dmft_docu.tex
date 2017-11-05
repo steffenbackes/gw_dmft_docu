@@ -1462,6 +1462,7 @@ we get the following expression
 \end{cases}.
 \end{align}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1826,6 +1827,43 @@ which leads to
         (M^{\alpha}_{iR,kR})^*(q)
          A_{ijkl} M^{\beta}_{lR,jR}(q).
 \end{align}
+
+\subsection{Fourier-transform of the overlap element M}
+We previously defined the overlap element of the single particle
+basis states and the product basis states as
+\begin{align}
+ M^{\alpha}_{aR_a,bR_b}(q)
+ &= \int \chi^*_{aR_a}(r) \chi_{bR_b}(r) B^{q}_{\alpha}(r) \, \mathrm{d}r.
+\end{align}
+Due to translational invariance we realize that
+\begin{align}
+ M^{\alpha}_{aR_a,bR_b}(q)
+ &= M^{\alpha}_{a0,b(R_b-R_a)}(q) \\
+ &= \int \chi^*_{a}(r) \chi_{b(R_b-R_a)}(r) B^{q}_{\alpha}(r) \, \mathrm{d}r.
+\end{align}
+Fourier-transforming this element leads to
+\begin{align}
+M(k,k')
+&= \sum_{R_aR_b} M^{\alpha}_{a0,b(R_b-R_a)}(q) \mathrm{e}^{-i k R_a}\mathrm{e}^{-i k' R_b} \\
+&= \sum_{R_a}\left(
+           \sum_{R=R_b-R_a} M^{\alpha}_{a0,b(R_b-R_a)}(q) \mathrm{e}^{-i k' (R+R_a)} 
+            \right) \mathrm{e}^{-i k R_a} \\
+&= \sum_{R_a}\left(
+           \sum_{R} M^{\alpha}_{a0,bR}(q) \mathrm{e}^{-i k' R} 
+            \right) \mathrm{e}^{-i (k+k') R_a} \\
+&=  \int \sum_{R} \left(\sum_{q'} \chi^{q'*}_{a}(r) \right)
+          \left( \sum_{q''} \chi^{q''}_{b}(r) \mathrm{e}^{i q'' R} \right)
+           B^{q}_{\alpha}(r) \mathrm{e}^{-i k' R} \delta(k+k') \, \mathrm{d}r \\
+%
+&= \int \left(\sum_{q'} \chi^{q'*}_{a}(r) \right)
+           \sum_{q''} \chi^{q''}_{b}(r) \delta(q''-k')
+           B^{q}_{\alpha}(r)  \delta(k+k') \, \mathrm{d}r \\
+%
+&= \int \left(\sum_{q'} \chi^{q'*}_{a}(r) \right)
+           \chi^{-k}_{b}(r)
+           B^{q}_{\alpha}(r)  \, \mathrm{d}r
+\end{align}
+
 
 \clearpage 
 
