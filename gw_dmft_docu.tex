@@ -1966,7 +1966,7 @@ resulting in the general expression
 & \hspace{1.5cm} \times  \Gamma_{jk,\alpha}(p'-q,p',\tau_3,\tau_4;\tau_1,q)
           \,  \mathrm{d}\tau_3 \mathrm{d}\tau_4 ,
 \end{align}
-where we have introduced the overlap matrix element $M^{\beta,q}_{lR_l,iR_i}$
+where we have introduced the overlap matrix element $M^{\beta*}_{li}(p',q)$
 between a product of single-particle Wannier-functions
 and the product basis as
 \begin{align}
@@ -2117,13 +2117,13 @@ we get
 \begin{align}
 \Sigma_{ab}(p,i\omega_n)
 %
-&= \sum_{ij,\alpha\beta}\sum_{q,ix_n}  M^{\alpha*}_{ai}(p,q)  W_{\alpha\beta}(q,i\nu_n)  
+&= \sum_{ij,\alpha\beta}\sum_{q,i\nu_n}  M^{\alpha*}_{ai}(p,q)  W_{\alpha\beta}(q,i\nu_n)  
                                   M^{\beta}_{bj}(p,q)    \nonumber \\
 & \hspace{1.5cm} \times G_{ij}(p-q,i\omega_n-i\nu_n) \mathrm{e}^{-i\nu_n0^+} .
 \end{align}
 
 
-\subsection{Upfolding 2-partice quantities to the product basis in the continuum}
+\subsection{Upfolding 2-particle quantities to the product basis in the continuum}
 We have basically already seen in Eq.~\eqref{eq:final_pol_q_loc_basis}
 at the example of the polarization how 2-particle quantities in the 
 local basis are transformed to the product basis in the continuum.
@@ -2162,16 +2162,42 @@ An important case is when $A$ is purely local, like e.g.
  the impurity polarization. For a local object we have
 \begin{align}
  A_{ijkl}(p-q,p',q)
- &= A_{ijkl} \delta(q), ???
+ &= A_{ijkl} ,
 \end{align}
 which leads to
 \begin{align}
  A^{loc}_{\alpha\beta}(q)
 %
-&= \sum_{ijkl,pp'}
-        M^{\alpha}_{ik}(p,q)
-         A_{ijkl}(p-q,p',q) M^{\beta*}_{lj}(p',q).
+&= \sum_{ijkl}
+        \left( \sum_p M^{\alpha}_{ik}(p,q) \right)
+         A_{ijkl}
+        \left( \sum_{p'} M^{\beta*}_{lj}(p',q) \right).
 \end{align}
+
+\subsection{Solving for the local vertex}
+\begin{align}
+\Sigma^{imp}_{ab}(\tau)
+%
+&= \sum_{p} \Sigma_{ab}(p,\tau) \\
+%
+&\approx \sum_{ij}\sum_{\alpha\beta qp}
+   \int M^{\alpha*}_{ai}(p,q) 
+     W_{\alpha\beta}(q,\tau^+ -\tau_3)  \nonumber\\
+  &\times  G_{ij}(p-q,\tau-\tau_4) 
+   \Gamma_{jb,\beta}(\tau_4;\tau_3) \, \mathrm{d}\tau_3\mathrm{d}\tau_4 \\
+%
+&=\sum_{j\beta } \int \left( \sum_{i \alpha qp}
+    M^{\alpha*}_{ai}(p,q) 
+     W_{\alpha\beta}(q,\tau^+ -\tau_3)G_{ij}(p-q,\tau-\tau_4) \right)   \nonumber\\
+  &\hspace{1.5cm}\times  
+   \Gamma_{jb,\beta}(\tau_4;\tau_3) \, \mathrm{d}\tau_3\mathrm{d}\tau_4 \\
+%
+&= \sum_{j\beta } \int C^{\beta}_{aj}(\tau,\tau_3,\tau_4) 
+                  \Gamma_{jb,\beta}(\tau_4;\tau_3) \, \mathrm{d}\tau_3\mathrm{d}\tau_4 
+%
+% &\sim \sum_{i} C_{ai}(\tau) \Gamma_{ib},
+\end{align}
+% where $i=(j,b,\tau_3,\tau_4)$ is a combined index.
 
 \clearpage 
 
