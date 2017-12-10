@@ -1795,7 +1795,7 @@ expression
 It is important to note that no product basis or overlap elements are explitly involved 
 to evaluate the Selfenergy.
 
-\subsection{Upfolding 2-partice quantities to the product basis in the continuum}
+\subsection{Upfolding 2-particle quantities to the product basis in the continuum}
 We have basically already seen in Eq.~\eqref{eq:final_pol_loc_basis}
 at the example of the polarization how 2-particle quantities in the 
 local basis are transformed to the product basis in the continuum.
@@ -3057,6 +3057,44 @@ A_{ab}
  we have at least one Eigenvalue equal to zero and, therefore, the tensor
 in the product basis cannot be inverted.
 \end{itemize}
+
+\subsection{Simple example}
+We take a complete basis set of dimension 2 given by
+\begin{align}
+ \braket{x | \psi_1 } = \frac{1}{\sqrt{2}} \\
+ \braket{x | \psi_2 } = x\sqrt{\frac{3}{2}}, 
+\end{align}
+which form an orthonormal basis on the set $H= [-1,1]$:
+\begin{align}
+ \int_{-1}^{1} \psi_1(x)\psi_1(x) \, \mathrm{d}x
+ &= \frac{1}{2} [ x ]_{-1}^1 = 1 \\
+%
+ \int_{-1}^{1} \psi_2(x)\psi_2(x) \, \mathrm{d}x
+ &= \frac{3}{2} \left[\frac{1}{3} x^3 \right]_{-1}^1 = 1 \\
+%
+ \int_{-1}^{1} \psi_1(x)\psi_2(x) \, \mathrm{d}x
+ &= \frac{\sqrt{3}}{2} \left[\frac{1}{2}x^2 \right]_{-1}^1 = 0 .
+\end{align}
+Of course this basis set is not complete to represent
+all possible real functions on $H$ but we restrict here to 
+the Hilbert space spanned by all functions that 
+can be generated from $\psi_1,\psi_2$. For example, this corresponds
+to choosing a correlated subspace in DFT+DMFT.
+
+We now choose the two-particle operator
+\begin{align}
+A(x,y) &= x+y.
+\end{align}
+Calculating the matrix elements of the operator by
+\begin{align}
+ A_{ijkl} &= \braket{ij|A|kl} \\
+ &= \int_{-1}^{1} \psi_i(x) \psi_j(y) A(x,y) \psi_k(x) \psi_l(y) \, \mathrm{d}x\mathrm{d}y,
+\end{align}
+
+which leads to the following matrix representation
+\begin{align}
+
+\end{align}
 
 
 
