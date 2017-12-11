@@ -2174,6 +2174,46 @@ which leads to
         \left( \sum_{p'} M^{\beta*}_{lj}(p',q) \right).
 \end{align}
 
+\subsection{Downfolding 2-particle quantities from the product basis to the local basis}
+When we want to obtain the representation of a two-particle Operator
+in the local single-particle basis, like the interaction $U_{ijkl}$,
+we need to perform a projection from the product basis to
+the local basis states
+\begin{align}
+ A_{ijkl}(p,p',q)
+ &= \int \chi^{(p+q)*}_i(r_1) \chi^{(p'-q)*}_j(r_2) A^{q}(r_1,r_2)
+         \chi^{p}_k(r_1) \chi^{p'}_l(r_2) \, \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= \sum_{\alpha\beta}\int \chi^{(p+q)*}_i(r_1) \chi^{(p'-q)*}_j(r_2) 
+         B^q_{\alpha}(r_1) A_{\alpha\beta}(q) \nonumber \\
+& \hspace{1cm} \times B^{q*}_{\beta}(r_2)\chi^{p}_k(r_1) \chi^{p'}_l(r_2) \, \mathrm{d}r_1 \mathrm{d}r_2 \\
+%
+&= \sum_{\alpha\beta} \left( \int \chi^{(p+q)*}_i(r_1)  \chi^{p}_k(r_1) B^q_{\alpha}(r_1) \,\mathrm{d}r_1 \right)
+         A_{\alpha\beta}(q) \nonumber \\
+& \hspace{1cm} \times \left( \int \chi^{(p'-q)*}_j(r_2) \chi^{p'}_l(r_2) B^{q*}_{\beta}(r_2)  \, \mathrm{d}r_2 \right) \\
+%
+&= \sum_{\alpha\beta} M^{\alpha*}_{ik}(p+q,q) A_{\alpha\beta}(q) M^{\beta}_{lj}(p',q)
+\end{align}
+Taking the Fourier transform to real space $R,R'$ we get
+\begin{align}
+ A^{RR'}_{ijkl}(q)
+%
+&= \sum_{\alpha\beta} \left(\sum_p M^{\alpha*}_{ik}(p+q,q) \mathrm{e}^{-iRp}\right)
+                     A_{\alpha\beta}(q) 
+                     \left( \sum_{p'} M^{\beta}_{lj}(p',q) \mathrm{e}^{iR'p'}\right) .
+\end{align}
+If we are interested only in the local component, like for the local interaction parameters,
+we sum over all $q$ and evaluate at $R=R'$, which finally yields
+\begin{align}
+ A^{loc}_{ijkl}
+%
+&= \sum_{\alpha\beta} \sum_{pp'q} M^{\alpha*}_{ik}(p+q,q)
+                     A_{\alpha\beta}(q) 
+                      M^{\beta}_{lj}(p',q) .
+\end{align}
+
+
+
 \subsection{Solving for the local vertex}
 \begin{align}
 \Sigma^{imp}_{ab}(\tau)
@@ -2198,6 +2238,7 @@ which leads to
 % &\sim \sum_{i} C_{ai}(\tau) \Gamma_{ib},
 \end{align}
 % where $i=(j,b,\tau_3,\tau_4)$ is a combined index.
+In this form without other approximations the equation cannot be inverted...
 
 \clearpage 
 
