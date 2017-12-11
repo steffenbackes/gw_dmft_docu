@@ -1795,7 +1795,7 @@ expression
 It is important to note that no product basis or overlap elements are explitly involved 
 to evaluate the Selfenergy.
 
-\subsection{Upfolding 2-partice quantities to the product basis in the continuum}
+\subsection{Upfolding 2-particle quantities to the product basis in the continuum}
 We have basically already seen in Eq.~\eqref{eq:final_pol_loc_basis}
 at the example of the polarization how 2-particle quantities in the 
 local basis are transformed to the product basis in the continuum.
@@ -3099,6 +3099,44 @@ A_{ab}
 in the product basis cannot be inverted.
 \end{itemize}
 
+\subsection{Simple example}
+We take a complete basis set of dimension 2 given by
+\begin{align}
+ \braket{x | \psi_1 } = \frac{1}{\sqrt{2}} \\
+ \braket{x | \psi_2 } = x\sqrt{\frac{3}{2}}, 
+\end{align}
+which form an orthonormal basis on the set $H= [-1,1]$:
+\begin{align}
+ \int_{-1}^{1} \psi_1(x)\psi_1(x) \, \mathrm{d}x
+ &= \frac{1}{2} [ x ]_{-1}^1 = 1 \\
+%
+ \int_{-1}^{1} \psi_2(x)\psi_2(x) \, \mathrm{d}x
+ &= \frac{3}{2} \left[\frac{1}{3} x^3 \right]_{-1}^1 = 1 \\
+%
+ \int_{-1}^{1} \psi_1(x)\psi_2(x) \, \mathrm{d}x
+ &= \frac{\sqrt{3}}{2} \left[\frac{1}{2}x^2 \right]_{-1}^1 = 0 .
+\end{align}
+Of course this basis set is not complete to represent
+all possible real functions on $H$ but we restrict here to 
+the Hilbert space spanned by all functions that 
+can be generated from $\psi_1,\psi_2$. For example, this corresponds
+to choosing a correlated subspace in DFT+DMFT.
+
+We now choose the two-particle operator
+\begin{align}
+A(x,y) &= x+y.
+\end{align}
+Calculating the matrix elements of the operator by
+\begin{align}
+ A_{ijkl} &= \braket{ij|A|kl} \\
+ &= \int_{-1}^{1} \psi_i(x) \psi_j(y) A(x,y) \psi_k(x) \psi_l(y) \, \mathrm{d}x\mathrm{d}y,
+\end{align}
+
+which leads to the following matrix representation
+\begin{align}
+
+\end{align}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4103,7 +4141,7 @@ contains many high-energies features.}
 This has the effect that now there is effectively a remainder of a 
 local GW Selfenergy in $\Delta(i\omega)$. This leads to very slowly
 decaying high-frequency tail of $\Delta(i\omega)$, since the remaining
-Selfenergy still creates features plasmonic-like features at higher energy,
+Selfenergy still creates features (plasmonic-like?) features at higher energy,
 which are now encoded in the effective DMFT bath.
 Now the hybridization function can no longer 
 be written like a non-interacting lattice hybridization
@@ -4140,8 +4178,68 @@ function, giving rise to high energy features in the bath, that can
 be identified as very slowly decaying tails in $\Delta(i\omega_n)$.}
 \label{fig:hybrid_comp_SVO}
 \end{figure}
-
 \end{itemize}
+
+The problem becomes even more prominent if ``non-correlated'' states
+are included in the considered energy window or Wannier space.
+In NiO one usually creates a low-energy model comprising the Ni-$d$ and O-$p$
+states that hybridize significantly with each other.
+This means there are off-diagonal $d-p$ elements in the Hamiltonian $H$, 
+the exchange-correlation potentail $V_{xc}$ and the 
+GW Selfenergy $\Sigma^{GW}$.
+Thus, when creating the local Green's function
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{DC}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1} ,
+\end{align}
+the $G_{dd}$ elements will receive some contribution originating 
+from $\Sigma_{pp}$, since the offdiagonal terms due to the orbital
+hybridization couple them.
+If now only the Ni $d$ orbitals are treated, the Hybridization function
+is given by
+\begin{align}
+\Delta(i\omega) 
+&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{dd}(i\omega),
+\end{align}
+and the $d-d$ components will still contain significant high-energy features
+due to the effect of the $\Sigma_{pp}$ and $\Sigma_{pd}$
+components. This can be clearly seen in Fig.
+\cng{INCLUDE FIGURE}
+
+We observe long high-energy tails in $-\mathrm{Im}\Delta(\omega)$,
+in addition to plasmonic features also at lower energies. 
+Physically this is reasonable, since we have only excluded the
+effective $d-d$ Selfenergy contributions due to the interactions.
+But it is not clear to me whether this is the correct
+bath for the DMFT impurity model. The bath now explicitely
+has significant interaction effects included, where the high-energy
+features introduce significant additional kinetic energy
+in the $d$ orbitals, which in general will lead to greatly reduced
+correlation effects. For example,
+a GW+DMFT calculation for NiO in this $d-p$ model is
+still metallic, while in a standard DFT+DMFT 
+it opens a $\sim 4$~eV gap. But the origin of the metallicity
+is not clear yet, but the additional kinetic energy 
+for sure contributes to the decrease in correlation effects.
+Whether a proper inclusing of the $U_{dp}$ interaction
+is needed, is still under active investigation. 
+
+If we were to solve the full local $d-p$ system, where we
+can calculate the local Selfenergy including all 
+$d-d$, $d-p$ and $p-p$ elements, the $\Sigma_{imp}$ that is subtracted
+from $G_{loc}$ to create the Hybridization function would indeed remove
+all these contributions. The result for NiO is shown in Fig.
+\cng{ADD FIGURE}
+
+We see that we still retain the high energy features in the local
+hybridization function even when the full local $\Sigma$ matrix is subtracted.
+This tells us that 
+
+\cng{IS THIS EVEN CAUSAL?}
 
 
 
