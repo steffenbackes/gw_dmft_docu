@@ -956,6 +956,9 @@ or whether one takes out contibutions from DMFT, so that DMFT is a correction to
 \end{align}
 For now we do not seem to have this problem with the Doublecounting.
 
+Noncausality appears in general in the hybridization function $\Delta$,
+see Chapter~\ref{sec:noncausal_hyb}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3133,10 +3136,305 @@ Calculating the matrix elements of the operator by
 \end{align}
 
 which leads to the following matrix representation
-\begin{align}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Non-causality of the impurity hybridization}
+\label{sec:noncausal_hyb}
+
+\subsection{Initial thoughts and relation to the doublecounting}
+
+It is interesting to investigate the effects of the Doublecounting
+used in GW+DMFT on the hybridization function.
+\begin{align}
+\Delta(i\omega) &= i\omega + \mu - \mathscr{G}_{bath}^{-1}(i\omega) \\
+&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega).
+\end{align}
+The hybridization function $\Delta(i\omega_n)$ effectively encodes the bath
+of the impurity and thus carries the information about the surrounding lattice.
+In standard lattice DMFT without extensions this bath is purely noninteracting
+and just given by the free lattice dispersion.
+
+In LDA+DMFT, since we perform a downfolding from the full space
+to a low-energy subspace, where the bath now encodes all information 
+about the outer space, the bath is no longer non-interacting.
+It contains all interaction effects residing in the outer space
+on the DFT level. Thus, which is an important point!, purely
+on a one-particle level, i.e. the hybridization function can still 
+be written like a non-interacting lattice hybridization
+\begin{align}
+\Delta(i\omega) &= \sum_{kj} \frac{|V^j_k|^2}{i\omega_n - \epsilon_k^j}
+\end{align}
+From the definition 
+$\Delta(i\omega) = i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega)$
+I think it makes sense that $\Delta(i\omega)$ can also encode an interacting
+bath, that contains interactions in the outer space,
+since it is basically the local lattice Green's function minus the local interactions.
+\textbf{(But I need to go through
+the DMFT derivation again...)}
+
+\bigskip
+
+In GW+DMFT the hybridization or resp. the bath can become even "more interacting",
+depending on what kind of doublecounting we use:
+\begin{itemize}
+\item If the full local GW Selfenergy is subtracted as the doublecounting
+\[
+\Sigma^{DC} = \left[GW \right]_{loc},
+\]
+
+then basically also all the local Selfenergy effects in $G_{loc}$ are 
+originating purely from $\Sigma_{imp}$, since 
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{DC}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1} 
+%
+\end{align}
+ This part is then subtracted
+when creating $\Delta(i\omega)$, thus there is effectively no remainder of a 
+local Selfenergy in $\Delta(i\omega)$. This usually gives a fast
+decaying high-frequency tail of $\Delta(i\omega)$.
+
+\item If only the impurity contribution is subtracted from GW
+\[
+\Sigma^{DC} = G_{loc}W_{loc},
+\]
+
+then the local Selfenergy effects in $G_{loc}$ are 
+originating not only from $\Sigma_{imp}$ BUT there is also
+a contribution from GW since
+\[
+\sum_k \Sigma^{GW}(k) - \Sigma^{DC} \neq 0,
+\]
+that stems from the contributions of nonlocal propagators
+to the local Selfenergy, that are not captured by DMFT.
+As an example we compare the local GW Selfenergy, the Doublecounting term
+and the remaining component in Fig.~\ref{fig:Sigma_compare_loc_GW_DC}
+for SrVO$_3$:
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figs/SrVO3_s_gw_DC.pdf} 
+\end{center}
+\caption{This plot shows the local GW Selfenergy (averaged over k-points)
+in comparison to the $G_{loc}W_{loc}$ doublecounting, which only includes
+the GW contribution on the impurity, and therefore is smaller
+than the local GW part.
+The difference between the two (pink line) is what remains in the local
+GW Selfenergy from non-local propagators. It is still comparable in
+size to the GW Selfenergy and decays similarly slow, so still
+contains many high-energies features.}
+\label{fig:Sigma_compare_loc_GW_DC}
+\end{figure}
+
+This has the effect that now there is effectively a remainder of a 
+local GW Selfenergy in $\Delta(i\omega)$. This leads to very slowly
+decaying high-frequency tail of $\Delta(i\omega)$, since the remaining
+Selfenergy still creates features (plasmonic-like?) features at higher energy,
+which are now encoded in the effective DMFT bath.
+Now the hybridization function can no longer 
+be written like a non-interacting lattice hybridization
+\begin{align}
+\Delta(i\omega) &= \sum_{kj} \frac{|V^j_k|^2}{i\omega_n - \epsilon_k^j}
+\end{align}
+But I think this is also the case for the other doublecounting?
+Since it contains nonlocal components of the GW Selfenergy?...
+But here in this case the bath carries information about a local Selfenergy
+that also resides on the impurity, but cannot be generated from only
+the local interactions on the impurity!!
+The meaning is not clear to me yet...
+
+\bigskip
+
+As an example we show the hybridization function for SrVO$_3$
+in Fig.~\ref{fig:hybrid_comp_SVO} calculated from a GW+DMFT calculation
+with the two different doublecountings.
+We immediately see that the energy scales of the impurity bath
+are different by orders of magnitude. 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figs/SrVO3_hybrid_dc_comp.pdf} 
+\end{center}
+\caption{This plot shows the impurty hybridization function
+$\Delta(i\omega_n)$ for SrVO$_3$, for the two different types
+of doublecounting that we use. 
+For the $[GW]_{loc}$ Doublecounting, the full local part of the GW
+Selfenergy  is substracted, while for the $G_{loc}W_{loc}$ Doublecounting
+only the impurity GW contribution is subtracted. Therefore, 
+there is a local Selfenergy component remaining in the hybridization
+function, giving rise to high energy features in the bath, that can 
+be identified as very slowly decaying tails in $\Delta(i\omega_n)$.}
+\label{fig:hybrid_comp_SVO}
+\end{figure}
+\end{itemize}
+
+The problem becomes even more prominent if ``non-correlated'' states
+are included in the considered energy window or Wannier space.
+In NiO one usually creates a low-energy model comprising the Ni-$d$ and O-$p$
+states that hybridize significantly with each other.
+This means there are off-diagonal $d-p$ elements in the Hamiltonian $H$, 
+the exchange-correlation potentail $V_{xc}$ and the 
+GW Selfenergy $\Sigma^{GW}$.
+Thus, when creating the local Green's function
+\begin{align}
+ G(k,i\omega_n) 
+ &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
+          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
+          + \Sigma^{DC}(i\omega_n)
+          \left. - \Sigma^{imp}(i\omega_n)
+           \right]^{-1} ,
+\end{align}
+the $G_{dd}$ elements will receive some contribution originating 
+from $\Sigma_{pp}$, since the offdiagonal terms due to the orbital
+hybridization couple them.
+If now only the Ni $d$ orbitals are treated, the Hybridization function
+is given by
+\begin{align}
+\Delta(i\omega) 
+&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{dd}(i\omega),
+\end{align}
+and the $d-d$ components will still contain significant high-energy features
+due to the effect of the $\Sigma_{pp}$ and $\Sigma_{pd}$
+components. This can be clearly seen in Fig.
+\cng{INCLUDE FIGURE}
+
+We observe long high-energy tails in $-\mathrm{Im}\Delta(\omega)$,
+in addition to plasmonic features also at lower energies. 
+Physically this is reasonable, since we have only excluded the
+effective $d-d$ Selfenergy contributions due to the interactions.
+But it is not clear to me whether this is the correct
+bath for the DMFT impurity model. The bath now explicitely
+has significant interaction effects included, where the high-energy
+features introduce significant additional kinetic energy
+in the $d$ orbitals, which in general will lead to greatly reduced
+correlation effects. For example,
+a GW+DMFT calculation for NiO in this $d-p$ model is
+still metallic, while in a standard DFT+DMFT 
+it opens a $\sim 4$~eV gap. But the origin of the metallicity
+is not clear yet, but the additional kinetic energy 
+for sure contributes to the decrease in correlation effects.
+Whether a proper inclusing of the $U_{dp}$ interaction
+is needed, is still under active investigation. 
+
+If we were to solve the full local $d-p$ system, where we
+can calculate the local Selfenergy including all 
+$d-d$, $d-p$ and $p-p$ elements, the $\Sigma_{imp}$ that is subtracted
+from $G_{loc}$ to create the Hybridization function would indeed remove
+all these contributions. The result for NiO is shown in Fig.
+\cng{ADD FIGURE}
+
+We see that we still retain the high energy features in the local
+hybridization function even when the full local $\Sigma$ matrix is subtracted.
+This tells us that 
+
+\cng{IS THIS EVEN CAUSAL?}
+
+\subsection{Causality definition, mathematical properties}
+
+\textbf{Definition:}
+A Green's function $G$, Selfenergy $\Sigma$, or other functions $F$ derived from them
+is called \textit{causal}, if 
+\begin{align}
+\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}.
+\end{align}
+\cng{Does it have to be strictly negative? }
+For example, if a Green's function is causal then its related
+spectral function $A(\omega) = -\mathrm{Im}G(\omega)/\pi \geq 0$.
+
+\textbf{Theorem:}
+A function $F(\omega)$ is causal if and only if its corresponding
+transform $F(\tau)$ to the imaginary time interval $(0,\beta)$
+has only negative definite even derivatives, i.e.
+\begin{align}
+F(\omega) \mbox{ causal }
+%
+\Leftrightarrow
+%
+\frac{\partial^{2n} }{\partial \tau^{2n}} F(\tau) \leq 0 \ \forall n\in\mathbb{N}.
+\end{align}
+\cng{Maybe its strictly negative?}
+
+\textbf{Proof:}
+
+$\Rightarrow$: Assume that $\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}$.
+Using Cauchy's integral formula we have the relation
+\begin{align}
+F(i\omega_n) &= \frac{1}{\pi} \int_{-\infty}^{\infty} 
+                \frac{\mathrm{Im}F(\omega)}{\omega - i\omega_n}\, \mathrm{d}\omega\\
+%
+F(\tau) &= \frac{1}{\pi} \int_{-\infty}^{\infty} 
+          \mathrm{Im}F(\omega) \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}
+          \, \mathrm{d}\omega                
+\end{align}
+The Kernel in the second expression 
+$K(\tau,\omega) = \mathrm{e}^{-\tau\omega}/ \left( \mathrm{e}^{-\beta\omega}+1 \right)$
+is strictly positive and  decays exponentially for
+large $|\omega|$ for fixed $\tau\in (0,\beta)$
+\begin{align}
+\lim\limits_{\omega\rightarrow \infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}  
+ &= \lim\limits_{\omega\rightarrow \infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{0+1} \\
+  &= 0 \\
+ %
+ %
+ \lim\limits_{\omega\rightarrow -\infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}  
+ &= \lim\limits_{\omega\rightarrow -\infty} 
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}}   \\
+ %
+ &= \lim\limits_{\omega\rightarrow -\infty} 
+\mathrm{e}^{(\beta-\tau)\omega} \\
+&= 0.
 \end{align}
 
+In the limits $\tau=0$ or $\tau = \beta$ the Kernel $K(\tau,\omega)$ becomes the Fermi
+distribution function for either negative or positive $\omega$
+\begin{align}
+ \lim\limits_{\tau\rightarrow 0}
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} 
+ &=  \frac{1}{\mathrm{e}^{\beta(-\omega)}+1} \\
+ %
+ %
+  \lim\limits_{\tau\rightarrow \beta}
+ \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} 
+ &= \frac{\mathrm{e}^{-\beta\omega}}{\mathrm{e}^{-\beta\omega}+1} \\
+ &= \frac{1}{\mathrm{e}^{\beta\omega}+1}
+\end{align}
+For the derivatives $\partial_{\tau}^{2n} F(\tau) $ 
+we get the expression
+\begin{align}
+\frac{\partial^{2n} }{\partial \tau^{2n}} F(\tau)
+&=\frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}F(\omega) 
+ \frac{\partial^{2n} }{\partial \tau^{2n}}
+          \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} \, \mathrm{d}\omega   \\
+%             
+&= \frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}F(\omega) 
+\omega^{2n}   K(\tau,\omega) \, \mathrm{d}\omega.
+\end{align}
+Since $\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}$,
+the integral is also strictly non-positive.
+
+\bigskip
+
+$\Leftarrow$:
+
+
+
+
+\subsection{Non-causal hybridization in GW+DMFT}
+As soon as frequency-dependent non-local Selfenergy components are
+added in the DMFT cycle, the impurity hybridization will in general
+be non-causal. ADD FIGS !!
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4044,204 +4342,6 @@ this treatment would be even more wrong, and would prevent a calculation of
 the impurity levels and $\Delta(\tau)$, as discussed above.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Doublecounting effects on the hybridization}
-
-It is interesting to investigate the effects of the Doublecounting
-used in GW+DMFT on the hybridization function.
-\begin{align}
-\Delta(i\omega) &= i\omega + \mu - \mathscr{G}_{bath}^{-1}(i\omega) \\
-&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega).
-\end{align}
-The hybridization function $\Delta(i\omega_n)$ effectively encodes the bath
-of the impurity and thus carries the information about the surrounding lattice.
-In standard lattice DMFT without extensions this bath is purely noninteracting
-and just given by the free lattice dispersion.
-
-In LDA+DMFT, since we perform a downfolding from the full space
-to a low-energy subspace, where the bath now encodes all information 
-about the outer space, the bath is no longer non-interacting.
-It contains all interaction effects residing in the outer space
-on the DFT level. Thus, which is an important point!, purely
-on a one-particle level, i.e. the hybridization function can still 
-be written like a non-interacting lattice hybridization
-\begin{align}
-\Delta(i\omega) &= \sum_{kj} \frac{|V^j_k|^2}{i\omega_n - \epsilon_k^j}
-\end{align}
-From the definition 
-$\Delta(i\omega) = i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{imp}(i\omega)$
-I think it makes sense that $\Delta(i\omega)$ can also encode an interacting
-bath, that contains interactions in the outer space,
-since it is basically the local lattice Green's function minus the local interactions.
-\textbf{(But I need to go through
-the DMFT derivation again...)}
-
-\bigskip
-
-In GW+DMFT the hybridization or resp. the bath can become even "more interacting",
-depending on what kind of doublecounting we use:
-\begin{itemize}
-\item If the full local GW Selfenergy is subtracted as the doublecounting
-\[
-\Sigma^{DC} = \left[GW \right]_{loc},
-\]
-
-then basically also all the local Selfenergy effects in $G_{loc}$ are 
-originating purely from $\Sigma_{imp}$, since 
-\begin{align}
- G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
-          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
-          + \Sigma^{DC}(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n)
-           \right]^{-1} 
-%
-\end{align}
- This part is then subtracted
-when creating $\Delta(i\omega)$, thus there is effectively no remainder of a 
-local Selfenergy in $\Delta(i\omega)$. This usually gives a fast
-decaying high-frequency tail of $\Delta(i\omega)$.
-
-\item If only the impurity contribution is subtracted from GW
-\[
-\Sigma^{DC} = G_{loc}W_{loc},
-\]
-
-then the local Selfenergy effects in $G_{loc}$ are 
-originating not only from $\Sigma_{imp}$ BUT there is also
-a contribution from GW since
-\[
-\sum_k \Sigma^{GW}(k) - \Sigma^{DC} \neq 0,
-\]
-that stems from the contributions of nonlocal propagators
-to the local Selfenergy, that are not captured by DMFT.
-As an example we compare the local GW Selfenergy, the Doublecounting term
-and the remaining component in Fig.~\ref{fig:Sigma_compare_loc_GW_DC}
-for SrVO$_3$:
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.7\textwidth]{figs/SrVO3_s_gw_DC.pdf} 
-\end{center}
-\caption{This plot shows the local GW Selfenergy (averaged over k-points)
-in comparison to the $G_{loc}W_{loc}$ doublecounting, which only includes
-the GW contribution on the impurity, and therefore is smaller
-than the local GW part.
-The difference between the two (pink line) is what remains in the local
-GW Selfenergy from non-local propagators. It is still comparable in
-size to the GW Selfenergy and decays similarly slow, so still
-contains many high-energies features.}
-\label{fig:Sigma_compare_loc_GW_DC}
-\end{figure}
-
-This has the effect that now there is effectively a remainder of a 
-local GW Selfenergy in $\Delta(i\omega)$. This leads to very slowly
-decaying high-frequency tail of $\Delta(i\omega)$, since the remaining
-Selfenergy still creates features (plasmonic-like?) features at higher energy,
-which are now encoded in the effective DMFT bath.
-Now the hybridization function can no longer 
-be written like a non-interacting lattice hybridization
-\begin{align}
-\Delta(i\omega) &= \sum_{kj} \frac{|V^j_k|^2}{i\omega_n - \epsilon_k^j}
-\end{align}
-But I think this is also the case for the other doublecounting?
-Since it contains nonlocal components of the GW Selfenergy?...
-But here in this case the bath carries information about a local Selfenergy
-that also resides on the impurity, but cannot be generated from only
-the local interactions on the impurity!!
-The meaning is not clear to me yet...
-
-\bigskip
-
-As an example we show the hybridization function for SrVO$_3$
-in Fig.~\ref{fig:hybrid_comp_SVO} calculated from a GW+DMFT calculation
-with the two different doublecountings.
-We immediately see that the energy scales of the impurity bath
-are different by orders of magnitude. 
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=1\textwidth]{figs/SrVO3_hybrid_dc_comp.pdf} 
-\end{center}
-\caption{This plot shows the impurty hybridization function
-$\Delta(i\omega_n)$ for SrVO$_3$, for the two different types
-of doublecounting that we use. 
-For the $[GW]_{loc}$ Doublecounting, the full local part of the GW
-Selfenergy  is substracted, while for the $G_{loc}W_{loc}$ Doublecounting
-only the impurity GW contribution is subtracted. Therefore, 
-there is a local Selfenergy component remaining in the hybridization
-function, giving rise to high energy features in the bath, that can 
-be identified as very slowly decaying tails in $\Delta(i\omega_n)$.}
-\label{fig:hybrid_comp_SVO}
-\end{figure}
-\end{itemize}
-
-The problem becomes even more prominent if ``non-correlated'' states
-are included in the considered energy window or Wannier space.
-In NiO one usually creates a low-energy model comprising the Ni-$d$ and O-$p$
-states that hybridize significantly with each other.
-This means there are off-diagonal $d-p$ elements in the Hamiltonian $H$, 
-the exchange-correlation potentail $V_{xc}$ and the 
-GW Selfenergy $\Sigma^{GW}$.
-Thus, when creating the local Green's function
-\begin{align}
- G(k,i\omega_n) 
- &= \left[ \unity(i\omega_n+\mu ) -H^{DFT}(k) + v^{XC}(k) \right. \nonumber \\
-          & \hspace{1cm}- \Sigma^{GW}(k,i\omega_n) 
-          + \Sigma^{DC}(i\omega_n)
-          \left. - \Sigma^{imp}(i\omega_n)
-           \right]^{-1} ,
-\end{align}
-the $G_{dd}$ elements will receive some contribution originating 
-from $\Sigma_{pp}$, since the offdiagonal terms due to the orbital
-hybridization couple them.
-If now only the Ni $d$ orbitals are treated, the Hybridization function
-is given by
-\begin{align}
-\Delta(i\omega) 
-&= i\omega + \mu - G_{loc}^{-1}(i\omega) - \Sigma_{dd}(i\omega),
-\end{align}
-and the $d-d$ components will still contain significant high-energy features
-due to the effect of the $\Sigma_{pp}$ and $\Sigma_{pd}$
-components. This can be clearly seen in Fig.
-\cng{INCLUDE FIGURE}
-
-We observe long high-energy tails in $-\mathrm{Im}\Delta(\omega)$,
-in addition to plasmonic features also at lower energies. 
-Physically this is reasonable, since we have only excluded the
-effective $d-d$ Selfenergy contributions due to the interactions.
-But it is not clear to me whether this is the correct
-bath for the DMFT impurity model. The bath now explicitely
-has significant interaction effects included, where the high-energy
-features introduce significant additional kinetic energy
-in the $d$ orbitals, which in general will lead to greatly reduced
-correlation effects. For example,
-a GW+DMFT calculation for NiO in this $d-p$ model is
-still metallic, while in a standard DFT+DMFT 
-it opens a $\sim 4$~eV gap. But the origin of the metallicity
-is not clear yet, but the additional kinetic energy 
-for sure contributes to the decrease in correlation effects.
-Whether a proper inclusing of the $U_{dp}$ interaction
-is needed, is still under active investigation. 
-
-If we were to solve the full local $d-p$ system, where we
-can calculate the local Selfenergy including all 
-$d-d$, $d-p$ and $p-p$ elements, the $\Sigma_{imp}$ that is subtracted
-from $G_{loc}$ to create the Hybridization function would indeed remove
-all these contributions. The result for NiO is shown in Fig.
-\cng{ADD FIGURE}
-
-We see that we still retain the high energy features in the local
-hybridization function even when the full local $\Sigma$ matrix is subtracted.
-This tells us that 
-
-\cng{IS THIS EVEN CAUSAL?}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4316,7 +4416,130 @@ $\Gamma_{003}$ point and integrated along the $k=\langle 100 \rangle$ direction.
 
 \clearpage
 
+\subsection{Plasmon analysis}
 
+For the investigation of the plasmon and Hubbard satellites in SrVO$_3$
+we used the fact that the Hubbard bands are created by the low-energy static
+value $U(0)$ of the effective Coulomb interaction,
+while the plasmon satellites are created by the frequency dependence
+of the interaction $U(\omega)$.
+
+Therefore, we modified the effective bare interaction $U(\omega)$
+by subtracting the low-energy static value 
+\begin{align}
+\tilde{U}_{\alpha}(\omega) &:= U(\omega) - \alpha U(\omega=0),
+\end{align}
+which allowed us to tune the intensity of the Hubbard bands. If 
+$\alpha=0$, there is no modification to the effective interaction
+and we obtain both plasmon and Hubbard satellites.
+If $\alpha=1$, the effective low-energy static
+value $\tilde{U}(0)=0$, so the Hubbard bands vanish and the plasmons
+should remain because the frequency dependence of $\tilde{U}(\omega)$
+is identical to the original interaction $U(\omega)$.
+
+\bigskip 
+
+Ferdi Aryasetiawan made the interesting comment, that
+in principle the plasmons should also be affected, because
+the divergencies in the dielectric function $\epsilon(\omega)$
+are modified as well
+\begin{align}
+ \tilde{\epsilon}^{-1}(\omega)
+ &= 1 - P(\omega)\tilde{U}_{\alpha}(\omega) \nonumber \\
+ &= 1 - P(\omega)\left[  U(\omega) - \alpha U(0) \right] . \label{eq:mod_epsfunc}
+\end{align}
+
+To me it is not yet completely clear what this implies in our specific case.
+As an example, I have used the effective bare 
+interaction $U(\omega)$ for the $t_{2g}$ of SrVO$_3$ calculated in cRPA, 
+and calculated the $t_{2g}$ polarization $P(\omega)$ within RPA as $P=G_0G_0$.
+Then I calculated $W$ and $\epsilon^{-1}$ by using the formula~\eqref{eq:mod_epsfunc} 
+above with the modified interaction $\tilde{U}(\omega)$.
+
+The result is shown in this plot:
+
+\begin{figure}[h]
+\includegraphics[width=1\textwidth]{figs/plasmonanalysis/modified_UPW.pdf} 
+\caption{Left: The screened local Coulomb interaction $W(\omega)$
+on real frequencies within the RPA approximation with a modified
+effective bare interaction $U(\omega)-\alpha U(0)$ for SrVO$_3$.\\
+Right: The inverse of the dielectric function calculated in the same way.
+}
+\end{figure}
+
+We see that for the original interaction $U(\omega)$ there is
+a feature around $2$~eV in the screened interaction $W(\omega)$.
+For the reduced interaction all low energy features vanish, 
+and the dielectric function Im$[\epsilon^{-1}]$ is featureless.
+This indeed would indicate that no low-energy plasmons should exist.
+
+One thing that has to be considered is that the polarization $P(\omega)$
+is not modified, because it has been calculated from RPA as $P=G_0G_0$.
+If the interaction $U(\omega)$ is modified, the resulting
+interacting polarization will also be affected, but this effect
+is not taken into account here.
+
+Therefore, we calculated the local polarization $P_{imp}$
+from the impurity model from the convered GW+DMFT cycle for SrVO$_3$,
+which has been done seperately for every value of the reduced
+effective interaction $\tilde{U}(\omega)$.
+
+
+These are the results: 
+On the left side the results are given on the Matsubara axis, while on the right
+side they are given on the real frequency axis, by using the Pade approximation (very unreliable!):
+
+\begin{figure}[h]
+\includegraphics[width=0.5\textwidth]{figs/plasmonanalysis/pol.pdf} 
+\includegraphics[width=0.5\textwidth]{figs/plasmonanalysis/pol_pade.pdf} 
+\caption{Left: The impurity polarization $P_{imp}(i\nu_n)$
+for different values of the effective interaction $\tilde{U}(i\nu_n)$ ,
+as well as the screened local Coulomb interaction $W(i\nu_n)$
+and the inverse of the dielectric function $\epsilon^{-1}(i\nu_n)$
+on imaginary Matsubara frequencies. They have been calculated from 
+the converged GW+DMFT calculation with the corresponding modified $\tilde{U}$.\\
+Right side:
+The same objects but calculated on the real frequencie axis
+by using the Pade approximation for analytic continuation. (very unreliable! I dod not manage to
+perform a Maxent analytic continuation...).
+}
+\end{figure}
+
+We basically observe the same effect as in the previous RPA results:
+the polarization $P$, screened interaction $W$ and dielectric function 
+$\epsilon^{-1}$ become featureless when the low-energy static value of $U(\omega)$
+is reduced, even when the frequency dependence is not modified.
+The kinks visible in the data are numerical noise from the QMC calculation.
+
+Still, in the spectral function of SrVO$_3$ we see that there are
+satellite peaks remaining even when $U(0)=0$. 
+In the one-orbital model calculation we could also show
+that when reducing the $U(0)$ value but keeping the frequency dependence, 
+the plasmons in the spectral function are basically
+unaffected.
+So how can these two seemingly contradictory observations be reconciled?
+
+I think that the point here is that the calculations are not selfconsistent 
+in the interaction $W$ resp. $U$.
+The resulting polarization $P$ and screened interaction $W$
+are of course affected, and they show no plasmonic low-energy features, but
+still the effective $\tilde{U}(\omega)$ does, because it is not
+updated self-consistently. 
+At this point we actually do not want to and also cannot 
+calculate $U$ self-consistently, because we manually set it to a different value.
+I think it does not make sense to analyze the existence of plasmons by looking
+at $P,W,\epsilon$ calculated in this way, because they can only give us 
+an answer about the existence of plasmons when they are selfconsistent.
+
+Therefore, I think the analysis of the one-orbital model in our 
+Plasmon-Hubbard paper is the right way to check whether plasmons 
+are affected by reducing the $U(0)$ value. And this analysis
+has shown that they are \textit{not} affected.
+So I think our plasmon-hubbard paper is fine, 
+but I am not sure how to formulate the final answer to 
+Ferdi's remark...
+
+\clearpage
 
 
 
@@ -4359,107 +4582,6 @@ Unfortunately the eg's are not insulating...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Causality constraint}
-
-\textbf{Definition:}
-A Green's function $G$, Selfenergy $\Sigma$, or other functions $F$ derived from them
-is called \textit{causal}, if 
-\begin{align}
-\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}.
-\end{align}
-\cng{Does it have to be strictly negative? }
-For example, if a Green's function is causal then its related
-spectral function $A(\omega) = -\mathrm{Im}G(\omega)/\pi \geq 0$.
-
-\textbf{Theorem:}
-A function $F(\omega)$ is causal if and only if its corresponding
-transform $F(\tau)$ to the imaginary time interval $(0,\beta)$
-has only negative definite even derivatives, i.e.
-\begin{align}
-F(\omega) \mbox{ causal }
-%
-\Leftrightarrow
-%
-\frac{\partial^{2n} }{\partial \tau^{2n}} F(\tau) \leq 0 \ \forall n\in\mathbb{N}.
-\end{align}
-\cng{Maybe its strictly negative?}
-
-\textbf{Proof:}
-
-$\Rightarrow$: Assume that $\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}$.
-Using Cauchy's integral formula we have the relation
-\begin{align}
-F(i\omega_n) &= \frac{1}{\pi} \int_{-\infty}^{\infty} 
-                \frac{\mathrm{Im}F(\omega)}{\omega - i\omega_n}\, \mathrm{d}\omega\\
-%
-F(\tau) &= \frac{1}{\pi} \int_{-\infty}^{\infty} 
-          \mathrm{Im}F(\omega) \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}
-          \, \mathrm{d}\omega                
-\end{align}
-The Kernel in the second expression 
-$K(\tau,\omega) = \mathrm{e}^{-\tau\omega}/ \left( \mathrm{e}^{-\beta\omega}+1 \right)$
-is strictly positive and  decays exponentially for
-large $|\omega|$ for fixed $\tau\in (0,\beta)$
-\begin{align}
-\lim\limits_{\omega\rightarrow \infty} 
- \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}  
- &= \lim\limits_{\omega\rightarrow \infty} 
- \frac{\mathrm{e}^{-\tau\omega}}{0+1} \\
-  &= 0 \\
- %
- %
- \lim\limits_{\omega\rightarrow -\infty} 
- \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1}  
- &= \lim\limits_{\omega\rightarrow -\infty} 
- \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}}   \\
- %
- &= \lim\limits_{\omega\rightarrow -\infty} 
-\mathrm{e}^{(\beta-\tau)\omega} \\
-&= 0.
-\end{align}
-
-In the limits $\tau=0$ or $\tau = \beta$ the Kernel $K(\tau,\omega)$ becomes the Fermi
-distribution function for either negative or positive $\omega$
-\begin{align}
- \lim\limits_{\tau\rightarrow 0}
- \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} 
- &=  \frac{1}{\mathrm{e}^{\beta(-\omega)}+1} \\
- %
- %
-  \lim\limits_{\tau\rightarrow \beta}
- \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} 
- &= \frac{\mathrm{e}^{-\beta\omega}}{\mathrm{e}^{-\beta\omega}+1} \\
- &= \frac{1}{\mathrm{e}^{\beta\omega}+1}
-\end{align}
-For the derivatives $\partial_{\tau}^{2n} F(\tau) $ 
-we get the expression
-\begin{align}
-\frac{\partial^{2n} }{\partial \tau^{2n}} F(\tau)
-&=\frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}F(\omega) 
- \frac{\partial^{2n} }{\partial \tau^{2n}}
-          \frac{\mathrm{e}^{-\tau\omega}}{\mathrm{e}^{-\beta\omega}+1} \, \mathrm{d}\omega   \\
-%             
-&= \frac{1}{\pi} \int_{-\infty}^{\infty} \mathrm{Im}F(\omega) 
-\omega^{2n}   K(\tau,\omega) \, \mathrm{d}\omega.
-\end{align}
-Since $\mathrm{Im}F(\omega) \leq 0 \  \forall \omega \in \mathbb{R}$,
-the integral is also strictly non-positive.
-
-\bigskip
-
-$\Leftarrow$:
-
-Do not investigate further since:
-Using this for analytic continuation
-does not work since any least-square fitting even without enforcing
-the derivative constraints is too ill-behaved.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
