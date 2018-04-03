@@ -252,7 +252,7 @@ properties.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Expressing objects from the continuum in a local basis: $v$, $W$, $U$, $P$}
+\section{Expressing objects from the continuum in a local basis: $v$, $W$, $U$, $P$ (local GW approximation)}
 
 In the GW+DMFT method we often face the problem of expressing objects that appear
 routinely in the GW framework in the language of DMFT, i.e. in a localized basis set.
@@ -405,7 +405,7 @@ the local basis as
  P^{\sigma\sigma'}_{ijkl}(\tau,\tau') 
  &:= G^{\sigma\sigma'}_{ij}(\tau,\tau') G^{\sigma'\sigma}_{lk}(\tau',\tau),
 \end{align}
-which leads to the final expression
+which leads to the expression
 \begin{align}
 W_{abcd}(\tau_1,\tau_2) 
 %
@@ -420,6 +420,26 @@ W_{abcd}(\tau_1,\tau_2)
 Other definitions of the $P_{ijkl}$ elements are possible and can be found in the literature.
 The only thing important is that the notation is consistent.
 
+Assuming spin-diagonal Green's functions, we can simplify the summation
+over spins and redefine the polarization
+\begin{align}
+ P_{ijkl}(\tau,\tau') 
+ &=\sum_{\sigma\sigma'} \delta_{\sigma\sigma'}G^{\sigma\sigma'}_{ij}(\tau,\tau') G^{\sigma'\sigma}_{lk}(\tau',\tau) \\
+ &=\sum_{\sigma} G^{\sigma}_{ij}(\tau,\tau') G^{\sigma}_{lk}(\tau',\tau) ,
+\end{align}
+which leads to the final expression
+\begin{align}
+W_{abcd}(\tau_1,\tau_2) 
+%
+&= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
+& \hspace{0.5cm}  + \sum_{ijkl}\int 
+                     W_{alci}(\tau_1,\tau_3) 
+                     P_{ijlk}(\tau_3,\tau_4) 
+                     v_{jbkd}(\tau_4,\tau_2)
+                    \, \mathrm{d}\tau_3\mathrm{d}\tau_4 .
+%
+\end{align}
+This is the form we will use from now on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -438,8 +458,8 @@ we first get the usual Dyson-like equation (good exercise, it's not difficult)
 \begin{align}
 W_{abcd}(i\nu_n)
 %
-&= v_{abcd}  + \sum_{\substack{\sigma\sigma' \\ ijkl }}
-                     W_{alci}(i\nu_n) P^{\sigma\sigma'}_{ijlk}(i\nu_n)
+&= v_{abcd}  + \sum_{ ijkl }
+                     W_{alci}(i\nu_n) P_{ijlk}(i\nu_n)
                      v_{jbkd}, \label{eq:w_dyson_like}
 \end{align}
 where we have used that the bare Coulomb interaction is static
@@ -448,24 +468,26 @@ where we have used that the bare Coulomb interaction is static
 \end{align}
 For the polarization we get
 \begin{align}
- P^{\sigma\sigma'}_{ijkl}(i\nu_n)
- &= \int_{0}^{\beta} \frac{1}{\beta^2}
-      \left( \sum_{i\omega_n} G^{\sigma\sigma'}_{ij}(i\omega'_n) \mathrm{e}^{-i\omega_n\tau} \right)
-      \left( \sum_{i\omega'_n} G^{\sigma'\sigma}_{lk}(i\omega'_n) \mathrm{e}^{+i\omega'_n\tau} \right)
+ P_{ijkl}(i\nu_n)
+ &= \sum_{\sigma}\int_{0}^{\beta} \frac{1}{\beta^2}
+      \left( \sum_{i\omega_n} G^{\sigma}_{ij}(i\omega'_n) \mathrm{e}^{-i\omega_n\tau} \right)
+      \left( \sum_{i\omega'_n} G^{\sigma}_{lk}(i\omega'_n) \mathrm{e}^{+i\omega'_n\tau} \right)
       \mathrm{e}^{i\nu_n\tau} \, \mathrm{d}\tau  \\
 %
- &= \sum_{\substack{i\omega_n\\i\omega'_n}} G^{\sigma\sigma'}_{ij}(i\omega_n)
-                                            G^{\sigma'\sigma'}_{lk}(i\omega_n')
+ &= \sum_{\sigma}\sum_{\substack{i\omega_n\\i\omega'_n}} G^{\sigma}_{ij}(i\omega_n)
+                                            G^{\sigma}_{lk}(i\omega_n')
       \frac{1}{\beta^2} \int_{0}^{\beta} \mathrm{e}^{i(\nu_n+\omega_n'-\omega_n) \tau}   \, \mathrm{d}\tau  \\
 %
- &=\frac{1}{\beta} \sum_{i\omega_n} G^{\sigma\sigma'}_{ij}(i\omega_n)
-                     G^{\sigma'\sigma}_{lk}(i\omega_n-i\nu_n).
+ &=\frac{1}{\beta} \sum_{\sigma,i\omega_n} G^{\sigma}_{ij}(i\omega_n)
+                     G^{\sigma}_{lk}(i\omega_n-i\nu_n).
 \end{align}
 
 
 
 
 \subsection{Relation between the local $U_{ab}$, $J_{ab}$ and $W_{abcd}$ and $P_{ijkl}$ }
+\label{sec:local_gw_form_matsubara}
+
 In general we want to calculate the screened interaction $W$ from 
 a Dyson-like equation by inverting Eq.~\ref{eq:w_dyson_like}
 \begin{align}
@@ -491,35 +513,34 @@ we do in a standard Hubbard model DMFT calculation, the screened interaction par
 \begin{align}
 U^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abab}(i\nu_n) \\
 %
-&= v_{abab}  + \sum_{ i k \sigma}
-                     W_{akai} (i\nu_n) P^{\sigma}_{iikk}(i\nu_n)
+&= v_{abab}  + \sum_{ i k }
+                     W_{akai} (i\nu_n) P_{iikk}(i\nu_n)
                      v_{ibkb}\delta_{ik} \\
 %
-& = U^{\mathrm{bare}}_{ab}  + \sum_{i \sigma}
-                     U^{\mathrm{scr}}_{ai} (i\nu_n) P^{\sigma}_{iiii}(i\nu_n)
+& = U^{\mathrm{bare}}_{ab}  + \sum_{i}
+                     U^{\mathrm{scr}}_{ai} (i\nu_n) P_{iiii}(i\nu_n)
                      U^{\mathrm{bare}}_{ib} , 
 \end{align}
 and 
 \begin{align}
 J^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abba}(i\nu_n) \\
 %
-&= v_{abba}  + \sum_{ i k \sigma}
-                     W_{akbi} (i\nu_n) P^{\sigma}_{iikk}(i\nu_n)
+&= v_{abba}  + \sum_{ i k}
+                     W_{akbi} (i\nu_n) P_{iikk}(i\nu_n)
                      v_{ibka}\delta_{ia}\delta_{kb} \\
 %
-& = J^{\mathrm{bare}}_{ab}  + \sum_{\sigma}
-                     J^{\mathrm{scr}}_{ab} (i\nu_n) P^{\sigma}_{aabb}(i\nu_n)
-                     J^{\mathrm{bare}}_{ab} \mbox{ for } a\neq b \mbox{ !}
+& = J^{\mathrm{bare}}_{ab}  + 
+                     J^{\mathrm{scr}}_{ab} (i\nu_n) P_{aabb}(i\nu_n)
+                     J^{\mathrm{bare}}_{ab} \mbox{ , for } a\neq b \mbox{ !}
 \end{align}
 The equation for $U^{\mathrm{scr}}_{ab}$ has now been reduced to a simple matrix equation
 \begin{align}
 U^{\mathrm{scr}}(i\nu_n) 
 & = U^{\mathrm{bare}}  + U^{\mathrm{scr}} (i\nu_n) P^{\mathrm{diag}}(i\nu_n) U^{\mathrm{bare}},
 \end{align}
-where $P^{\mathrm{diag}}$ is a diagonal matrix consisting of the $P^{\sigma}_{iiii}$ elements 
-summed over all spin components
+where $P^{\mathrm{diag}}$ is a diagonal matrix consisting of the $P_{iiii}$ elements 
 \begin{align}
- P^{\mathrm{diag}}_{ab}(i\nu_n) &= \sum_{\sigma} P^{\sigma}_{aaaa}(i\nu_n) \delta_{ab}.
+ P^{\mathrm{diag}}_{ab}(i\nu_n) &=  P_{aaaa}(i\nu_n) \delta_{ab}.
 \end{align}
 The equation for $J^{\mathrm{scr}}_{ab}$ has even become a simple scalar equation.
 These relations can be easily inverted, which finally yields the expressions
@@ -532,7 +553,7 @@ These relations can be easily inverted, which finally yields the expressions
  &= \frac{ J^{\mathrm{bare}}_{ab} }{ 1 - P_{ab}(i\nu_n)J^{\mathrm{bare}}_{ab} }  \\
  &= \left[  \left(J^{\mathrm{bare}}_{ab} \right)^{-1} - P_{ab}(i\nu_n) \right]^{-1} \mbox{ for } a\neq b,
 \end{align}
-where  $P_{ab} = \sum_{\sigma} P^{\sigma}_{aabb}$, and the inverse in the equation for $U^{\mathrm{scr}}$
+where  $P_{ab} = P_{aabb}$, and the inverse in the equation for $U^{\mathrm{scr}}$
 is defined as the standard matrix inverse. In the equation for $J^{\mathrm{scr}}$ it is just 
 a scalar inverse.
 
@@ -669,6 +690,10 @@ W_{abcd}(\tau_1,\tau_2)
 - \sum_{\substack{ijkl\\ \sigma_3\sigma_4}}\int v_{ajci}(\tau_1,\tau_3)  \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}    \nonumber\\
                &\hspace{3cm} \times   v_{lbkd}(\tau_4,\tau_1)   \, \mathrm{d}\tau_3 \mathrm{d}\tau_4 .
 \end{align}
+Please note that we keep the general time/frequency dependence of the unscreened interaction
+$v_{abcd}(\tau_1,\tau_2)$, since this will usually correspond to the effective dynamical
+impurity interaction.
+
 Since we work with the charge density-density correlation function, we use
 \begin{align}
 \sum_{\sigma_3\sigma_4} \braket{T\rho'^{\sigma_3}_{ij}(\tau_3)\rho'^{\sigma_4}_{kl}(\tau_4)}
@@ -1559,6 +1584,8 @@ result and there is at least no doublecounting with respect to these terms.
 \clearpage 
 
 \section{The GW expression and Vertex approximation in a local basis}
+\cng{THIS IS NOT USEFUL AND PROBABLY WRONG!! GO TO NEXT SECTION!}
+
 In section \ref{sec:glocwloc_dc_factor} we evaluated the GW Selfenergy
 from the expression 
 \begin{align}
@@ -1917,7 +1944,7 @@ Single particle quantities like the Green's function are expanded in the single
 particle states as
 \begin{align}
  G(1,2)  
- &= \sum_{ij,p} \chi^p_{i}(r_1) G_{ij}(p,\tau_1,\tau_2) \chi^{p*}_{j}(r_2),
+ &= \sum_{ij,p} \chi^p_{i}(r_1) G^{\sigma_1\sigma_2}_{ij}(p,\tau_1,\tau_2) \chi^{p*}_{j}(r_2),
 \end{align}
 and two-particle quantities like the Coulomb interaction are expanded in the product
 basis as
@@ -1925,6 +1952,8 @@ basis as
  W(1,2)  
  &= \sum_{\alpha\beta,q} B^q_\alpha(r_1) W_{\alpha\beta}(q,\tau_1,\tau_2) B^{q*}_{\beta}(r_2),
 \end{align}
+From here on we assume that the basis states are spin-independent and the
+Green's functions to be spin-diagonal.
 
 \subsection{The Polarization $P=GG\Gamma$}
 We calculate the elements of the polarization $P_{\alpha\beta}$
@@ -1934,9 +1963,9 @@ in the product basis, which takes the form
  &= \int B^{q*}_{\alpha}(r_1) P(r_1\tau_1,r_2\tau_2) B^{q}_{\beta}(r_2) 
  \, \mathrm{d}r_1 \mathrm{d}r_2 \\
 %
-&= \sum_{ ijkl, pp'} \int B^{q*}_{\alpha}(r_1) 
-                        \chi^p_{i}(r_2) G_{ij}(p,\tau_2,\tau_3) \chi^{p*}_{j}(r_3) \nonumber \\
-& \hspace{1.5cm}\times  \chi^{p'}_{k}(r_4) G_{kl}(p',\tau_4,\tau_2^+) \chi^{p'*}_{l}(r_2) \nonumber \\
+&= \sum_{\substack{ ijkl\\ pp',\sigma_2 }} \int B^{q*}_{\alpha}(r_1) 
+                        \chi^p_{i}(r_2) G^{\sigma_2}_{ij}(p,\tau_2,\tau_3) \chi^{p*}_{j}(r_3) \nonumber \\
+& \hspace{1.5cm}\times  \chi^{p'}_{k}(r_4) G^{\sigma_2}_{kl}(p',\tau_4,\tau_2^+) \chi^{p'*}_{l}(r_2) \nonumber \\
 & \hspace{1.5cm}	\times  \Gamma(3,4;1)  B^{q}_{\beta}(r_2) 
        \,  \mathrm{d}r_1 \mathrm{d}r_2\mathrm{d}(3)\mathrm{d}(4) .
 \end{align}
@@ -1951,21 +1980,21 @@ resulting in the general expression
 \begin{align}
  P_{\alpha\beta}(q,\tau_1,\tau_2)
 %
-&= \sum_{ ijkl,pp'} \int 
+&= \sum_{\substack{ijkl\\pp',\sigma}} \int 
      \chi^{p'*}_{l}(r_2) \chi^p_{i}(r_2) B^{q}_{\beta}(r_2)
-      G_{ij}(p,\tau_2,\tau_3) G_{kl}(p',\tau_4,\tau_2^+)  \nonumber \\
+      G^{\sigma}_{ij}(p,\tau_2,\tau_3) G^{\sigma}_{kl}(p',\tau_4,\tau_2^+)  \nonumber \\
 & \hspace{1.5cm} \times  \Gamma_{jk,\alpha}(p,p',\tau_3,\tau_4;\tau_1,q)
           \,  \mathrm{d}r_2\mathrm{d}\tau_3 \mathrm{d}\tau_4 \\
 %
-&= \sum_{ ijkl,pp'} \int 
+&= \sum_{ \substack{ijkl\\pp',\sigma}} \int 
      M^{\beta*}_{li}(p',q) \delta_{p,p'-q}
-      G_{ij}(p,\tau_2,\tau_3) G_{kl}(p',\tau_4,\tau_2^+)  \nonumber \\
+      G^{\sigma}_{ij}(p,\tau_2,\tau_3) G^{\sigma}_{kl}(p',\tau_4,\tau_2^+)  \nonumber \\
 & \hspace{1.5cm} \times  \Gamma_{jk,\alpha}(p,p',\tau_3,\tau_4;\tau_1,q)
           \,  \mathrm{d}\tau_3 \mathrm{d}\tau_4 \\
 %
-&= \sum_{ ijkl,p'} \int 
+&= \sum_{ \substack{ijkl\\p',\sigma}} \int 
      M^{\beta*}_{li}(p',q) 
-      G_{ij}(p'-q,\tau_2,\tau_3) G_{kl}(p',\tau_4,\tau_2^+)  \nonumber \\
+      G^{\sigma}_{ij}(p'-q,\tau_2,\tau_3) G^{\sigma}_{kl}(p',\tau_4,\tau_2^+)  \nonumber \\
 & \hspace{1.5cm} \times  \Gamma_{jk,\alpha}(p'-q,p',\tau_3,\tau_4;\tau_1,q)
           \,  \mathrm{d}\tau_3 \mathrm{d}\tau_4 ,
 \end{align}
@@ -1990,31 +2019,31 @@ evaluated from the lattice Green's function
 \begin{align}
  P_{\alpha\beta}(q,\tau_1,\tau_2)
 %
-&= \sum_{ ijkl,p} 
+&= \sum_{ \substack{ijkl\\p,\sigma}} 
      M^{\alpha}_{kj}(p,q)
-      G_{ij}(p-q,\tau_2,\tau_1) G_{kl}(p,\tau_1,\tau_2^+)
+      G^{\sigma}_{ij}(p-q,\tau_2,\tau_1) G^{\sigma}_{kl}(p,\tau_1,\tau_2^+)
      M^{\beta*}_{li}(p,q).
 \end{align}
 and using time-translational invariance this takes the final form
 \begin{align}
  P_{\alpha\beta}(q,\tau)
 %
-&= \sum_{ ijkl,p} 
+&= \sum_{\substack{ijkl\\p,\sigma}} 
      M^{\alpha}_{kj}(p,q)
-      G_{ij}(p-q,-\tau) G_{kl}(p,\tau^+)
+      G^{\sigma}_{ij}(p-q,-\tau) G^{\sigma}_{kl}(p,\tau^+)
      M^{\beta*}_{li}(p,q).
 \end{align}
 Using the Fourier transform we obtain finally
 \begin{align}
  P_{\alpha\beta}(q,i\nu_n)
 %
-&= \sum_{ ijkl,p} \sum_{i\omega_n}
+&=\frac{1}{\beta} \sum_{ \substack{ijkl\\p,\sigma}} \sum_{i\omega_n}
      M^{\alpha}_{kj}(p,q)
-      G_{ij}(p-q,i\omega_n-i\nu_n) G_{kl}(p,i\omega_n)
+      G^{\sigma}_{ij}(p-q,i\omega_n-i\nu_n) G^{\sigma}_{kl}(p,i\omega_n)
      M^{\beta*}_{li}(p,q) \mathrm{e}^{-i\omega_n 0^+} \\
 %
-&=  \sum_{ ijkl,p} M^{\alpha}_{kj}(p,q)
-    \left( \sum_{i\omega_n} G_{ij}(p-q,i\omega_n-i\nu_n) G_{kl}(p,i\omega_n) \mathrm{e}^{-i\omega_n 0^+}  \right)
+&=  \sum_{ \substack{ ijkl\\ p}} M^{\alpha}_{kj}(p,q)
+    \left( \frac{1}{\beta}\sum_{\substack{i\omega_n\\ \sigma}} G^{\sigma}_{ij}(p-q,i\omega_n-i\nu_n) G^{\sigma}_{kl}(p,i\omega_n) \mathrm{e}^{-i\omega_n 0^+}  \right)
      M^{\beta*}_{li}(p,q) .\label{eq:final_pol_q_loc_basis}
 \end{align}
 
@@ -2023,7 +2052,7 @@ The screened interaction will be calculated
 as usual from the matrix representation in the product basis
 \begin{align}
  W_{\alpha\beta}(q,i\nu_n)
- &= \left[ v^{-1}(q) + P(q,i\nu_n) \right]^{-1}_{\alpha\beta}.
+ &= \left[ v^{-1}(q) - P(q,i\nu_n) \right]^{-1}_{\alpha\beta}.
 \end{align}
 
 
@@ -2035,7 +2064,7 @@ As before, we will now take the matrix elements of $\Sigma$ in the local
 basis and expand the Green's function in the local basis as
 \begin{align}
  G(1,4)  
- &= \sum_{ij,p} \chi^p_{i}(r_1) G_{ij}(p,\tau_1,\tau_4) \chi^{p*}_{j}(r_4),
+ &= \sum_{ij,p} \chi^p_{i}(r_1) G^{\sigma}_{ij}(p,\tau_1,\tau_4) \chi^{p*}_{j}(r_4),
 \end{align}
 and the screened interaction in the product basis as
 \begin{align}
@@ -2046,13 +2075,13 @@ and the screened interaction in the product basis as
 
 With this we get the following:
 \begin{align}
-\Sigma_{ab}(p,\tau_1,\tau_2)
+\Sigma^{\sigma_1}_{ab}(p,\tau_1,\tau_2)
 &= \int \chi^{p*}_{a}(r_1) W(1^+,3) G(1,4) \Gamma(4,2;3) \chi^p_{b}(r_2) 
                                              \,\mathrm{d}r_1\mathrm{d}r_2 \mathrm{d}(3)\mathrm{d}(4) \\
 %
 &= \sum_{ij,p'}\sum_{\alpha\beta q}
    \int \chi^{p*}_{a}(r_1) B^q_{\alpha}(r_1) W_{\alpha\beta}(q,\tau_1^+,\tau_3) B^{q*}_{\beta}(r_3) \nonumber\\
-  &\times \chi^{p'}_{i}(r_1) G_{ij}(p',\tau_1,\tau_4) \chi^{p'*}_{j}(r_4)
+  &\times \chi^{p'}_{i}(r_1) G^{\sigma_1}_{ij}(p',\tau_1,\tau_4) \chi^{p'*}_{j}(r_4)
    \Gamma(4,2;3) \chi^{p}_{b}(r_2) \,\mathrm{d}r_1\mathrm{d}r_2 \mathrm{d}(3)\mathrm{d}(4) .
 \end{align}
 From this expression we identify the matrix element of the 
@@ -2064,24 +2093,24 @@ vertex as
 \end{align}
 which leads to the general expression
 \begin{align}
-\Sigma_{ab}(p,\tau_1,\tau_2)
+\Sigma^{\sigma}_{ab}(p,\tau_1,\tau_2)
 %
 &= \sum_{ij,p'}\sum_{\alpha\beta q}
    \int \chi^{p*}_{a}(r_1) \chi^{p'}_{i}(r_1) B^q_{\alpha}(r_1)
      W_{\alpha\beta}(q,\tau_1^+,\tau_3)  \nonumber\\
-  &\times  G_{ij}(p',\tau_1,\tau_4) 
+  &\times  G^{\sigma}_{ij}(p',\tau_1,\tau_4) 
    \Gamma_{jb,\beta}(p',p,\tau_4,\tau_2;\tau_3,q) \,\mathrm{d}r_1 \mathrm{d}\tau_3\mathrm{d}\tau_4 \\
 %
 &= \sum_{ij,p'}\sum_{\alpha\beta q}
    \int M^{\alpha*}_{ai}(p,q) \delta_{p',p-q}
      W_{\alpha\beta}(q,\tau_1^+,\tau_3)  \nonumber\\
-  &\times  G_{ij}(p',\tau_1,\tau_4) 
+  &\times  G^{\sigma}_{ij}(p',\tau_1,\tau_4) 
    \Gamma_{jb,\beta}(p',p,\tau_4,\tau_2;\tau_3,q) \, \mathrm{d}\tau_3\mathrm{d}\tau_4  \\
 %
 &= \sum_{ij}\sum_{\alpha\beta q}
    \int M^{\alpha*}_{ai}(p,q) 
      W_{\alpha\beta}(q,\tau_1^+,\tau_3)  \nonumber\\
-  &\times  G_{ij}(p-q,\tau_1,\tau_4) 
+  &\times  G^{\sigma}_{ij}(p-q,\tau_1,\tau_4) 
    \Gamma_{jb,\beta}(p-q,p,\tau_4,\tau_2;\tau_3,q) \, \mathrm{d}\tau_3\mathrm{d}\tau_4
 \end{align}
 where we have introduced the overlap matrix element $M^{\alpha*}_{ai}(p,q) $
@@ -2107,10 +2136,10 @@ We now approximate the vertex in the continuum by the first term
 \end{align}
 Using this expression we obtain for the GW Selfenergy
 \begin{align}
-\Sigma_{ab}(p,\tau_1,\tau_2)
+\Sigma^{\sigma}_{ab}(p,\tau_1,\tau_2)
 %
 &= \sum_{ij}\sum_{\alpha\beta q}  M^{\alpha*}_{ai}(p,q)  W_{\alpha\beta}(q,\tau_1^+,\tau_2)  
-                                  M^{\beta}_{bj}(p,q) G_{ij}(p-q,\tau_1,\tau_2) .
+                                  M^{\beta}_{bj}(p,q) G^{\sigma}_{ij}(p-q,\tau_1,\tau_2) .
 %&= \sum_{ijR_iR_j} W^{R_1R_jR_iR_2}_{ajib}(\tau_1^+,\tau_2)  G^{R_iR_j}_{ij}(\tau_1,\tau_2) .
 \end{align}
 
@@ -2118,13 +2147,27 @@ Using this expression we obtain for the GW Selfenergy
 Using time translational invariance and Fourier transform,
 we get
 \begin{align}
-\Sigma_{ab}(p,i\omega_n)
+\Sigma^{\sigma}_{ab}(p,i\omega_n)
 %
-&= \sum_{ij,\alpha\beta}\sum_{q,i\nu_n}  M^{\alpha*}_{ai}(p,q)  W_{\alpha\beta}(q,i\nu_n)  
+&= \frac{1}{\beta}\sum_{ij,\alpha\beta}\sum_{q,i\nu_n}  M^{\alpha*}_{ai}(p,q)  W_{\alpha\beta}(q,i\nu_n)  
                                   M^{\beta}_{bj}(p,q)    \nonumber \\
-& \hspace{1.5cm} \times G_{ij}(p-q,i\omega_n-i\nu_n) \mathrm{e}^{-i\nu_n0^+} .
+& \hspace{1.7cm} \times G^{\sigma}_{ij}(p-q,i\omega_n-i\nu_n) \mathrm{e}^{-i\nu_n0^+} .
 \end{align}
 
+\subsection{1-orbital example}
+Evaluating the previous formulas for a on-orbital model,
+all overlap elements $M^{\alpha*}_{ai}(p,q)$ reduce to $1$ and 
+we get
+\begin{align}
+ P(q,i\nu_n)
+&= \frac{1}{\beta}\sum_{\substack{i\omega_n,p\\ \sigma}} G^{\sigma}(p-q,i\omega_n-i\nu_n) G^{\sigma}(p,i\omega_n) \mathrm{e}^{-i\omega_n 0^+} \\
+%
+W(q,i\nu_n)
+&= \left[ v^{-1}(q) - P(q,i\nu_n) \right]^{-1} \\
+%
+\Sigma^{\sigma}(p,i\omega_n)
+&=\frac{1}{\beta}\sum_{q,i\nu_n} G^{\sigma}(p-q,i\omega_n-i\nu_n) W(q,i\nu_n) \mathrm{e}^{-i\nu_n0^+} .
+\end{align}
 
 \subsection{Upfolding 2-particle quantities to the product basis in the continuum}
 We have basically already seen in Eq.~\eqref{eq:final_pol_q_loc_basis}
@@ -2216,6 +2259,100 @@ we sum over all $q$ and evaluate at $R=R'$, which finally yields
 \end{align}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Simplification for diagonal GF and Kanamori interaction}
+In the previous section we have used the product basis representation
+of two-particle objects like the Coulomb interaction.
+Without using the product basis, we have to go back
+to the tensor representation, in which we can write the previously
+obtained equations as (see Chapter \ref{sec:local_gw_form_matsubara}, where this
+has been done only for the local properties. We can just reuse these results
+for momentum-dependent objects):
+\begin{align}
+ P_{ijlk}(q,i\nu_n)
+&=  \frac{1}{\beta}\sum_{\substack{i\omega_n\\ p, \sigma}} 
+     G^{\sigma}_{ij}(p-q,i\omega_n-i\nu_n) G^{\sigma}_{kl}(p,i\omega_n) \mathrm{e}^{-i\omega_n 0^+}   \\
+%
+W_{abcd}(q,i\nu_n)
+&= v_{abcd}(q) + \sum_{ijkl} W_{alci}(q,i\nu_n) P_{ijlk}(q,i\nu_n) v_{jbkd}(q) \\
+%
+\Sigma^{\sigma}_{ab}(p,i\omega_n)
+%
+&= \frac{1}{\beta}\sum_{ij}\sum_{q,i\nu_n}  W_{ajib}(q,i\nu_n)  
+                  G^{\sigma}_{ij}(p-q,i\omega_n-i\nu_n) \mathrm{e}^{-i\nu_n0^+} .
+\end{align}
+We will now again assume diagonal Green's functions 
+\begin{align}
+ G^{\sigma}_{ij}(p,i\omega_n)
+ &= \delta_{ij}G^{\sigma}_{ii}(p,i\omega_n) 
+ %
+\end{align}
+and only consider Kanamori-type terms for the interaction
+\begin{align}
+ U^{bare}_{ab}(q) &= v_{abab}(q) \\
+ J^{bare}_{ab}(q) &= v_{abba}(q)=v_{aabb}(q).
+\end{align}
+\cng{ATTENTION:} Here we explicitly include the pair-hopping/spin-flip
+terms, which is usually not done in the DMFT calculation! See the discussion later
+how this approximation affects the equations.
+
+\bigskip
+
+This leads to the following simplifications
+for the polarization
+\begin{align}
+P_{ij}(q,i\nu_n) &:= P_{iijj}(q,i\nu_n) \\
+&=  \frac{1}{\beta}\sum_{\substack{i\omega_n\\ p, \sigma}}  
+     G^{\sigma}_{ii}(p-q,i\omega_n-i\nu_n) G^{\sigma}_{jj}(p,i\omega_n) \mathrm{e}^{-i\omega_n 0^+} .
+\end{align}
+And for the screened interaction we obtain
+for the Hubbard terms
+\begin{align}
+ U^{scr}_{ab}(q,i\nu_n) &= W_{abab}(q,i\nu_n) \\
+&= v_{abab}(q) + \sum_{ijkl} W_{alai}(q,i\nu_n) P_{ijlk}(q,i\nu_n) v_{jbkb}(q) \delta_{ij}\delta_{lk} \\
+&= U^{bare}_{ab}(q) + \sum_{ik} W_{akai}(q,i\nu_n) P_{ik}(q,i\nu_n) v_{ibkb}(q) \delta_{ik}  \\
+&= U^{bare}_{ab}(q) + \sum_{i} U^{scr}_{ai}(q,i\nu_n) P_{ii}(q,i\nu_n) U^{bare}_{ib}(q) \\
+&= U^{bare}_{ab}(q) + \left[ U^{scr}(q,i\nu_n) P^{diag}(q,i\nu_n) U^{bare}(q) \right]_{ab}, 
+\end{align}
+which is now a simple matrix multiplication equation, where 
+$P^{diag}(q,i\nu_n)$ is a diagonal matrix with the elements $P_{ii}(q,i\nu_n)$ on the diagonal.
+Solving for $U^{scr}$ gives the equation
+\begin{align}
+ U^{scr}_{ab}(q,i\nu_n) 
+ &= \left[ U^{bare}(q) \left[ \unity - P^{diag}(q,i\nu_n) U^{bare}(q) \right]^{-1} \right]_{ab}\\
+ &= \left( \left[ [U^{bare}(q)]^{-1} - P^{diag}(q,i\nu_n)  \right]^{-1} \right)_{ab}.
+\label{eq:u_scr_gw_lattice}
+ \end{align}
+For the Hund's terms we get similarly ($a\neq b$)
+\begin{align}
+ J^{scr}_{ab}(q,i\nu_n) &= W_{abba}(q,i\nu_n) \\
+&= v_{abba}(q) + \sum_{ijkl} W_{albi}(q,i\nu_n) P_{ijlk}(q,i\nu_n) v_{jbka}(q) \delta_{ij}\delta_{lk} \\
+&= J^{bare}_{ab}(q) + \sum_{ik} W_{akbi}(q,i\nu_n) P_{ik}(q,i\nu_n) v_{ibka}(q) (\delta_{ia}\delta_{kb}+\delta_{ib}\delta_{ka})  \\
+&= J^{bare}_{ab}(q) + W_{abba}(q,i\nu_n) P_{ab}(q,i\nu_n) v_{abba}(q)
+                    + W_{aabb}(q,i\nu_n) P_{ba}(q,i\nu_n) v_{bbaa}(q)\\
+&= J^{bare}_{ab}(q) + 2 J_{ab}^{scr}(q,i\nu_n) P_{ab}(q,i\nu_n) J_{ab}^{bare}(q), 
+\end{align}
+which is a simple scalar equation and leads to
+\begin{align}
+ J^{scr}_{ab}(q,i\nu_n) 
+&= \left[ [J^{bare}_{ab}(q)]^{-1} - 2 P_{ab}(q,i\nu_n) \right]^{-1}
+\end{align}
+This means that for Hubbard/Hund's type interaction and diagonal Green's functions
+the lattice GW equations can be formulated without the need for a product basis.
+When the pair-hopping/spin-flip term $v_{aabb}$ is neglected, the prefactor $2$
+drops out.
+
+The equation for the GW Selfenergy simplifies as following
+\begin{align}
+ \Sigma^{\sigma}_{a}(p,i\omega_n)
+%
+&= \frac{1}{\beta}\sum_{ij}\sum_{q,i\nu_n}  W_{ajia}(q,i\nu_n)  
+                  G^{\sigma}_{ij}(p-q,i\omega_n-i\nu_n) \mathrm{e}^{-i\nu_n0^+} \delta_{ij} \\
+&= \frac{1}{\beta}\sum_{i,q,i\nu_n}  J^{scr}_{ai}(q,i\nu_n)  
+                  G^{\sigma}_{i}(p-q,i\omega_n-i\nu_n) \mathrm{e}^{-i\nu_n0^+}                
+\end{align}
+Please note that the diagonal terms of the $J^{scr}_{ai}$ matrix are given by $U^{scr}_{aa}$
+from Eq.\eqref{eq:u_scr_gw_lattice}.
 
 \subsection{Solving for the local vertex}
 \begin{align}
