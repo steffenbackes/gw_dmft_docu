@@ -247,6 +247,105 @@ does this affect the spectra? Other two-particle quantities?
 Plasmons might not be properly treated due to the nonconserving
 properties.
 
+\section{Relation between DFT and GW+DMFT (or related schemes)}
+The main idea of DMFT or GW+DMFT and related schemes is that an artificial impurity model
+can generate the correct physical local Green's function $G^{\mathrm{exact}}_{loc}$.
+Assuming we were able to solve the general system exactly, starting from the non-interacting
+dispersion $\epsilon(k)$, we could write the exact $G^{\mathrm{exact}}_{loc}$ as
+\begin{align}
+ G^{\mathrm{exact}}_{loc}(i\omega)
+ &= \sum_{k} \left[ i\omega + \mu - \epsilon(k) - \Sigma^{\mathrm{exact}}(k,i\omega) \right]^{-1},
+\end{align}
+where $\Sigma^{\mathrm{exact}}(k,i\omega)$ is the full and exact Selfenergy, which would allow
+us to get much more information than just the local Green's function.
+
+Let us assume that we know $G^{\mathrm{exact}}_{loc}(i\omega)$, and check how the impurity model
+has to be constructed to generate $G_{imp}=G^{\mathrm{exact}}_{loc}$. For the impurity we have
+\begin{align}
+ \left[G^{\mathrm{exact}}_{loc} (i\omega)\right]^{-1}
+ &=  \mathcal{G}^{-1}_{bath}(i\omega) - \Sigma_{imp}(i\omega),
+ \label{eq:impurity_dyson}
+\end{align}
+where the bath Green's function $\mathcal{G}_{bath}$ and the impurity 
+Selfenergy $\Sigma_{imp}$ should be causal, but in general we have
+\begin{align}
+ \Sigma_{imp}(i\omega) \neq \sum_k \Sigma^{\mathrm{exact}}(k,i\omega) .
+\end{align}
+By reverse engineering Eq.~\eqref{eq:impurity_dyson} we now could determine the
+impurity bath and the corresponding impurity Selfenergy, that give the correct
+$G_{imp}=G^{\mathrm{exact}}_{loc}$.
+This problem should be identical to a diagrammatic expansion in terms of 
+the dressed propagator, or the works done by Thomas Pruschke, where
+it is known that this procedure in general generates noncausal/unphysical
+$\mathcal{G}_{bath}$ and $\Sigma_{imp}$, but also physical solutions can exist.
+
+Let us assume that by some procedure we can generate the right and physical
+$\mathcal{G}_{bath}$, that will generate the exact $G_{imp}=G^{\mathrm{exact}}_{loc}$
+with some corresponding $\Sigma_{imp}$.
+Then how do we continue from here in a selfconsistent scheme?
+Somehow we have to use $\Sigma_{imp}$ to regenerate $G(k,i\omega)$, which then 
+yields the right $G^{\mathrm{exact}}_{loc}$.
+GW+DMFT suggests to do
+\begin{align}
+  G^{\mathrm{exact}}_{loc}(i\omega)
+ &= \sum_{k} \left[ i\omega + \mu - \epsilon(k) - \Sigma^{GW}(k,i\omega)-\Sigma^{imp}(i\omega)+\Sigma^{DC} \right]^{-1},
+\end{align}
+If we then recalculate
+\begin{align}
+ \mathcal{G}^{-1}_{bath}(i\omega) 
+ &= \left[G^{\mathrm{exact}}_{loc} (i\omega)\right]^{-1} + \Sigma_{imp}(i\omega),
+\end{align}
+it will be in general unphysical again and not equal to the previous $\mathcal{G}_{bath}$,
+since 
+\begin{align}
+ \Sigma^{GW}(k,i\omega)+\Sigma^{imp}(i\omega)-\Sigma^{DC} \neq \Sigma^{\mathrm{exact}}(k,i\omega).
+\end{align}
+But this is not what we expect. Here, we want to use the combination of the GW
+and impurity Selfenergy as an approximation to the true Selfenergy
+\begin{align}
+ \Sigma^{GW}(k,i\omega)+\Sigma^{imp}(i\omega)-\Sigma^{DC} \approx \Sigma^{\mathrm{exact}}(k,i\omega),
+\end{align}
+and perform the selfconsistent calculation with this expression.
+If we continue now, we still face the problem that 
+\begin{align}
+ \mathcal{G}^{-1}_{bath}(i\omega) 
+ &= \left[G^{\mathrm{exact}}_{loc} (i\omega)\right]^{-1} + \Sigma_{imp}(i\omega),
+\end{align}
+is unphysical. In principle we have to 
+redo the reverse engineering process of Eq.~\eqref{eq:impurity_dyson} to determine 
+a causal impurity bath, which then would generate a corresponding impurity Selfenergy.
+But this process  not guarenteed to converge, nor that we can be sure
+to pick out the correct physical $\mathcal{G}_{bath}$ and $\Sigma_{imp}$.
+So why does this seem so difficult, when a similar approach in 
+Kohn-Sham DFT works quite successfully?
+
+\bigskip
+
+Let us recall the corresponding quantities and the selfconsistency in Kohn-Sham DFT and (GW+)DMFT. 
+\begin{center}
+\begin{tabular}{l|c|c|c}
+                              & DFT        & (GW+)DMFT & Remark \\\hline
+ Physical quantity & $\rho(r)$ & $G_{loc}(i\omega)$ &  \\\hline\hline
+1) Initial guess for: & $\rho(r)$ & $G_{loc}(i\omega)$ & --- \\
+%
+2) Construct:  & $H_{KS}= H_0 + V_{XC}[\rho]$ & $\mathcal{G}^{-1}_{bath}[G_{loc},\Sigma_{imp}] = G^{-1}_{loc} + \Sigma_{imp}$
+               & Additional input \\
+               &&& $\Sigma_{imp}$ needed! But\\
+               &&& not a direct functional \\
+               &&& $\Sigma_{imp}[G_{loc}]$! \\
+%
+3) Solve model: & $\rightarrow \psi_{KS}(r)$ & $\rightarrow G_{imp},\Sigma_{imp}$ & --- \\
+4) Reconstruct phys. & $\rho(r)=|\psi_{KS}(r)|^2$ & $G_{loc}=\sum_k[i\omega-\epsilon_k-\Sigma]^{-1}$ & What $\Sigma$ to use?\\
+ \ \ \ quantity & & & \\
+ 5) Repeat from 2)
+\end{tabular}             
+\end{center}
+I think there is a problem in step 2), since we need the impurity Selfenergy as another quantity,
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2335,12 +2434,12 @@ For the Hund's terms we get similarly ($a\neq b$)
 which is a simple scalar equation and leads to
 \begin{align}
  J^{scr}_{ab}(q,i\nu_n) 
-&= \left[ [J^{bare}_{ab}(q)]^{-1} - 2 P_{ab}(q,i\nu_n) \right]^{-1}
+&= \left[ [J^{bare}_{ab}(q)]^{-1} - 2 P_{ab}(q,i\nu_n) \right]^{-1}, \mbox{ \ for }a\neq b
 \end{align}
 This means that for Hubbard/Hund's type interaction and diagonal Green's functions
 the lattice GW equations can be formulated without the need for a product basis.
-When the pair-hopping/spin-flip term $v_{aabb}$ is neglected, the prefactor $2$
-drops out.
+When the pair-hopping/spin-flip term $v_{aabb}$ is neglected, the factor $2$ 
+for $P_{ab}$ drops out.
 
 The equation for the GW Selfenergy simplifies as following
 \begin{align}
