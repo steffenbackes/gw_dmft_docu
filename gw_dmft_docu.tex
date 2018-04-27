@@ -3574,6 +3574,8 @@ This tells us that
 
 \cng{IS THIS EVEN CAUSAL?}
 
+
+
 \subsection{Causality definition, mathematical properties}
 
 \textbf{Definition:}
@@ -3673,6 +3675,124 @@ added in the DMFT cycle, the impurity hybridization will in general
 be non-causal. ADD FIGS !!
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+
+\section{Effective bath with non-local corrections}
+Starting from the cavity construction with the following
+equations
+\begin{align}
+ \mathcal{G}_0^{-1}
+ &= i\omega_n + \mu - \sum_{ij\neq 0} \tilde{t}_{0i} G^{(0)}_{ij}(i\omega_n) \tilde{t}_{j0} \label{eq:eff_bath_cav}\\
+ %
+ G^{(0)}_{ij}
+ &= G_{ij} - \frac{ G_{i0}G_{0j} }{ G_{00} } \label{eq:g_cav_rel} \\
+ %
+ G(k,i\omega_n)
+ &= \left[ i\omega_n + \mu - \epsilon(k) - \Sigma_{GW}(k,i\omega_n)
+    -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right]^{-1},
+\end{align}
+where $\tilde{t}$ are the renormalized effective hopping parameters
+\begin{align}
+ \tilde{t}_{0i} &= t_{0i} + \Sigma^{GW}_{0i}(i\omega_n) . 
+\end{align}
+Inserting Eq.~\eqref{eq:g_cav_rel} in Eq.~\eqref{eq:eff_bath_cav} we obtain
+\begin{align}
+ \mathcal{G}_0^{-1}(i\omega_n)
+ &= i\omega_n + \mu - \sum_{ij} \tilde{t}_{0i} 
+ \left( G_{ij}(i\omega_n) - \frac{ G_{i0}(i\omega_n)G_{0j}(i\omega_n) }{ G_{00}(i\omega_n) } \right) \tilde{t}_{j0} \\
+&= i\omega_n + \mu - \sum_{ij} \tilde{t}_{0i} G_{ij}(i\omega_n)\tilde{t}_{j0}
+   + \frac{1}{G_{loc}(i\omega_n)} \sum_{ij} \tilde{t}_{0i} G_{i0}(i\omega_n)G_{0j}(i\omega_n) \tilde{t}_{j0} .
+ \end{align}
+
+Inserting the Fourier-transforms 
+\begin{align}
+ \tilde{t}_{ij} 
+ &= \sum_k \tilde{ \epsilon}(k,i\omega_n)  \mathrm{e}^{-ik(R_i-R_j)} \\
+ &= \sum_k \left( \epsilon(k) + \Sigma^{GW}(k,i\omega_n) \right) \mathrm{e}^{-ik(R_i-R_j)} ,
+\end{align}
+into the equation above we get for the first term on the right-hand side
+\begin{align}
+ \sum_{ij} \tilde{t}_{0i} G_{ij}(i\omega_n)\tilde{t}_{j0}
+ &= \sum_{ij} \sum_{kk'k''} 
+            \tilde{ \epsilon}(k,i\omega_n)\mathrm{e}^{ikR_i}
+            G(k',i\omega_n) \mathrm{e}^{-ik'(R_i-R_j)}
+            \tilde{ \epsilon}(k'',i\omega_n) \mathrm{e}^{-ik''R_j} \\
+%
+&=  \sum_{kk'k''} 
+            \tilde{ \epsilon}(k,i\omega_n)
+            G(k',i\omega_n) 
+            \tilde{ \epsilon}(k'',i\omega_n)
+            \left( \sum_{ij} \mathrm{e}^{-iR_i(k'-k)}\mathrm{e}^{-iR_j(k''-k')} \right) \\
+%
+&=  \sum_{k} 
+            \tilde{ \epsilon}(k,i\omega_n)
+            G(k,i\omega_n) 
+            \tilde{ \epsilon}(k,i\omega_n) \\
+%
+&=  \sum_{k} 
+            \tilde{ \epsilon}^2(k,i\omega_n)
+            G(k,i\omega_n) , 
+\end{align}
+and for the second term
+\begin{align}
+ \sum_{ij} \tilde{t}_{0i} G_{i0}(i\omega_n)G_{0j}(i\omega_n) \tilde{t}_{j0} 
+ &= \left( \sum_i \tilde{t}_{0i} G_{i0}(i\omega_n) \right)\left( \sum_j  G_{0j}(i\omega_n) \tilde{t}_{j0} \right) \\
+%
+ &= \left( \sum_{i,kk'} \tilde{ \epsilon}(k,i\omega_n)\mathrm{e}^{ikR_i} G(k',i\omega_n) \mathrm{e}^{-ik'R_i} \right) \nonumber\\
+   & \ \ \ \times \left( \sum_{j,kk'} \tilde{ \epsilon}(k,i\omega_n)\mathrm{e}^{-ikR_j} G(k',i\omega_n) \mathrm{e}^{ik'R_j} \right) \\
+%
+&= \left( \sum_{k} \tilde{ \epsilon}(k,i\omega_n) G(k,i\omega_n) \right) \nonumber\\
+   & \ \ \ \times \left( \sum_{k} \tilde{ \epsilon}(k,i\omega_n) G(k,i\omega_n)  \right) \\
+%
+&=\left( \sum_{k} \tilde{ \epsilon}(k,i\omega_n) G(k,i\omega_n) \right)^2.
+%
+\end{align}
+
+This yields the expression for the effective bath
+\begin{align}
+ \mathcal{G}_0^{-1}(i\omega_n)
+ &= i\omega_n + \mu 
+   - \sum_{k} \tilde{ \epsilon}^2(k,i\omega_n) G(k,i\omega_n) \nonumber \\
+ & \ \ \ \ \ \ \ \ +\frac{1}{G_{loc}(i\omega_n)}\left( \sum_{k} \tilde{ \epsilon}(k,i\omega_n) G(k,i\omega_n) \right)^2
+\end{align}
+
+
+We see that we always need the ``moments'' $\epsilon^n G$ of the Green's function.
+Can these expressions be simplified?
+\begin{align}
+ \sum_{k} \tilde{ \epsilon}(k,i\omega_n)  G(k,i\omega_n)
+ &= \sum_k \frac{\epsilon(k) +\Sigma_{GW}(k,i\omega_n)}
+                {i\omega_n + \mu - \epsilon(k) - \Sigma_{GW}(k,i\omega_n)
+                        -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)}
+\end{align}
+
+This reduces indeed to the standard formula (checked numerically)
+\begin{align}
+ \mathcal{G}_0^{-1}(i\omega_n)
+ &= G_{loc}^{-1}(i\omega_n) + \Sigma_{imp}.
+\end{align}
+
+
+% for the effective bath
+% \begin{align}
+%  \mathcal{G}_0^{-1}
+%  &= i\omega_n + \mu - \sum_{ij\neq 0} \tilde{t}_{0i} G^{(0)}_{ij}(i\omega_n) \tilde{t}_{j0} \\
+%  %
+%  &= 
+% \end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
