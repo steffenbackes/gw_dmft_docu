@@ -3762,22 +3762,72 @@ This yields the expression for the effective bath
    - \sum_{k} \tilde{ \epsilon}^2(k,i\omega_n) G(k,i\omega_n) \nonumber \\
  & \ \ \ \ \ \ \ \ +\frac{1}{G_{loc}(i\omega_n)}\left( \sum_{k} \tilde{ \epsilon}(k,i\omega_n) G(k,i\omega_n) \right)^2
 \end{align}
-
+This reduces indeed to the standard formula (checked numerically)
+\begin{align}
+ \mathcal{G}_0^{-1}(i\omega_n)
+ &= G_{loc}^{-1}(i\omega_n) + \Sigma_{imp}.
+\end{align}
 
 We see that we always need the ``moments'' $\epsilon^n G$ of the Green's function.
-Can these expressions be simplified?
 \begin{align}
  \sum_{k} \tilde{ \epsilon}(k,i\omega_n)  G(k,i\omega_n)
  &= \sum_k \frac{\epsilon(k) +\Sigma_{GW}(k,i\omega_n)}
                 {i\omega_n + \mu - \epsilon(k) - \Sigma_{GW}(k,i\omega_n)
                         -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)}
 \end{align}
-
-This reduces indeed to the standard formula (checked numerically)
+We now assume that we can turn the 
+k-summation into a complex frequency integration
+with $x=\epsilon(k) +\Sigma_{GW}^{nonloc}(k,i\omega_n)$ for fixed $i\omega_n$.
+\cng{DOES THIS WORK? WHAT CAN WE PUT IN $\epsilon(k)$??? THIS ONLY WORKS 
+IF $\Sigma_{GW}^{nonloc}(k,i\omega_n)$ IS FREQUENCY INDEPENDENT!!!}
+Then we can use the following relations
+\begin{align}
+ \sum_{k} \tilde{ \epsilon}(k,i\omega_n)  G(k,i\omega_n)
+&= \int \frac{ D(x_{i\omega_n}) x_{i\omega_n} } {i\omega_n + \mu - x_{i\omega_n}
+               -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)} \, \mathrm{d}x_{i\omega_n} \\
+&= -1 + \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) \nonumber\\
+ & \ \ \ \ \times \int \frac{ D(x_{i\omega_n}) } {i\omega_n + \mu - x_{i\omega_n}
+       -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)} \, \mathrm{d}x_{i\omega_n} \\
+%
+&= -1 + \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) 
+         G_{loc}(i\omega_n),
+\end{align}
+and 
+\begin{align}
+ \sum_{k} \tilde{ \epsilon}^2(k,i\omega_n)  G(k,i\omega_n)
+&= \int \frac{ D(x_{i\omega_n}) x^2_{i\omega_n} } {i\omega_n + \mu - x_{i\omega_n}
+               -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)} \, \mathrm{d}x_{i\omega_n} \\
+%
+&= \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) \nonumber\\
+ & \ \ \ \ \times \int \frac{ D(x_{i\omega_n}) x_{i\omega_n} } {i\omega_n + \mu - x_{i\omega_n}
+       -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)} \, \mathrm{d}x_{i\omega_n} \\
+%
+&= \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) \nonumber\\
+ & \ \ \ \ \times \left[ -1 + \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) 
+          G_{loc}(i\omega_n) \right] \\
+%
+&= -\left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) \nonumber\\
+ & \ \ \ \ + \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right)^2 
+          G_{loc}(i\omega_n) 
+\end{align}
+Combining all these terms we get for the effective bath
 \begin{align}
  \mathcal{G}_0^{-1}(i\omega_n)
- &= G_{loc}^{-1}(i\omega_n) + \Sigma_{imp}.
+ &= i\omega_n + \mu 
+    +\left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) \nonumber\\
+  &  -\left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right)^2 G_{loc}(i\omega_n) \nonumber\\
+  & + \frac{1}{G_{loc}(i\omega_n)}
+   \left( -1 + \left(i\omega_n + \mu -\Sigma_{imp}(i\omega_n) + \Sigma^{DC}(i\omega_n)\right) 
+         G_{loc}(i\omega_n) \right)^2 \\
+%
+&= G_{loc}(i\omega_n)^{-1} + \Sigma_{imp}(i\omega_n) - \Sigma^{DC}(i\omega_n).
 \end{align}
+
+
+
+
+
+
 
 
 % for the effective bath
