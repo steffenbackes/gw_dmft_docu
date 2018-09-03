@@ -10,9 +10,9 @@ module constants
  
    integer,parameter  :: norb   = 3
    integer,parameter  :: nprodstates = 6
-   integer,parameter  :: nr     = 25
-   integer,parameter  :: ntheta = 20
-   integer,parameter  :: nphi   = 20
+   integer,parameter  :: nr     = 15
+   integer,parameter  :: ntheta = 15
+   integer,parameter  :: nphi   = 15
    real(kr),parameter :: rmax   = 40.0_kr
    real(kr),parameter :: dr     = rmax/nr
    real(kr),parameter :: dtheta = pi/ntheta
@@ -111,11 +111,11 @@ module constants
 
          overlap = 0.0_kr
          do i=1,nr
-            r = i*dr
+            r = (i-1)*dr
             do j=1,ntheta
-               t = j*dtheta
+               t = (j-1)*dtheta
                do k=1,nphi
-                  p = k*dphi
+                  p = (k-1)*dphi
 
                   overlap = overlap + f1(r,t,p)*f2(r,t,p)
 
@@ -125,14 +125,15 @@ module constants
          overlap = overlap*dr*dphi*dtheta
       end function overlap
 
-      subroutine overlap_mat( basisarray, omat )
-         real(kr),intent(in)    :: basisarray(nprodstates,nr,ntheta,nphi)
-         real(kr),intent(inout) :: omat(nprodstates,nprodstates)
+      subroutine overlap_mat( basisarray, nstates, omat )
+         real(kr),intent(in)    :: basisarray(nstates,nr,ntheta,nphi)
+         integer(ki),intent(in) :: nstates
+         real(kr),intent(inout) :: omat(nstates,nstates)
          integer  :: i,j,k,m1,m2
 
          omat = 0.0_kr
-         do m1=1,nprodstates
-            do m2=1,nprodstates
+         do m1=1,nstates
+            do m2=1,nstates
                do i=1,nr
                   do j=1,ntheta
                      do k=1,nphi
@@ -191,30 +192,32 @@ module constants
 
       end subroutine diagonalize
 
-      function Utensor(m1,m2,m3,m4, basisarray )
+      function Utensor(m1,m2,m3,m4, nstates, basisarray )
          real(kr)               :: Utensor
-         integer(ki),intent(in) :: m1,m2,m3,m4
-         real(kr),intent(in)    :: basisarray(nprodstates,nr,ntheta,nphi)
+         integer(ki),intent(in) :: m1,m2,m3,m4,nstates
+         real(kr),intent(in)    :: basisarray(nstates,nr,ntheta,nphi)
          integer  :: i1,j1,k1,i2,j2,k2
          real(kr) :: r1,r2,t1,t2, dist
 
          Utensor = 0.0_kr
          do i1=1,nr
-            r1 = i1*dr
+            r1 = (i1-1)*dr
             do j1=1,ntheta
-               t1 = j1*dtheta
-               do k1=1,nphi
+               t1 = (j1-1)*dtheta
 
-                  do i2=1,nr
-                     r2 = i2*dr + dr/2
-                     do j2=1,ntheta
-                        t2 = j2*dtheta + dtheta/2
+               do i2=1,nr
+                  r2 = (i2-1)*dr + dr/2
+                  do j2=1,ntheta
+                     t2 = (j2-1)*dtheta + dtheta/2
+
+                     dist = 1.0_kr/sqrt(r1**2+r2**2-2*r1*r2*cos(t1-t2))
+
+                     do k1=1,nphi
                         do k2=1,nphi
                      
-                           dist = sqrt(r1**2+r2**2-2*r1*r2*cos(t1-t2))
                            Utensor = Utensor                                           &
                                 &  + basisarray(m1,i1,j1,k1)*basisarray(m2,i2,j2,k2)   &
-                                &   *( 1.0_kr/dist )                                   &
+                                &   *dist                                              &
                                 &   *basisarray(m3,i1,j1,k1)*basisarray(m4,i2,j2,k2)  
 
                         enddo
@@ -235,14 +238,15 @@ end module constants
 program main
    use constants
    implicit none
-   integer                 :: iounit=10, i,j,k,l,m1,m2
+   integer                 :: iounit=10, i,j,k,l,m1,m2,m3,m4
    real(kr)                :: tmp,tmp1,omatrix_sp(norb,norb),omatrix_prod(nprodstates,nprodstates)
    real(kr)                :: evals(nprodstates), evecs(nprodstates,nprodstates)
    real(kr)                :: Umat(nprodstates,nprodstates), Dmat(nprodstates,nprodstates), r,t,p
-   real(kr),allocatable    :: prodbasis(:,:,:,: )
+   real(kr),allocatable    :: spbasis(:,:,:,: ), prodbasis(:,:,:,: )
 
+   allocate( spbasis(norb,nr,ntheta,nphi) )
    allocate( prodbasis(nprodstates,nr,ntheta,nphi) )
-   write(*,'(A,F8.5,A)') 'Allocated product basis:',sizeof(prodbasis)/1024.0**3,' Gbyte'
+   write(*,'(A,F8.5,A)') 'Allocated product basis:',(sizeof(spbasis)+sizeof(prodbasis))/1024.0**3,' Gbyte'
 
    ! First assign function pointers
    spstates(1)%my_f_ptr => psi1
@@ -255,33 +259,48 @@ program main
    prodstates(5)%my_f_ptr => Bf5
    prodstates(6)%my_f_ptr => Bf6
 
-   write(*,'(A)') 'Calculate single-particle basis overlap...'
+   write(*,'(A)') 'Fill single-particle basis array with values...'
+   spbasis = (0.0_kr)
    do m1=1,norb
-      do m2=1,norb
-         omatrix_sp(m1,m2) = overlap( spstates(m1)%my_f_ptr, spstates(m2)%my_f_ptr )
-         write(*,'(F8.5,3X)',advance='no') omatrix_sp(m1,m2)
+      do i=1,nr
+         r = (i-1)*dr
+         do j=1,ntheta
+            t = (j-1)*dtheta
+            do k=1,nphi
+               p = (k-1)*dphi
+               spbasis(m1,i,j,k) = spstates(m1)%my_f_ptr(r,t,p)
+            enddo
+         enddo
       enddo
-      write(*,'(A)') ''
    enddo
-   write(*,'(A)') ''
 
    write(*,'(A)') 'Fill the initial product basis array with values...'
    prodbasis = (0.0_kr)
    do m1=1,nprodstates
       do i=1,nr
-         r = i*dr
+         r = (i-1)*dr
          do j=1,ntheta
-            t = j*dtheta
+            t = (j-1)*dtheta
             do k=1,nphi
-               p = k*dphi
+               p = (k-1)*dphi
                prodbasis(m1,i,j,k) = prodstates(m1)%my_f_ptr(r,t,p)
             enddo
          enddo
       enddo
    enddo
 
+   write(*,'(A)') 'Single-particle basis  overlap matrix...'
+   call overlap_mat( spbasis, norb, omatrix_sp )
+   do m1=1,norb
+      do m2=1,norb
+         write(*,'(F8.5,3X)',advance='no') omatrix_sp(m1,m2)
+      enddo
+      write(*,'(A)') ''
+   enddo
+   write(*,'(A)') ''
+
    write(*,'(A)') 'Product-basis overlap matrix...'
-   call overlap_mat( prodbasis, omatrix_prod )
+   call overlap_mat( prodbasis, nprodstates,omatrix_prod )
    do m1=1,nprodstates
       do m2=1,nprodstates
          write(*,'(F8.5,3X)',advance='no') omatrix_prod(m1,m2)
@@ -323,11 +342,11 @@ program main
    prodbasis = (0.0_kr)
    do m1=1,nprodstates
       do i=1,nr
-         r = i*dr
+         r = (i-1)*dr
          do j=1,ntheta
-            t = j*dtheta
+            t = (j-1)*dtheta
             do k=1,nphi
-               p = k*dphi
+               p = (k-1)*dphi
                do m2=1,nprodstates
                   prodbasis(m1,i,j,k) = prodbasis(m1,i,j,k) &
                          & + prodstates(m2)%my_f_ptr(r,t,p)*Umat(m2,m1)
@@ -338,7 +357,7 @@ program main
    enddo
 
    write(*,'(A)') 'Product-basis overlap matrix after orthonormalization...'
-   call overlap_mat( prodbasis, omatrix_prod )
+   call overlap_mat( prodbasis, nprodstates, omatrix_prod )
    do m1=1,nprodstates
       do m2=1,nprodstates
          write(*,'(F8.5,3X)',advance='no') omatrix_prod(m1,m2)
@@ -348,15 +367,44 @@ program main
    write(*,'(A)') ''
 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   do m1=1,norb
+      do m2=1,norb
+         do m3=1,norb
+            do m4=1,norb
+               write(*,'(I2,I2,I2,I2,A,F8.5,3X)',advance='no') m1,m2,m3,m4,' : ',Utensor(m1,m2,m3,m4, norb,spbasis )
+               write(*,'(A)') ''
+            enddo
+         enddo
+      enddo
+   enddo
+   stop 0
 
-   write(*,'(A)') 'Calculate density-density terms of the Coulomb interaction...'
-   do m1=1,nprodstates
-      do m2=1,nprodstates
-         write(*,'(F8.5,3X)',advance='no') Utensor(m1,m2,m1,m2, prodbasis )
+   write(*,'(A)') 'Calculate single-particle Umatrix...'
+   do m1=1,norb
+      do m2=1,norb
+         write(*,'(F8.5,3X)',advance='no') Utensor(m1,m2,m1,m2, norb,spbasis )
       enddo
       write(*,'(A)') ''
    enddo
 
+   write(*,'(A)') 'Calculate single-particle Jmatrix...'
+   do m1=1,norb
+      do m2=1,norb
+         write(*,'(F8.5,3X)',advance='no') Utensor(m1,m2,m2,m1, norb,spbasis )
+      enddo
+      write(*,'(A)') ''
+   enddo
+
+   write(*,'(A)') 'Calculate product basis density-density terms of the Coulomb interaction...'
+   do m1=1,nprodstates
+      do m2=1,nprodstates
+         write(*,'(F8.5,3X)',advance='no') Utensor(m1,m2,m1,m2, nprodstates, prodbasis )
+      enddo
+      write(*,'(A)') ''
+   enddo
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
    deallocate( prodbasis )
+   deallocate( spbasis )
 
 end program main
