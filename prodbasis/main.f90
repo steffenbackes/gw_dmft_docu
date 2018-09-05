@@ -13,13 +13,15 @@ module constants
    integer,parameter  :: nr     = 15
    integer,parameter  :: ntheta = 15
    integer,parameter  :: nphi   = 15
-   real(kr),parameter :: rmax   = 40.0_kr
+   real(kr),parameter :: rmax   = 30.0_kr
    real(kr),parameter :: dr     = rmax/nr
    real(kr),parameter :: dtheta = pi/ntheta
    real(kr),parameter :: dphi   = 2*pi/nphi
+   real(kr),parameter :: hartree = 27.21138602 !eV
 
    real(kr),parameter :: beta   = 40.0_kr
-   real(kr),parameter :: LagPref = sqrt((2.0/3)**3 /( 6*120.0 ))*10
+   real(kr),parameter :: Z = 1.0_kr
+   real(kr),parameter :: LagPref = sqrt( 1.0/720.0 ) * ( 2*Z/3.0_kr )**3.5_kr
 
       interface
          function func(r,t,p)
@@ -51,19 +53,19 @@ module constants
       function psi1(r,t,p)
          real(kr)            :: psi1
          real(kr),intent(in) :: r,t,p
-         psi1 = sin(2*p)*sin(t)**2   / ( 0.25*pi*sqrt(6.0) ) * LagPref*exp(-r/3.0)*(r*2/3.0)**2  ! 3dxy
+         psi1 = sin(2*p)*sin(t)**2  * 0.25*sqrt(15.0/pi)  * LagPref*exp(-r*Z/3.0)*r**2  /sqrt(0.01483)  ! 3dxy
       end function psi1
 
       function psi2(r,t,p)
          real(kr)             :: psi2
          real(kr),intent(in) :: r,t,p
-         psi2 = cos(p)*sin(t)*cos(t) / ( 0.25*pi*sqrt(2.0) ) * LagPref*exp(-r/3.0)*(r*2/3.0)**2  ! 3dyz
+         psi2 = cos(p)*sin(t)*cos(t) * sqrt(15/(4.0*pi)) * LagPref*exp(-r*Z/3.0)*r**2 / sqrt(0.01483)  ! 3dxz
       end function psi2
 
       function psi3(r,t,p)
          real(kr)            :: psi3
          real(kr),intent(in) :: r,t,p
-         psi3 = sin(p)*sin(t)*cos(t) / ( 0.25*pi*sqrt(2.0) ) * LagPref*exp(-r/3.0)*(r*2/3.0)**2  ! 3dxz
+         psi3 = sin(p)*sin(t)*cos(t) * sqrt(15/(4.0*pi)) * LagPref*exp(-r*Z/3.0)*r**2 / sqrt(0.01483)  ! 3dyz
       end function psi3
 
   ! simple product of all single-particle wave functions without duplicates 3*2 = 6 functions
@@ -130,15 +132,17 @@ module constants
          integer(ki),intent(in) :: nstates
          real(kr),intent(inout) :: omat(nstates,nstates)
          integer  :: i,j,k,m1,m2
+         real(kr) :: t
 
          omat = 0.0_kr
          do m1=1,nstates
             do m2=1,nstates
                do i=1,nr
                   do j=1,ntheta
+                     t = (j-1)*dtheta
                      do k=1,nphi
 
-                        omat(m1,m2) = omat(m1,m2) + basisarray(m1,i,j,k)*basisarray(m2,i,j,k)
+                        omat(m1,m2) = omat(m1,m2) + basisarray(m1,i,j,k)*basisarray(m2,i,j,k)*sin(t)
 
                      enddo
                   enddo
@@ -218,7 +222,8 @@ module constants
                            Utensor = Utensor                                           &
                                 &  + basisarray(m1,i1,j1,k1)*basisarray(m2,i2,j2,k2)   &
                                 &   *dist                                              &
-                                &   *basisarray(m3,i1,j1,k1)*basisarray(m4,i2,j2,k2)  
+                                &   *basisarray(m3,i1,j1,k1)*basisarray(m4,i2,j2,k2)   &
+                                &   *sin(t1)*sin(t2)  
 
                         enddo
                      enddo
@@ -226,7 +231,7 @@ module constants
                enddo
             enddo
          enddo
-         Utensor = Utensor*(dr*dphi*dtheta)**2
+         Utensor = Utensor*(dr*dphi*dtheta)**2 * hartree
       end function Utensor
 
 end module constants
@@ -367,17 +372,17 @@ program main
    write(*,'(A)') ''
 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   do m1=1,norb
-      do m2=1,norb
-         do m3=1,norb
-            do m4=1,norb
-               write(*,'(I2,I2,I2,I2,A,F8.5,3X)',advance='no') m1,m2,m3,m4,' : ',Utensor(m1,m2,m3,m4, norb,spbasis )
-               write(*,'(A)') ''
-            enddo
-         enddo
-      enddo
-   enddo
-   stop 0
+!   do m1=1,norb
+!      do m2=1,norb
+!         do m3=1,norb
+!            do m4=1,norb
+!               write(*,'(I2,I2,I2,I2,A,F8.5,3X)',advance='no') m1,m2,m3,m4,' : ',Utensor(m1,m2,m3,m4, norb,spbasis )
+!               write(*,'(A)') ''
+!            enddo
+!         enddo
+!      enddo
+!   enddo
+!   stop 0
 
    write(*,'(A)') 'Calculate single-particle Umatrix...'
    do m1=1,norb
@@ -395,13 +400,13 @@ program main
       write(*,'(A)') ''
    enddo
 
-   write(*,'(A)') 'Calculate product basis density-density terms of the Coulomb interaction...'
-   do m1=1,nprodstates
-      do m2=1,nprodstates
-         write(*,'(F8.5,3X)',advance='no') Utensor(m1,m2,m1,m2, nprodstates, prodbasis )
-      enddo
-      write(*,'(A)') ''
-   enddo
+!   write(*,'(A)') 'Calculate product basis density-density terms of the Coulomb interaction...'
+!   do m1=1,nprodstates
+!      do m2=1,nprodstates
+!         write(*,'(F8.5,3X)',advance='no') Utensor(m1,m2,m1,m2, nprodstates, prodbasis )
+!      enddo
+!      write(*,'(A)') ''
+!   enddo
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
    deallocate( prodbasis )
