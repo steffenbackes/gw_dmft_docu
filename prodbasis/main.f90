@@ -10,16 +10,19 @@ module constants
  
    integer,parameter  :: norb   = 3
    integer,parameter  :: nprodstates = 6
-   integer,parameter  :: nr     = 15
-   integer,parameter  :: ntheta = 15
-   integer,parameter  :: nphi   = 15
+   integer,parameter  :: nr     = 12
+   integer,parameter  :: ntheta = 12
+   integer,parameter  :: nphi   = 12
    real(kr),parameter :: rmax   = 1.5_kr
    real(kr),parameter :: dr     = rmax/nr
    real(kr),parameter :: dtheta = pi/ntheta
    real(kr),parameter :: dphi   = 2*pi/nphi
    real(kr),parameter :: hartree = 27.21138602 !eV
 
-   real(kr),parameter :: beta   = 40.0_kr
+   real(kr),parameter :: beta   = 10.0_kr
+   integer,parameter  :: nw     = 5
+   real(kr),parameter :: wmax   = 5.0_kr
+   real(kr),parameter :: dw     = wmax/nw
    real(kr),parameter :: Z = 26.0_kr
    real(kr),parameter :: LagPref = sqrt( 1.0/720.0 ) * ( 2*Z/3.0_kr )**3.5_kr 
 
@@ -106,8 +109,8 @@ module constants
       end function Bf6
 
       subroutine overlap_mat( basisarray, nstates, omat )
-         real(kr),intent(in)    :: basisarray(nstates,nr,ntheta,nphi)
          integer(ki),intent(in) :: nstates
+         real(kr),intent(in)    :: basisarray(nstates,nr,ntheta,nphi)
          real(kr),intent(inout) :: omat(nstates,nstates)
          integer  :: i,j,k,m1,m2
          real(kr) :: r,t, sint
@@ -138,10 +141,10 @@ module constants
          real(kr),intent(inout) :: evals(:)
          real(kr),intent(inout) :: evecs(:,:)
 
-         real,allocatable :: matrix(:,:)  ! matrix for SSYEV
-         integer            :: INFO_lpck, m1,m2
-         real,allocatable :: W_lpck(:), WORK_lpck(:)
-         external SSYEV
+         double precision,allocatable :: matrix(:,:) 
+         integer                      :: INFO_lpck, m1,m2
+         double precision,allocatable :: W_lpck(:), WORK_lpck(:)
+         external DSYEV
 
          allocate( matrix(nstates,nstates) )
          allocate( W_lpck(nstates) )
@@ -154,8 +157,7 @@ module constants
             enddo
          enddo
 
-            ! SSYEV( JOBZ, UPLO, N,        A,     LDA,     W,       WORK,      LWORK,      INFO )
-         call SSYEV( 'V', 'U', nstates, matrix, nstates, W_lpck, WORK_lpck, 3*nstates-1, INFO_lpck )
+         call DSYEV( 'V', 'U', nstates, matrix, nstates, W_lpck, WORK_lpck, 3*nstates-1, INFO_lpck )
 
          if (INFO_lpck /= 0) then
             write(*,'(A,I2)') 'ERROR: Diagonalization returned: ',INFO_lpck
@@ -312,7 +314,51 @@ module constants
          Utensor_prod = Utensor_prod*(dr*dphi*dtheta)**2 * hartree
       end function Utensor_prod
 
-      recursive real function det(n,A) result(res)
+      subroutine get_polarization(pol, basisarray )
+         complex(kr),intent(inout) :: pol(nr,ntheta,nphi, nr,ntheta,nphi, nw) 
+         real(kr),intent(in)       :: basisarray(norb,nr,ntheta,nphi)
+         integer     :: i1,j1,k1,i2,j2,k2, m1,m2,n
+         real(kr)    :: eps(norb)
+         complex(kr) :: prefac
+
+         eps(1) = -0.01_kr
+         eps(2) =  0.0_kr
+         eps(3) =  0.01_kr
+
+         pol = (0.0_kr)
+
+         do m1=1,norb
+            do m2=1,norb
+               do n=1,nw
+                  prefac = ( 1.0_kr/(1.0_kr+exp(beta*eps(m1))) - 1.0_kr/(1.0_kr+exp(beta*eps(m2)))  ) &
+                      &    /( (n-1)*dw + eps(m1) - eps(m2) + CMPLX(0.0_kr,0.01_kr,kind=kr) )
+
+                  do i1=1,nr
+                     do j1=1,ntheta
+                        do k1=1,nphi
+                           do i2=1,nr
+                              do j2=1,ntheta
+                                 do k2=1,nphi
+
+                                    pol(i1,j1,k1, i2,j2,k2, n) = pol(i1,j1,k1, i2,j2,k2, n) &
+                                          & + prefac*basisarray(m1,i1,j1,k1)                &
+                                          &         *basisarray(m2,i1,j1,k1)                &
+                                          &         *basisarray(m1,i2,j2,k2)                &
+                                          &         *basisarray(m2,i2,j2,k2)              
+                                 enddo
+                              enddo
+                           enddo
+
+                        enddo
+                     enddo
+                  enddo      
+
+               enddo
+            enddo
+         enddo
+      end subroutine get_polarization
+
+      recursive real(kr) function det(n,A) result(res)
          integer(ki),intent(in) :: n
          real(kr),intent(in)    :: A(n,n)
 
@@ -320,7 +366,7 @@ module constants
          real(kr)             :: d
          real(kr),allocatable :: B(:,:)
 
-         d=0.0
+         d=0.0_kr
          if (n==1) then
             d = A(1,1)
          else
@@ -355,17 +401,20 @@ end module constants
 program main
    use constants
    implicit none
-   integer                 :: iounit=10, i,j,k,l,m1,m2,m3,m4
-   real(kr)                :: tmp,tmp1,omatrix_sp(norb,norb),omatrix_prod(nprodstates,nprodstates)
+   integer                 :: i,j,k,l,m1,m2,m3,m4
+   real(kr)                :: tmp,omatrix_sp(norb,norb),omatrix_prod(nprodstates,nprodstates)
    real(kr)                :: evals(nprodstates), evecs(nprodstates,nprodstates)
    real(kr)                :: Umat(nprodstates,nprodstates), Dmat(nprodstates,nprodstates), r,t,p,sint
    real(kr),allocatable    :: spbasis(:,:,:,: ), prodbasis(:,:,:,: ), proj_spprod(:,:,:)
    real(kr)                :: Vcoul_prod(nprodstates,nprodstates), Vcoul_sp(norb**2,norb**2)
+   complex(kr),allocatable :: pol_rspace(:,:,:, :,:,:, : )
 
    allocate( spbasis(norb,nr,ntheta,nphi) )
    allocate( prodbasis(nprodstates,nr,ntheta,nphi) )
    allocate( proj_spprod(norb,norb,nprodstates) )
-   write(*,'(A,F7.3,A)') 'Allocated product basis:',(sizeof(spbasis)+sizeof(prodbasis))/1024.0**3,' Gbyte'
+   allocate( pol_rspace(nr,ntheta,nphi, nr,ntheta,nphi, nw) )
+   write(*,'(A,F7.3,A)') 'Allocated polarization in real space:', sizeof(pol_rspace)/1024.0_kr**3,' Gbyte'
+   write(*,'(A,F7.3,A)') 'Allocated product basis:',(sizeof(spbasis)+sizeof(prodbasis))/1024.0_kr**3,' Gbyte'
 
    ! First assign function pointers
    spstates(1)%my_f_ptr => psi1
@@ -432,7 +481,7 @@ program main
    call diagonalize(omatrix_prod, nprodstates, evals, evecs)
    Dmat = (0.0_kr)
    do m1=1,nprodstates
-      write(*,'(ES12.5,2X)',advance='no') evals(m1)
+      write(*,'(ES10.3,2X)',advance='no') evals(m1)
       Dmat(m1,m1) = 1.0_kr/sqrt(evals(m1))
    enddo
    write(*,'(A)') ''
@@ -565,6 +614,12 @@ program main
    enddo
    write(*,'(A)') ''
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!   write(*,'(A)') 'Generate polarization in real space...'
+!   call get_polarization(pol_rspace, spbasis )
+!write(*,*) pol_rspace(1,1,1, 1,1,1, :)
+!stop 0
+
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -608,16 +663,21 @@ program main
    do m1=1,nprodstates
       do m2=1,nprodstates
          Vcoul_prod(m1,m2) = Utensor_prod(m1,m2, prodbasis )
-      enddo
-   enddo
-   do m1=1,nprodstates
-      do m2=1,nprodstates
-         Vcoul_prod(m1,m2) = 0.5*( Vcoul_prod(m1,m2)+Vcoul_prod(m2,m1) ) ! symmetrize to get rid of numerical errors
          write(*,'(F7.3,2X)',advance='no') Vcoul_prod(m1,m2)
       enddo
       write(*,'(A)') ''
    enddo
-   write(*,'(A,ES12.5)') 'Determinant:',det(nprodstates,Vcoul_prod)
+   write(*,'(A)') 'Symmetrize Coulomb interaction matrix in product basis...'
+   do m1=1,nprodstates
+      do m2=1,nprodstates
+         tmp = 0.5*( Vcoul_prod(m1,m2)+Vcoul_prod(m2,m1) ) ! symmetrize to get rid of numerical errors
+         Vcoul_prod(m1,m2) = tmp
+         Vcoul_prod(m2,m1) = tmp
+         write(*,'(F7.3,2X)',advance='no') Vcoul_prod(m1,m2)
+      enddo
+      write(*,'(A)') ''
+   enddo
+   write(*,'(A,ES10.3)') 'Determinant:',det(nprodstates,Vcoul_prod)
    write(*,'(A)') ''
 
    write(*,'(A)') 'Full Coulomb matrix in index-combination basis...'
@@ -632,7 +692,7 @@ program main
       write(*,'(A)') ''
    enddo
    enddo
-   write(*,'(A,ES12.5)') 'Determinant:',det(norb**2,Vcoul_sp)
+   write(*,'(A,ES10.3)') 'Determinant:',det(norb**2,Vcoul_sp)
    write(*,'(A)') ''
 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -648,11 +708,13 @@ program main
             enddo
          enddo
          write(*,'(F7.3,2X)',advance='no') tmp
+         Vcoul_sp((m1-1)*norb+m2, (m3-1)*norb+m4) = tmp
       enddo
       enddo
       write(*,'(A)') ''
    enddo
    enddo
+   write(*,'(A)') 'Copy this to the index-combination tensor since it is better...' 
    write(*,'(A)') ''
  
    write(*,'(A)') 'Full Coulomb interaction matrix in product basis generated from 4-index tensor...'
@@ -681,19 +743,18 @@ program main
    write(*,'(A)') 'Eigenvalues of the Coulomb matrix in the product-basis...'
    call diagonalize(Vcoul_prod, nprodstates, evals, evecs)
    do m1=1,nprodstates
-      write(*,'(ES12.5,2X)',advance='no') evals(m1)
+      write(*,'(ES10.3,2X)',advance='no') evals(m1)
    enddo
    write(*,'(A)') ''
 
    write(*,'(A)') 'Eigenvalues of the Coulomb matrix in the index-combination basis...'
    call diagonalize(Vcoul_sp, norb**2, evals, evecs)
    do m1=1,norb**2
-      write(*,'(ES12.5,2X)',advance='no') evals(m1)
+      write(*,'(ES10.3,2X)',advance='no') evals(m1)
    enddo
    write(*,'(A)') ''
 
    write(*,'(A)') ''
-
 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    write(*,'(A)') 'Inverse Coulomb interaction matrix in product basis...'
@@ -736,5 +797,6 @@ program main
    deallocate( prodbasis )
    deallocate( spbasis )
    deallocate( proj_spprod )
+   deallocate( pol_rspace )
 
 end program main
