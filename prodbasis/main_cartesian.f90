@@ -10,14 +10,14 @@ module constants
  
    integer,parameter  :: norb   = 3
    integer,parameter  :: nprodstates = 6
-   integer,parameter  :: nx          = 25
+   integer,parameter  :: nx          = 12
    real(kr),parameter :: xmax        = 3.0_kr
    real(kr),parameter :: dx     = xmax/nx
    real(kr),parameter :: hartree = 27.21138602 !eV
 
    real(kr),parameter :: beta   = 10.0_kr
-   integer,parameter  :: nw     = 5
-   real(kr),parameter :: wmax   = 5.0_kr
+   integer,parameter  :: nw     = 2
+   real(kr),parameter :: wmax   = 0.06_kr
    real(kr),parameter :: dw     = wmax/nw
    real(kr),parameter :: Zatom = 26.0_kr
    real(kr),parameter :: LagPref = sqrt( 1.0/720.0 ) * ( 2*Zatom/3.0_kr )**3.5_kr 
@@ -212,6 +212,48 @@ module constants
 
       end subroutine invert
 
+      subroutine invert_cplx(A, nstates)
+         complex(kr),intent(inout)    :: A(:,:)
+         integer(ki),intent(in) :: nstates
+
+         complex(8),allocatable :: matrix(:,:)  ! matrix for DGETRI
+         integer                :: INFO_lpck, m1,m2, ipiv(nstates)
+         complex(8)             :: WORK_lpck(nstates)
+         external ZGETRI
+         external ZGETRF
+
+         allocate( matrix(nstates,nstates) )
+
+         ! copy data
+         do m1=1,nstates
+            do m2=1,nstates
+               matrix(m1,m2) = A(m1,m2)
+            enddo
+         enddo
+
+         call ZGETRF( nstates, nstates, matrix, nstates, ipiv, INFO_lpck )
+         if (INFO_lpck /= 0) then
+            write(*,'(A,I2)') 'ERROR: DGETRF returned: ',INFO_lpck
+            stop
+         endif
+
+         call ZGETRI( nstates, matrix, nstates, ipiv, WORK_lpck, nstates, INFO_lpck )
+         if (INFO_lpck /= 0) then
+            write(*,'(A,I2)') 'ERROR: DGETRI returned: ',INFO_lpck
+            stop
+         endif
+
+         ! copy data
+         do m1=1,nstates
+            do m2=1,nstates
+               A(m1,m2) = matrix(m1,m2)
+            enddo
+         enddo
+
+         deallocate( matrix )
+
+      end subroutine invert_cplx
+
       function Utensor_sp(m1,m2,m3,m4, basisarray )
          real(kr)               :: Utensor_sp
          integer(ki),intent(in) :: m1,m2,m3,m4
@@ -276,24 +318,26 @@ module constants
          Utensor_prod = Utensor_prod*dx**6 * hartree
       end function Utensor_prod
 
-      subroutine get_polarization(pol, basisarray )
+      subroutine get_polarization(pol, eps, basisarray )
          complex(kr),intent(inout) :: pol(nx,nx,nx, nx,nx,nx, nw) 
+         real(kr),intent(in)       :: eps(norb)
          real(kr),intent(in)       :: basisarray(norb,nx,nx,nx)
          integer     :: i1,j1,k1,i2,j2,k2, m1,m2,n
-         real(kr)    :: eps(norb)
          complex(kr) :: prefac
-
-         eps(1) = -0.01_kr
-         eps(2) =  0.0_kr
-         eps(3) =  0.01_kr
 
          pol = (0.0_kr)
 
          do m1=1,norb
             do m2=1,norb
                do n=1,nw
+                  write(*,'(F7.2,A)') (norb*nw*(m1-1)+(m2-1)*nw+n)*100.0/(norb*norb*nw),'% done...'
+
                   prefac = ( 1.0_kr/(1.0_kr+exp(beta*eps(m1))) - 1.0_kr/(1.0_kr+exp(beta*eps(m2)))  ) &
-                      &    /( (n-1)*dw + eps(m1) - eps(m2) + CMPLX(0.0_kr,0.01_kr,kind=kr) )
+                      &    /( (n-1)*dw + eps(m1) - eps(m2) + CMPLX(0.0_kr,0.001_kr,kind=kr) )
+
+                  if ( abs(eps(m1)-eps(m2))<0.000001_kr .and. abs((n-1)*dw)<0.000001_kr ) then
+                     prefac = -beta*exp(beta*eps(m2))/( exp(beta*eps(m2)) + 1 )**2
+                  endif 
 
                   do i1=1,nx
                      do j1=1,nx
@@ -307,6 +351,7 @@ module constants
                                           &         *basisarray(m2,i1,j1,k1)                &
                                           &         *basisarray(m1,i2,j2,k2)                &
                                           &         *basisarray(m2,i2,j2,k2)              
+
                                  enddo
                               enddo
                            enddo
@@ -319,6 +364,64 @@ module constants
             enddo
          enddo
       end subroutine get_polarization
+
+      subroutine get_polarization_lattice(pol,eps )
+         complex(kr),intent(inout) :: pol(norb**2,norb**2, nw) 
+         real(kr),intent(in)       :: eps(norb)
+
+         integer     :: m1,m2,m3,m4,n
+         complex(kr) :: prefac
+
+
+         pol = (0.0_kr)
+
+         do m1=1,norb
+            do m2=1,norb
+               do n=1,nw
+
+                         prefac = ( 1.0_kr/(1.0_kr+exp(beta*eps(m1))) - 1.0_kr/(1.0_kr+exp(beta*eps(m2)))  ) &
+                             &    /( (n-1)*dw + eps(m1) - eps(m2) + CMPLX(0.0_kr,0.001_kr,kind=kr) )
+
+                         if ( abs(eps(m1)-eps(m2))<0.000001_kr .and. abs((n-1)*dw)<0.000001_kr ) then
+                            prefac = -beta*exp(beta*eps(m2))/( exp(beta*eps(m2)) + 1 )**2
+                         endif 
+
+                         pol((m1-1)*norb+m2,(m1-1)*norb+m2, n) = pol((m1-1)*norb+m2,(m1-1)*norb+m2, n)  + prefac
+
+               enddo
+            enddo
+         enddo
+      end subroutine get_polarization_lattice
+
+      function Polarization_prod(m1,m2,n, pol, basisarray )
+         real(kr)               :: Polarization_prod
+         integer(ki),intent(in) :: m1,m2,n
+         complex(kr),intent(in) :: pol(nx,nx,nx, nx,nx,nx, nw) 
+         real(kr),intent(in)    :: basisarray(nprodstates,nx,nx,nx)
+         integer  :: i1,j1,k1,i2,j2,k2
+
+         Polarization_prod = 0.0_kr
+         do i1=1,nx
+            do j1=1,nx
+               do k1=1,nx
+
+                  do i2=1,nx
+                     do j2=1,nx
+                        do k2=1,nx
+
+                           Polarization_prod = Polarization_prod &
+                                &  + basisarray(m1,i1,j1,k1)     &
+                                &   *basisarray(m2,i2,j2,k2)     &
+                                &   *pol(i1,j1,k1, i2,j2,k2, n)                                              
+
+                        enddo
+                     enddo
+                  enddo      
+               enddo
+            enddo
+         enddo
+         Polarization_prod = Polarization_prod*dx**6 
+      end function Polarization_prod
 
       recursive real(kr) function det(n,A) result(res)
          integer(ki),intent(in) :: n
@@ -368,15 +471,27 @@ program main
    real(kr)                :: evals(nprodstates), evecs(nprodstates,nprodstates)
    real(kr)                :: Umat(nprodstates,nprodstates), Dmat(nprodstates,nprodstates), x,y,z
    real(kr),allocatable    :: spbasis(:,:,:,: ), prodbasis(:,:,:,: ), proj_spprod(:,:,:)
-   real(kr)                :: Vcoul_prod(nprodstates,nprodstates), Vcoul_sp(norb**2,norb**2)
-   complex(kr),allocatable :: pol_rspace(:,:,:, :,:,:, : )
+   real(kr)                :: Vcoul_prod(nprodstates,nprodstates), Vcoul_sp(norb**2,norb**2), eps(norb)
+   complex(kr),allocatable :: pol_rspace(:,:,:, :,:,:, : ), pol_prod(:,:,:)
+   complex(kr),allocatable :: pol_lattice(:,:, : ), pol_lattice_proj(:,:, : )
+   complex(kr),allocatable :: W_prod(:,:, : ), W_lattice(:,:, : ), W_lattice_proj(:,:, : )
+   complex(kr)             :: tmp_cplx
 
    allocate( spbasis(norb,nx,nx,nx) )
    allocate( prodbasis(nprodstates,nx,nx,nx) )
    allocate( proj_spprod(norb,norb,nprodstates) )
    allocate( pol_rspace(nx,nx,nx, nx,nx,nx, nw) )
+   allocate( pol_prod(nprodstates,nprodstates, nw) )
+   allocate( pol_lattice(norb**2,norb**2, nw) )
+   allocate( pol_lattice_proj(norb**2,norb**2, nw) )
+   allocate( W_prod(nprodstates,nprodstates, nw) )
+   allocate( W_lattice(norb**2,norb**2, nw) )
+   allocate( W_lattice_proj(norb**2,norb**2, nw) )
    write(*,'(A,F7.3,A)') 'Allocated polarization in real space:', sizeof(pol_rspace)/1024.0_kr**3,' Gbyte'
    write(*,'(A,F7.3,A)') 'Allocated product basis:',(sizeof(spbasis)+sizeof(prodbasis))/1024.0_kr**3,' Gbyte'
+   eps(1) =  -0.01_kr
+   eps(2) =  0.0_kr
+   eps(3) =  0.03_kr
 
    ! First assign function pointers
    spstates(1)%my_f_ptr => psi1
@@ -566,10 +681,69 @@ program main
    write(*,'(A)') ''
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-!   write(*,'(A)') 'Generate polarization in real space...'
-!   call get_polarization(pol_rspace, spbasis )
-!write(*,*) pol_rspace(1,1,1, 1,1,1, :)
-!stop 0
+   write(*,'(A)') 'Polarization matrix from continuum in product basis...'
+   call get_polarization(pol_rspace, eps, spbasis )
+   do i=1,nw
+      write(*,'(A,F8.3,A)') 'w = ',(i-1)*dw, ':'
+      do m1=1,nprodstates
+         do m2=1,nprodstates
+            pol_prod(m1,m2,i) = Polarization_prod(m1,m2,i, pol_rspace, prodbasis )
+            write(*,'(F8.3,1X,F8.3,4X)',advance='no') real(pol_prod(m1,m2,i)),aimag(pol_prod(m1,m2,i))
+         enddo
+         write(*,'(A)') ''
+      enddo
+   enddo
+   write(*,'(A)') ''
+
+   write(*,'(A)') 'Polarization matrix generated from the lattice in index-combination basis...'
+   call get_polarization_lattice(pol_lattice, eps )
+   do i=1,nw
+      write(*,'(A,F8.3,A)') 'w = ',(i-1)*dw, ':'
+      do m1=1,norb
+      do m2=1,norb
+         do m3=1,norb
+         do m4=1,norb
+            write(*,'(F8.3,1X,F8.3,4X)',advance='no') pol_lattice((m1-1)*norb+m2,(m3-1)*norb+m4,i)
+         enddo
+         enddo
+         write(*,'(A)') ''
+      enddo
+      enddo
+   enddo
+   write(*,'(A)') ''
+
+   write(*,'(A)') 'Polarization matrix in index-combination generated from Product representation...'
+   do l=1,nw
+      write(*,'(A,F8.3,A)') 'w = ',(l-1)*dw, ':'
+      do m1=1,norb
+      do m2=1,norb
+         do m3=1,norb
+         do m4=1,norb
+            tmp_cplx = 0.0_kr
+            do i=1,nprodstates
+            do j=1,nprodstates
+               tmp_cplx = tmp_cplx + proj_spprod(m1,m3,i) * pol_prod(i,j,l) * proj_spprod(m4,m2,j)
+            enddo
+            enddo
+            write(*,'(F8.3,1X,F8.3,4X)',advance='no') tmp_cplx
+            pol_lattice_proj((m1-1)*norb+m2,(m3-1)*norb+m4,l) = tmp_cplx
+         enddo
+         enddo
+         write(*,'(A)') ''
+      enddo
+      enddo
+   enddo
+   write(*,'(A)') ''
+
+
+   !do i=1,nw
+   !   write(*,'(3(ES10.3,3X))') (i-1)*dw, real(pol_rspace(nx/2+1,nx/2+1,nx/2+1, nx/2+1,nx/2+1,nx/2+1, i)), &
+   !                                 &   aimag(pol_rspace(nx/2+1,nx/2+1,nx/2+1, nx/2+1,nx/2+1,nx/2+1, i)) 
+   !enddo
+   !do i=1,nw
+   !   write(*,'(3(ES10.3,3X))') (i-1)*dw, real(pol_lattice(1,1,1,1, i)),aimag(pol_lattice(1,1,1,1, i)) 
+   !enddo
+
 
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -733,9 +907,69 @@ program main
    enddo
    write(*,'(A)') ''
 
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+   write(*,'(A)') 'Screened interaction matrix from continuum in product basis...'
+   do l=1,nw
+      write(*,'(A,F8.3,A)') 'w = ',(l-1)*dw, ':'
+      W_prod(:,:,l) = Vcoul_prod - pol_prod(:,:,l)
+      call invert_cplx(W_prod(:,:,l), nprodstates)
+      do m1=1,nprodstates
+         do m2=1,nprodstates
+            write(*,'(F8.3,1X,F8.3,4X)',advance='no') W_prod(m1,m2,l)
+         enddo
+         write(*,'(A)') ''
+      enddo
+   enddo
+
+   write(*,'(A)') 'Screened interaction matrix in index-combination generated from contiuum Product representation...'
+   do l=1,nw
+      write(*,'(A,F8.3,A)') 'w = ',(l-1)*dw, ':'
+      do m1=1,norb
+      do m2=1,norb
+         do m3=1,norb
+         do m4=1,norb
+            tmp_cplx = (0.0_kr,0.0_kr)
+            do i=1,nprodstates
+               do j=1,nprodstates
+                  tmp_cplx = tmp_cplx + proj_spprod(m1,m3,i) * W_prod(i,j,l) * proj_spprod(m4,m2,j)
+               enddo
+            enddo
+            write(*,'(F8.3,1X,F8.3,4X)',advance='no') tmp_cplx
+         enddo
+         enddo
+         write(*,'(A)') ''
+      enddo
+      enddo
+   enddo
+   write(*,'(A)') ''
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+   write(*,'(A)') 'Screened interaction matrix in index-comvination 100% from lattice...'
+   do l=1,nw
+      write(*,'(A,F8.3,A)') 'w = ',(l-1)*dw, ':'
+      W_lattice(:,:,l) = Vcoul_sp + pol_lattice(:,:,l)
+      call invert_cplx(W_lattice(:,:,l), norb**2) 
+      do m1=1,norb**2
+         do m2=1,norb**2
+            write(*,'(F8.3,1X,F8.3,4X)',advance='no') W_lattice(m1,m2,l)
+         enddo
+         write(*,'(A)') ''
+      enddo
+   enddo
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    deallocate( prodbasis )
    deallocate( spbasis )
    deallocate( proj_spprod )
    deallocate( pol_rspace )
+   deallocate( pol_prod )
+   deallocate( pol_lattice )
+   deallocate( pol_lattice_proj )
+   deallocate( W_prod )
+   deallocate( W_lattice )
+   deallocate( W_lattice_proj )
 
 end program main
