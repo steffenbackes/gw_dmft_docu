@@ -3840,6 +3840,103 @@ Combining all these terms we get for the effective bath
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Reperiodization of cluster approaches}
+
+We assume for simplicity that we performed a
+cluster calculation of a dimer for a one-orbital 1D Hubbard model.
+
+For general consideration we first discuss how reperiodization works.
+For the 1D Hubbard model with the dimer unit cell and nearest-neighbour hopping
+and lattice spacing $a$
+the Hamiltonian is given by
+\begin{align}
+H(k) &=
+t \begin{pmatrix}
+  0 & 1+\mathrm{e}^{ik2a} \\
+  1+\mathrm{e}^{-ik2a} & 0
+ \end{pmatrix} .
+\end{align}
+Now for reperiodization we transform into realspace
+\begin{align}t
+ \begin{pmatrix}
+  0 & \delta(r)+\delta(r-2a) \\
+  \delta(r)+\delta(r+2a) & 0
+ \end{pmatrix} .
+\end{align}
+
+
+\subsection{Reperiodization of the Green's function}
+For the local cluster Green's function we have (the frequency index is dropped for simplicity)
+\begin{align}
+ \begin{pmatrix}
+  G_{11} & G_{12} \\
+  G_{21} & G_{22}
+ \end{pmatrix}
+&= G_{imp} \\
+&= G^{cluster}_{loc} \\
+&= \sum_k \left[ (w+i\delta+\mu )\unity - H^{cluster}(k) - \Sigma_{imp} \right]^{-1}.
+\end{align}
+
+\begin{align}
+G(k) &=
+\left[ 
+\begin{pmatrix}
+  \tilde{\omega} & 0 \\
+  0 & \tilde{\omega}
+ \end{pmatrix} 
+- \begin{pmatrix}
+  0 & t+t\mathrm{e}^{ik} \\
+  t+t\mathrm{e}^{-ik} & 0
+ \end{pmatrix} 
+-  \begin{pmatrix}
+  \Sigma_{loc} & \Sigma_{inter} \\
+  \Sigma_{inter} & \Sigma_{loc}
+ \end{pmatrix}
+ \right]^{-1} \\
+%
+&= 
+\frac{1}{ (\tilde{\omega}-\Sigma_{loc})^2 - (\Sigma_{inter}+t+t\mathrm{e}^{-ik})(\Sigma_{inter}+t+t\mathrm{e}^{ik}) }
+ \nonumber \\ 
+ & \times \left[
+\begin{pmatrix}
+  \tilde{\omega}-\Sigma_{loc} & 0 \\
+  0 & \tilde{\omega}-\Sigma_{loc}
+ \end{pmatrix} 
++ \begin{pmatrix}
+  0 & \Sigma_{inter}+t+t\mathrm{e}^{-ik} \\
+  \Sigma_{inter}+t+t\mathrm{e}^{ik} & 0
+ \end{pmatrix} 
+ \right]
+\end{align}
+
+
+\subsection{Reperiodization of the Selfenergy}
+For the impurity Selfnergy we have
+\begin{align}
+\Sigma_{imp}
+ \begin{pmatrix}
+  \Sigma_{11} & \Sigma_{12} \\
+  \Sigma_{21} & \Sigma_{22}
+ \end{pmatrix},
+\end{align}
+with the onsite Selfenergies
+\begin{align}
+ \Sigma_{11} &= \Sigma_{22} = \Sigma_{loc},
+\end{align}
+and the intersite Selfenergies
+\begin{align}
+ \Sigma_{21} &= \Sigma_{12} = \Sigma_{inter}.
+\end{align}
+The final momentum-dependent Selfenergy is the 
+\begin{align}
+ \Sigma(k) &= \Sigma_{loc} + \Sigma_{inter} 2 \cos( k),
+\end{align}
+and thus the final Green's function is given by
+\begin{align}
+ G(k) &= \left[ (w+i\delta+\mu ) - \epsilon(k) - \Sigma_{loc} - \Sigma_{inter} 2 \cos( k) \right]^{-1}
+\end{align}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
