@@ -3996,6 +3996,61 @@ and thus the final Green's function is given by
  G(k) &= \left[ (w+i\delta+\mu ) - \epsilon(k) - \Sigma_{loc} - \Sigma_{inter} 2 \cos( k) \right]^{-1}
 \end{align}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Proper symmetrization of matrix elements}
+In order to make use of certain symmetries like spin- or orbital-degeneracy,
+we want to enforce this symmetry in the output of the impurity solver.
+This is usually done by averaging the result of all matrix elements
+connected by symmetry.
+
+\subsection{What to average?}
+\textbf{The averaging should only be done on the impurity Green's function!}
+It should not be done on the impurity Selfenergy. Instead, after employing
+all symmetry operations on the impurity Green's function
+the Dyson equation has to be used to obtain the impurity Selfenergy.
+One argument is that only the Green's function is related to an observable property, while 
+the Selfenergy is not. 
+Apart from that, consider the example
+of a simple half-filled one-orbital Hubbard model for large interactions deep in the 
+insulating antiferromagnetic phase, but we want to force it to be paramagnetic.
+If we solve the impurity model, the impurity Green's function will be fully spin-polarized
+and will not show any spectral weight at the Fermi level.
+Since there are no dynamical fluctuations at $E_F$, the imaginary part of the Selfenergy 
+will go to zero at the Fermi level for both spins! This does not recover the right behaviour
+in the paramagnetic phase.
+Instead, if we average the impurity Green's function both spins will be identical
+and there is still no spectral weight at the Fermi level. Employing the Dyson
+equation with the non-interaction Green's function which shows weight at the Fermi level
+we will correctly obtain a diverging imaginary part of the Selfenergy at $E_F$.
+
+\subsection{How to average?}
+Let us consider states $\ket{i}$ and $\ket{j}$, which should be degenerate i.e. 
+all expectation values should yield the same result. 
+For the diagonal parts of an operator $A_{ii} = \braket{i|A|i}$ 
+this is easily done by averaging $A^{avg}_{ii} = A^{avg}_{jj} = (A_{ii}+A_{jj})/2$.
+This can be formulated as
+\begin{align}
+ A^{avg}_{ii} = A^{avg}_{jj}	
+ &= \frac{1}{2} (A_{ii}+A_{jj}) \\
+ &= \frac{1}{2} \big(\braket{i|A|i} + \braket{j|A|j} \big) \\
+ &= \left( \frac{\bra{i}+\bra{j}}{\sqrt{2}} \right) A \left( \frac{\ket{i}+\ket{j}}{\sqrt{2}} \right)
+    - \frac{1}{2} \left( \braket{i|A|j} + \braket{j|A|i} \right)
+\end{align}
+This does not help...
+
+For offdiagonal terms if we have two degenerate states $\ket{i}$, $\ket{j}$ and 
+another distinct state $\ket{a}$, we want
+\begin{align}
+ A_{ai} &= A_{aj} = A_{ia}^* = A_{ja}^*
+\end{align}
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
