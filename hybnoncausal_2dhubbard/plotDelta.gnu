@@ -8,11 +8,11 @@ ysize = 0.9
 set key samplen 2 at graph 0.99, graph 0.15
 set xzeroaxis lt 1 lc 7 lw 1
 set xlabel "{/Symbol t} [1/eV]"
-set size xsize,2*ysize
+set size 2*xsize,ysize
 set multiplot
 set size xsize,ysize
 
-set origin 0,ysize
+set origin 0,0
 set ylabel "{/Symbol D}({/Symbol t}) [eV]" offset 1
 set label 1 "2D Hubbard model" at graph 0.12, graph 0.85
 set label 2 "U=2, t=1, n=1" at graph 0.12, graph 0.75
@@ -21,7 +21,7 @@ p \
 'delta_tauU2.dat'        u 1:2 w l lt 1 lw 3 lc 1 ti "non-causal" ,\
 'delta_tauU2_causal.dat' u 1:2 w l lt 1 lw 3 lc 3 ti "causal" 
 
-set origin 0,0
+set origin xsize,0
 set label 2 "U=4, t=1, n=1" at graph 0.12, graph 0.75
 p \
 'delta_tau.dat'        u 1:2 w l lt 1 lw 3 lc 1 ti "non-causal" ,\
@@ -39,12 +39,12 @@ set xrange [39:40]
 set xtics 0.5
 set ytics 0.5
 
-set origin 0.1*xsize, 1.15*ysize
+set origin 0.1*xsize, 0.15*ysize
 p \
 'delta_tauU2.dat'        u 1:2 w l lt 1 lw 3 lc 1 ti "non-causal" ,\
 'delta_tauU2_causal.dat' u 1:2 w l lt 1 lw 3 lc 3 ti "causal" 
 
-set origin 0.1*xsize, 0.15*ysize
+set origin 1.1*xsize, 0.15*ysize
 p \
 'delta_tau.dat'        u 1:2 w l lt 1 lw 3 lc 1 ti "non-causal" ,\
 'delta_tau_causal.dat' u 1:2 w l lt 1 lw 3 lc 3 ti "causal" 

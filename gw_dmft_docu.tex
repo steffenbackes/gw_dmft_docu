@@ -3698,6 +3698,25 @@ We see that the bath hybridization has negative spectral weight if nonlocal comp
 are taken into account.
 Actually this happens only if the nonlocal terms are frequency dependent
 
+It also seems to happen for any $U>0$, since it also appears, albeit smaller, for a smaller $U$:
+
+\includegraphics[width=1.0\textwidth]{hybnoncausal_2dhubbard/2dHubbard_HybU2.pdf}
+
+On the imaginary axis this is really hard to detect, since it only manifests itself in a modification of
+the curvature of the hybridization $\Delta(\tau)$, i.e. a higher order derivative $\partial^n_{\tau}\Delta(\tau)$ will have
+the wrong sign, but usually the curvature $n=2$ is still ok:
+
+\includegraphics[width=1.0\textwidth]{hybnoncausal_2dhubbard/2dHubbard_Delta.pdf}
+
+Here is an actual example of a GW+DMFT calculation for SrVO$_3$. The wiggles are not due to Monte-Carlo noise,
+since the Selfenergy is quite smooth:
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figs/svo_noncausal/delta.pdf}\end{center}
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
