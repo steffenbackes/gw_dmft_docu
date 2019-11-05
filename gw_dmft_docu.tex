@@ -3714,13 +3714,178 @@ since the Selfenergy is quite smooth:
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figs/svo_noncausal/delta.pdf}\end{center}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsection{Non-causal hybridization in ED+DMFT}
 
+\subsubsection{Dimer}
+
+\subsubsection{d-p-d model}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Reverse engineering the correct bath for the exact local Selfenergy}
+
+\subsection{Analytic form of the Bath for a dimer}
+Let us consider a model for a finite dimer at half filling, i.e. two sites that are coupled via a hopping $t$
+and a local Coulomb interaction $U$. 
+The noninteracting Hamiltonian and Green's function is given as
+\begin{align}
+ H &= 
+ \begin{pmatrix}
+  0 & -t \\ -t & 0
+ \end{pmatrix} \\
+ G_0(\omega) &= \left[(\omega +i\delta + \mu ) \unity -H  \right]^{-1} \\
+ &= \left[\omega_{\mu} \unity -H  \right]^{-1} .
+\end{align}
+For simplicity we abbreviate $(\omega +i\delta + \mu)$ as $\omega_{\mu}$
+This system shows in general significant intersite, i.e.
+nonlocal correlations. So the exact Selfenergy has the form
+\begin{align}
+ \Sigma &= 
+ \begin{pmatrix}
+  \Sigma_{loc} & \Sigma_{inter} \\ \Sigma_{inter} & \Sigma_{loc}
+ \end{pmatrix} .
+\end{align}
+We can actually solve this model as an exact impurity system with 2 orbitals. Setting up
+the bath Green's function without any selfconsistency (since it's a finite system) we get
+\begin{align}
+ \mathcal{G}_0(\omega) &= G_0(\omega) \nonumber \\
+ &= \left[\omega_{\mu} \unity -H  \right]^{-1} \nonumber \\ 
+ &=\frac{1}{\omega_{\mu}^2-t^2} 
+   \begin{pmatrix}
+     \omega_{\mu} & -t \\ -t  & \omega_{\mu}
+    \end{pmatrix}. 
+\end{align}
+Then the hybridization is
+\begin{align}
+ \Delta(\omega) &=\omega_{\mu} \unity - \mathcal{G}^{-1}_0(\omega) \nonumber \\
+ &= H \nonumber \\ 
+ &=\begin{pmatrix}
+  0 & -t \\ -t & 0
+ \end{pmatrix},
+\end{align}
+which is just the local hopping, so there is no dynamical hybridization because there is no bath.
+If we solve this system with an impurity solver, it will generate the exact
+Selfenergy and Green's function.
+
+Now let us use the Loewdin downfolding to reduce the dimer problem to a single-site problem.
+From Loewdin we get an effective single-site Hamiltonian for one site $A$ (the other site is called $B$)
+\begin{align}
+ H_{A,eff} &= H_{AA} + H_{AB}[ \omega_{\mu} - H_{BB} ]^{-1} H_{BA} \nonumber\\
+ &= 0 + t\frac{1}{\omega_{\mu}} t \nonumber\\
+ &=  \frac{t^2}{\omega_{\mu}} .
+\end{align}
+This means we get as an effective single-site bath Green's function
+\begin{align}
+ \mathcal{G}_{0,eff}(\omega) 
+ &= \left[\omega_{\mu} \unity -H_{A,eff}  \right]^{-1} \nonumber \\ 
+ &=\frac{1}{\omega_{\mu} -\frac{t^2}{\omega_{\mu}}}  \nonumber \\
+ &=\frac{\omega_{\mu}}{ \omega_{\mu}^2 - t^2 }  \label{eq:eff_bath_dimer_loewdin}.
+\end{align}
+The hybridization is then $\Delta(\omega) =H_{A,eff}  = t^2/\omega_{\mu}$.
+This bath will give us the local component of the exact solution of the dimer. What this means up to now
+is not clear: Does it yield $G_{imp}$ which is identical to the exact $G_{loc}$, 
+or does it yield $\Sigma_{imp}$ which is identical to the exact $\Sigma_{loc}$?
+It should yield the exact propagator that can be build from all local diagrams, but....???
+
+\bigskip
+
+Now let us compare this to the sth+DMFT single-site approach.
+We start in the full Hilbert space, but then project on a single site
+which consitutes the effective impurity model. This is done via
+\begin{align}
+ G_{0,single}(\omega)
+ &= P^{\dagger} G_{0}(\omega) P \nonumber\\
+ &= \begin{pmatrix}
+     1 & 0 \\ 0 & 0
+    \end{pmatrix}
+\left[ \frac{1}{\omega_{\mu}^2-t^2} 
+   \begin{pmatrix}
+     \omega_{\mu} & -t \\ -t  & \omega_{\mu}
+    \end{pmatrix} \right]    
+    \begin{pmatrix}
+     1 & 0 \\ 0 & 0
+    \end{pmatrix} \nonumber\\
+&=     \frac{\omega_{\mu}}{ \omega_{\mu}^2 - t^2 }  ,
+\end{align}
+which is actually identical to the one obtained from the Loewdin downfolding in Eq.\eqref{eq:eff_bath_dimer_loewdin}!
+But here we get it in the first step without any selfconcistency, even though the bath has a nontrivial frequency dependence.
+Solving this effective single-site impurity model within CTQMC we get the following result
+
+\includegraphics[width=1\textwidth]{figs/reversebath/gimp_simp_dimer_loewdin.pdf}
+
+We see that the solution reproduces the exact local Selfenergy, but not the local Green's function. 
+Iterating the solution in a DMFT selfconcistency makes the result worse as expected, likely
+because the missing nonlocal correlations have a feedback effect on the bath.
+Now this means the effective bath $\mathcal{G}_{eff}$ we found from Loewdin and the single-site
+projection gives us the exact local Selfenergy as $\Sigma_{imp}$, which then allows us to construct the exact
+Green's function as
+\begin{align}
+ G(\omega) &= \left[ \omega_{\mu}\unity - H - \Sigma^{exact}_{nonloc} - \Sigma_{imp}  \right]^{-1}.
+\end{align}
+Of course then $G(\omega)$ will not be equal to the impurity Green's function.
+
+\bigskip
+
+So what is missing in the standard ED+DMFT or similar approaches?
+If we have the exact local Selfenergy we would construct the bath as
+\begin{align}
+ \mathcal{G}_0^{-1}(\omega) 
+ &= G_{loc}^{-1} + \Sigma_{loc} \\
+ &= \left[ P^{\dagger} \left[  \omega_{\mu}\unity - H - \Sigma^{exact}_{nonloc} - \Sigma_{loc} \right]^{-1} P\right]^{-1} +  \Sigma_{loc} \nonumber \\
+ %
+ &= \left[
+ \begin{pmatrix}
+     1 & 0 \\ 0 & 0
+    \end{pmatrix}
+   \begin{pmatrix}
+     \omega_{\mu}-\Sigma_{loc} & t-\Sigma_{inter} \\ t-\Sigma_{inter}  & \omega_{\mu}-\Sigma_{loc}
+    \end{pmatrix}^{-1}
+    \begin{pmatrix}
+     1 & 0 \\ 0 & 0
+    \end{pmatrix} 
+\right]^{-1} +  \Sigma_{loc}  \nonumber\\
+%
+&= \left[
+ \begin{pmatrix}
+     1 & 0 \\ 0 & 0
+    \end{pmatrix}
+    \frac{1}{(\omega_{\mu}-\Sigma_{loc})^{2} -(t-\Sigma_{inter})^2 }
+   \begin{pmatrix}
+     \omega_{\mu}-\Sigma_{loc} & -t+\Sigma_{inter} \\ -t+\Sigma_{inter}  & \omega_{\mu}-\Sigma_{loc}
+    \end{pmatrix} 
+    \begin{pmatrix}
+     1 & 0 \\ 0 & 0
+    \end{pmatrix} 
+\right]^{-1} +  \Sigma_{loc}  \nonumber\\
+%
+&= \left[
+    \frac{\omega_{\mu}-\Sigma_{loc}}{(\omega_{\mu}-\Sigma_{loc})^{2} -(t-\Sigma_{inter})^2 }
+\right]^{-1} +  \Sigma_{loc}  \nonumber\\
+%
+&= \frac{(\omega_{\mu}^2 -2\omega_{\mu}\Sigma_{loc}+\Sigma_{loc}^2 ) -(t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}}
+ +  \frac{\Sigma_{loc}(\omega_{\mu}-\Sigma_{loc})}{\omega_{\mu}-\Sigma_{loc}}  \nonumber\\
+ %
+ &= \frac{\omega_{\mu}^2 -\omega_{\mu}\Sigma_{loc}  -(t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} \nonumber\\
+ %
+ &= \frac{\omega_{\mu} ( \omega_{\mu}- \Sigma_{loc})  -(t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} \nonumber\\
+ %
+ &= \omega_{\mu} - \frac{ (t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} .
+\end{align}
+So we get
+\begin{align}
+ \mathcal{G}_0(\omega) 
+ &= \frac{1}{\omega_{\mu} - \frac{ (t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} } \nonumber \\
+ &= \frac{\omega_{\mu}-\Sigma_{loc} }{\omega_{\mu}(\omega_{\mu}-\Sigma_{loc}) -  (t-\Sigma_{inter})^2  } .
+\end{align}
+So what does it mean?
+
+
+\subsection{Numerical apporach for 2d Hubbard model}
 When we have a (nearly) exact solution of a model system  from QMC,
 we can use that one to find the right bath that generates the exact
 impurity Selfenergy that equals the exact local Selfenergy.
