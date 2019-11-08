@@ -3888,17 +3888,22 @@ So what does it mean?
 For $U=2$ the hybridization that reproduces the exact Selfenergy is given by
 \begin{align}
  \Sigma_{loc}(\omega)
- &= \frac{U}{2} + c_{loc}\left( \frac{1}{\omega+i\delta-3t} +  \frac{1}{\omega+i\delta+3t} \right) \\
+ &= \frac{U}{2} + \frac{U}{8}\left( \frac{1}{\omega+i\delta-3t} +  \frac{1}{\omega+i\delta+3t} \right) \\
+ &= \frac{U}{2} + \frac{U}{4} \frac{\omega_{\delta} }{ \omega^2_{\delta} -(3t)^2}  \\
+ %
  \Sigma_{inter}(\omega)
- &= c_{inter}\left( \frac{1}{\omega+i\delta-3t} -  \frac{1}{\omega+i\delta+3t} \right) 
+ &= \frac{U}{8} \left( \frac{1}{\omega+i\delta-3t} -  \frac{1}{\omega+i\delta+3t} \right)  \\
+    &= \frac{U}{4} \frac{ 3t }{ \omega^2_{\delta} -(3t)^2}.
 \end{align}
 Then the hybridization is given as
 \begin{align}
  \Delta(\omega) &= \omega_{\mu} - \mathcal{G}^{-1}_0(\omega)  \\
  &= \frac{ (t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} \\
  %
- &= \frac{ \left( t - \frac{c_{inter}}{\omega_{\delta}-3t} +  \frac{c_{inter}}{\omega_{\delta}+3t} \right)^2 }
-           {\omega_{\delta}- \frac{c_{loc}}{\omega_{\delta}-3t} -  \frac{c_{loc}}{\omega_{\delta}+3t} } \\
+ &= \frac{ \left( t - \frac{U}{4} \frac{ 3t }{ \omega^2_{\delta} -(3t)^2} \right)^2 }
+           {\omega_{\delta}- \frac{U}{4} \frac{\omega_{\delta} }{ \omega^2_{\delta} -(3t)^2} } \\
+&= \frac{ t^2 -\frac{U}{2} \frac{ 3t^2 }{ \omega^2_{\delta} -(3t)^2}  + \frac{U^2}{16} \frac{ 9t^2 }{ ( \omega^2_{\delta} -(3t)^2 )^2 }  }
+           {\omega_{\delta}- \frac{U}{4} \frac{  \omega_{\delta} }{  \omega^2_{\delta} -(3t)^2  }  } 
 \end{align}
 
 
