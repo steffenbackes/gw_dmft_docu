@@ -3884,8 +3884,11 @@ So we get
 \end{align}
 So what does it mean?
 
+If we solve the impurity with this bath we do not reproduce the exact Greensfunction:
+\includegraphics[width=1\textwidth]{figs/reversebath/gimp_simp_dimer_exactbath.pdf}
+
 \subsection{effective Selfenergy from Hybridization}
-For $U=2$ the hybridization that reproduces the exact Selfenergy is given by
+The exact Selfenergy of the dimer at half filling is given by
 \begin{align}
  \Sigma_{loc}(\omega)
  &= \frac{U}{2} + \frac{U^2}{8}\left( \frac{1}{\omega+i\delta-3t} +  \frac{1}{\omega+i\delta+3t} \right) \nonumber\\
@@ -3911,7 +3914,8 @@ Then the hybridization is given as
 &= \frac{ t^2 }{\omega_{\delta} \left( \omega^2_{\delta} -9t^2 - U^2/4  \right)  }
 \left( 
 \underbrace{  \omega^2_{\delta} -9t^2  -3U^2/2  }_{causal}
- +\underbrace{ \frac{ 9 U^4 /16 }{ \omega^2_{\delta} -9t^2   }  }_{noncausal}  \right) .
+ +\underbrace{ \frac{ 9 U^4 /16 }{ \omega^2_{\delta} -9t^2   }  }_{noncausal}  \right)
+ \label{eq:noncausal_exact_hybridization}.
 \end{align}
 This hybridization has five major peaks
 \begin{align}
@@ -3939,8 +3943,43 @@ This hybridization has five major peaks
 %  &= \frac{1-2*c_{c}-2*c_{nc}}{\omega+i\delta}
 %     \frac{c_{nc}}{\omega+i\delta-}
 % \end{align}
-Try to generate $\Delta$ with noncausal peaks at $\omega=\pm 2U$? instead of $\omega=\pm3t$.
-Maybe this generates the exact Green's function!
+
+\subsection{Reverse engineering the bath for the dimer}
+Given the exact solution of the Hubbard dimer with the exact local Green's function
+$G_{loc,exact}$, we can iteratively find the bath which generates this function by the following procedure
+\begin{itemize}
+ \item Initialize the bath $\mathcal{G}_0$ with some initial guess, e.g. by 
+ \begin{align}
+\mathcal{G}_0^{-1}=G^{-1}_{loc,exact}+\Sigma_{loc,exact}
+ \end{align}
+ 
+ \item Solve the impurity model to get $G_{imp}$ from $\mathcal{G}_0$
+ 
+ \item Update the bath via
+ \begin{align}
+  \mathcal{G}_0^{-1} &= G^{-1}_{loc,exact} - G^{-1}_{imp,exact}
+ \end{align}
+ 
+ \item Repeat
+
+\end{itemize}
+
+Here is an example for the $U=2$ case of the dimer. What we call ``exact bath'' is what one obtains from
+the Dyson equation $\mathcal{G}_0^{-1}=G^{-1}_{loc,exact}+\Sigma_{loc,exact}$ using the exact solution.
+The ``correct bath'' is the bath that generates the exact $G_{loc,exact}$.
+The only difference between the exact and correct bath is the shift of the causal and  noncausal peaks to higher energies,
+with the noncausal now being the outermost ones compared to the exact bath.
+But his modification cannot be easily written down in analytic form as a modification of
+Eq.\eqref{eq:noncausal_exact_hybridization}.
+
+\includegraphics[width=0.75\textwidth]{figs/reversebath/dimerbath/g_loc_exact.pdf}
+
+\includegraphics[width=0.75\textwidth]{figs/reversebath/dimerbath/hyb_exact_t.pdf}
+
+\includegraphics[width=0.75\textwidth]{figs/reversebath/dimerbath/hyb_exact_w.pdf}
+
+
+
 
 \subsection{Numerical approach for the 2d Hubbard model}
 When we have a (nearly) exact solution of a model system  from QMC,
