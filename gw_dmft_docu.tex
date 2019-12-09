@@ -3727,10 +3727,11 @@ since the Selfenergy is quite smooth:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Reverse engineering the correct bath for the exact local Selfenergy}
+\section{Noncausal bath and ED+DMFT for a dimer}
 
 \subsection{Analytic form of the Bath for a dimer}
-Let us consider a model for a finite dimer at half filling, i.e. two sites that are coupled via a hopping $t$
+Let us consider a model for a 2-site dimer model with one orbital per site
+at half filling, i.e. two sites that are coupled via a hopping $t$
 and a local Coulomb interaction $U$. 
 The noninteracting Hamiltonian and Green's function is given as
 \begin{align}
@@ -3741,7 +3742,7 @@ The noninteracting Hamiltonian and Green's function is given as
  G_0(\omega) &= \left[(\omega +i\delta + \mu ) \unity -H  \right]^{-1} \\
  &= \left[\omega_{\mu} \unity -H  \right]^{-1} .
 \end{align}
-For simplicity we abbreviate $(\omega +i\delta + \mu)$ as $\omega_{\mu}$
+For simplicity we abbreviate $(\omega +i\delta + \mu)$ as $\omega_{\mu}$.
 This system shows in general significant intersite, i.e.
 nonlocal correlations. So the exact Selfenergy has the form
 \begin{align}
@@ -3787,10 +3788,12 @@ This means we get as an effective single-site bath Green's function
  &=\frac{\omega_{\mu}}{ \omega_{\mu}^2 - t^2 }  \label{eq:eff_bath_dimer_loewdin}.
 \end{align}
 The hybridization is then $\Delta(\omega) =H_{A,eff}  = t^2/\omega_{\mu}$.
-This bath will give us the local component of the exact solution of the dimer. What this means up to now
-is not clear: Does it yield $G_{imp}$ which is identical to the exact $G_{loc}$, 
-or does it yield $\Sigma_{imp}$ which is identical to the exact $\Sigma_{loc}$?
-It should yield the exact propagator that can be build from all local diagrams, but....???
+This is just the onsite component of the noninteracting system, which in general does not 
+tell us much. But the structure will appear also in the bath for the interacting case.
+% This bath will give us the local component of the exact solution of the dimer. What this means up to now
+% is not clear: Does it yield $G_{imp}$ which is identical to the exact $G_{loc}$, 
+% or does it yield $\Sigma_{imp}$ which is identical to the exact $\Sigma_{loc}$?
+% It should yield the exact propagator that can be build from all local diagrams, but....???
 
 \bigskip
 
@@ -3819,20 +3822,25 @@ Solving this effective single-site impurity model within CTQMC we get the follow
 \includegraphics[width=1\textwidth]{figs/reversebath/gimp_simp_dimer_loewdin.pdf}
 
 We see that the solution reproduces the exact local Selfenergy, but not the local Green's function. 
-Iterating the solution in a DMFT selfconcistency makes the result worse as expected, likely
-because the missing nonlocal correlations have a feedback effect on the bath.
-Now this means the effective bath $\mathcal{G}_{eff}$ we found from Loewdin and the single-site
-projection gives us the exact local Selfenergy as $\Sigma_{imp}$, which then allows us to construct the exact
-Green's function as
+This is a very special result of the dimer and is not general to other systems.
+In the dimer case, one can actually formally reduce the problem to an effective single-site
+problem if the filling is fixed, by expressing $n_2=N-n_1$.
+
+But still, this result is quite interesting because in this special case we have an anlytic form 
+for the bath that generates the exact local Selfenergy. And the bath is only dependent on the hopping
+$t$, and not the interaction $U$.
+This immediately tells us that iterating the solution in a DMFT selfconcistency makes the result worse.
+
+The exact Green's function is then just
 \begin{align}
  G(\omega) &= \left[ \omega_{\mu}\unity - H - \Sigma^{exact}_{nonloc} - \Sigma_{imp}  \right]^{-1}.
 \end{align}
-Of course then $G(\omega)$ will not be equal to the impurity Green's function.
+Of course then $G(\omega)$ will not be equal to the impurity Green's function $G_{imp}$, but here $\Sigma_{imp}=\Sigma_{loc}$.
 
 \bigskip
 
-So what is missing in the standard ED+DMFT or similar approaches?
-If we have the exact local Selfenergy we would construct the bath as
+So what is missing in the standard sth.+DMFT or similar approaches?
+Assuming we have the exact local Selfenergy we would construct the bath as
 \begin{align}
  \mathcal{G}_0^{-1}(\omega) 
  &= G_{loc}^{-1} + \Sigma_{loc} \\
@@ -3882,12 +3890,25 @@ So we get
  &= \frac{1}{\omega_{\mu} - \frac{ (t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} } \nonumber \\
  &= \frac{\omega_{\mu}-\Sigma_{loc} }{\omega_{\mu}(\omega_{\mu}-\Sigma_{loc}) -  (t-\Sigma_{inter})^2  } .
 \end{align}
-So what does it mean?
+This is quite similar in form to the noninteracting bath we derived in the beginning in Eq.\eqref{eq:eff_bath_dimer_loewdin}
+\begin{align}
+ \mathcal{G}_{0,eff}(\omega)  &=\frac{\omega_{\mu}}{ \omega_{\mu}^2 - t^2 } 
+\end{align}
+which in our cases generates the exact Selfenergy. In the bath the local levels are now ``shifted''
+by the local part of the Selfenergy, and the intersite hoppings are ``shifted'' by the nonlocal
+Selfenergy.
+In a standard DMFT calculation without nonlocal Selfenergies the bath would take the form
+\begin{align}
+ \mathcal{G}_0(\omega) 
+ &= \frac{1}{\omega_{\mu} - \frac{ t^2 }{\omega_{\mu}-\Sigma_{loc}} } \nonumber \\
+ &= \frac{\omega_{\mu}-\Sigma_{loc} }{\omega_{\mu}(\omega_{\mu}-\Sigma_{loc}) -  t^2  } .
+\end{align}
 
-If we solve the impurity with this bath we do not reproduce the exact Greensfunction:
+If we solve the impurity with this bath we do not reproduce the exact Greensfunction nor the exact Selfenergy
+
 \includegraphics[width=1\textwidth]{figs/reversebath/gimp_simp_dimer_exactbath.pdf}
 
-\subsection{effective Selfenergy from Hybridization}
+\subsection{Analytic form of the bath for the dimer}
 The exact Selfenergy of the dimer at half filling is given by
 \begin{align}
  \Sigma_{loc}(\omega)
@@ -3898,7 +3919,37 @@ The exact Selfenergy of the dimer at half filling is given by
  &= \frac{U^2}{8} \left( \frac{1}{\omega+i\delta-3t} -  \frac{1}{\omega+i\delta+3t} \right)  \nonumber\\
     &= \frac{U^2}{4} \frac{ 3t }{ \omega^2_{\delta} -(3t)^2}.
 \end{align}
-Then the hybridization is given as
+
+The bath Green's function itself has then the form
+\begin{align}
+ \mathcal{G}_0(\omega)
+ &= \frac{\omega_{\mu}-\Sigma_{loc} }{\omega_{\mu}(\omega_{\mu}-\Sigma_{loc}) -  (t-\Sigma_{inter})^2  } \\
+ %
+ &= \frac{\omega_{\delta}- \frac{U^2}{4} \frac{\omega_{\delta} }{ \omega^2_{\delta} -9t^2}  }
+         { \omega_{\delta}^2 - \frac{U^2}{4} \frac{\omega_{\delta}^2 }{ \omega^2_{\delta} -9t^2} 
+           - t^2 + \frac{U^2}{4} \frac{ 6t }{ \omega^2_{\delta} -9t^2}
+            - \frac{U^4}{16} \frac{ 9t^2 }{ ( \omega^2_{\delta} -9t^2)^2}} \\
+%
+ &= \frac{\omega_{\delta}- \frac{U^2}{4} \frac{\omega_{\delta} }{ \omega^2_{\delta} -9t^2}  }
+         { \omega_{\delta}^2 
+           - t^2 - \frac{U^2}{4} \frac{ \omega_{\delta}^2 - 6t }{ \omega^2_{\delta} -9t^2}
+            - \frac{U^4}{16} \frac{ 9t^2 }{ ( \omega^2_{\delta} -9t^2)^2}} .
+%
+\end{align}
+
+Within the DMFT approximation with $\Sigma_{inter}(\omega)=0$ we are left with
+\begin{align}
+ \mathcal{G}_0(\omega)
+ &= \frac{\omega_{\mu}-\Sigma_{loc} }{\omega_{\mu}(\omega_{\mu}-\Sigma_{loc}) -  t^2  } \\
+ %
+ &= \frac{\omega_{\delta}- \frac{U^2}{4} \frac{\omega_{\delta} }{ \omega^2_{\delta} -9t^2}  }
+         { \omega_{\delta}^2 - \frac{U^2}{4} \frac{\omega_{\delta}^2 }{ \omega^2_{\delta} -9t^2} 
+           - t^2 } \\
+%
+\end{align}
+
+
+The hybridization is given as
 \begin{align}
  \Delta(\omega) &= \omega_{\mu} - \mathcal{G}^{-1}_0(\omega)  
  = \frac{ (t-\Sigma_{inter})^2 }{\omega_{\mu}-\Sigma_{loc}} \nonumber\\
@@ -3937,12 +3988,94 @@ This hybridization has five major peaks
     \frac{ \pm1 }{ \omega^2_{\delta} -9t^2   } \left( - 3 U^2 t /4  \right)  < 0
 \end{align}
 
+These two last peaks will contribute to a noncausal hybridization since they
+have negative weight. The peaks will always appear 
+at an energy $\pm 3t$ independent of $U$. This is originating from the peaks in the nonlocal Selfenergy.
+So only the nonlocal Selfenergy is solely responsible for the noncausal terms in the hybridization.
+
 
 % \begin{align}
 %  \Delta(\omega)
 %  &= \frac{1-2*c_{c}-2*c_{nc}}{\omega+i\delta}
 %     \frac{c_{nc}}{\omega+i\delta-}
 % \end{align}
+
+
+
+\subsection{Generalized DMFT equations with a nonlocal Selfenergy}
+In the derivation of the DMFT equations using the cavity construction one can show that the
+effective action of the Hubbard model after integrating out all sites except one becomes identical
+to the action of an impurity model with the Weiss field
+\begin{align}
+ \mathcal{G}^{-1} = i\omega + \mu - \sum_{ij\neq 0} t_{i0} G^{(0)}_{ij} t_{j0},
+\end{align}
+where $G^{(0)}_{ij}$ is the Green's function of the Hubbard model with site $0$ removed, and
+$t_{i0}$ are the hopping amplitudes from site $i$ to the site $0$.
+
+For a general lattice the relation between the cavity $G^{(0)}$ and the full lattice Green's function $G$ reads
+\begin{align*}
+ G^{(0)}_{ij} &= G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}},
+\end{align*}
+so the effective Weiss field takes the form
+\begin{align}
+ \mathcal{G}^{-1} = i\omega + \mu - \sum_{ij\neq 0} t_{i0} t_{j0} \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right).
+\end{align}
+This equation can be simplified assuming a local Selfenergy to obtain an effective Dyson equation
+\begin{align}
+ \mathcal{G}^{-1} &= i\omega + \mu - \sum_{ij\neq 0} t_{i0} t_{j0} \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) \label{eq:eff_dyson_for_bath} \\
+ &= (G_{00})^{-1} + \Sigma.
+\end{align}
+If we now assume a nonlocal Selfenergy, this derivation is in general no longer possible.
+For the case of a dimer with the two sites 0 and 1 the full Green's function is given by
+\begin{align}
+G^{-1} &=
+\left[ \unity (i\omega + \mu ) -
+ \begin{pmatrix}
+     0 & -t \\ -t & 0
+ \end{pmatrix}^{-1}
+ -
+ \begin{pmatrix}
+     \Sigma_{00} & \Sigma_{01} \\ \Sigma_{10} & \Sigma_{11}
+ \end{pmatrix}^{-1}
+ \right]^{-1} \\
+%
+\Rightarrow G &= 
+     \frac{1}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 }
+    \begin{pmatrix}
+      i\omega + \mu-\Sigma_{00} & -t+\Sigma_{01} \\ -t+\Sigma_{01}  & i\omega + \mu -\Sigma_{00} ,
+     \end{pmatrix} 
+\end{align}
+where we have used that $\Sigma_{00} = \Sigma_{11}$ and $\Sigma_{01} = \Sigma_{10}$.
+Inserting this Green's function into the equation for the Weiss field from above we get
+\begin{align}
+ \mathcal{G}^{-1} &= i\omega + \mu -  t_{01} t_{10} \left( G_{11} - \frac{G_{10} G_{01} }{G_{00}} \right) \\
+ &= i\omega + \mu -  \frac{t^2}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 } 
+                 \left( i\omega + \mu-\Sigma_{00} - \frac{ (-t+\Sigma_{01})^2 }{i\omega + \mu-\Sigma_{00}} \right) \\
+&= i\omega + \mu -  \frac{t^2}{i\omega + \mu-\Sigma_{00} } .
+\end{align}
+We see that the nonlocal Selfenergy $\Sigma_{01}$ drops out of the equation and does not enter the bath. 
+Here the bath is completely causal and actually takes the same form as in standard DMFT where the Selfenergy is purely local.
+
+Now if we use the Dyson equation to obtain the bath when the full Green's function contains a nonlocal Selfenergy,
+we obtain
+\begin{align}
+ \mathcal{G}^{-1} 
+ &= (G_{00})^{-1} + \Sigma_{00}  \\
+ &= \frac{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2}{ i\omega + \mu-\Sigma_{00} }  + \Sigma_{00} \\
+ &= i\omega + \mu -  \frac{(t-\Sigma_{01})^2}{i\omega + \mu-\Sigma_{00} } .
+\end{align}
+Now the nonlocal Selfenergy effectively stays in the bath and modifies the 
+hopping as $t-\Sigma_{01}$. Here the bath becomes noncausal!
+But using the Dyson equation is not valid when allowing for 
+nonlocal Selfenergies. Eq.\eqref{eq:eff_dyson_for_bath} only takes the form of a Dyson equation when
+we neglect nonlocal Selfenergies! (Here in this case offdiagonal).
+
+Here we show a plot of the impurity Selfenergy after solving the impurity problem
+for the two baths above. It is evident that the general form of the bath is a much better approximation 
+to the exact solution than the bath from the Dyson equation.
+
+\includegraphics[width=1.0\textwidth]{figs/reversebath/dimerbath/bath_general_dyson_U2.pdf}
+
 
 \subsection{Reverse engineering the bath for the dimer}
 Given the exact solution of the Hubbard dimer with the exact local Green's function
@@ -4758,19 +4891,19 @@ the following expressions, that are implemented in the code
 \begin{align}
 K(\tau) 
 %
-&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V} \right)
+&= -\frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{U}(\infty) \right)
                                         \frac{ \cos(\nu_n\tau)-1 }{\nu_n^2}
  + \frac{\tau(\beta-\tau)}{2\beta}
-          \left[ \mathcal{V}-\mathcal{U}(0)
+          \left[ \mathcal{U}(\infty)-\mathcal{U}(0)
            \right]\\
 %
 %
  K'(\tau) 
 %                                        
-&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{V} \right)
+&= \frac{2}{\beta} \sum_{n=1}^{N_{\nu}-1} \left(\mathcal{U}(i\nu_n)-\mathcal{U}(\infty) \right)
                                         \frac{\sin(\nu_n\tau)}{\nu_n} 
  +\frac{\beta -2\tau}{2\beta}\left[
-            \mathcal{V} -\mathcal{U}(0)
+            \mathcal{U}(\infty) -\mathcal{U}(0)
              \right]
 \end{align}
 Differentiating $K(\tau)$ w.r.t. $\tau$ indeed gives the correct expression for $K(\tau')$ (would have saved a lot of work...) REMEBER: These formulas are derived for $\tau\in(0,\beta)$!
@@ -4778,7 +4911,7 @@ The Alps solver requires  $K(\tau)$ to be positive and $K(0)=0$, which is fulfil
 
 For the solver we need to provide the instantaneous $U_{ij}$ values in 
 \verb|u_matrix.dat|,  which means we have to use the bare 
-$\sim\mathcal{V}$ values. The local chemical potential is written
+$\sim\mathcal{U}(\infty)$ values. The local chemical potential is written
 in \verb|mu_vector.dat|. All necessary shifts that need to be done for the solver, like
 $U_{ij} \rightarrow U_{ij} + 2K'(0)$ and $\mu\rightarrow + K'(0)$ 
 \cng{is this the right sign} are done in the ALPS solver, so we do not
