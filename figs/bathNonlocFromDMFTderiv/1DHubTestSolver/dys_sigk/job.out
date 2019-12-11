@@ -1,0 +1,226 @@
+Parameters : 
+[alps::params] origins=[/ccc/cont003/home/cpht/backess/Code/CT-HYB-SEGMENT/bin/alps_cthyb, , alps_parm.dat] status=[Required parameter 'MU' is missing, Required parameter 'cthyb.RET_INT_K' is missing, Required parameter 'U' is missing]
+Raw kv:
+BETA=40.0
+FLAVORS=2
+MAX_TIME=300
+MU_VECTOR=mu_vector.dat
+N=1000
+NMATSUBARA=300
+OUTPUT_PERIOD=1000000
+SEED=271
+U_MATRIX=umatrix.dat
+VERBOSE=0
+cthyb.DELTA=delta0.dat
+cthyb.MEASURE_freq=0
+cthyb.MEASURE_legendre=1
+cthyb.MEASURE_sector_statistics=0
+cthyb.MEASURE_time=0
+cthyb.N_HISTOGRAM_ORDERS=200
+cthyb.N_LEGENDRE=37
+cthyb.N_MEAS=50
+cthyb.SWEEPS=4000000000
+cthyb.TEXT_OUTPUT=1
+cthyb.THERMALIZATION=1000
+[alps::params] Dictionary:
+BETA = 40 (type: double) (name='BETA') descr='inverse temperature' typestring='double'' defnum=4
+FLAVORS = 2 (type: int) (name='FLAVORS') descr='number of spin-orbitals (sometimes called flavors)' typestring='int'' defnum=28
+L = 200 (type: int) (name='L') descr='Number of Brillouin Zone points' typestring='int'' defnum=46
+MAX_TIME = 300 (type: unsigned long int) (name='MAX_TIME') descr='maximum solver runtime' typestring='unsigned long int'' defnum=43
+MU_IN_HDF5 = 0 (type: bool) (name='MU_IN_HDF5') descr='true if the file MU_VECTOR points to a hdf5 file' typestring='bool'' defnum=23
+MU_VECTOR = mu_vector.dat (type: std::string) (name='MU_VECTOR') descr='file name for file with chemical potential / orbital energy values' typestring='std::string'' defnum=22
+N = 1000 (type: int) (name='N') descr='number of imaginary time discretization points' typestring='int'' defnum=29
+NMATSUBARA = 300 (type: int) (name='NMATSUBARA') descr='number of matsubara coefficients' typestring='int'' defnum=26
+SEED = 271 (type: long int) (name='SEED') descr='PRNG seed' typestring='long int'' defnum=1
+Tmax = 600 (type: unsigned long int) (name='Tmax') descr='maximum time to check if simulation has finished' typestring='unsigned long int'' defnum=50
+Tmin = 1 (type: unsigned long int) (name='Tmin') descr='minimum time to check if simulation has finished' typestring='unsigned long int'' defnum=49
+UMATRIX_IN_HDF5 = 0 (type: bool) (name='UMATRIX_IN_HDF5') descr='true if we store the U_matrix as /Umatrix in a hdf5 file' typestring='bool'' defnum=41
+U_MATRIX = umatrix.dat (type: std::string) (name='U_MATRIX') descr='file name for file that contains the interaction matrix' typestring='std::string'' defnum=40
+Uprime = 0 (type: double) (name='Uprime') descr='interaction value Uprime. Only specify if you are not reading an U matrix' typestring='double'' defnum=39
+VERBOSE = 0 (type: bool) (name='VERBOSE') descr='how verbose the code is. true = more output' typestring='bool'' defnum=42
+cthyb.ACCURATE_COVARIANCE = 0 (type: bool) (name='cthyb.ACCURATE_COVARIANCE') descr='TODO: UNDERSTAND WHAT THIS DOES' typestring='bool'' defnum=2
+cthyb.BASEPATH =  (type: std::string) (name='cthyb.BASEPATH') descr='path in hdf5 file to which results are stored' typestring='std::string'' defnum=3
+cthyb.COMPUTE_VERTEX = 0 (type: bool) (name='cthyb.COMPUTE_VERTEX') descr='whether to compute the vertex functions or not.' typestring='bool'' defnum=5
+cthyb.DELTA = delta0.dat (type: std::string) (name='cthyb.DELTA') descr='path for hybridization function file' typestring='std::string'' defnum=6
+cthyb.DELTA_IN_HDF5 = 0 (type: bool) (name='cthyb.DELTA_IN_HDF5') descr='true if hybridization function file is in hdf5 format' typestring='bool'' defnum=7
+cthyb.DMFT_FRAMEWORK = 0 (type: bool) (name='cthyb.DMFT_FRAMEWORK') descr='true if we need to tie into a dmft framework' typestring='bool'' defnum=8
+cthyb.GLOBALFLIP = 0 (type: bool) (name='cthyb.GLOBALFLIP') descr='TODO: UNDERSTAND WHAT THIS DOES.' typestring='bool'' defnum=9
+cthyb.J = 0 (type: double) (name='cthyb.J') descr='interaction value for density-density Hund's coupling term J.' typestring='double'' defnum=10
+cthyb.K_IN_HDF5 = 0 (type: bool) (name='cthyb.K_IN_HDF5') descr='set to true if retarded interaction K is stored in hdf5.' typestring='bool'' defnum=11
+cthyb.MEASURE_freq = 0 (type: bool) (name='cthyb.MEASURE_freq') descr='measure in frequency domain' typestring='bool'' defnum=12
+cthyb.MEASURE_g2w = 0 (type: bool) (name='cthyb.MEASURE_g2w') descr='measure two-particle Green's function in frequency space' typestring='bool'' defnum=13
+cthyb.MEASURE_h2w = 0 (type: bool) (name='cthyb.MEASURE_h2w') descr='measure two-particle H Green's function in frequency space' typestring='bool'' defnum=14
+cthyb.MEASURE_legendre = 1 (type: bool) (name='cthyb.MEASURE_legendre') descr='measure legendre Green's function coefficients' typestring='bool'' defnum=15
+cthyb.MEASURE_nn = 0 (type: bool) (name='cthyb.MEASURE_nn') descr='measure static density-density correlation functions' typestring='bool'' defnum=16
+cthyb.MEASURE_nnt = 0 (type: bool) (name='cthyb.MEASURE_nnt') descr='measure density-density correlation functions <n(0) n(t)>' typestring='bool'' defnum=17
+cthyb.MEASURE_nnw = 0 (type: bool) (name='cthyb.MEASURE_nnw') descr='measure density-density correlation functions in frequency domain' typestring='bool'' defnum=18
+cthyb.MEASURE_sector_statistics = 0 (type: bool) (name='cthyb.MEASURE_sector_statistics') descr='measure sector statistics' typestring='bool'' defnum=19
+cthyb.MEASURE_time = 0 (type: bool) (name='cthyb.MEASURE_time') descr='measure in the time domain' typestring='bool'' defnum=20
+cthyb.N_HISTOGRAM_ORDERS = 200 (type: int) (name='cthyb.N_HISTOGRAM_ORDERS') descr='orders for the histograms of probability per order' typestring='int'' defnum=24
+cthyb.N_LEGENDRE = 37 (type: int) (name='cthyb.N_LEGENDRE') descr='number of legendre coefficients' typestring='int'' defnum=25
+cthyb.N_MEAS = 50 (type: int) (name='cthyb.N_MEAS') descr='number of updates per measurement' typestring='int'' defnum=27
+cthyb.N_W = 0 (type: int) (name='cthyb.N_W') descr='number of bosonic Matsubara frequencies for the two-particle measurement (0 ... N_W)' typestring='int'' defnum=30
+cthyb.N_nn = 0 (type: int) (name='cthyb.N_nn') descr='number of points for the measurement of the density density correlator' typestring='int'' defnum=31
+cthyb.N_w2 = 0 (type: int) (name='cthyb.N_w2') descr='number of fermionic frequencies for the two-particle measurement (-N_w2 ... N_w2-1)' typestring='int'' defnum=32
+cthyb.SPINFLIP = 0 (type: bool) (name='cthyb.SPINFLIP') descr='TODO: UNDERSTAND THIS PARAMETER' typestring='bool'' defnum=34
+cthyb.SWEEPS = 4000000000 (type: unsigned long int) (name='cthyb.SWEEPS') descr='total number of Monte Carlo sweeps to be done' typestring='unsigned long int'' defnum=35
+cthyb.TEXT_OUTPUT = 1 (type: bool) (name='cthyb.TEXT_OUTPUT') descr='if this is enabled, we write text files in addition to hdf5 files' typestring='bool'' defnum=36
+cthyb.THERMALIZATION = 1000 (type: unsigned long int) (name='cthyb.THERMALIZATION') descr='thermalization steps' typestring='unsigned long int'' defnum=37
+help = 0 (type: bool) (name='help') descr='Print help message' typestring='bool'' defnum=0
+solver.INFILE_H5GF = alps_solver_out.h5gf (type: std::string) (name='solver.INFILE_H5GF') descr='H5GF Green's function output file containing G(omega,k) at /G_omega and G(ij, tau) at /G_tau' typestring='std::string'' defnum=45
+solver.OUTFILE_H5GF = alps_solver_in.h5gf (type: std::string) (name='solver.OUTFILE_H5GF') descr='H5GF Green's function input file containing G0(omega,k) at /G0 and G0(ij, tau) at /G0_tau_rs' typestring='std::string'' defnum=44
+t = 1 (type: double) (name='t') descr='Hopping element: nearest neighbor' typestring='double'' defnum=47
+tprime = 0 (type: double) (name='tprime') descr='Hopping element: next-nearest neighbor' typestring='double'' defnum=48
+
+(effective) U matrix with 2 orbitals: 
+0 2 
+2 0 
+(effective) chemical potential with 2 orbitals: 
+1 1 
+
+local configuration: 
+0 empty
+1 empty
+
+the hybridization function is: 
+0 -1.55189 -1.55189 
+1 -1.48222 -1.48222 
+2 -1.41738 -1.41738 
+3 -1.35689 -1.35689 
+4 -1.30033 -1.30033 
+5 -1.24735 -1.24735 
+6 -1.19765 -1.19765 
+7 -1.15095 -1.15095 
+8 -1.10702 -1.10702 
+9 -1.06564 -1.06564 
+... *** etc *** ...
+1000 -1.55199 -1.55199 
+
+process 60 starting simulation
+Hybridization Expansion Simulation CT-HYB
+Part of the ALPS DMFT Project
+Usage requires citation of the ALPS CT-HYB paper and the ALPS paper
+Refer to the documentation for more information.
+process 0 starting simulation
+process 3 starting simulation
+process 6 starting simulation
+process 7 starting simulation
+process 8 starting simulation
+process 11 starting simulation
+process 19 starting simulation
+process 20 starting simulation
+process 22 starting simulation
+process 29 starting simulation
+process 30 starting simulation
+process 35 starting simulation
+process 36 starting simulation
+process 37 starting simulation
+process 39 starting simulation
+process 40 starting simulation
+process 46 starting simulation
+process 2 starting simulation
+process 4 starting simulation
+process 5 starting simulation
+process 9 starting simulation
+process 10 starting simulation
+process 12 starting simulation
+process 13 starting simulation
+process 14 starting simulation
+process 15 starting simulation
+process 16 starting simulation
+process 17 starting simulation
+process 18 starting simulation
+process 21 starting simulation
+process 23 starting simulation
+process 24 starting simulation
+process 25 starting simulation
+process 26 starting simulation
+process 27 starting simulation
+process 28 starting simulation
+process 31 starting simulation
+process 32 starting simulation
+process 33 starting simulation
+process 34 starting simulation
+process 38 starting simulation
+process 41 starting simulation
+process 42 starting simulation
+process 43 starting simulation
+process 44 starting simulation
+process 45 starting simulation
+process 47 starting simulation
+process 1 starting simulation
+process 62 starting simulation
+process 72 starting simulation
+process 74 starting simulation
+process 75 starting simulation
+process 76 starting simulation
+process 82 starting simulation
+process 88 starting simulation
+process 90 starting simulation
+process 48 starting simulation
+process 49 starting simulation
+process 50 starting simulation
+process 51 starting simulation
+process 53 starting simulation
+process 54 starting simulation
+process 55 starting simulation
+process 56 starting simulation
+process 57 starting simulation
+process 58 starting simulation
+process 59 starting simulation
+process 61 starting simulation
+process 63 starting simulation
+process 64 starting simulation
+process 65 starting simulation
+process 66 starting simulation
+process 67 starting simulation
+process 68 starting simulation
+process 69 starting simulation
+process 70 starting simulation
+process 71 starting simulation
+process 73 starting simulation
+process 77 starting simulation
+process 78 starting simulation
+process 79 starting simulation
+process 80 starting simulation
+process 81 starting simulation
+process 83 starting simulation
+process 85 starting simulation
+process 86 starting simulation
+process 87 starting simulation
+process 89 starting simulation
+process 91 starting simulation
+process 92 starting simulation
+process 93 starting simulation
+process 94 starting simulation
+process 95 starting simulation
+process 52 starting simulation
+process 84 starting simulation
+evaluating legendre polynomial results
+########## ########## ########## ########## ########## ########## ########## ##########
+Execution Sum Up
+########## ########## ########## ########## ########## ########## ########## ##########
+Jobid     : 3311328
+Jobname   : 1d_dyson
+User      : backess
+Account   : gen1393@skylake
+Limits    : time = 17:00 , memory/task = 3750 Mo
+Date      : submit = 11/12/2019 16:02:24 , start = 11/12/2019 16:02:45 , end = 11/12/2019 16:19:47
+Execution : partition = skylake , QoS = normal , Comment = (null)
+Resources : ntasks = 96 , cpus/task = 1 , ncpus = 96 , nodes = 2
+   Nodes=irene[2464,2471] CPU_IDs=0-47 Mem=180000 GRES_IDX=
+ 
+Memory / step 
+--------------
+                          Resident Size (Mo)                     Virtual Size (Go)
+JobID            Max     (Node:Task)       AveTask    Max  (Node:Task)            AveTask
+-----------      ------------------------  -------    --------------------------  -------
+
+Accounting / step 
+------------------
+
+JobID           JobName                  Ntasks  Ncpus Nnodes  Layout       Elapsed               User         System     Eff  State
+------------    ------------             ------  ----- ------  -------      -------               -------      ------     ---  -----
+3311328         1d_dyson                      -     96      2        -     00:08:51   (100%)            -            -      -  -
+3311328.0       alps_cthyb                   96     96      2   BBlock     00:08:47  (99.2%)     13:43:05     00:13:35   99.2  COMPLETED
+########## ########## ########## ########## ########## ########## ########## ##########

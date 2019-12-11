@@ -1,0 +1,19 @@
+simulation details:
+average sign: 1
+total (effective) number of sweeps, normalized by N_meas: 1.98014e+09
+number thermalization sweeps: 1000 (type: unsigned long int) (name='cthyb.THERMALIZATION')
+inverse temperature: 40
+perturbation order:
+orbital 0: 23.4597
+orbital 1: 23.4607
+
+|------------- Simulation details after 20593950 sweeps ------------|
+  Total acceptance rate = 36.42%
+  Individual acceptance rate for update 
+     change zero state    = 0.00% (proposal rate = 10.00%)
+     insert segment       = 10.13% (proposal rate = 25.01%)
+     remove segment       = 10.12% (proposal rate = 25.00%)
+     insert anti-segment  = 8.09% (proposal rate = 19.99%)
+     remove anti-segment  = 8.09% (proposal rate = 20.00%)
+     swap segment         = 0.00% (proposal rate = 0.00%)
+|-----------------------------------------------------------------|
