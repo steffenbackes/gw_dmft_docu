@@ -4077,6 +4077,8 @@ to the exact solution than the bath from the Dyson equation.
 \includegraphics[width=1.0\textwidth]{figs/reversebath/dimerbath/bath_general_dyson_U2.pdf}
 
 
+
+
 \subsubsection{1D Hubbard and Fock Selfenergy example}
 Here we consider a 1-dimensional Hubbard model with NN-Hopping $t=1$. We generate the bath 
 and hybridization function for the generalized scheme and from the Dyson equation 
@@ -4127,6 +4129,33 @@ gives a good representation at the Fermi level, since the real part of the Selfe
 The Dyson equation shows completely the opposite trend, regardless of using the frequency dependent
 nonlocal Selfenergy or its $w=0$ value. Also here the Dyson equation leads to an underestimation
 of the correlation strength.
+
+
+\subsubsection{Multi-orbital generalization}
+In the formula
+\begin{align}
+ \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} .
+\end{align}
+the sum over $i,j$ is over all states that can hop into the impurity site $0$. Here we allow for more than one 
+orbital including uncorrelated orbitals in the unit cell, for an infinite system. 
+Different unit cell's are labeled byu $R,R'$, the correlated orbitals are labeled by $a,b$,
+and the summation indices over orbitals $m,m'$.
+Then we obtain the form
+\begin{align}
+ \mathcal{G}_{ab}^{-1} 
+ &= i\omega + \mu_{loc} 
+ - \sum_{\substack{RR'\neq 0 \\ m,m'\in\, all \\ a'b'\in\, corr. } } t^{0R}_{am}  
+                    \left( G^{RR'}_{mm'} - G^{R0}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{0R'}_{b'm'}  \right) t^{R'0}_{m'b}  \nonumber\\
+%
+ &\hspace{2cm} - \sum_{\substack{R\neq 0 \\ m\in\, all,m'\in\, uncorr. \\ a'b'\in\, corr. } } t^{0R}_{am}  
+                    \left( G^{R0}_{mm'} - G^{R0}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{00}_{b'm'}  \right) t^{00}_{m'b}  \nonumber\\
+%
+ &\hspace{2cm} - \sum_{\substack{R'\neq 0 \\ m\in\, uncorr,m'\in\, all \\ a'b'\in\, corr. } } t^{00}_{am}  
+                    \left( G^{0R'}_{mm'} - G^{00}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{0R'}_{b'm'}  \right) t^{R'0}_{m'b}  \nonumber\\
+%
+ &\hspace{2cm} - \sum_{\substack{ mm'\in\, uncorr. \\ a'b'\in\, corr. } } t^{00}_{am}  
+                    \left( G^{00}_{mm'} - G^{00}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{00}_{b'm'}  \right) t^{00}_{m'b}.                    
+\end{align}
 
 
 
