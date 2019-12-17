@@ -4025,7 +4025,12 @@ This equation can be simplified assuming a local Selfenergy to obtain an effecti
  \mathcal{G}^{-1} &= i\omega + \mu_{loc} -  \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} \label{eq:eff_dyson_for_bath} \\
  &= (G_{00})^{-1} + \Sigma.
 \end{align}
-If we now assume a nonlocal Selfenergy, this derivation is in general no longer possible.
+If we now assume a nonlocal Selfenergy, this derivation is in general no longer possible,
+and the more general form of Eq.\eqref{eq:eff_dyson_for_bath} has to be used.
+
+To obtain 
+
+\subsubsection{2-site Dimer example}
 For the case of a dimer with the two sites 0 and 1 the full Green's function is given by
 \begin{align}
 G^{-1} &=
@@ -4106,8 +4111,32 @@ but the Dyson equation incorrectly predicts exactly the opposite, namely weaker 
 
 \includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_simp.pdf}
 
+\subsubsection{4-site plaquette example}
+Here we consider a finite 4-site cluster with NN-Hopping $t=1$. We generate the bath 
+and hybridization function for the generalized scheme and from the Dyson equation 
+and compare the results. We again find that DMFT already gives a reasonable local Selfenergy,
+while the Dyson equation ED+DMFT makes it worse. The general formula improves the result
+slightly.
 
-\subsubsection{2D Hubbard model example}
+\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/plaquette_eddmft.pdf}
+
+
+\subsubsection{2D Hubbard model example at the Fock term at half-filling}
+Here we consider a 2-dimensional Hubbard model with NN-Hopping $t=1$. We generate the bath 
+and hybridization function for the generalized scheme and from the Dyson equation 
+and compare the results. Since the generalized scheme and the Dyson equation
+are identical for local Selfenergies, we add here a Fock-like term as the nonlocal
+Selfenergy of the form 
+\begin{align}
+ \Sigma(k) &= -0.5 (\cos(k_x) + \cos(k_y) )
+\end{align}
+which widens the noninteracting bandwidth. Again,
+the Fock term leads to an increase in local correlations,
+but the Dyson equation incorrectly predicts exactly the opposite, namely weaker local correlations.
+
+\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/Zval_2dHub_fock.pdf}
+
+\subsubsection{2D Hubbard model example away from half-filling}
 Here we consider the 2-dimensional Hubbard model for $t=1$, $20\%$ hole-doping $n=0.8$ 
 and $U=4$, which is in the weakly correlated metallic regime. 
 For the nonlocal Selfenergies we use perturbation theory and calculate all diagrams
