@@ -4020,18 +4020,24 @@ so the effective Weiss field takes the form
 \begin{align}
  \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} .
 \end{align}
-This equation can be simplified assuming a local Selfenergy to obtain an effective Dyson equation
+If we now assume that all Green's functions in the equation above are generated using only a local Selfenergy,
+then this equation can be simplified into a Dyson-like equation (see Rev.Mod.Phys.68,1(1996) for a detailed derivation)
 \begin{align}
  \mathcal{G}^{-1} &= i\omega + \mu_{loc} -  \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} \label{eq:eff_dyson_for_bath} \\
- &= (G_{00})^{-1} + \Sigma.
+ &= (G_{00})^{-1} + \Sigma.    \label{eq:wrong_dyson_for_bath}
 \end{align}
-If we now assume a nonlocal Selfenergy, this derivation is in general no longer possible,
-and the more general form of Eq.\eqref{eq:eff_dyson_for_bath} has to be used.
-
-To obtain 
+It is very important to stress that Eq.\eqref{eq:wrong_dyson_for_bath} is only valid for 
+a local Selfenergy.
+If there are nonlocal Selfenergy terms present to generate the lattice Green's function 
+like in GW+DMFT, this derivation is in general no longer possible
+and one cannot obtain Eq.\eqref{eq:wrong_dyson_for_bath} from Eq.\eqref{eq:eff_dyson_for_bath} (a detailed derivation will be added later).
+Therefore, the more general equation \eqref{eq:eff_dyson_for_bath} has to be used in such cases.
+It will be identical to the Dyson-like equation in the case of local Selfenergies, but
+will give a different result if nonlocal Selfenergies are added.
+In the next section we will discuss a few examples using the more general equation.
 
 \subsubsection{2-site Dimer example}
-For the case of a dimer with the two sites 0 and 1 the full Green's function is given by
+For the case of a dimer with the two sites 0 and 1 the full interacting Green's function is given by
 \begin{align}
 G^{-1} &=
 \left[ \unity (i\omega + \mu ) -
@@ -4056,7 +4062,7 @@ Inserting this Green's function into the equation for the Weiss field from above
  \mathcal{G}^{-1} &= i\omega + \mu_{loc} -  t_{01} t_{10} \left( G_{11} - \frac{G_{10} G_{01} }{G_{00}} \right) \\
  &= i\omega + \mu_{loc} -  \frac{t^2}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 } 
                  \left( i\omega + \mu-\Sigma_{00} - \frac{ (-t+\Sigma_{01})^2 }{i\omega + \mu-\Sigma_{00}} \right) \\
-&= i\omega + \mu_{loc} -  \frac{t^2}{i\omega + \mu-\Sigma_{00} } .
+&= i\omega + \mu_{loc} -  \frac{t^2}{i\omega + \mu-\Sigma_{00} } . \label{eq:correct_bath_dimer}
 \end{align}
 We see that the nonlocal Selfenergy $\Sigma_{01}$ drops out of the equation and does not enter the bath. 
 Here the bath is completely causal and actually takes the same form as in standard DMFT where the Selfenergy is purely local.
@@ -4067,8 +4073,9 @@ we obtain
  \mathcal{G}^{-1} 
  &= (G_{00})^{-1} + \Sigma_{00}  \\
  &= \frac{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2}{ i\omega + \mu-\Sigma_{00} }  + \Sigma_{00} \\
- &= i\omega + \mu -  \frac{(t-\Sigma_{01})^2}{i\omega + \mu-\Sigma_{00} } .
+ &= i\omega + \mu -  \frac{(t-\Sigma_{01})^2}{i\omega + \mu-\Sigma_{00} } ,
 \end{align}
+which is different compared to the result we obtained with the general formula in Eq.\eqref{eq:correct_bath_dimer}!
 Now the nonlocal Selfenergy effectively stays in the bath and modifies the 
 hopping as $t-\Sigma_{01}$. Here the bath becomes noncausal!
 But using the Dyson equation is not valid when allowing for 
@@ -4112,17 +4119,21 @@ but the Dyson equation incorrectly predicts exactly the opposite, namely weaker 
 \includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_simp.pdf}
 
 \subsubsection{4-site plaquette example}
-Here we consider a finite 4-site cluster with NN-Hopping $t=1$. We generate the bath 
+Here we consider a finite 4-site cluster with NN-Hopping $t=1$. We perform a selfconsistent
+ED+DMFT calculation where we generate the bath 
 and hybridization function for the generalized scheme and from the Dyson equation 
 and compare the results. We again find that DMFT already gives a reasonable local Selfenergy,
 while the Dyson equation ED+DMFT makes it worse. The general formula improves the result
-slightly.
+slightly. There is still a difference to the exact result, which is probably because
+the nonlocal contributions to the local Selfenergy are quite large, which we cannot obtain 
+within our approach.
 
 \includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/plaquette_eddmft.pdf}
 
 
-\subsubsection{2D Hubbard model example at the Fock term at half-filling}
-Here we consider a 2-dimensional Hubbard model with NN-Hopping $t=1$. We generate the bath 
+\subsubsection{2D Hubbard model example and Fock term at half-filling}
+Here we consider a 2-dimensional Hubbard model with NN-Hopping $t=1$. We perform a selfconsistent
+Fock+DMFT calculation where we generate the bath 
 and hybridization function for the generalized scheme and from the Dyson equation 
 and compare the results. Since the generalized scheme and the Dyson equation
 are identical for local Selfenergies, we add here a Fock-like term as the nonlocal
@@ -4143,22 +4154,30 @@ For the nonlocal Selfenergies we use perturbation theory and calculate all diagr
 up to second order, which in this regime is quite a good approximation,
 compared to (basically exact) diagrammatic Monte Carlo results.
 
-Then we perform a 2nd+DMFT calculation where the nonlocal Selfenergies are included in the DMFT cycle
+Then we perform a selfconsistent 2nd+DMFT calculation where the nonlocal Selfenergies are included in the DMFT cycle
 for the general scheme and the Dyson method, as well as zero-frequency approximations to
 the Selfenergy. The resulting impurity or local Selfenergy is shown in this plot:
 
 \includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/Sigma_2DHubbard_real.pdf}
 \includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/Sigma_2DHubbard_imag.pdf}
 
-We clearly see that the full 2nd+DMFT scheme is the clostest to the exact diagrammatic Monte Carlo
+We clearly see that the full 2nd+DMFT scheme is the closest to the exact diagrammatic Monte Carlo
 results. The second best result for the real part is the 2nd(w=0)+DMFT scheme, where we have approximated the 
-nonlocal Selfenergy by their $w=0$ value. But interestingly the imaginary part is slightly too small,
-indicating this methods leads to an underestimation of the correlation strength, i.e. likely at high energies, but 
+nonlocal Selfenergy by their $w=0$ value. But interestingly the imaginary part is slightly too small in this case,
+indicating that the 2nd(w=0)+DMFT methods leads to an underestimation of the correlation strength, i.e. likely at high energies, but 
 gives a good representation at the Fermi level, since the real part of the Selfenergy is well reproduced.
-The Dyson equation shows completely the opposite trend, regardless of using the frequency dependent
-nonlocal Selfenergy or its $w=0$ value. Also here the Dyson equation leads to an underestimation
+The Dyson equation shows completely the opposite trend, moving away from the exact solution
+regardless of using the frequency dependent nonlocal Selfenergy or its $w=0$ value. 
+Also here the Dyson equation leads to an underestimation
 of the correlation strength.
 
+\bigskip
+
+We can symmarize by saying that in all examples we considered (dimer, plaquette, 1D Hubbard model, 2D Hubbard model with/without doping)
+we see that the usual Dyson equation used in GW+DMFT or similar approaches always makes the result worse compared
+to standard DMFT.
+On the other hand, using the more general formula for the bath always make the result (local Green's function 
+and Selfenergy) much better and brings it very close to the exact result.
 
 \subsubsection{Multi-orbital generalization}
 In the formula
