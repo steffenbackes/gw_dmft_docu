@@ -8,6 +8,7 @@
 \usepackage{float}
 \usepackage{wrapfig}
 \usepackage{dsfont}
+\usepackage{soul}
 \usepackage{enumitem}
 \usepackage{subfig}
 \usepackage[top=3cm, left=3cm, right=3cm, bottom=3cm]{geometry}
@@ -4005,7 +4006,7 @@ So only the nonlocal Selfenergy is solely responsible for the noncausal terms in
 \subsection{Generalized DMFT equations with a nonlocal Selfenergy}
 In the derivation of the DMFT equations using the cavity construction one can show that the
 effective action of the Hubbard model after integrating out all sites except one becomes identical
-to the action of an impurity model with the Weiss field
+to the action of an impurity model with the Weiss field (all objects here are matrices in orbital space)
 \begin{align}
  \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i} G^{(0)}_{ij} t_{j0},
 \end{align}
@@ -4020,17 +4021,89 @@ so the effective Weiss field takes the form
 \begin{align}
  \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} .
 \end{align}
-If we now assume that all Green's functions in the equation above are generated using only a local Selfenergy,
-then this equation can be simplified into a Dyson-like equation (see Rev.Mod.Phys.68,1(1996) for a detailed derivation)
+We now insert the Fourier-transform from reciprocal to real space into the first term 
 \begin{align}
- \mathcal{G}^{-1} &= i\omega + \mu_{loc} -  \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} \label{eq:eff_dyson_for_bath} \\
- &= (G_{00})^{-1} + \Sigma.    \label{eq:wrong_dyson_for_bath}
+ \sum_{ij\neq 0} t_{0i}  G_{ij} t_{j0} 
+ &= \sum_{ij\neq 0} \int \epsilon(k_1)\mathrm{e}^{ik_1(0-R_i)}  G(k_2)\mathrm{e}^{ik_2(R_i-R_j)} \epsilon(k_3)\mathrm{e}^{ik_3(R_j-0)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+ &=  \int \epsilon(k_1)G(k_2)\epsilon(k_3)  \sum_{ij\neq 0} \mathrm{e}^{iR_i(k_2-k_1)}\mathrm{e}^{iR_j(k_3-k_2)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+ &=  \int \epsilon(k_1)G(k_2)\epsilon(k_3)  \Big(\delta(k_2-k_1)-1 \Big) \Big(\delta(k_3-k_2)-1 \Big) \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+ &=  \int \epsilon(k_1)G(k_1)\epsilon(k_1) \, \mathrm{d}k_1
+                 +\int \epsilon(k_1)G(k_2)\epsilon(k_3) \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \nonumber \\
+ & \hspace{0.5cm}  -\int \epsilon(k_1)G(k_1)\epsilon(k_3) \, \mathrm{d}k_1\mathrm{d}k_3
+                 -\int \epsilon(k_1)G(k_2)\epsilon(k_2) \, \mathrm{d}k_1\mathrm{d}k_2 \\
+%                 
+&= \braket{\epsilon G \epsilon} + \braket{\epsilon} \braket{G} \braket{\epsilon} - \braket{\epsilon G} \braket{\epsilon}
+                                                                                 - \braket{\epsilon}\braket{G\epsilon },
 \end{align}
-It is very important to stress that Eq.\eqref{eq:wrong_dyson_for_bath} is only valid for 
-a local Selfenergy.
-If there are nonlocal Selfenergy terms present to generate the lattice Green's function 
-like in GW+DMFT, this derivation is in general no longer possible
-and one cannot obtain Eq.\eqref{eq:wrong_dyson_for_bath} from Eq.\eqref{eq:eff_dyson_for_bath} (a detailed derivation will be added later).
+where we have abbreviated the projection onto the local site as $\braket{G}=G_{loc}=\int G(k) \, \mathrm{d}k$.
+
+The second term in the equation above evaluates to
+\begin{align}
+ \sum_{ij\neq 0} & t_{0i}  G_{i0}[G_{loc}]^{-1} G_{0j} t_{j0}  \nonumber \\
+&= \sum_{ij\neq 0} \int \epsilon(k_1)\mathrm{e}^{ik_1(0-R_i)}  G(k_2)\mathrm{e}^{ik_2(R_i-0)} [G_{loc}]^{-1} G(k_3)\mathrm{e}^{ik_3(0-R_j)} \epsilon(k_4)\mathrm{e}^{ik_4(R_j-0)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3\mathrm{d}k_4 \\
+&=  \int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_4) \sum_{ij\neq 0}\underbrace{\mathrm{e}^{iR_i(k_2-k_1)}}_{\delta(k_2-k_1)-1}\underbrace{\mathrm{e}^{iR_j(k_4-k_3)}}_{\delta(k_4-k_3)-1} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3\mathrm{d}k_4 \\
+&=  \int \epsilon(k_1)  G(k_1) [G_{loc}]^{-1} G(k_3) \epsilon(k_3)  \, \mathrm{d}k_1\mathrm{d}k_3
+   +\int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_4)  \, \mathrm{d}k_1\mathrm{d}k_2 \mathrm{d}k_3\mathrm{d}k_4 \nonumber\\
+&  -\int \epsilon(k_1)  G(k_1) [G_{loc}]^{-1} G(k_3) \epsilon(k_4)  \, \mathrm{d}k_1\mathrm{d}k_3\mathrm{d}k_4 
+   -\int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_3)  \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+%
+&=   \braket{\epsilon G} \braket{G}^{-1}  \braket{G \epsilon} +  \braket{\epsilon} \braket{G} \braket{G}^{-1}  \braket{G} \braket{\epsilon}
+   - \braket{\epsilon G} \braket{G}^{-1}  \braket{G} \braket{\epsilon} - \braket{\epsilon} \braket{G} \braket{G}^{-1} \braket{ G \epsilon} \\
+%
+&=   \braket{\epsilon G} \braket{G}^{-1}  \braket{G \epsilon} +  \braket{\epsilon} \braket{G} \braket{\epsilon}
+   - \braket{\epsilon G} \braket{\epsilon} - \braket{\epsilon}  \braket{G \epsilon}.
+ \end{align}
+ Combining these two terms we get as the final result
+\begin{align}
+ \mathcal{G}^{-1} 
+%  &= i\omega + \mu_{loc} - \left( [\epsilon G \epsilon]_{loc} - [\epsilon G]_{loc} [G_{loc}]^{-1}  [G \epsilon]_{loc}  \right).\\
+ &= i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \label{eq:eff_dyson_for_bath},
+\end{align}
+For simplicity, we now focus on the one-orbital case. The two last terms in the above equation take the form
+\begin{align}
+ \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
+ &= \int \frac{\epsilon^2(k)}{i\omega + \mu - \epsilon(k)-\Sigma(k,i\omega)}\, \mathrm{d}k \nonumber \\
+ & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \int \frac{\epsilon(k)}{i\omega + \mu - \epsilon(k)-\Sigma(k,i\omega)} \, \mathrm{d}k \right)^2 
+\end{align}
+\underline{If we now neglect the momentum-dependence of the Selfenergy} $\Sigma(k,i\omega)\approx \Sigma(i\omega)$ we can substitute
+the integration over $k$ by an integration over energy and the DOS
+\begin{align}
+ \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
+ &= \int \frac{ D(\epsilon) \epsilon^2}{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon \nonumber \\
+ & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \int \frac{ D(\epsilon) \epsilon}{i\omega + \mu - \epsilon-\Sigma(i\omega)} \mathrm{d}\epsilon \right)^2.
+\end{align}
+We can simplify this equation by  using the following mathematical identities
+\begin{align}
+\int \frac{ f(x)x }{y-x} \, \mathrm{dx} &= y\int \frac{ f(x) }{y-x} \, \mathrm{dx} - 1 \\
+%
+ \int \frac{ f(x)x^2 }{y-x} \, \mathrm{dx} 
+ &= y\int \frac{ f(x)x }{y-x} \, \mathrm{dx} - \int f(x) x \, \mathrm{dx} \nonumber \\
+&= y^2 \int \frac{ f(x) }{y-x} \, \mathrm{dx} -y - \int f(x) x \, \mathrm{dx} .
+\end{align}
+With this we obtain
+\begin{align}
+ \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
+ &= \left( i\omega + \mu -\Sigma(i\omega) \right)^2 \int \frac{ D(\epsilon) }{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon \nonumber \\
+ & \hspace{0.5cm}- \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
+ & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \left( i\omega + \mu -\Sigma(i\omega) \right) \int \frac{ D(\epsilon) }{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon -1 \right)^2 \\
+%
+&= - \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
+&\hspace{0.5cm}   + 2\left( i\omega + \mu -\Sigma(i\omega) \right) - G_{loc}^{-1} \\
+%
+&= \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon - G_{loc}^{-1}.
+\end{align}
+So finally we obtain as the bath Green's function
+\begin{align}
+ \mathcal{G}^{-1} 
+ &= G_{loc}^{-1} + \Sigma(i\omega) + \underbrace{ \left( \mu_{loc}- \mu + \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \right) }_{=0 \mbox{ when selfconsist.}} \\
+ &= G_{loc}^{-1} + \Sigma(i\omega).
+\end{align}
+So we obtain a Dyson-like equation for the bath.
+\ul{It is very important to stress that this equation is only valid for a local Selfenergy.}
+\ul{If there are nonlocal Selfenergy terms present to generate the lattice Green's function 
+like in GW+DMFT, this derivation is in general no longer possible because the integration over momentum
+space cannot be replaced by an integration over energy and the DOS.}
+
 Therefore, the more general equation \eqref{eq:eff_dyson_for_bath} has to be used in such cases.
 It will be identical to the Dyson-like equation in the case of local Selfenergies, but
 will give a different result if nonlocal Selfenergies are added.
