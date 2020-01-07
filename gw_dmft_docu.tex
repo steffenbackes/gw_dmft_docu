@@ -4076,7 +4076,7 @@ We can simplify this equation by  using the following mathematical identities
 \begin{align}
 \int \frac{ f(x)x }{y-x} \, \mathrm{dx} &= y\int \frac{ f(x) }{y-x} \, \mathrm{dx} - 1 \\
 %
- \int \frac{ f(x)x^2 }{y-x} \, \mathrm{dx} 
+ \mbox{and }\int \frac{ f(x)x^2 }{y-x} \, \mathrm{dx} 
  &= y\int \frac{ f(x)x }{y-x} \, \mathrm{dx} - \int f(x) x \, \mathrm{dx} \nonumber \\
 &= y^2 \int \frac{ f(x) }{y-x} \, \mathrm{dx} -y - \int f(x) x \, \mathrm{dx} .
 \end{align}
@@ -4090,12 +4090,13 @@ With this we obtain
 &= - \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
 &\hspace{0.5cm}   + 2\left( i\omega + \mu -\Sigma(i\omega) \right) - G_{loc}^{-1} \\
 %
-&= \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon - G_{loc}^{-1}.
+&= \left( i\omega + \mu -\Sigma(i\omega) \right) - \underbrace{\int D(\epsilon) \epsilon \, \mathrm{d}\epsilon}_{\int \epsilon(k) \, \mathrm{d}k} - G_{loc}^{-1}.
 \end{align}
 So finally we obtain as the bath Green's function
 \begin{align}
  \mathcal{G}^{-1} 
- &= G_{loc}^{-1} + \Sigma(i\omega) + \underbrace{ \left( \mu_{loc}- \mu + \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \right) }_{=0 \mbox{ when selfconsist.}} \\
+ &= G_{loc}^{-1} + \Sigma(i\omega) + \underbrace{ \left( \mu_{loc}- \mu
+      + \int \epsilon(k) \, \mathrm{d}k \right) }_{=0 \mbox{ when selfconsist.}} \\
  &= G_{loc}^{-1} + \Sigma(i\omega).
 \end{align}
 So we obtain a Dyson-like equation for the bath.
