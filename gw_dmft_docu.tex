@@ -4055,10 +4055,12 @@ The second term in the equation above evaluates to
  \end{align}
  Combining these two terms we get as the final result
 \begin{align}
+\boxed{
  \mathcal{G}^{-1} 
 %  &= i\omega + \mu_{loc} - \left( [\epsilon G \epsilon]_{loc} - [\epsilon G]_{loc} [G_{loc}]^{-1}  [G \epsilon]_{loc}  \right).\\
- &= i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \label{eq:eff_dyson_for_bath},
-\end{align}
+ = i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) 
+},\label{eq:eff_dyson_for_bath}
+ \end{align}
 For simplicity, we now focus on the one-orbital case. The two last terms in the above equation take the form
 \begin{align}
  \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
@@ -4254,32 +4256,102 @@ On the other hand, using the more general formula for the bath always make the r
 and Selfenergy) much better and brings it very close to the exact result.
 
 \subsubsection{Multi-orbital generalization}
-In the formula
+The original formula 
 \begin{align}
- \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} .
-\end{align}
-the sum over $i,j$ is over all states that can hop into the impurity site $0$. Here we allow for more than one 
-orbital including uncorrelated orbitals in the unit cell, for an infinite system. 
-Different unit cell's are labeled byu $R,R'$, the correlated orbitals are labeled by $a,b$,
-and the summation indices over orbitals $m,m'$.
-Then we obtain the form
+ \mathcal{G}^{-1} 
+ = i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) ,
+ \end{align}
+ is bascially already valid for the mutliorbital case, since all objects can be matrices.
+ One just has to take care that the $\braket{}$ operation involves a local projection, i.e.
+ a $k$-sum and taking the matrix elements of only the correlated orbitals $L$.
+ Thus, the equation written out explicitely for multiorbitals with a subset of correlated
+ orbitals $L$ takes the form
 \begin{align}
- \mathcal{G}_{ab}^{-1} 
- &= i\omega + \mu_{loc} 
- - \sum_{\substack{RR'\neq 0 \\ m,m'\in\, all \\ a'b'\in\, corr. } } t^{0R}_{am}  
-                    \left( G^{RR'}_{mm'} - G^{R0}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{0R'}_{b'm'}  \right) t^{R'0}_{m'b}  \nonumber\\
-%
- &\hspace{2cm} - \sum_{\substack{R\neq 0 \\ m\in\, all,m'\in\, uncorr. \\ a'b'\in\, corr. } } t^{0R}_{am}  
-                    \left( G^{R0}_{mm'} - G^{R0}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{00}_{b'm'}  \right) t^{00}_{m'b}  \nonumber\\
-%
- &\hspace{2cm} - \sum_{\substack{R'\neq 0 \\ m\in\, uncorr,m'\in\, all \\ a'b'\in\, corr. } } t^{00}_{am}  
-                    \left( G^{0R'}_{mm'} - G^{00}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{0R'}_{b'm'}  \right) t^{R'0}_{m'b}  \nonumber\\
-%
- &\hspace{2cm} - \sum_{\substack{ mm'\in\, uncorr. \\ a'b'\in\, corr. } } t^{00}_{am}  
-                    \left( G^{00}_{mm'} - G^{00}_{m'a'} [G^{00}]^{-1}_{a'b'} G^{00}_{b'm'}  \right) t^{00}_{m'b}.                    
-\end{align}
+ \left[ \mathcal{G}^{-1} \right]_{LL'}
+ &= i\omega\unity + [\mu_{loc}]_{LL'} 
+ -  \int \left [ \epsilon(k) G(k,i\omega) \epsilon(k) \right]_{LL'} \, \mathrm{d}k \nonumber \\
+ & \hspace{0.5cm }+ \int \left[ \epsilon(k) G(k,i\omega) \right]_{LL'}  \, \mathrm{d}k 
+                  \int \left[ G_{LL'}(k,i\omega) \right]^{-1}   \, \mathrm{d}k
+                  \int  \left[ G(k,i\omega) \epsilon(k) \right]_{LL'} \, \mathrm{d}k  .
+ \end{align} 
+ It is understood that all multiplications are Matrix multiplications 
+ and $\left[ G_{LL'}(k,i\omega) \right]^{-1}$ is a matrix inversion in the $LL'$ space.
 
 
+\subsection{Generalized EDMFT equations for $U(i\nu)$ with nonlocal polarization}
+In the same way we derived the effective bath and hybridization with nonlocal Selfenergies,
+we now derive the equations for the effective impurity interaction $U$.
+Here, the Polarization $P(q,i\nu)$ takes the role of the nonlocal Selfenergy $\Sigma(k,i\omega)$,
+which dresses the bare interaction $v(q)$ to the screened interaction $W(q,i\nu)$, i.e.
+\begin{align}
+G^{-1}(k,i\omega) &= (\underbrace{i\omega+\mu-\epsilon(k)}_{G_0^{-1}}) - \Sigma(k,i\omega) \\
+W^{-1}(q,i\nu) &= v^{-1}(q)-P(q,i\nu) .
+\end{align}
+For an extened Hubbard model with nonlocal interactions it has been shown by Qimiao Si and J. Lleweilun Smith in 
+PRL 77, 16 (1996) that the density-density correlation function $\chi(q,i\nu)$ obeys the same relations 
+as the Green's function in a cavity construction
+\begin{align}
+ \Delta(i\omega) &= -\sum_{ij\neq 0} t_{0i} G^{(0)}_{ij}(i\omega) t_{j0} \\
+ \Theta^{-1}(i\nu) &= \sum_{ij\neq 0} v_{0i} \chi^{(0)}_{ij}(i\nu) v_{j0} ,
+\end{align}
+where $\Theta$ is the bosonic bath for the interaction.
+Since the relation for the effective impurity interaction is
+\begin{align}
+ U(i\nu) &= \Theta^{-1}(i\nu) + P...................
+\end{align}
+The corresponding objects on a lattice without site $0$ are given by
+\begin{align}
+ G^{(0)}_{ij} &= G_{ij} - G_{i0}G^{-1}_{00}G_{0j} \\ 
+ \chi^{(0)}_{ij} &= \chi_{ij} - \chi_{i0}\chi^{-1}_{00}\chi_{0j} .
+\end{align}
+We see that the bare interaction $v$ plays the same role as the noninteracting hopping amplitude $t$.
+Therefore, following the same derivation as for the one-particle Green's function the analogous result
+for the effective interaction is 
+\begin{align}
+\boxed{
+ \Theta^{-1}(i\nu) 
+ = \braket{ v \chi v } - \braket{v \chi} \braket{\chi}^{-1} \braket{\chi v}
+ }. \label{eq:eff_dyson_for_interaction}
+\end{align}
+In case of a purely local polarization $P(q,i\nu)=P(i\nu)$, we can derive again a DMFT-like Dyson equation:
+We consider a single orbital model and assume that the integral transformation
+\begin{align}
+ \int v(q)  \, \mathrm{d}q &= \int D(v) v  \, \mathrm{d}v,
+\end{align}
+exists. Furthermore, we use the relations between the susceptibility and polarization
+\begin{align}
+ \chi(q,i\nu) &= \frac{1}{v(q) - P^{-1}(q,i\nu) } \\
+ v(q) &= \frac{1}{\chi(q,i\nu)} + \frac{1}{P(q,i\nu)} \\
+ \chi(q,i\nu) &= -P(q,i\nu) - P(q,i\nu)W(q,i\nu)P(q,i\nu).
+\end{align}
+With this we get
+\begin{align}
+  \Theta^{-1}(i\nu) 
+ &= \braket{ v \chi v } - \braket{v \chi} \braket{\chi}^{-1} \braket{\chi v} \nonumber \\
+ &= \int \frac{D(v) v^2}{v-P^{-1}} \, \mathrm{d}v
+    - \frac{1}{\chi_{loc}} \left( \int \frac{D(v) v}{v-P^{-1}} \, \mathrm{d}v \right)^2 \nonumber \\
+ %
+ &= \frac{\chi_{loc}}{P^2} + \frac{1}{P} + \int D(v) v  \, \mathrm{d}v 
+    -\frac{1}{\chi_{loc}} \left( \frac{\chi^2_{loc}}{P^2} + 1 + 2\frac{\chi_{loc}}{P} \right) \nonumber \\
+%
+&= \underbrace{\int v(q)  \, \mathrm{d}q}_{ [1/\chi]_{loc}+1/P} - \frac{1}{P} - \frac{1}{\chi_{loc}} \nonumber \\
+%
+&\boxed{ = \left[ \frac{1}{\chi} \right]_{loc} - \frac{1}{\chi_{loc}} } \\
+%
+&= \int v(q)  \, \mathrm{d}q - \frac{1}{P} + \frac{1}{ P + PW_{loc}P } \nonumber \\
+&= \int v(q)  \, \mathrm{d}q - \frac{1}{P}\left( 1 - \frac{1}{ 1 + PW_{loc} } \right) \nonumber \\
+&= v_{loc} - \frac{1}{W^{-1}_{loc}+P} \nonumber \\
+\end{align}
+Then?
+\begin{align}
+ U(i\nu) &= v_{loc} - \Theta^{-1}(i\nu) \nonumber  \\
+ &= \left[ W^{-1}_{loc} + P \right]^{-1}.
+\end{align}
+REMEMBER: This result only holds for a local polarization! In the general case the more general formula 
+Eq.\eqref{eq:eff_dyson_for_interaction} has to be used.
+
+
+ 
 
 \subsection{Reverse engineering the bath for the dimer}
 Given the exact solution of the Hubbard dimer with the exact local Green's function
