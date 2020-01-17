@@ -3717,20 +3717,514 @@ since the Selfenergy is quite smooth:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Non-causal hybridization in ED+DMFT}
-
-\subsubsection{Dimer}
-
-\subsubsection{d-p-d model}
+% \subsection{Non-causal hybridization in ED+DMFT}
+% 
+% \subsubsection{Dimer}
+% 
+% \subsubsection{d-p-d model}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Noncausal bath and ED+DMFT for a dimer}
 
-\subsection{Analytic form of the Bath for a dimer}
+\section{Generalized DMFT equations extended to nonlocal Selfenergies, interactions and Polarization}
+
+Here we will rederive the DMFT equations on a Hubbard lattice explicitly allowing
+for nonlocal Selfenergies, interactions and polarization. Most of the derivations
+have already been published in \textit{Georges et al, Phys. Rev. Mod 68,13(1996)} and 
+\textit{Q. Si et al, PRL 77, 16 (1996)}, here we restate the main points and present them in
+a slightly different way. 
+
+\subsection{The action formulation (cavity method)}
+We will now proceed with the derivation using the cavity construction, where
+we focus on a single lattice site and integrate out all the other sites
+to obtain an effective local action.
+
+We start out by considering a fermionic Hubbard model with intersite hoppings $t_{ij}$,
+a chemical potential $\mu$, and a general nonlocal density-density interaction $v_{ij}$.
+The full action $S$ for this system is given by
+\begin{align}
+S 
+&= \int_0^{\beta} \mathrm{d}\tau \sum_{i\sigma} c^*_{i\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu \right] c_{i\sigma}(\tau) 
+    -\sum_{ij,\sigma} \int_0^{\beta} \mathrm{d}\tau \ t_{ij} c^*_{i\sigma}(\tau)  c_{j\sigma}(\tau)  \nonumber \\
+&\hspace{1cm} + \sum_{i} \int_0^{\beta} \mathrm{d}\tau \ n_{i\uparrow}(\tau) v_{ii} n_{i\downarrow}(\tau)
++ \sum_{i<j} \int_0^{\beta} \mathrm{d}\tau \ n_{i}(\tau) v_{ij} n_{j}(\tau),
+\end{align}
+where $c_{i\sigma}(\tau),c^*_{i\sigma}(\tau)$ are anticommuting Grassman variables, 
+$n_{i\sigma}(\tau) = c^*_{i\sigma}(\tau)c_{i\sigma}(\tau)$ and $n_{i}(\tau) = \sum_{\sigma} n_{i\sigma}(\tau)$.
+The hoppings $t_{ij}$ and interactions $v_{ij}$ are assumed to translationally invariant, e.g. $v_{ii}=v_{jj} \ \forall i,j$.
+
+We now split the action $S$ into the following three contributions
+\begin{align}
+ S &= S_0 + \Delta S + S^{(0)},
+\end{align}
+where $S_0$ is the term that contains only the local quantities on site $i=0$
+\begin{align}
+S_0
+&= \int_0^{\beta} \mathrm{d}\tau \sum_{\sigma} c^*_{0\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu \right] c_{0\sigma}(\tau) 
+   + \sum_{\sigma} \int_0^{\beta} \mathrm{d}\tau \ t_{00} c^*_{0\sigma}(\tau)  c_{0\sigma}(\tau)  \nonumber \\ 
+ &\hspace{1cm}+  \int_0^{\beta} \mathrm{d}\tau \ n_{0\uparrow}(\tau) v_{00} n_{0\downarrow}(\tau).
+\end{align}
+The term $\Delta S$ contains all contributions that couples the site $i=0$ to all other sites 
+\begin{align}
+\Delta S 
+&=  -\sum_{j\neq 0,\sigma} \int_0^{\beta} \mathrm{d}\tau \ \left( t_{0j} c^*_{0\sigma}(\tau)  c_{j\sigma}(\tau) + t_{j0} c^*_{j\sigma}(\tau)  c_{0\sigma}(\tau) \right) \nonumber \\
+&\hspace{1cm} + \sum_{j\neq 0 } \int_0^{\beta} \mathrm{d}\tau \ n_{0}(\tau) v_{0j} n_{j}(\tau).
+\end{align}
+And finally, $S^{(0)}$ contains all the contributions of the lattice with
+site $i=0$ and its bonds connecting it being removed
+\begin{align}
+S^{(0)} 
+&= \int_0^{\beta} \mathrm{d}\tau \sum_{i\neq 0,\sigma} c^*_{i\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu \right] c_{i\sigma}(\tau) 
+    -\sum_{ij\neq 0 ,\sigma} \int_0^{\beta} \mathrm{d}\tau \ t_{ij} c^*_{i\sigma}(\tau)  c_{j\sigma}(\tau)  \nonumber \\
+&\hspace{1cm} + \sum_{i\neq 0 } \int_0^{\beta} \mathrm{d}\tau \ n_{i\uparrow}(\tau) v_{ii} n_{i\downarrow}(\tau)
++ \sum_{\substack{i<j \\ ij\neq 0  }} \int_0^{\beta} \mathrm{d}\tau \ n_{i}(\tau) v_{ij} n_{j}(\tau).
+\end{align}
+Now integrating out all the degrees of freedom except the ones on site $i=0$ one obtains 
+an effective action of the form (so far we do not consider any approximation like infinite dimensions)
+\begin{align}
+ S_{eff} &= S_0
+ - \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \braket{ (\Delta S)^n }_{(0)},
+\end{align}
+where $\braket{  }_{(0)} = \frac{1}{\mathcal{Z}_{(0)}} \int \prod_i \mathrm{d}c^*_{i\sigma} \mathrm{d}c_{i\sigma} \mathrm{e}^{-S^{(0)}}$ indicates a trace over the system with the site $i=0$ removed with a corresponding
+partition function $\mathcal{Z}_{(0)}$.
+
+In \textit{Q. Si et al, PRL 77, 16 (1996)} it has been shown that 
+with a rescaling of $t_{ij} \rightarrow t_{ij}/\sqrt{2d}$ and $v_{ij} \rightarrow v_{ij}v_{ii}/\sqrt{2d}$,
+where $d$ is the dimension of the lattice, that in the effective action 
+all terms $n>2$ vanish in the limit of $d\rightarrow \infty$. 
+The first order terms also vanish because the $t_{ij}$ has no first order contribution
+and the $v_{ij}$ term is of order $1/d$.
+Additionally, different orders $n$ have vanishing interference
+terms between the fermionic $t_{ij}$ and density $v_{ij}$ terms, which means that
+there will be two separate series of terms for the $t_{ij}$ and $v_{ij}$ contributions.
+Therefore, in the $d\rightarrow \infty$ limit the effective action reduces to
+the local part and the second order contribution
+\begin{align}
+S_{eff} 
+&= S_0 - \frac{1}{2} \braket{ (\Delta S)^2 }_{(0)} \nonumber \\
+&= \int_0^{\beta} \mathrm{d}\tau \sum_{\sigma} c^*_{0\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu + t_{00} \right] c_{0\sigma}(\tau) 
+    + \int_0^{\beta} \mathrm{d}\tau \ v_{00} n_{0\uparrow}(\tau)n_{0\downarrow}(\tau)  \nonumber \\
+&\hspace{1cm}- \sum_{ij\neq 0,\sigma} t_{0i} t_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ c^*_{0\sigma}(\tau_1) \braket{ c^*_{i\sigma}(\tau_1) c_{j\sigma}(\tau_2) }_{(0)}  c_{0\sigma}(\tau_2)  \nonumber \\
+&\hspace{1cm}- \sum_{ij\neq 0} v_{0i} v_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) \braket{ n_{i}(\tau_1)   n_{j}(\tau_2) }_{(0)}  n_{0}(\tau_2)  .
+\end{align}
+If we now introduce 
+\begin{align}
+ G_{ij\sigma}^{(0)}(\tau_1-\tau_2) &= -\braket{ c^*_{i\sigma}(\tau_1) c_{j\sigma}(\tau_2) }_{(0)} \\
+ \chi_{ij}^{(0)}(\tau_1-\tau_2) &= \braket{ n_{i}(\tau_1)   n_{j}(\tau_2) }_{(0)} ,
+\end{align}
+we can rewrite the action in the form {\color{red} Check factor 1/2 in interaction!}
+\begin{align}
+S_{eff} 
+&= \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \sum_{\sigma} c^*_{0\sigma}(\tau_1)\left(
+                \delta(\tau_1-\tau_2)\left[\frac{\partial}{\partial \tau} - \mu+t_{00} \right]
+                + \sum_{ij\neq 0} t_{0i} t_{j0} G_{ij\sigma}^{(0)}(\tau_1-\tau_2)   \right) c_{0\sigma}(\tau)  \nonumber \\
+&\hspace{1cm}    + \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) 
+       \left( \delta(\tau_1-\tau_2) v_{00} - \sum_{ij\neq 0} v_{0i} v_{j0} \chi_{ij}(\tau_1-\tau_2) \right)  n_{0}(\tau_2)  .
+\end{align}
+This expression then takes the form of an impurity action 
+\begin{align}
+S_{eff} 
+&= -\int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \sum_{\sigma} 
+          c^*_{0\sigma}(\tau_1)\ \mathscr{G}^{-1}_{\sigma}(\tau_1-\tau_2) c_{0\sigma}(\tau)  \nonumber \\
+&\hspace{1cm}    + \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) 
+       U(\tau_1-\tau_2)  n_{0}(\tau_2)  ,
+\end{align}
+with the effective Weiss field and interaction given by
+\begin{align}
+ \mathscr{G}^{-1}_{\sigma}(\tau_1-\tau_2) 
+ &= -\delta(\tau_1-\tau_2)\left[\frac{\partial}{\partial \tau} - \mu +t_{00} \right] - \sum_{ij\neq 0} t_{0i} t_{j0} G_{ij\sigma}^{(0)}(\tau_1-\tau_2) \\
+ %
+ U(\tau_1-\tau_2) 
+ &= \delta(\tau_1-\tau_2) v_{00} - \sum_{ij\neq 0} v_{0i} v_{j0} \chi_{ij}(\tau_1-\tau_2).
+\end{align}
+Or in the frequency domain
+\begin{align}
+ \mathscr{G}^{-1}_{\sigma}(i\omega) 
+ &= i\omega + \mu - t_{00} - \underbrace{\sum_{ij\neq 0} t_{0i} t_{j0} G_{ij\sigma}^{(0)}(\tau_1-\tau_2)}_{\Delta(i\omega)} \\
+ %
+ U(i\nu) 
+ &= v_{00} - \underbrace{\sum_{ij\neq 0} v_{0i} v_{j0} \chi_{ij}(i\nu)}_{\Theta(i\nu)}.
+\end{align}
+The connection to the original lattice including site $i=0$ can be made by using the 
+equations
+\begin{align}
+ G^{(0)}_{ij} &= G_{ij} - G_{i0}G^{-1}_{00}G_{0j} \\ 
+ \chi^{(0)}_{ij} &= \chi_{ij} - \chi_{i0}\chi^{-1}_{00}\chi_{0j} .
+\end{align}
+
+
+\subsection{The fermionic bath}
+Using the relations above the Weiss field has the form
+\begin{align}
+ \mathscr{G}^{-1}(i\omega) = i\omega + \mu - t_{00} - \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} .
+\end{align}
+We now insert the Fourier-transform from reciprocal to real space into the first term 
+\begin{align}
+ \sum_{ij\neq 0} t_{0i}  G_{ij} t_{j0} 
+ &= \sum_{ij\neq 0} \int \epsilon(k_1)\mathrm{e}^{ik_1(0-R_i)}  G(k_2)\mathrm{e}^{ik_2(R_i-R_j)} \epsilon(k_3)\mathrm{e}^{ik_3(R_j-0)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+ &=  \int \epsilon(k_1)G(k_2)\epsilon(k_3)  \sum_{ij\neq 0} \mathrm{e}^{iR_i(k_2-k_1)}\mathrm{e}^{iR_j(k_3-k_2)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+ &=  \int \epsilon(k_1)G(k_2)\epsilon(k_3)  \Big(\delta(k_2-k_1)-1 \Big) \Big(\delta(k_3-k_2)-1 \Big) \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+ &=  \int \epsilon(k_1)G(k_1)\epsilon(k_1) \, \mathrm{d}k_1
+                 +\int \epsilon(k_1)G(k_2)\epsilon(k_3) \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \nonumber \\
+ & \hspace{0.5cm}  -\int \epsilon(k_1)G(k_1)\epsilon(k_3) \, \mathrm{d}k_1\mathrm{d}k_3
+                 -\int \epsilon(k_1)G(k_2)\epsilon(k_2) \, \mathrm{d}k_1\mathrm{d}k_2 \\
+%                 
+&= \braket{\epsilon G \epsilon} + \braket{\epsilon} \braket{G} \braket{\epsilon} - \braket{\epsilon G} \braket{\epsilon}
+                                                                                 - \braket{\epsilon}\braket{G\epsilon },
+\end{align}
+where we have abbreviated the projection onto the local site as $\braket{G}=G_{loc}=\int G(k) \, \mathrm{d}k$.
+
+The second term in the equation above evaluates to
+\begin{align}
+ \sum_{ij\neq 0} & t_{0i}  G_{i0}[G_{loc}]^{-1} G_{0j} t_{j0}  \nonumber \\
+&= \sum_{ij\neq 0} \int \epsilon(k_1)\mathrm{e}^{ik_1(0-R_i)}  G(k_2)\mathrm{e}^{ik_2(R_i-0)} [G_{loc}]^{-1} G(k_3)\mathrm{e}^{ik_3(0-R_j)} \epsilon(k_4)\mathrm{e}^{ik_4(R_j-0)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3\mathrm{d}k_4 \\
+&=  \int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_4) \sum_{ij\neq 0}\underbrace{\mathrm{e}^{iR_i(k_2-k_1)}}_{\delta(k_2-k_1)-1}\underbrace{\mathrm{e}^{iR_j(k_4-k_3)}}_{\delta(k_4-k_3)-1} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3\mathrm{d}k_4 \\
+&=  \int \epsilon(k_1)  G(k_1) [G_{loc}]^{-1} G(k_3) \epsilon(k_3)  \, \mathrm{d}k_1\mathrm{d}k_3
+   +\int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_4)  \, \mathrm{d}k_1\mathrm{d}k_2 \mathrm{d}k_3\mathrm{d}k_4 \nonumber\\
+&  -\int \epsilon(k_1)  G(k_1) [G_{loc}]^{-1} G(k_3) \epsilon(k_4)  \, \mathrm{d}k_1\mathrm{d}k_3\mathrm{d}k_4 
+   -\int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_3)  \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
+%
+&=   \braket{\epsilon G} \braket{G}^{-1}  \braket{G \epsilon} +  \braket{\epsilon} \braket{G} \braket{G}^{-1}  \braket{G} \braket{\epsilon}
+   - \braket{\epsilon G} \braket{G}^{-1}  \braket{G} \braket{\epsilon} - \braket{\epsilon} \braket{G} \braket{G}^{-1} \braket{ G \epsilon} \\
+%
+&=   \braket{\epsilon G} \braket{G}^{-1}  \braket{G \epsilon} +  \braket{\epsilon} \braket{G} \braket{\epsilon}
+   - \braket{\epsilon G} \braket{\epsilon} - \braket{\epsilon}  \braket{G \epsilon}.
+ \end{align}
+ Combining these two terms we get as the final result
+\begin{align}
+\boxed{
+ \mathscr{G}^{-1} (i\omega)
+%  &= i\omega + \mu_{loc} - \left( [\epsilon G \epsilon]_{loc} - [\epsilon G]_{loc} [G_{loc}]^{-1}  [G \epsilon]_{loc}  \right).\\
+ = i\omega + \mu - \braket{\epsilon} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) 
+},\label{eq:eff_dyson_for_bath}
+ \end{align}
+For simplicity, we now focus on the one-orbital case. The two last terms in the above equation take the form
+\begin{align}
+ \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
+ &= \int \frac{\epsilon^2(k)}{i\omega + \mu - \epsilon(k)-\Sigma(k,i\omega)}\, \mathrm{d}k \nonumber \\
+ & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \int \frac{\epsilon(k)}{i\omega + \mu - \epsilon(k)-\Sigma(k,i\omega)} \, \mathrm{d}k \right)^2 
+\end{align}
+\underline{If we now neglect the momentum-dependence of the Selfenergy} $\Sigma(k,i\omega)\approx \Sigma(i\omega)$ we can substitute
+the integration over $k$ by an integration over energy and the DOS
+\begin{align}
+ \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
+ &= \int \frac{ D(\epsilon) \epsilon^2}{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon \nonumber \\
+ & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \int \frac{ D(\epsilon) \epsilon}{i\omega + \mu - \epsilon-\Sigma(i\omega)} \mathrm{d}\epsilon \right)^2.
+\end{align}
+We can simplify this equation by  using the following mathematical identities
+\begin{align}
+\int \frac{ f(x)x }{y-x} \, \mathrm{dx} &= y\int \frac{ f(x) }{y-x} \, \mathrm{dx} - 1 \\
+%
+ \mbox{and }\int \frac{ f(x)x^2 }{y-x} \, \mathrm{dx} 
+ &= y\int \frac{ f(x)x }{y-x} \, \mathrm{dx} - \int f(x) x \, \mathrm{dx} \nonumber \\
+&= y^2 \int \frac{ f(x) }{y-x} \, \mathrm{dx} -y - \int f(x) x \, \mathrm{dx} .
+\end{align}
+With this we obtain
+\begin{align}
+ \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
+ &= \left( i\omega + \mu -\Sigma(i\omega) \right)^2 \int \frac{ D(\epsilon) }{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon \nonumber \\
+ & \hspace{0.5cm}- \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
+ & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \left( i\omega + \mu -\Sigma(i\omega) \right) \int \frac{ D(\epsilon) }{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon -1 \right)^2 \\
+%
+&= - \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
+&\hspace{0.5cm}   + 2\left( i\omega + \mu -\Sigma(i\omega) \right) - G_{loc}^{-1} \\
+%
+ &= \left( i\omega + \mu -\Sigma(i\omega) \right) - \underbrace{\int D(\epsilon) \epsilon \, \mathrm{d}\epsilon}_{\braket{\epsilon(k)}} - G_{loc}^{-1}.
+\end{align}
+So finally we obtain as the bath Green's function
+\begin{align}
+ \mathscr{G}^{-1}(i\omega)
+ &= i\omega + \mu - \braket{\epsilon} -\Big( 
+       i\omega + \mu -\Sigma(i\omega)  - \braket{\epsilon} - G_{loc}^{-1} 
+        \Big) \\
+ &= G_{loc}^{-1} + \Sigma(i\omega).
+\end{align}
+So we obtain a Dyson-like equation for the bath.
+\ul{It is very important to stress that this equation is only valid for a local Selfenergy.}
+\ul{If there are nonlocal Selfenergy terms present to generate the lattice Green's function 
+like in GW+DMFT, this derivation is in general no longer possible because the integration over momentum
+space cannot be replaced by an integration over energy and the DOS.}
+
+Therefore, the more general equation \eqref{eq:eff_dyson_for_bath} has to be used in such cases.
+It will be identical to the Dyson-like equation in the case of local Selfenergies, but
+will give a different result if nonlocal Selfenergies are added.
+In the next section we will discuss a few examples using the more general equation.
+
+\subsection{Bosonic bath}
+% Here, the Polarization $P(q,i\nu)$ takes the role of the nonlocal Selfenergy $\Sigma(k,i\omega)$,
+% which dresses the bare interaction $v(q)$ to the screened interaction $W(q,i\nu)$, i.e.
+% \begin{align}
+% G^{-1}(k,i\omega) &= \underbrace{G_0^{-1}}_{i\omega+\mu-H(k)} - \Sigma(k,i\omega) \\
+% W^{-1}(q,i\nu) &= v^{-1}(q)-P(q,i\nu) .
+% \end{align}
+Previously we obtained the expression for the effective local interaction as 
+\begin{align}
+ U(i\nu) 
+ &= v_{00} - \underbrace{\sum_{ij\neq 0} v_{0i} v_{j0} \chi_{ij}(i\nu)}_{\Theta(i\nu)}.
+\end{align}
+We see that the bare interaction $v$ plays the same role as the noninteracting hopping amplitude $t$ for the fermionic bath.
+Therefore, following the same derivation as for the one-particle Green's function the analogous result
+for the effective interaction is 
+\begin{align}
+\boxed{
+ U(i\nu) 
+ = v_{00} - \left( \braket{ v \chi v } - \braket{v \chi} \braket{\chi}^{-1} \braket{\chi v} \right)
+ }. \label{eq:eff_dyson_for_interaction}
+\end{align}
+In case of a purely local polarization $P(q,i\nu)=P(i\nu)$, we can derive again a DMFT-like Dyson equation:
+We consider a single orbital model and assume that the integral transformation
+\begin{align}
+ \int v(q)  \, \mathrm{d}q &= \int D(v) v  \, \mathrm{d}v,
+\end{align}
+exists. Furthermore, we use the relations between the susceptibility and polarization
+\begin{align}
+ \chi(q,i\nu) &= \frac{1}{v(q) - P^{-1}(q,i\nu) } \\
+ v(q) &= \frac{1}{\chi(q,i\nu)} + \frac{1}{P(q,i\nu)} \\
+ \chi(q,i\nu) &= -P(q,i\nu) - P(q,i\nu)W(q,i\nu)P(q,i\nu).
+\end{align}
+With this we get
+\begin{align}
+  \Theta(i\nu) 
+ &= \braket{ v \chi v } - \braket{v \chi} \braket{\chi}^{-1} \braket{\chi v} \nonumber \\
+ &= \int \frac{D(v) v^2}{v-P^{-1}} \, \mathrm{d}v
+    - \frac{1}{\chi_{loc}} \left( \int \frac{D(v) v}{v-P^{-1}} \, \mathrm{d}v \right)^2 \nonumber \\
+ %
+ &= \frac{\chi_{loc}}{P^2} + \frac{1}{P} + \int D(v) v  \, \mathrm{d}v 
+    -\frac{1}{\chi_{loc}} \left( \frac{\chi^2_{loc}}{P^2} + 1 + 2\frac{\chi_{loc}}{P} \right) \nonumber \\
+%
+&= \underbrace{\int v(q)  \, \mathrm{d}q}_{ [1/\chi]_{loc}+1/P} - \frac{1}{P} - \frac{1}{\chi_{loc}} \nonumber \\
+%
+&\boxed{ = \left[ \frac{1}{\chi} \right]_{loc} - \frac{1}{\chi_{loc}} } \\
+%
+&= \int v(q)  \, \mathrm{d}q - \frac{1}{P} + \frac{1}{ P + PW_{loc}P } \nonumber \\
+&= \int v(q)  \, \mathrm{d}q - \frac{1}{P}\left( 1 - \frac{1}{ 1 + PW_{loc} } \right) \nonumber \\
+&= v_{loc} - \frac{1}{W^{-1}_{loc}+P} \nonumber \\
+\end{align}
+Then we finally have
+\begin{align}
+ U(i\nu) &= v_{loc} - \Theta(i\nu) \nonumber  \\
+ &= \left[ W^{-1}_{loc} + P \right]^{-1}.
+\end{align}
+REMEMBER: This result only holds for a local polarization! In the general case the more general formula 
+Eq.\eqref{eq:eff_dyson_for_interaction} has to be used.
+
+
+
+\subsubsection{2-site Dimer example}
+For the case of a dimer with the two sites 0 and 1 the full interacting Green's function is given by
+\begin{align}
+G^{-1} &=
+\left[ \unity (i\omega + \mu ) -
+ \begin{pmatrix}
+     0 & -t \\ -t & 0
+ \end{pmatrix}
+ -
+ \begin{pmatrix}
+     \Sigma_{00} & \Sigma_{01} \\ \Sigma_{10} & \Sigma_{11}
+ \end{pmatrix}
+ \right]^{-1} \\
+%
+\Rightarrow G &= 
+     \frac{1}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 }
+    \begin{pmatrix}
+      i\omega + \mu-\Sigma_{00} & -t+\Sigma_{01} \\ -t+\Sigma_{01}  & i\omega + \mu -\Sigma_{00} ,
+     \end{pmatrix} 
+\end{align}
+where we have used that $\Sigma_{00} = \Sigma_{11}$ and $\Sigma_{01} = \Sigma_{10}$.
+Inserting this Green's function into the equation for the Weiss field from above we get
+\begin{align}
+ \mathcal{G}^{-1} &= i\omega + \mu_{loc} -  t_{01} t_{10} \left( G_{11} - \frac{G_{10} G_{01} }{G_{00}} \right) \\
+ &= i\omega + \mu_{loc} -  \frac{t^2}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 } 
+                 \left( i\omega + \mu-\Sigma_{00} - \frac{ (-t+\Sigma_{01})^2 }{i\omega + \mu-\Sigma_{00}} \right) \\
+&= i\omega + \mu_{loc} -  \frac{t^2}{i\omega + \mu-\Sigma_{00} } . \label{eq:correct_bath_dimer}
+\end{align}
+We see that the nonlocal Selfenergy $\Sigma_{01}$ drops out of the equation and does not enter the bath. 
+Here the bath is completely causal and actually takes the same form as in standard DMFT where the Selfenergy is purely local.
+
+Now if we use the Dyson equation to obtain the bath when the full Green's function contains a nonlocal Selfenergy,
+we obtain
+\begin{align}
+ \mathcal{G}^{-1} 
+ &= (G_{00})^{-1} + \Sigma_{00}  \\
+ &= \frac{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2}{ i\omega + \mu-\Sigma_{00} }  + \Sigma_{00} \\
+ &= i\omega + \mu -  \frac{(t-\Sigma_{01})^2}{i\omega + \mu-\Sigma_{00} } ,
+\end{align}
+which is different compared to the result we obtained with the general formula in Eq.\eqref{eq:correct_bath_dimer}!
+Now the nonlocal Selfenergy effectively stays in the bath and modifies the 
+hopping as $t-\Sigma_{01}$. Here the bath becomes noncausal!
+But using the Dyson equation is not valid when allowing for 
+nonlocal Selfenergies. Eq.\eqref{eq:eff_dyson_for_bath} only takes the form of a Dyson equation when
+we neglect nonlocal Selfenergies! (Here in this case offdiagonal).
+
+Here we show a plot of the impurity Selfenergy after solving the impurity problem
+for the two baths above. It is evident that the general form of the bath is a much better approximation 
+to the exact solution than the bath from the Dyson equation.
+
+\includegraphics[width=1.0\textwidth]{figs/reversebath/dimerbath/bath_general_dyson_U2.pdf}
+
+
+
+
+\subsubsection{1D Hubbard and Fock Selfenergy example}
+Here we consider a 1-dimensional Hubbard model with NN-Hopping $t=1$. We generate the bath 
+and hybridization function for the generalized scheme and from the Dyson equation 
+and compare the results. Since the generalized scheme and the Dyson equation
+are identical for local Selfenergies, we add here a Fock-like term as the nonlocal
+Selfenergy of the form ,
+\begin{align}
+ \Sigma(k) &= -0.5 \cos(k)
+\end{align}
+which widens the noninteracting bandwidth.
+
+The resulting bath and hybridization are shown in this plot:
+
+\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_bath_sigk.pdf}
+\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_hyb_sigk.pdf}
+
+We see that the Dyson equation obtains a much larger bandwidth with increased hybridization 
+at the Fermi level, indicating a less correlated system.
+The general scheme on the other hand also increases the bandwidth slightly, but
+shows a reduced hybridization at the Fermilevel, which in general indicates a stronger correlated system.
+
+If we solve these impurity models one-shot with just one solver iteration, this 
+suspicion is confirmed. The Fock term leads to an increase in local correlations,
+but the Dyson equation incorrectly predicts exactly the opposite, namely weaker local correlations.
+
+\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_simp.pdf}
+
+\subsubsection{4-site plaquette example}
+Here we consider a finite 4-site cluster with NN-Hopping $t=1$. We perform a selfconsistent
+ED+DMFT calculation where we generate the bath 
+and hybridization function for the generalized scheme and from the Dyson equation 
+and compare the results. We again find that DMFT already gives a reasonable local Selfenergy,
+while the Dyson equation ED+DMFT makes it worse. The general formula improves the result
+slightly. There is still a difference to the exact result, which is probably because
+the nonlocal contributions to the local Selfenergy are quite large, which we cannot obtain 
+within our approach.
+
+\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/plaquette_eddmft.pdf}
+
+
+\subsubsection{2D Hubbard model example and Fock term at half-filling}
+Here we consider a 2-dimensional Hubbard model with NN-Hopping $t=1$. We perform a selfconsistent
+Fock+DMFT calculation where we generate the bath 
+and hybridization function for the generalized scheme and from the Dyson equation 
+and compare the results. Since the generalized scheme and the Dyson equation
+are identical for local Selfenergies, we add here a Fock-like term as the nonlocal
+Selfenergy of the form 
+\begin{align}
+ \Sigma(k) &= -0.5 (\cos(k_x) + \cos(k_y) )
+\end{align}
+which widens the noninteracting bandwidth. Again,
+the Fock term leads to an increase in local correlations,
+but the Dyson equation incorrectly predicts exactly the opposite, namely weaker local correlations.
+
+\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/Zval_2dHub_fock.pdf}
+
+\subsubsection{2D Hubbard model example away from half-filling}
+Here we consider the 2-dimensional Hubbard model for $t=1$, $20\%$ hole-doping $n=0.8$ 
+and $U=4$, which is in the weakly correlated metallic regime. 
+For the nonlocal Selfenergies we use perturbation theory and calculate all diagrams
+up to second order, which in this regime is quite a good approximation,
+compared to (basically exact) diagrammatic Monte Carlo results.
+
+Then we perform a selfconsistent 2nd+DMFT calculation where the nonlocal Selfenergies are included in the DMFT cycle
+for the general scheme and the Dyson method, as well as zero-frequency approximations to
+the Selfenergy. The resulting impurity or local Selfenergy is shown in this plot:
+
+\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/Sigma_2DHubbard_real.pdf}
+\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/Sigma_2DHubbard_imag.pdf}
+
+We clearly see that the full 2nd+DMFT scheme is the closest to the exact diagrammatic Monte Carlo
+results. The second best result for the real part is the 2nd(w=0)+DMFT scheme, where we have approximated the 
+nonlocal Selfenergy by their $w=0$ value. But interestingly the imaginary part is slightly too small in this case,
+indicating that the 2nd(w=0)+DMFT methods leads to an underestimation of the correlation strength, i.e. likely at high energies, but 
+gives a good representation at the Fermi level, since the real part of the Selfenergy is well reproduced.
+The Dyson equation shows completely the opposite trend, moving away from the exact solution
+regardless of using the frequency dependent nonlocal Selfenergy or its $w=0$ value. 
+Also here the Dyson equation leads to an underestimation
+of the correlation strength.
+
+\bigskip
+
+We can symmarize by saying that in all examples we considered (dimer, plaquette, 1D Hubbard model, 2D Hubbard model with/without doping)
+we see that the usual Dyson equation used in GW+DMFT or similar approaches always makes the result worse compared
+to standard DMFT.
+On the other hand, using the more general formula for the bath always make the result (local Green's function 
+and Selfenergy) much better and brings it very close to the exact result.
+
+\subsection{Example for the effective interaction and cRPA}
+Here we compare examples of generating the effective interaction $U(i\nu)$ 
+for a 2-dimensional square Hubbard model in different scenarios.
+For all cases we compare the result obtained from the general
+formula obtained above, the Dyson equation and the cRPA
+scheme, where the screening from the target bands is removed from
+the polarization. 
+
+\subsubsection{1 orbital, U=4, V=1}
+\includegraphics[width=0.49\textwidth]{figs/bathNonlocFromDMFTderiv/1orb_U4_V1_real.pdf}
+\includegraphics[width=0.49\textwidth]{figs/bathNonlocFromDMFTderiv/1orb_U4_V1_imag.pdf}
+
+This is a simple 2-dimensional one-orbital Hubbard model with onsite interaction $U=4$ and nearest-neighbour
+interaction $V=1$. The general scheme yields a frequency dependent and causal interaction, 
+while the Dyson gives a noncausal interaction with erratic frequency dependence.
+The cRPA method obtains the unscreened static value since the screening from the target band is removed.
+
+\subsubsection{3 orbitals, $t_{loc}=1$, U=4, V=0}
+\includegraphics[width=0.49\textwidth]{figs/bathNonlocFromDMFTderiv/3orb_U4_V0_real.pdf}
+\includegraphics[width=0.49\textwidth]{figs/bathNonlocFromDMFTderiv/3orb_U4_V0_imag.pdf}
+
+This is a 2-dimensional three-orbital Hubbard model with onsite interaction $U=4$ and nearest-neighbour
+interaction $V=1$. The Hamiltonian is given by
+\begin{align}
+ H(k) &=
+ \begin{pmatrix}
+  -2\cos(k) - 5 & 1 & 0 \\  
+  1 & -2\cos(k)  & 1 \\
+  0 & 1 &-2\cos(k) + 5  
+ \end{pmatrix}
+\end{align}
+So there is an onsite hopping between the target band and the screening bands, which are far away from the Fermi level.
+The general scheme and the Dyson equation yield an almost identical frequency dependent interaction,
+since the screening is only contributed from charge flucuations and not from nonlocal interactions.
+The Dyson gives again a noncausal interaction with erratic frequency dependence.
+
+\subsubsection{3 orbitals, $t_{loc}=1$, U=4, V=1}
+\includegraphics[width=0.49\textwidth]{figs/bathNonlocFromDMFTderiv/3orb_U4_V1_real.pdf}
+\includegraphics[width=0.49\textwidth]{figs/bathNonlocFromDMFTderiv/3orb_U4_V1_imag.pdf}
+
+This is the same Hubbard model with onsite hybridization, but with an additional nearest-neighbour interaction
+of $V=1$. All methods give a screened frequency dependent interaction, and again the Dyson equation yields
+a noncausal result.
+
+\subsection{Multi-orbital generalization}
+The original formula 
+\begin{align}
+ \mathcal{G}^{-1} 
+ = i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) ,
+ \end{align}
+ is bascially already valid for the mutliorbital case, since all objects can be matrices.
+ One just has to take care that the $\braket{}$ operation involves a local projection, i.e.
+ a $k$-sum and taking the matrix elements of only the correlated orbitals $L$.
+ Thus, the equation written out explicitely for multiorbitals with a subset of correlated
+ orbitals $L$ takes the form
+\begin{align}
+ \left[ \mathcal{G}^{-1} \right]_{LL'}
+ &= i\omega\unity + [\mu_{loc}]_{LL'} 
+ -  \int \left [ \epsilon(k) G(k,i\omega) \epsilon(k) \right]_{LL'} \, \mathrm{d}k \nonumber \\
+ & \hspace{0.5cm }+ \int \left[ \epsilon(k) G(k,i\omega) \right]_{LL'}  \, \mathrm{d}k 
+                  \int \left[ G_{LL'}(k,i\omega) \right]^{-1}   \, \mathrm{d}k
+                  \int  \left[ G(k,i\omega) \epsilon(k) \right]_{LL'} \, \mathrm{d}k  .
+ \end{align} 
+ It is understood that all multiplications are Matrix multiplications 
+ and $\left[ G_{LL'}(k,i\omega) \right]^{-1}$ is a matrix inversion in the $LL'$ space.
+
+
+
+\subsection{More on the dimer example}
 Let us consider a model for a 2-site dimer model with one orbital per site
 at half filling, i.e. two sites that are coupled via a hopping $t$
 and a local Coulomb interaction $U$. 
@@ -3909,7 +4403,7 @@ If we solve the impurity with this bath we do not reproduce the exact Greensfunc
 
 \includegraphics[width=1\textwidth]{figs/reversebath/gimp_simp_dimer_exactbath.pdf}
 
-\subsection{Analytic form of the bath for the dimer}
+\subsubsection{Analytic form of the bath for the dimer}
 The exact Selfenergy of the dimer at half filling is given by
 \begin{align}
  \Sigma_{loc}(\omega)
@@ -4001,357 +4495,9 @@ So only the nonlocal Selfenergy is solely responsible for the noncausal terms in
 %     \frac{c_{nc}}{\omega+i\delta-}
 % \end{align}
 
-
-
-\subsection{Generalized DMFT equations with a nonlocal Selfenergy}
-In the derivation of the DMFT equations using the cavity construction one can show that the
-effective action of the Hubbard model after integrating out all sites except one becomes identical
-to the action of an impurity model with the Weiss field (all objects here are matrices in orbital space)
-\begin{align}
- \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i} G^{(0)}_{ij} t_{j0},
-\end{align}
-where $G^{(0)}_{ij}$ is the Green's function of the Hubbard model with site $0$ removed, and
-$t_{i0}$ are the hopping amplitudes from site $i$ to the site $0$.
-
-For a general lattice the relation between the cavity $G^{(0)}$ and the full lattice Green's function $G$ reads
-\begin{align*}
- G^{(0)}_{ij} &= G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}},
-\end{align*}
-so the effective Weiss field takes the form
-\begin{align}
- \mathcal{G}^{-1} = i\omega + \mu_{loc} - \sum_{ij\neq 0} t_{0i}  \left( G_{ij} - \frac{G_{i0} G_{0j} }{G_{00}} \right) t_{j0} .
-\end{align}
-We now insert the Fourier-transform from reciprocal to real space into the first term 
-\begin{align}
- \sum_{ij\neq 0} t_{0i}  G_{ij} t_{j0} 
- &= \sum_{ij\neq 0} \int \epsilon(k_1)\mathrm{e}^{ik_1(0-R_i)}  G(k_2)\mathrm{e}^{ik_2(R_i-R_j)} \epsilon(k_3)\mathrm{e}^{ik_3(R_j-0)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
- &=  \int \epsilon(k_1)G(k_2)\epsilon(k_3)  \sum_{ij\neq 0} \mathrm{e}^{iR_i(k_2-k_1)}\mathrm{e}^{iR_j(k_3-k_2)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
- &=  \int \epsilon(k_1)G(k_2)\epsilon(k_3)  \Big(\delta(k_2-k_1)-1 \Big) \Big(\delta(k_3-k_2)-1 \Big) \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
- &=  \int \epsilon(k_1)G(k_1)\epsilon(k_1) \, \mathrm{d}k_1
-                 +\int \epsilon(k_1)G(k_2)\epsilon(k_3) \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \nonumber \\
- & \hspace{0.5cm}  -\int \epsilon(k_1)G(k_1)\epsilon(k_3) \, \mathrm{d}k_1\mathrm{d}k_3
-                 -\int \epsilon(k_1)G(k_2)\epsilon(k_2) \, \mathrm{d}k_1\mathrm{d}k_2 \\
-%                 
-&= \braket{\epsilon G \epsilon} + \braket{\epsilon} \braket{G} \braket{\epsilon} - \braket{\epsilon G} \braket{\epsilon}
-                                                                                 - \braket{\epsilon}\braket{G\epsilon },
-\end{align}
-where we have abbreviated the projection onto the local site as $\braket{G}=G_{loc}=\int G(k) \, \mathrm{d}k$.
-
-The second term in the equation above evaluates to
-\begin{align}
- \sum_{ij\neq 0} & t_{0i}  G_{i0}[G_{loc}]^{-1} G_{0j} t_{j0}  \nonumber \\
-&= \sum_{ij\neq 0} \int \epsilon(k_1)\mathrm{e}^{ik_1(0-R_i)}  G(k_2)\mathrm{e}^{ik_2(R_i-0)} [G_{loc}]^{-1} G(k_3)\mathrm{e}^{ik_3(0-R_j)} \epsilon(k_4)\mathrm{e}^{ik_4(R_j-0)} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3\mathrm{d}k_4 \\
-&=  \int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_4) \sum_{ij\neq 0}\underbrace{\mathrm{e}^{iR_i(k_2-k_1)}}_{\delta(k_2-k_1)-1}\underbrace{\mathrm{e}^{iR_j(k_4-k_3)}}_{\delta(k_4-k_3)-1} \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3\mathrm{d}k_4 \\
-&=  \int \epsilon(k_1)  G(k_1) [G_{loc}]^{-1} G(k_3) \epsilon(k_3)  \, \mathrm{d}k_1\mathrm{d}k_3
-   +\int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_4)  \, \mathrm{d}k_1\mathrm{d}k_2 \mathrm{d}k_3\mathrm{d}k_4 \nonumber\\
-&  -\int \epsilon(k_1)  G(k_1) [G_{loc}]^{-1} G(k_3) \epsilon(k_4)  \, \mathrm{d}k_1\mathrm{d}k_3\mathrm{d}k_4 
-   -\int \epsilon(k_1)  G(k_2) [G_{loc}]^{-1} G(k_3) \epsilon(k_3)  \, \mathrm{d}k_1\mathrm{d}k_2\mathrm{d}k_3 \\
-%
-&=   \braket{\epsilon G} \braket{G}^{-1}  \braket{G \epsilon} +  \braket{\epsilon} \braket{G} \braket{G}^{-1}  \braket{G} \braket{\epsilon}
-   - \braket{\epsilon G} \braket{G}^{-1}  \braket{G} \braket{\epsilon} - \braket{\epsilon} \braket{G} \braket{G}^{-1} \braket{ G \epsilon} \\
-%
-&=   \braket{\epsilon G} \braket{G}^{-1}  \braket{G \epsilon} +  \braket{\epsilon} \braket{G} \braket{\epsilon}
-   - \braket{\epsilon G} \braket{\epsilon} - \braket{\epsilon}  \braket{G \epsilon}.
- \end{align}
- Combining these two terms we get as the final result
-\begin{align}
-\boxed{
- \mathcal{G}^{-1} 
-%  &= i\omega + \mu_{loc} - \left( [\epsilon G \epsilon]_{loc} - [\epsilon G]_{loc} [G_{loc}]^{-1}  [G \epsilon]_{loc}  \right).\\
- = i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) 
-},\label{eq:eff_dyson_for_bath}
- \end{align}
-For simplicity, we now focus on the one-orbital case. The two last terms in the above equation take the form
-\begin{align}
- \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
- &= \int \frac{\epsilon^2(k)}{i\omega + \mu - \epsilon(k)-\Sigma(k,i\omega)}\, \mathrm{d}k \nonumber \\
- & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \int \frac{\epsilon(k)}{i\omega + \mu - \epsilon(k)-\Sigma(k,i\omega)} \, \mathrm{d}k \right)^2 
-\end{align}
-\underline{If we now neglect the momentum-dependence of the Selfenergy} $\Sigma(k,i\omega)\approx \Sigma(i\omega)$ we can substitute
-the integration over $k$ by an integration over energy and the DOS
-\begin{align}
- \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
- &= \int \frac{ D(\epsilon) \epsilon^2}{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon \nonumber \\
- & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \int \frac{ D(\epsilon) \epsilon}{i\omega + \mu - \epsilon-\Sigma(i\omega)} \mathrm{d}\epsilon \right)^2.
-\end{align}
-We can simplify this equation by  using the following mathematical identities
-\begin{align}
-\int \frac{ f(x)x }{y-x} \, \mathrm{dx} &= y\int \frac{ f(x) }{y-x} \, \mathrm{dx} - 1 \\
-%
- \mbox{and }\int \frac{ f(x)x^2 }{y-x} \, \mathrm{dx} 
- &= y\int \frac{ f(x)x }{y-x} \, \mathrm{dx} - \int f(x) x \, \mathrm{dx} \nonumber \\
-&= y^2 \int \frac{ f(x) }{y-x} \, \mathrm{dx} -y - \int f(x) x \, \mathrm{dx} .
-\end{align}
-With this we obtain
-\begin{align}
- \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon } 
- &= \left( i\omega + \mu -\Sigma(i\omega) \right)^2 \int \frac{ D(\epsilon) }{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon \nonumber \\
- & \hspace{0.5cm}- \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
- & \hspace{0.5cm} - \frac{1}{G_{loc}} \left( \left( i\omega + \mu -\Sigma(i\omega) \right) \int \frac{ D(\epsilon) }{i\omega + \mu - \epsilon-\Sigma(i\omega)} \, \mathrm{d}\epsilon -1 \right)^2 \\
-%
-&= - \left( i\omega + \mu -\Sigma(i\omega) \right) - \int D(\epsilon) \epsilon \, \mathrm{d}\epsilon \nonumber \\
-&\hspace{0.5cm}   + 2\left( i\omega + \mu -\Sigma(i\omega) \right) - G_{loc}^{-1} \\
-%
-&= \left( i\omega + \mu -\Sigma(i\omega) \right) - \underbrace{\int D(\epsilon) \epsilon \, \mathrm{d}\epsilon}_{\int \epsilon(k) \, \mathrm{d}k} - G_{loc}^{-1}.
-\end{align}
-So finally we obtain as the bath Green's function
-\begin{align}
- \mathcal{G}^{-1} 
- &= G_{loc}^{-1} + \Sigma(i\omega) + \underbrace{ \left( \mu_{loc}- \mu
-      + \int \epsilon(k) \, \mathrm{d}k \right) }_{=0 \mbox{ when selfconsist.}} \\
- &= G_{loc}^{-1} + \Sigma(i\omega).
-\end{align}
-So we obtain a Dyson-like equation for the bath.
-\ul{It is very important to stress that this equation is only valid for a local Selfenergy.}
-\ul{If there are nonlocal Selfenergy terms present to generate the lattice Green's function 
-like in GW+DMFT, this derivation is in general no longer possible because the integration over momentum
-space cannot be replaced by an integration over energy and the DOS.}
-
-Therefore, the more general equation \eqref{eq:eff_dyson_for_bath} has to be used in such cases.
-It will be identical to the Dyson-like equation in the case of local Selfenergies, but
-will give a different result if nonlocal Selfenergies are added.
-In the next section we will discuss a few examples using the more general equation.
-
-\subsubsection{2-site Dimer example}
-For the case of a dimer with the two sites 0 and 1 the full interacting Green's function is given by
-\begin{align}
-G^{-1} &=
-\left[ \unity (i\omega + \mu ) -
- \begin{pmatrix}
-     0 & -t \\ -t & 0
- \end{pmatrix}
- -
- \begin{pmatrix}
-     \Sigma_{00} & \Sigma_{01} \\ \Sigma_{10} & \Sigma_{11}
- \end{pmatrix}
- \right]^{-1} \\
-%
-\Rightarrow G &= 
-     \frac{1}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 }
-    \begin{pmatrix}
-      i\omega + \mu-\Sigma_{00} & -t+\Sigma_{01} \\ -t+\Sigma_{01}  & i\omega + \mu -\Sigma_{00} ,
-     \end{pmatrix} 
-\end{align}
-where we have used that $\Sigma_{00} = \Sigma_{11}$ and $\Sigma_{01} = \Sigma_{10}$.
-Inserting this Green's function into the equation for the Weiss field from above we get
-\begin{align}
- \mathcal{G}^{-1} &= i\omega + \mu_{loc} -  t_{01} t_{10} \left( G_{11} - \frac{G_{10} G_{01} }{G_{00}} \right) \\
- &= i\omega + \mu_{loc} -  \frac{t^2}{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2 } 
-                 \left( i\omega + \mu-\Sigma_{00} - \frac{ (-t+\Sigma_{01})^2 }{i\omega + \mu-\Sigma_{00}} \right) \\
-&= i\omega + \mu_{loc} -  \frac{t^2}{i\omega + \mu-\Sigma_{00} } . \label{eq:correct_bath_dimer}
-\end{align}
-We see that the nonlocal Selfenergy $\Sigma_{01}$ drops out of the equation and does not enter the bath. 
-Here the bath is completely causal and actually takes the same form as in standard DMFT where the Selfenergy is purely local.
-
-Now if we use the Dyson equation to obtain the bath when the full Green's function contains a nonlocal Selfenergy,
-we obtain
-\begin{align}
- \mathcal{G}^{-1} 
- &= (G_{00})^{-1} + \Sigma_{00}  \\
- &= \frac{(i\omega + \mu-\Sigma_{00})^{2} -(t-\Sigma_{01})^2}{ i\omega + \mu-\Sigma_{00} }  + \Sigma_{00} \\
- &= i\omega + \mu -  \frac{(t-\Sigma_{01})^2}{i\omega + \mu-\Sigma_{00} } ,
-\end{align}
-which is different compared to the result we obtained with the general formula in Eq.\eqref{eq:correct_bath_dimer}!
-Now the nonlocal Selfenergy effectively stays in the bath and modifies the 
-hopping as $t-\Sigma_{01}$. Here the bath becomes noncausal!
-But using the Dyson equation is not valid when allowing for 
-nonlocal Selfenergies. Eq.\eqref{eq:eff_dyson_for_bath} only takes the form of a Dyson equation when
-we neglect nonlocal Selfenergies! (Here in this case offdiagonal).
-
-Here we show a plot of the impurity Selfenergy after solving the impurity problem
-for the two baths above. It is evident that the general form of the bath is a much better approximation 
-to the exact solution than the bath from the Dyson equation.
-
-\includegraphics[width=1.0\textwidth]{figs/reversebath/dimerbath/bath_general_dyson_U2.pdf}
-
-
-
-
-\subsubsection{1D Hubbard and Fock Selfenergy example}
-Here we consider a 1-dimensional Hubbard model with NN-Hopping $t=1$. We generate the bath 
-and hybridization function for the generalized scheme and from the Dyson equation 
-and compare the results. Since the generalized scheme and the Dyson equation
-are identical for local Selfenergies, we add here a Fock-like term as the nonlocal
-Selfenergy of the form ,
-\begin{align}
- \Sigma(k) &= -0.5 \cos(k)
-\end{align}
-which widens the noninteracting bandwidth.
-
-The resulting bath and hybridization are shown in this plot:
-
-\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_bath_sigk.pdf}
-\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_hyb_sigk.pdf}
-
-We see that the Dyson equation obtains a much larger bandwidth with increased hybridization 
-at the Fermi level, indicating a less correlated system.
-The general scheme on the other hand also increases the bandwidth slightly, but
-shows a reduced hybridization at the Fermilevel, which in general indicates a stronger correlated system.
-
-If we solve these impurity models one-shot with just one solver iteration, this 
-suspicion is confirmed. The Fock term leads to an increase in local correlations,
-but the Dyson equation incorrectly predicts exactly the opposite, namely weaker local correlations.
-
-\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/1dhub_simp.pdf}
-
-\subsubsection{4-site plaquette example}
-Here we consider a finite 4-site cluster with NN-Hopping $t=1$. We perform a selfconsistent
-ED+DMFT calculation where we generate the bath 
-and hybridization function for the generalized scheme and from the Dyson equation 
-and compare the results. We again find that DMFT already gives a reasonable local Selfenergy,
-while the Dyson equation ED+DMFT makes it worse. The general formula improves the result
-slightly. There is still a difference to the exact result, which is probably because
-the nonlocal contributions to the local Selfenergy are quite large, which we cannot obtain 
-within our approach.
-
-\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/plaquette_eddmft.pdf}
-
-
-\subsubsection{2D Hubbard model example and Fock term at half-filling}
-Here we consider a 2-dimensional Hubbard model with NN-Hopping $t=1$. We perform a selfconsistent
-Fock+DMFT calculation where we generate the bath 
-and hybridization function for the generalized scheme and from the Dyson equation 
-and compare the results. Since the generalized scheme and the Dyson equation
-are identical for local Selfenergies, we add here a Fock-like term as the nonlocal
-Selfenergy of the form 
-\begin{align}
- \Sigma(k) &= -0.5 (\cos(k_x) + \cos(k_y) )
-\end{align}
-which widens the noninteracting bandwidth. Again,
-the Fock term leads to an increase in local correlations,
-but the Dyson equation incorrectly predicts exactly the opposite, namely weaker local correlations.
-
-\includegraphics[width=0.75\textwidth]{figs/bathNonlocFromDMFTderiv/Zval_2dHub_fock.pdf}
-
-\subsubsection{2D Hubbard model example away from half-filling}
-Here we consider the 2-dimensional Hubbard model for $t=1$, $20\%$ hole-doping $n=0.8$ 
-and $U=4$, which is in the weakly correlated metallic regime. 
-For the nonlocal Selfenergies we use perturbation theory and calculate all diagrams
-up to second order, which in this regime is quite a good approximation,
-compared to (basically exact) diagrammatic Monte Carlo results.
-
-Then we perform a selfconsistent 2nd+DMFT calculation where the nonlocal Selfenergies are included in the DMFT cycle
-for the general scheme and the Dyson method, as well as zero-frequency approximations to
-the Selfenergy. The resulting impurity or local Selfenergy is shown in this plot:
-
-\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/Sigma_2DHubbard_real.pdf}
-\includegraphics[width=0.47\textwidth]{figs/bathNonlocFromDMFTderiv/Sigma_2DHubbard_imag.pdf}
-
-We clearly see that the full 2nd+DMFT scheme is the closest to the exact diagrammatic Monte Carlo
-results. The second best result for the real part is the 2nd(w=0)+DMFT scheme, where we have approximated the 
-nonlocal Selfenergy by their $w=0$ value. But interestingly the imaginary part is slightly too small in this case,
-indicating that the 2nd(w=0)+DMFT methods leads to an underestimation of the correlation strength, i.e. likely at high energies, but 
-gives a good representation at the Fermi level, since the real part of the Selfenergy is well reproduced.
-The Dyson equation shows completely the opposite trend, moving away from the exact solution
-regardless of using the frequency dependent nonlocal Selfenergy or its $w=0$ value. 
-Also here the Dyson equation leads to an underestimation
-of the correlation strength.
-
-\bigskip
-
-We can symmarize by saying that in all examples we considered (dimer, plaquette, 1D Hubbard model, 2D Hubbard model with/without doping)
-we see that the usual Dyson equation used in GW+DMFT or similar approaches always makes the result worse compared
-to standard DMFT.
-On the other hand, using the more general formula for the bath always make the result (local Green's function 
-and Selfenergy) much better and brings it very close to the exact result.
-
-\subsubsection{Multi-orbital generalization}
-The original formula 
-\begin{align}
- \mathcal{G}^{-1} 
- = i\omega + \mu_{loc} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) ,
- \end{align}
- is bascially already valid for the mutliorbital case, since all objects can be matrices.
- One just has to take care that the $\braket{}$ operation involves a local projection, i.e.
- a $k$-sum and taking the matrix elements of only the correlated orbitals $L$.
- Thus, the equation written out explicitely for multiorbitals with a subset of correlated
- orbitals $L$ takes the form
-\begin{align}
- \left[ \mathcal{G}^{-1} \right]_{LL'}
- &= i\omega\unity + [\mu_{loc}]_{LL'} 
- -  \int \left [ \epsilon(k) G(k,i\omega) \epsilon(k) \right]_{LL'} \, \mathrm{d}k \nonumber \\
- & \hspace{0.5cm }+ \int \left[ \epsilon(k) G(k,i\omega) \right]_{LL'}  \, \mathrm{d}k 
-                  \int \left[ G_{LL'}(k,i\omega) \right]^{-1}   \, \mathrm{d}k
-                  \int  \left[ G(k,i\omega) \epsilon(k) \right]_{LL'} \, \mathrm{d}k  .
- \end{align} 
- It is understood that all multiplications are Matrix multiplications 
- and $\left[ G_{LL'}(k,i\omega) \right]^{-1}$ is a matrix inversion in the $LL'$ space.
-
-
-\subsection{Generalized EDMFT equations for $U(i\nu)$ with nonlocal polarization}
-In the same way we derived the effective bath and hybridization with nonlocal Selfenergies,
-we now derive the equations for the effective impurity interaction $U$.
-Here, the Polarization $P(q,i\nu)$ takes the role of the nonlocal Selfenergy $\Sigma(k,i\omega)$,
-which dresses the bare interaction $v(q)$ to the screened interaction $W(q,i\nu)$, i.e.
-\begin{align}
-G^{-1}(k,i\omega) &= (\underbrace{i\omega+\mu-\epsilon(k)}_{G_0^{-1}}) - \Sigma(k,i\omega) \\
-W^{-1}(q,i\nu) &= v^{-1}(q)-P(q,i\nu) .
-\end{align}
-For an extened Hubbard model with nonlocal interactions it has been shown by Qimiao Si and J. Lleweilun Smith in 
-PRL 77, 16 (1996) that the density-density correlation function $\chi(q,i\nu)$ obeys the same relations 
-as the Green's function in a cavity construction
-\begin{align}
- \Delta(i\omega) &= -\sum_{ij\neq 0} t_{0i} G^{(0)}_{ij}(i\omega) t_{j0} \\
- \Theta^{-1}(i\nu) &= \sum_{ij\neq 0} v_{0i} \chi^{(0)}_{ij}(i\nu) v_{j0} ,
-\end{align}
-where $\Theta$ is the bosonic bath for the interaction.
-Since the relation for the effective impurity interaction is
-\begin{align}
- U(i\nu) &= \Theta^{-1}(i\nu) + P...................
-\end{align}
-The corresponding objects on a lattice without site $0$ are given by
-\begin{align}
- G^{(0)}_{ij} &= G_{ij} - G_{i0}G^{-1}_{00}G_{0j} \\ 
- \chi^{(0)}_{ij} &= \chi_{ij} - \chi_{i0}\chi^{-1}_{00}\chi_{0j} .
-\end{align}
-We see that the bare interaction $v$ plays the same role as the noninteracting hopping amplitude $t$.
-Therefore, following the same derivation as for the one-particle Green's function the analogous result
-for the effective interaction is 
-\begin{align}
-\boxed{
- \Theta^{-1}(i\nu) 
- = \braket{ v \chi v } - \braket{v \chi} \braket{\chi}^{-1} \braket{\chi v}
- }. \label{eq:eff_dyson_for_interaction}
-\end{align}
-In case of a purely local polarization $P(q,i\nu)=P(i\nu)$, we can derive again a DMFT-like Dyson equation:
-We consider a single orbital model and assume that the integral transformation
-\begin{align}
- \int v(q)  \, \mathrm{d}q &= \int D(v) v  \, \mathrm{d}v,
-\end{align}
-exists. Furthermore, we use the relations between the susceptibility and polarization
-\begin{align}
- \chi(q,i\nu) &= \frac{1}{v(q) - P^{-1}(q,i\nu) } \\
- v(q) &= \frac{1}{\chi(q,i\nu)} + \frac{1}{P(q,i\nu)} \\
- \chi(q,i\nu) &= -P(q,i\nu) - P(q,i\nu)W(q,i\nu)P(q,i\nu).
-\end{align}
-With this we get
-\begin{align}
-  \Theta^{-1}(i\nu) 
- &= \braket{ v \chi v } - \braket{v \chi} \braket{\chi}^{-1} \braket{\chi v} \nonumber \\
- &= \int \frac{D(v) v^2}{v-P^{-1}} \, \mathrm{d}v
-    - \frac{1}{\chi_{loc}} \left( \int \frac{D(v) v}{v-P^{-1}} \, \mathrm{d}v \right)^2 \nonumber \\
- %
- &= \frac{\chi_{loc}}{P^2} + \frac{1}{P} + \int D(v) v  \, \mathrm{d}v 
-    -\frac{1}{\chi_{loc}} \left( \frac{\chi^2_{loc}}{P^2} + 1 + 2\frac{\chi_{loc}}{P} \right) \nonumber \\
-%
-&= \underbrace{\int v(q)  \, \mathrm{d}q}_{ [1/\chi]_{loc}+1/P} - \frac{1}{P} - \frac{1}{\chi_{loc}} \nonumber \\
-%
-&\boxed{ = \left[ \frac{1}{\chi} \right]_{loc} - \frac{1}{\chi_{loc}} } \\
-%
-&= \int v(q)  \, \mathrm{d}q - \frac{1}{P} + \frac{1}{ P + PW_{loc}P } \nonumber \\
-&= \int v(q)  \, \mathrm{d}q - \frac{1}{P}\left( 1 - \frac{1}{ 1 + PW_{loc} } \right) \nonumber \\
-&= v_{loc} - \frac{1}{W^{-1}_{loc}+P} \nonumber \\
-\end{align}
-Then?
-\begin{align}
- U(i\nu) &= v_{loc} - \Theta^{-1}(i\nu) \nonumber  \\
- &= \left[ W^{-1}_{loc} + P \right]^{-1}.
-\end{align}
-REMEMBER: This result only holds for a local polarization! In the general case the more general formula 
-Eq.\eqref{eq:eff_dyson_for_interaction} has to be used.
-
-
  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Reverse engineering the bath for the dimer}
 Given the exact solution of the Hubbard dimer with the exact local Green's function
