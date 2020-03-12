@@ -7,6 +7,7 @@ beta = 40.0
 ##############################################
 
 inf = open('Hyb_fullk.dat','r')
+#inf = open('Hyb_dmft.dat','r')
 erg = []
 delta = []
 
@@ -49,3 +50,21 @@ outfi.close()
 
 
 
+outfi = open('hyb_iw.dat','w')
+nw = len(delta)
+for i in range(50):
+	#if ( np.mod(int(it*10.0/ntau),2)==0  ):
+#		print it*100.0/ntau,'% done'
+	wn = (2*i+1)*np.pi/40.0
+	
+	outfi.write( str(wn) + '\t' )
+	for m in range(norb):
+		val = 0.0j
+		for n in range(1,nw):
+			dw = erg[n]-erg[n-1]
+
+			val += ( delta[n][m].imag / ( erg[n] - 1.0j*wn )  ) * dw/np.pi
+		outfi.write( str(val.real) + '\t' + str(val.imag) + '\t')
+	outfi.write( '\n' )
+
+outfi.close()
