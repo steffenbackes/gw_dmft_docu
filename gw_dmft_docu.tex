@@ -3373,6 +3373,104 @@ Calculating the matrix elements of the operator by
 
 which leads to the following matrix representation
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \clearpage
+
+\subsection{How to project the Polarization from the continuum to the lattice}
+
+We have noticed that in somce cases the screened interaction $W$ obtained
+either from the continuum or on the lattice turns out to be identical.
+What this means is these two methods yield the same result:
+\begin{description}
+ \item[Continuum] Calculate $P(1,2)=G(1,2)G(2,1)$ in the continuum in a product basis, obtain 
+ $W(1,2)$ by using $W = [v^{-1} - P]^{-1}= v[1 - Pv]^{-1}$ and project $W$ on the lattice to obtain 
+ $W^{cont}_{ijkl} = MWM^{\dagger}$, where $M$ is the overlap matrix between the product basis and single-particle states.
+ 
+ \item[Lattice] Calculate $P_{ijkl}=MGM^{\dagger} M G M^{\dagger}$ 
+ on the lattice by first projecting the 
+ Green's functions. Also obtain $v_{ijkl}=MvM^{\dagger}$ and then calculate $W^{latt}_{ijkl}$ by using 
+ $W = v[ - Pv]^{-1} $ on the lattice
+\end{description}
+It turns out that $W^{cont}_{ijkl}$ and $W^{latt}_{ijkl}$ are identical.
+This means we have the equality
+\begin{align}
+ M \underbrace{ v [ 1 - GGv ]^{-1} }_{W(1,2)} M^{\dagger} 
+ = W_{ijkl} 
+ = \underbrace{M v M^{\dagger}}_{v_{ijkl}} [ 1 
+ - \underbrace{MGM^{\dagger}}_{G_{ij}} \underbrace{MGM^{\dagger}}_{G_{kl}} 
+   \underbrace{MvM^{\dagger} }_{v_{ijkl}} ]^{-1} ,
+   \label{eq:W_equality_continuum_lattice}
+\end{align}
+where $v$ and $G$ are objects in the continuum.
+
+Now we use the right-inverse of $M^{\dagger}$, which has the property
+\begin{align}
+ M^{\dagger} (M^{\dagger})^{-1} = 1.
+\end{align}
+This right-inverse $(M^{\dagger})^{-1}$ does exist, because the dimension of the orthonormalized
+product basis is smaller than the dimension of the product of single-particle states.
+This also means we have
+\begin{align}
+ M^{\dagger} (M^{\dagger})^{-1}  M^{\dagger}= M^{\dagger}.
+\end{align}
+From this we now can conclude that multiplying $W_{ijkl}$ from the right with $(M^{\dagger})^{-1}  M^{\dagger}$
+will not change it
+\begin{align}
+ W_{ijkl} = M W M^{\dagger} \times (M^{\dagger})^{-1}  M^{\dagger} = M W M^{\dagger}.
+\end{align}
+Therefore, we can multiply Eq.\eqref{eq:W_equality_continuum_lattice} from the right 
+with $(M^{\dagger})^{-1}  M^{\dagger}$, and still get $W_{ijkl}$. 
+The right hand side of the equation thus looks like this
+\begin{align}
+ W_{ijkl} 
+ &= M v M^{\dagger} [ 1 - (M G M^{\dagger}) (M G M^{\dagger}) (M v M^{\dagger}) ]^{-1} (M^{\dagger})^{-1}  M^{\dagger} \\
+ &= M v M^{\dagger} [ M^{\dagger} - M^{\dagger} (M G M^{\dagger}) (M G M^{\dagger}) M v M^{\dagger} ]^{-1}   M^{\dagger} \\
+ &= M v M^{\dagger}  (M^{\dagger})^{-1} [ 1 - M^{\dagger}(M G M^{\dagger}) (M G M^{\dagger} ) M v  ]^{-1}   M^{\dagger} \\
+ &= M v  [ 1 - (M^{\dagger}M G M^{\dagger} M G M^{\dagger} M) v  ]^{-1}   M^{\dagger} .
+\end{align}
+Comparing this with the left hand side we see that
+\begin{align}
+ GG &=M^{\dagger} ( M G M^{\dagger} M G M^{\dagger} ) M.
+\end{align}
+Now we would like to multiply with $(M^{\dagger} )^{-1}$ from the left
+and with $M^{-1}$ on the right to find out how to project the polarization from the continuum in order
+to get the polarization on the lattice.
+But unfortunately, $(M^{\dagger} )^{-1} M^{\dagger} \neq 1$, so this does not work.
+
+But since the product $M^{\dagger}  M$, which is an overlap matrix in the product basis, can be inverted, 
+we can write
+\begin{align}
+ ( M^{\dagger} M )^{-1} GG ( M^{\dagger} M )^{-1} &=  G M^{\dagger} M G .
+\end{align}
+Now we just multiply from the left with $M$ and from the right with $M^{\dagger}$ to obtain
+
+\begin{align}
+  M ( M^{\dagger} M )^{-1} GG ( M^{\dagger} M )^{-1} M^{\dagger} &= \underbrace{ M G M^{\dagger} M G M^{\dagger} }_{P_{ijkl}}.
+\end{align}
+
+In the general formula where we need  $\chi$
+\begin{align}
+ U &= \braket{v} - \left( \braket{v \chi v} - \braket{v\chi} \braket{\chi}^{-1} \braket{\chi v} \right) \\
+   &= \braket{W} + \braket{v\chi} \braket{\chi}^{-1} \braket{\chi v}  ,
+\end{align}
+this can be generalized to the following projections
+\begin{align}
+\braket{v} &= M\ v_{prod} \ M^{\dagger} \\
+ \braket{W} &= M\ W_{prod} \ M^{\dagger} \\
+ \braket{\chi} &= M ( M^{\dagger} M )^{-1} \ \chi_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger}\\
+ \braket{v\chi v} &= \braket{v}-\braket{W}\\
+ \braket{v \chi} &= M\  (v \chi)_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger} \\
+ \braket{\chi v} &= M ( M^{\dagger} M )^{-1}\  (\chi v)_{prod} \ M^{\dagger}.
+\end{align}
+
+
+% \clearpage
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
