@@ -54,7 +54,7 @@ the selfconsistency is done including the full nonlocal effects of the GW
 Selfenergy.
 
 No further selfconsistency apart from the DMFT cycle will be performed for now, 
-{\it i.e.} no update of $\Sigma^{GW}$ will be done. 
+\textit{i.e.} no update of $\Sigma^{GW}$ will be done. 
 %By this, the final interacting 
 %system will be described by a {\GF} with the non-interacting DFT dispersion,
 %excluding the exchange-correlation potential, 
@@ -3806,14 +3806,31 @@ S_{eff}
 &= S_0 - \frac{1}{2} \braket{ (\Delta S)^2 }_{(0)} \nonumber \\
 &= \int_0^{\beta} \mathrm{d}\tau \sum_{\sigma} c^*_{0\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu + t_{00} \right] c_{0\sigma}(\tau) 
     + \int_0^{\beta} \mathrm{d}\tau \ v_{00} n_{0\uparrow}(\tau)n_{0\downarrow}(\tau)  \nonumber \\
-&\hspace{1cm}- \sum_{ij\neq 0,\sigma} t_{0i} t_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ c^*_{0\sigma}(\tau_1) \braket{ c^*_{i\sigma}(\tau_1) c_{j\sigma}(\tau_2) }_{(0)}  c_{0\sigma}(\tau_2)  \nonumber \\
+&\hspace{1cm}- \sum_{ij\neq 0,\sigma} t_{0i} t_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ c^*_{0\sigma}(\tau_1) \braket{ c_{i\sigma}(\tau_1) c^*_{j\sigma}(\tau_2) }_{(0)}  c_{0\sigma}(\tau_2)  \nonumber \\
 &\hspace{1cm}- \sum_{ij\neq 0} v_{0i} v_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) \braket{ n_{i}(\tau_1)   n_{j}(\tau_2) }_{(0)}  n_{0}(\tau_2)  .
 \end{align}
+%
+% \begin{align}
+%  \sum_{ij}\int t_{0i} c^*_0(\tau_1) c_i(\tau_1)  \int t_{j0} c^*_j(\tau_2) c_0(\tau_2) 
+% &= \sum_{ij}\int t_{0i}t_{j0} c^*_0(\tau_1) \Big[ c_i(\tau_1)   c^*_j(\tau_2) \Big] c_0(\tau_2) 
+% \end{align}
+% \begin{align}
+%  \chi(\nu) &= \int_0^\beta \chi(\tau) e^{i \nu \tau} d\tau \\
+%  &= \chi_0  \int_0^\beta  e^{i \nu \tau} d\tau \\
+%  &= \chi_0  \frac{1}{i\nu}\Big[ e^{i \nu \tau} \Big]_0^\beta \\
+%  &= \chi_0  \frac{1}{i\nu}\Big[ e^{i 2n \pi } - 1 \Big] \\
+%  &= -\chi_0  \frac{1}{i\nu} \\
+%  &=  i   \frac{\chi_0}{\nu}.
+% \end{align}
+
+
+
 If we now introduce 
 \begin{align}
- G_{ij\sigma}^{(0)}(\tau_1-\tau_2) &= -\braket{ c^*_{i\sigma}(\tau_1) c_{j\sigma}(\tau_2) }_{(0)} \\
+ G_{ij\sigma}^{(0)}(\tau_1-\tau_2) &= -\braket{T_{\tau} c_{i\sigma}(\tau_1) c^*_{j\sigma}(\tau_2) }_{(0)} \\
  \chi_{ij}^{(0)}(\tau_1-\tau_2) &= \braket{ n_{i}(\tau_1)   n_{j}(\tau_2) }_{(0)} ,
 \end{align}
+(note: $\chi$ in this form has a positive imaginary part on the Matsubara frequency axis!)
 we can rewrite the action in the form
 \begin{align}
 S_{eff} 
@@ -3847,6 +3864,8 @@ Or in the frequency domain
  U(i\nu) 
  &= v_{00} - \underbrace{\sum_{ij\neq 0} v_{0i} v_{j0} \chi^{(0)}_{ij}(i\nu)}_{\Theta(i\nu)}.
 \end{align}
+Here, $G^{(0)}$ has a negative imaginary part and $\chi^{(0)}$ has a positive 
+imaginary part for $\omega,\nu>0$.
 The connection to the original lattice including site $i=0$ can be made by using the 
 equations
 \begin{align}
@@ -5040,7 +5059,7 @@ all indices and internal transitions restricted to the correlated subspace
 The polarization of the impurity model solved in GW, \textit{i.e.}
 all indices and internal transitions restricted to the correlated subspace
 \end{itemize}
-{\it All output from the GW calculation will be in atomic units and
+\textit{All output from the GW calculation will be in atomic units and
 has to be converted to eV!!}
 
 
