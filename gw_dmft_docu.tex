@@ -3375,7 +3375,7 @@ which leads to the following matrix representation
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \clearpage
+%  \clearpage
 
 \subsection{How to project the Polarization from the continuum to the lattice}
 
@@ -3464,8 +3464,45 @@ this can be generalized to the following projections
  \braket{\chi v} &= M ( M^{\dagger} M )^{-1}\  (\chi v)_{prod} \ M^{\dagger}.
 \end{align}
 
+\textbf{In practice: Kohn-Sham basis and local Wannier functions}
 
-% \clearpage
+In practice the overlap matrices $M$ between the product basis  
+and single particle states are generated from the Kohn-Sham Eigenstates
+of a DFT calculation and are Bloch-like functions. This means we also nned to generate 
+Wannier-projectors $U$, which is a unitary basis transformation in a chosen energy window
+between Kohn-Sham states and local orbitals. So usually we project for example the screened 
+Coulomb interaction like this
+\begin{align}
+ W_{wannier} &= UM W_{prod}M^{\dagger} U^{\dagger}.
+\end{align}
+This means the correct projection for the susceptibility should be
+\begin{align}
+ \braket{\chi} &=  U M ( M^{\dagger} U^{\dagger} U M )^{-1} \ \chi_{prod} \ ( M^{\dagger} U^{\dagger} U M )^{-1} M^{\dagger} U^{\dagger},
+\end{align}
+Now we would like to use the unitarity of the Wannier projection $U^{\dagger} U= 1$, but this is only possible
+if the Wannier functions were generated for the \textit{full} single-particle space and not only
+for a restricted energy window. Still, if the Wannier fit converges, $U$ is a unitary transformation
+between a set of bands and local orbitals. One could perform a second Wannier fit for all other bands except
+the ones in the chosen energy window, and supplement $U$ so that it becomes a true unitary transformation.
+It would have a block diagonal form, with one block for the bands in the energy window, and the other
+block for all bands outside the window.
+Then we can safely use $U^{\dagger} U= 1$ in the equation above. In practice we only need to calculate 
+the block for the bands in the energy window and project the resulting susceptibility from the 
+single particle Kohn-Sham basis to the Wannier basis in the end
+\begin{align}
+ \braket{\chi} &=  U M ( M^{\dagger} M )^{-1} \ \chi_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger} U^{\dagger}.
+\end{align}
+Summarizing, in the context of a Kohn-Sham basis set and Wannier projections we have to use 
+\begin{align}
+\braket{v}_{wann} &= U M\ v_{prod} \ M^{\dagger} U^{\dagger} \\
+ \braket{W}_{wann} &= U M\ W_{prod} \ M^{\dagger} U^{\dagger} \\
+ \braket{\chi}_{wann} &= U M ( M^{\dagger} M )^{-1} \ \chi_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger} U^{\dagger}\\
+ \braket{v\chi v}_{wann} &= \braket{v}-\braket{W}\\
+ \braket{v \chi}_{wann} &= U M\  (v \chi)_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger} U^{\dagger}\\
+ \braket{\chi v}_{wann} &= U M ( M^{\dagger} M )^{-1}\  (\chi v)_{prod} \ M^{\dagger} U^{\dagger}.
+\end{align}
+
+%  \clearpage
 
 
 
