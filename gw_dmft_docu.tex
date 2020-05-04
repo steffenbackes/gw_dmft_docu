@@ -32,7 +32,7 @@
 \newcommand{\sgn}{{\mathrm{sgn}}}
 \newcommand{\GF}{Green's function}
 \newcommand{\unity}{\mathds{1}}
-% \renewcommand{\vec}{\mathbf}
+\renewcommand{\vec}{\mathbf}
 
 \title{GW (oneshot) + DMFT documentation}
 
@@ -3504,6 +3504,368 @@ Summarizing, in the context of a Kohn-Sham basis set and Wannier projections we 
 
 %  \clearpage
 
+\subsection{How to project the Polarization from the continuum to the lattice (2nd version)}
+
+We know that evaluating the bare interaction $W(1,2)$ within the RPA approximation
+can be done properly in the continuum using a product basis of Kohn-Sham orbital wave functions.
+In the product basis all quantities are represented as matrices, for example the bare interaction $v$
+\begin{align}
+v_{\alpha\beta} &= \int\int \, \chi^*_{\alpha}(r_1) v(r_1-r_2)\chi_{\beta}(r_2) \, \mathrm{d}r_1 \mathrm{d}r_2,
+\end{align}
+where $\chi_{\alpha}(r)$ are the orthonormalized product basis functions constructed from
+Kohn-Sham orbitals. Within the product basis, the screened interaction $W$ is evaluated as
+\begin{align}
+ W_{\alpha\beta}
+ &=  \sum_{\gamma} v_{\alpha \gamma} \left[ 1 - Pv \right]^{-1}_{\gamma \beta}.
+\end{align}
+Since we are usually interested in the matrix elements in a localized Wannier basis, 
+we construct a unitary transformation $U$ between single-particle Kohn-Sham states and localized Wannier orbitals
+from a from a Wannier fit.
+For the derivation we assume that we generate Wannier orbitals for the full space and restrict it later to 
+an energy window.
+
+Then the Wannier matrix elements of $W$ are given as
+\begin{align}
+ W_{wann} &=  U M W_{prod} M^{\dagger} U^{\dagger} \\
+ &=  U M v_{prod} \left[ 1 - P_{prod}v_{prod} \right]^{-1} M^{\dagger} U^{\dagger} 
+\end{align}
+where $M$ is the overlap of the orthonormalized product basis states with the product of Kohn-Sham states.
+
+Now the surprising observation is, that when evaluating the screened interaction by first projecting $v$
+and the Green's function $G$ to the Wannier basis, one usually obtains the same result
+\begin{align}
+ W_{wann} 
+ &=  v_{wann} \left[ 1 - P_{wann}v_{wann} \right]^{-1},
+\end{align}
+where the polarization $P_{wann}$ on the lattice is different from the projection of the continuum polarization,
+since the two Green's functions in $P$ are projected independently from each other:
+\begin{align}
+ P^{wann}_{ijkl}(\tau_1,\tau_2) &= G_{li}(\tau_2,\tau_1) G_{kj}(\tau_1,\tau_2) \\
+ &= \braket{l|G(2,1)|i} \braket{k|G(1,2)|j} \\
+ &\neq \braket{ij|G(2,1)G(1,2)|kl} \ !
+\end{align}
+So it is quite surprising that this form of the polarization $P_{wann}$, which is
+not equal to the one projected from the continuum $M P_{prod} M^{\dagger}$ generates the same interaction
+values $W_{wann}$.
+
+\bigskip
+
+We now try to rewrite the projected equation for $W$ in the continuum/product basis in order
+to find out how $P$ should be projected. The values of $W$ we are interested in are in the Wannier basis
+from before 
+\begin{align}
+ W_{wann}  &=  U M v_{prod} \left[ 1 - P_{prod}v_{prod} \right]^{-1} M^{\dagger} U^{\dagger} .
+\end{align}
+We now use the fact that for the overlap matrices $M$ there exist left and right pseudoinverse matrices, meaning
+\begin{align}
+ M^{-1} M &= 1 \ \ \ \ \mbox{left inverse for }M\\
+ M^{\dagger} (M^{\dagger})^{-1} &= 1 \ \ \ \ \mbox{right inverse for }M^{\dagger}.
+\end{align}
+The Wannier transformation is unitary in the Kohn-Sham space by construction
+\begin{align}
+ U^{\dagger} = U^{-1}.
+\end{align}
+We now insert an identity composed of 
+\begin{align}
+ 1 &= M^{\dagger} U^{\dagger} U (M^{\dagger})^{-1}
+\end{align}
+on the left side in the equation for $W$ and pull $U (M^{\dagger})^{-1}$ into the inverse
+\begin{align}
+ W_{wann}  
+ &=  U M v_{prod} \left[ 1 - P_{prod}v_{prod} \right]^{-1} M^{\dagger} U^{\dagger} \\
+ &=  U M v_{prod} \Big( \underbrace{ M^{\dagger} U^{\dagger} U (M^{\dagger})^{-1} }_{=1} \Big) \left[ 1 - P_{prod}v_{prod} \right]^{-1} M^{\dagger} U^{\dagger} \\
+ %
+ &=  \underbrace{U M v_{prod}  M^{\dagger} U^{\dagger}}_{v_{wann}} \left[ M^{\dagger} U^{\dagger} - P_{prod}v_{prod} \left(  M^{\dagger} U^{\dagger} \right)\right]^{-1} M^{\dagger} U^{\dagger} \\
+ %
+ &=  v_{wann} \Big[ M^{\dagger} U^{\dagger} - \Big(\underbrace{ M^{\dagger} U^{\dagger} U (M^{\dagger})^{-1} }_{=1} \Big)P_{prod}v_{prod}  M^{\dagger} U^{\dagger} \Big]^{-1} M^{\dagger} U^{\dagger} \\
+ %
+ &=  v_{wann} \Big[ 1 - U (M^{\dagger})^{-1}  P_{prod}v_{prod}  M^{\dagger} U^{\dagger} \Big]^{-1} U (M^{\dagger})^{-1}M^{\dagger} U^{\dagger} .
+ %
+\end{align}
+Now we insert the identity
+\begin{align}
+ 1 &= M^{-1} U^{\dagger} U M,
+\end{align}
+between $P_{prod}$ and $v_{prod}$ in the denominator
+\begin{align}
+ W_{wann}  
+ &=  v_{wann} \Big[ 1 - U (M^{\dagger})^{-1}  P_{prod} \Big( M^{-1} U^{\dagger} \underbrace{ U M \Big) v_{prod}  M^{\dagger} U^{\dagger} }_{=v_{wann}} \Big]^{-1} U (M^{\dagger})^{-1}M^{\dagger} U^{\dagger} \\
+ %
+ &=  v_{wann} \Big[ 1 - \Big( U (M^{\dagger})^{-1}  P_{prod}  M^{-1} U^{\dagger} \Big) v_{wann} \Big]^{-1} U (M^{\dagger})^{-1}M^{\dagger} U^{\dagger} .
+ %
+\end{align}
+We now notice two important things: When evaluating the equation for $W$ on the lattice 
+the lattice polarization should be given as
+\begin{align}
+ P_{wann} &= U (M^{\dagger})^{-1}  P_{prod}  M^{-1} U^{\dagger},
+\end{align}
+and we have to multiply the final result from the right with the factor
+\begin{align}
+ U (M^{\dagger})^{-1}M^{\dagger} U^{\dagger}.
+\end{align}
+I cannot prove it, but I am quite sure that for orthonormal Kohn-Sham orbital functions 
+$(M^{\dagger})^{-1}M^{\dagger}$ is very similar to the identity, except for entries corresponding to the exchange
+of orbitals, which were just interchanged. For example, with two orbital basis functions I obtained the following matrix
+in the (ac)(bd) combination
+\begin{align}
+ (M^{\dagger})^{-1}M^{\dagger}
+ &=
+ \begin{pmatrix}
+ 1 & 0 & 0 & 0 \\ 
+ 0 & \frac{1}{2} & \frac{1}{2} & 0 \\
+ 0 & \frac{1}{2} & \frac{1}{2} & 0 \\
+ 0 & 0 & 0 & 1 
+ \end{pmatrix}
+\end{align}
+The two columns/rows with the factor $1/2$ correspond to overlap elements 
+of $\psi_1\psi_2$ with $\psi_2\psi_1$, where the order of the wave functions does not matter.
+One can also see that the Coulomb interaction is not modified under this transformation
+\begin{align}
+ v
+ &=
+ \begin{pmatrix}
+ U & 0 & 0 & U' \\ 
+ 0 & J & J & 0 \\
+ 0 & J & J & 0 \\
+ U' & 0 & 0 & U
+ \end{pmatrix},
+\end{align}
+since $(M^{\dagger})^{-1}M^{\dagger}$ will only mix the rows/columns with $J$, where this is not relevant.
+I observed the same behaviour for the full $3d$ shell. 
+So I think in practice, this factor can be neglected, but it should be checked in more complicated cases.
+
+So from this one can conclude that the correct projection for the polarization
+from the product basis to the Wanner basis is
+\begin{align}
+ P_{wann} &= U (M^{\dagger})^{-1}  P_{prod}  M^{-1} U^{\dagger}.
+\end{align}
+
+In the case of the new method for calculating the effective $U$ where we need the susceptibility, 
+the projections are
+\begin{align}
+\braket{v}_{wann} &= U M\ v_{prod} \ M^{\dagger} U^{\dagger} \\
+ \braket{W}_{wann} &= U M\ W_{prod} \ M^{\dagger} U^{\dagger} \\
+ \braket{v\chi v}_{wann} &= \braket{v}-\braket{W}\\
+ \braket{\chi}_{wann} &= U (M^{\dagger})^{-1} \ \chi_{prod} \ M^{-1} U^{\dagger}\\
+ \braket{v \chi}_{wann} &= U M\  (v \chi)_{prod} \ M^{-1} U^{\dagger}\\
+ \braket{\chi v}_{wann} &= U (M^{\dagger})^{-1}\  (\chi v)_{prod} \ M^{\dagger} U^{\dagger}.
+\end{align}
+The ``$v$'' side of $\braket{v \chi}_{wann}$ and $\braket{\chi v}_{wann}$ only gets the 
+usual factor $M$ and $M^{\dagger}$. By this, in the equation
+In the general formula where we need  $\chi$
+\begin{align}
+ U &= \braket{v} - \left( \braket{v \chi v} - \braket{v\chi} \braket{\chi}^{-1} \braket{\chi v} \right) \\
+   &= \braket{W} + \braket{v\chi} \braket{\chi}^{-1} \braket{\chi v}  ,
+\end{align}
+the term $\braket{v\chi} \braket{\chi}^{-1} \braket{\chi v}$ would immediately reduce to the same term
+as evaluated in the continuum when everything is local. But for extended systems with momentum dependence,
+it will result in something different, which is what we expect.
+
+Rewriting these equations only in terms of $UM$ matrices we get
+\begin{align}
+\braket{v}_{wann} &= [UM]\  v_{prod} \ [UM]^{\dagger} \\
+ \braket{W}_{wann} &= [UM]\ W_{prod} \ [UM]^{\dagger} \\
+ \braket{v\chi v}_{wann} &= \braket{v}_{wann}-\braket{W}_{wann}\\
+ \braket{\chi}_{wann} &= [UM] \Big( [UM]^{\dagger} [UM] \Big)^{-1} \ \chi_{prod} \ \Big( [UM]^{\dagger} [UM] \Big)^{-1} [UM]^{\dagger}\\
+ \braket{v \chi}_{wann} &= [UM]\  (v \chi)_{prod} \ \Big( [UM]^{\dagger} [UM] \Big)^{-1} [UM]^{\dagger}\\
+ \braket{\chi v}_{wann} &= [UM] \Big( [UM]^{\dagger} [UM] \Big)^{-1}\  (\chi v)_{prod} \ [UM]^{\dagger}.
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\subsection{Projection of the susceptibility}
+\subsubsection{Definitions}
+We define the following objects, following the notations in the gapnotes.pdf document:
+
+Matrix elements of two-particle operators are obtained in the product basis as
+\begin{align}
+ v_{ij}(\vec{q}) &= \int\int \chi^{\vec{q}*}_i(\vec{r}_1) \, v(\vec{r}_1,\vec{r}_2) \, \chi^{\vec{q}}_j(\vec{r}_2) \,\mathrm{d}\vec{r}_1\mathrm{d}\vec{r}_2,
+\end{align}
+with $\chi^{\vec{q}}_i(r)$ being the basis functions of the orthonormalized product basis constructed from
+Kohn-Sham orbitals.
+
+We define the overlap matrix elements between the product basis and the product of Kohn-Sham wave functions
+\begin{align}
+ M^i_{nm}(\vec{k},\vec{q}) = \int \chi^{\vec{q}*}_i(\vec{r}) \psi^\vec{k}_{n}(\vec{r})\psi^{(\vec{k}-\vec{q})*}_{m}(\vec{r}) \, \mathrm{d}\vec{r}
+\end{align}
+
+Therefore, matrix elements as 4-index tensors in the Kohn-Sham space can be obtained from the product basis like this
+\begin{align}
+ v_{abcd}(\vec{q})
+ &= \braket{ab|v|cd} \\
+ &= \int\int \psi^{(\vec{k}-\vec{q})*}_a(\vec{r}_1) \psi^{\vec{k}'*}_b(\vec{r}_2) \, v(\vec{r}_1,\vec{r}_2) \, \psi^{\vec{k}}_c(\vec{r}_1) \psi^{(\vec{k}'-\vec{q})}_d(\vec{r}_2) \,\mathrm{d}\vec{r}_1\mathrm{d}\vec{r}_2 \\
+ %
+ &= \int\int \psi^{(\vec{k}-\vec{q})*}_a(\vec{r}_1) \psi^{\vec{k}'*}_b(\vec{r}_2) \, 
+ \left( \sum_{ij} \int \chi^{\vec{q'}}_i(\vec{r}_1) v_{ij}(\vec{q'})  \chi^{\vec{q'}}_j(\vec{r}_2)\,\mathrm{d}\vec{q'} \right)\, \psi^{\vec{k}}_c(\vec{r}_1) \psi^{(\vec{k}'-\vec{q})}_d(\vec{r}_2) \,\mathrm{d}\vec{r}_1\mathrm{d}\vec{r}_2 \\
+ %
+ &= \sum_{ij}  \left( \int\chi^{\vec{q'}}_i(\vec{r}_1) \psi^{(\vec{k}-\vec{q})*}_a(\vec{r}_1)\psi^{\vec{k}}_c(\vec{r}_1)\mathrm{d}\vec{r}_1 \right) 
+   v_{ij}(\vec{q'})  
+  \left( \int \chi^{\vec{q'}}_j(\vec{r}_2) \psi^{\vec{k}'*}_b(\vec{r}_2) \psi^{(\vec{k}'-\vec{q})}_d(\vec{r}_2) \mathrm{d}\vec{r}_2 \right) \,\mathrm{d}\vec{q'} \\
+%
+&= \sum_{ij}    v_{ij}(\vec{q'})  
+  \left( \int \chi^{\vec{q'}}_j(\vec{r}_2) \psi^{\vec{k}'*}_b(\vec{r}_2) \psi^{(\vec{k}'-\vec{q})}_d(\vec{r}_2) \mathrm{d}\vec{r}_2 \right) \,\mathrm{d}\vec{q'} \\
+\end{align}
+
+
+\clearpage
+
+First let us consider how we would transform 
+any object $A_{ijkl}$ from the 4-index basis into the orthonormalized product basis. 
+This transformation would be:\\
+( $\chi_{\alpha}$ is the basis of the orthonormalized product states, for 
+now we do not consider momentum dependence)
+\begin{align}
+A_{ab}
+&= \braket{ \chi_a | A | \chi_b } \\
+&= \int \int \mathrm{d}r_1 \mathrm{d}r_2 \,  \chi^*_a(r_1)  A(r_1,r_2) \chi_b(r_2) \\
+&=\sum_{ijkl} \mathrm{d}r_1 \mathrm{d}r_2 \,  \chi^*_a(r_1)   
+    \psi_i(r_1)\psi_j(r_2) A_{ijkl} \psi^*_k(r_1)\psi^*_l(r_2) \chi_b(r_2)  \\
+%    
+ &= \sum_{ijkl} M_{ik}^{a*}  A_{ijkl} M_{lj}^{b} ,
+\end{align}
+where we have defined the overlap elements between the product basis $\chi_a$
+and the product of single-particle functions $\psi_i$
+\begin{align}
+M_{ij}^{a}
+&= \int  \mathrm{d}r\, \psi^*_i(r) \chi_a(r) \psi_j(r) ,
+\end{align}
+If we have previously obtained $A_{ijkl}$ by projecting it from the product basis
+to the 4-index basis, this will usually not recover the original object since
+\begin{align}
+ \sum_{ijkl} M_{ik}^{a*}  A_{ijkl} M_{lj}^{b} 
+ &= \sum_{ijkl} M_{ik}^{a*} \Big( \sum_{\alpha\beta}  M_{ik}^{\alpha} A_{\alpha\beta} M_{lj}^{\beta*} \Big) M_{lj}^{b}  \\
+ &= \sum_{\alpha\beta}  \Big( \underbrace{ \sum_{ik} M_{ik}^{a*} M_{ik}^{\alpha}}_{\neq \delta_{a\alpha}} \Big) A_{\alpha\beta} \Big( \underbrace{ \sum_{lj}M_{lj}^{\beta*}M_{lj}^{b} }_{\delta_{b\beta}} \Big) \\
+ &= \Big[ \underbrace{ M^{\dagger} M }_{\neq 1} A_{prod}  \underbrace{ M^{\dagger} M }_{\neq 1} \Big]_{ab} \\
+ & \neq A_{ab}.
+\end{align}
+
+Now the projection we found for the susceptibility is taking care of exactly that: To recover the 
+object in the product basis if we try to upfold it again.
+In simple language, we found that we need to project the susceptibility like this
+\begin{align}
+ \braket{\chi} &=  M ( M^{\dagger} M )^{-1} \ \chi_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger} .
+\end{align}
+If we now try to project it back to the product basis
+\begin{align}
+M^{\dagger}  \braket{\chi} M
+ &= M^{\dagger} M ( M^{\dagger} M )^{-1} \ \chi_{prod} \ ( M^{\dagger} M )^{-1} M^{\dagger} M \\
+ &= \chi_{prod},
+\end{align}
+it indeed gives us the original object in the product basis.
+
+\bigskip 
+
+Now we need to find the right matrix operation in the case with momentum dependence.
+The usual projection scheme is according to the convention in the gapnotes.pdf document
+\begin{align}
+ U^{wannier}_{m_1m_2m_3m_4}(q) &=  \underbrace{\Big( \sum_{k,nn'} P_{m_1n}(k) P_{m_3n'}^*(k-q) M^{i*}_{nn'}(k,q) \Big)}_{\tilde{M}^{i*}_{m_1m_3}(q)} 
+ W_{ij}(q)  \nonumber \\
+ & \hspace{2cm} \times  \underbrace{\Big( \sum_{k,nn'} P^*_{m_4n}(k) P_{m_2n'}(k-q) M^{j}_{nn'}(k,q) \Big)}_{\tilde{M}^{j}_{m_4m_2}(q)} \\
+ %
+ &= \sum_{ij}\tilde{M}^{i*}_{m_1m_3}(q)  W_{ij}(q) \tilde{M}^{j}_{m_4m_2}(q) .
+\end{align}
+For now we need to assume that $P$ is a unitary transformation, i.e. the Wannier states span the full Hilbert space.
+Later for the final projection we can restrict the number of states for $P$.
+
+In this expression, multiplying from the left and right with $\tilde{M}$ and $\tilde{M}^*$ 
+and summing over the Wannier orbitals to project back to the product basis would not work since
+\begin{align}
+ &\sum_{m_1m_2m_3m_4}  \tilde{M}^{a}_{m_1m_3}(q) U^{wannier}_{m_1m_2m_3m_4}(q) \tilde{M}^{b*}_{m_4m_2}(q) \\
+ &= \sum_{m_1m_2m_3m_4} \sum_{ij} \underbrace{\tilde{M}^{a}_{m_1m_3}(q) \tilde{M}^{i*}_{m_1m_3}(q)}_{\neq \delta_{ai}}  W_{ij}(q) \underbrace{ \tilde{M}^{j}_{m_4m_2}(q) \tilde{M}^{b*}_{m_4m_2}(q) }_{\neq \delta_{jb}} \\
+ &\neq  W_{ab}(q) .
+\end{align}
+But this property is needed for the correct projection with the new method. 
+
+If instead we project to the wannier space using 
+\begin{align}
+ \tilde{U}^{wannier}_{m_1m_2m_3m_4}(q) 
+ %
+ &= \sum_{ij,kl}\tilde{M}^{i*}_{m_1m_3}(q) \left(  \tilde{M}(q) \tilde{M}^{*}(q) \right)^{-1}_{ik} W_{kl}(q) \left(  \tilde{M}(q) \tilde{M}^{*}(a) \right)^{-1}_{lj} \tilde{M}^{j}_{m_4m_2}(q) ,
+\end{align}
+we would obviously recover $W$ in the product basis when multiplying from the left and right with $\tilde{M}$ and $\tilde{M}^*$ 
+and summing over the Wannier orbitals.
+
+Therefore,  the $R= M M^{\dagger}$ matrix should be given as
+\begin{align}
+ \left(  \tilde{M}(q) \tilde{M}^{*}(q) \right)_{ij}
+ &= \sum_{m_1m_2}\Big( \sum_{k,nn'} P^*_{m_1n}(k) P_{m_2n'}(k-q) M^{i}_{nn'}(k,q) \Big) \nonumber \\
+ &\hspace{2cm} \times    \Big( \sum_{k,nn'} P_{m_1n}(k) P_{m_2n'}^*(k-q) M^{j*}_{nn'}(k,q) \Big).
+\end{align}
+Here in this case the $m_1m_2$ indices refer to Wannier orbitals, and usually we only generate them in a small Energy window.
+Therefore, if it does not span the full Hilbert space, we cannot perform the sum over all $m_1m_2$.
+
+But let us assume we perform in theory two wannier fits; one for the energy window of interest, and 
+another fit for all bands outside the energy window. If this is possible and the fit converges, we have 
+found a unitary basis transformation which is block diagonal in the spaces inside and outside of the energy 
+window. This means the orbitals in the energy window of interest are exactly the ones we use later for 
+the final projection on e.g. only the $d$-orbitals, but we have supplemented them with all other states to
+form a true basis of Wannier orbitals.
+
+Using this property we can simplify $MM^{\dagger}$ in the following way
+\begin{align}
+  \left(  \tilde{M}(q) \tilde{M}^{*}(q) \right)_{ij}
+ &= \sum_{m_1m_2}\Big( \sum_{k_1,n_1n_2} P^*_{m_1n_1}(k_1) P_{m_2n_2}(k_1-q) M^{i}_{n_1n_2}(k_1,q) \Big) \nonumber \\
+ &\hspace{2cm} \times    \Big( \sum_{k_2,n_3n_4} P_{m_1n_3}(k_2) P_{m_2n_4}^*(k_2-q) M^{j*}_{n_3n_4}(k_2,q) \Big) \\
+ %
+ &= \sum_{m_1m_2}\Big( \sum_{k_1,n_1n_2} \braket{\psi^{k_1}_{n_1}|\phi_{m_1}^{k_1}} \braket{\phi_{m_2}^{k_1-q}|\psi_{n_2}^{k_1-q}} M^{i}_{n_1n_2}(k_1,q) \Big) \nonumber \\
+ &\hspace{2cm} \times    \Big( \sum_{k_2,n_3 n_4} \braket{\phi_{m_1}^{k_2}|\psi_{n_3}^{k_2}} \braket{\psi_{n_4}^{k_2-q}|\phi_{m_2}^{k_2-q}}  M^{j*}_{n_3n_4}(k_2,q) \Big) \\
+ %
+ &= \sum_{\substack{k_1,n_1n_2 \\ k_2,n_3, n_4}}  M^{i}_{n_1n_2}(k_1,q) M^{j*}_{n_3n_4}(k_2,q)
+ \Big( \sum_{m_1} \braket{\psi^{k_1}_{n_1}|\phi_{m_1}^{k_1}} \braket{\phi_{m_1}^{k_2}|\psi_{n_3}^{k_2}} \Big) \nonumber \\
+ &\hspace{3cm} \times    \Big( \sum_{m_2} \braket{\psi_{n_4}^{k_2-q}|\phi_{m_2}^{k_2-q}}\braket{\phi_{m_2}^{k_1-q}|\psi_{n_2}^{k_1-q}}    \Big) 
+ %
+%  &\neq  \sum_{\substack{k_1,n_1n_2 \\ k_2,n_3, n_4}}  M^{i}_{n_1n_2}(k_1,q) M^{j*}_{n_3n_4}(k_2,q)
+%  \  \braket{\psi^{k_1}_{n_1} | \psi_{n_3}^{k_2}} \  \braket{\psi_{n_4}^{k_2-q} |\psi_{n_2}^{k_1-q}} .
+ %
+\end{align}
+The summation has to be done over all Wannier orbitals $\phi_m$.... :(
+ 
+\clearpage
+
+
+In this case it is ovious that we need to use the pseudoinverse of $\tilde{M}(q)$:
+If we use the projection
+\begin{align}
+ \chi_{wann}(q) 
+ &= \tilde{M}^{-1}(q) \chi_{prod}(q) \tilde{M}^{*-1}(q) ,
+\end{align}
+we can upfold it back to the product basis and return the original $\chi_{prod}(q)$.
+The question is, how does $\tilde{M}^{-1}(q)$ look like?
+\begin{align}
+ \tilde{M}^{-1}(q) \chi_{prod}(q) \tilde{M}^{*-1}(q) 
+ &= \tilde{M}^{*}(q) [  \tilde{M}(q) \tilde{M}^{*}(q) ]^{-1} \chi_{prod}(q)
+         [  \tilde{M}(q) \tilde{M}^{*}(q) ]^{-1} \tilde{M}(q)
+\end{align}
+
+
+In case of choosing the Kohn-Sham orbitals as the 4-index basis the projection reduces to
+\begin{align}
+ P_{Ln}(k) = \braket{ \psi_{kL} | \psi_{kn} } = \delta_{Ln}
+\end{align}
+so we have the intermediate quantity
+\begin{align}
+ \tilde{M}^i_{LL'}(q)
+ &= N_k^{-1} \sum_k e^{-ik(R-R')} \sum_{nn'}  P^*_{Ln}(k)  P_{L'n'}(k-q) M^i_{nn'}(k,q) \\
+ &= N_k^{-1} \sum_k  M^i_{LL'}(k,q) .
+\end{align}
+This results in 
+\begin{align}
+ \tilde{R}_{ij}(q) &= \left[ \tilde{M}(q) \tilde{M}^{\dagger}(q)\right]_{ij} \\
+ &= \sum_{LL'}\left( N_k^{-1} \sum_k M^i_{LL'}(k,q)  \right) 
+    \left( N_k^{-1} \sum_k  M^{j*}_{LL'}(k,q)  \right)
+\end{align}
+
+
+
+
+
+
+
+
+\clearpage
 
 
 
@@ -4482,6 +4844,85 @@ The original formula
  and $\left[ G_{LL'}(k,i\omega) \right]^{-1}$ is a matrix inversion in the $LL'$ space.
 
 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \subsection{Functional derivation}
+ From the cavity construction for the bath we had these equivalent formulas
+ \begin{align}
+ \mathscr{G}^{-1}(i\omega) 
+ &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} G_{ij}^{(0)} t_{j0} \\
+ &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} \left( G_{ij} - G_{i0}G^{-1}_{00} G_{0j} \right) t_{j0} \\
+ &= i\omega + \braket{\epsilon} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \\
+%
+ &= \braket{G}^{-1} + \braket{\Sigma} 
+  - \Big( \braket{\Sigma G \Sigma} - \braket{\Sigma G} \braket{G}^{-1} \braket{G\Sigma} \nonumber \\
+     & \hspace{3.0cm} + 2\braket{\Sigma} - \braket{\Sigma G} \braket{G}^{-1} - \braket{G}^{-1}\braket{G\Sigma}\Big) ,
+ \end{align}
+ where we see that the bath depends on two sets of local quantities:
+ First, we can parametrize the bath in terms of
+ \begin{align}
+  \braket{G}, \braket{\epsilon G}, \braket{G \epsilon }, \braket{\epsilon G \epsilon},
+ \end{align}
+ and second, we can also parametrize it by
+ \begin{align}
+  \braket{G}, \braket{\Sigma G}, \braket{G \Sigma }, \braket{\Sigma G \Sigma}.
+ \end{align}
+ I think using the first set might be easier...
+ 
+ We start from the effective impurity action in terms of Grassman variables
+ $S_{eff}[c,c^*]$ which generates the partition function
+ \begin{align}
+  Z = \int \mathcal{D}[cc^*] \mathrm{exp}\{-S_{eff}[c,c^*] \}.
+ \end{align}
+We now apply probing fields coupling to the fermionic propagators
+\begin{align}
+ S_{eff}[c,c^*,J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}]
+ &= S_{eff}[c,c^*] 
+  - \int\mathrm{d}\tau\mathrm{d}\tau' c^*_0(\tau) J_{G}(\tau,\tau') c_0(\tau') \nonumber \\
+  &\hspace{2cm} - \int\mathrm{d}\tau\mathrm{d}\tau' \sum_{i\neq 0} t_{0i} c^*_i(\tau) J_{\epsilon G}(\tau,\tau') c_0(\tau')\nonumber \\
+  &\hspace{2cm} - \int\mathrm{d}\tau\mathrm{d}\tau' \sum_{i\neq 0} c^*_0(\tau) J_{G \epsilon}(\tau,\tau') c_i(\tau') t_{i0}\nonumber \\
+  &\hspace{2cm} - \int\mathrm{d}\tau\mathrm{d}\tau' \sum_{ij\neq 0} t_{0i}c^*_i(\tau) J_{\epsilon G \epsilon}(\tau,\tau') c_j(\tau') t_{j0}.
+\end{align}
+The free energy is
+\begin{align}
+ F[J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}]
+ &= -\mathrm{ln} Z[J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}],
+\end{align}
+from which the local propagators can be derived as
+\begin{align}
+ \braket{G}(\tau,\tau') &= G_{00} = \frac{\delta F}{\delta J_{G}} = -\braket{T  c_0(\tau) c^*_0(\tau') } \\
+ \braket{\epsilon G}(\tau,\tau') &= \frac{\delta F}{\delta J_{ \epsilon G}} = - \sum_{i\neq 0} t_{0i} \braket{T  c_i(\tau)c^*_0(\tau') } \\
+ \braket{G \epsilon}(\tau,\tau') &= \frac{\delta F}{\delta J_{G \epsilon}} = - \sum_{i\neq 0}  \braket{T  c_0(\tau)c^*_i(\tau') }t_{i0} \\
+ \braket{\epsilon G \epsilon}(\tau,\tau') &= \frac{\delta F}{\delta J_{\epsilon G \epsilon}} = - \sum_{ij\neq 0} t_{i0} \braket{T  c_i(\tau)c^*_j(\tau') } t_{j0} .
+\end{align}
+Then we perform a Legendre transform of $F$ to obtain the functional
+\begin{align}
+ \Gamma[\braket{G}, \braket{\epsilon G}, \braket{G \epsilon }, \braket{\epsilon G \epsilon}]
+ &=F[J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}] 
+ - J_{G} \braket{G} \nonumber \\
+ &\hspace*{2cm} -  J_{\epsilon G} \braket{\epsilon G} -  J_{G \epsilon} \braket{G\epsilon}
+ -  J_{\epsilon G \epsilon} \braket{\epsilon G \epsilon}.
+\end{align}
+This functional now has the properties
+\begin{align}
+  J_{G} &= \frac{\delta \Gamma}{\delta \braket{G}} \\
+  J_{\epsilon G} &= \frac{\delta \Gamma}{\delta \braket{\epsilon G}} \\
+  J_{G \epsilon} &= \frac{\delta \Gamma}{\delta \braket{G \epsilon}} \\
+  J_{\epsilon G \epsilon} &= \frac{\delta \Gamma}{\delta \braket{\epsilon G \epsilon}}.
+\end{align}
+I think the first term $J_{G}$ can be identified with the contributions to the local Selfenergy arising
+only from local propagators $\braket{G}$, so it is not equal to $\braket{\Sigma}$ yet.
+But the other terms look like they correspond to local Selfenergy terms arising from nonlocal propagators $G_{0i}, G_{i0}$
+and $G_{ij}$, weighted by the hopping factors...?
+
+\clearpage
+
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{More on the dimer example}
 Let us consider a model for a 2-site dimer model with one orbital per site
