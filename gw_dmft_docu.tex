@@ -4919,6 +4919,153 @@ and $G_{ij}$, weighted by the hopping factors...?
 
 \clearpage
 
+ From the cavity construction for the bath we had these equivalent formulas
+ \begin{align}
+ \mathscr{G}^{-1}(i\omega) 
+%  &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} G_{ij}^{(0)} t_{j0} \\
+%  &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} \left( G_{ij} - G_{i0}G^{-1}_{00} G_{0j} \right) t_{j0} \\
+ &= i\omega + \braket{\epsilon} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \\
+%
+ &= \braket{G}^{-1} + \braket{\Sigma} 
+  - \Big( \braket{\Sigma G \Sigma} - \braket{\Sigma G} \braket{G}^{-1} \braket{G\Sigma} \nonumber \\
+     & \hspace{3.0cm} + 2\braket{\Sigma} - \braket{\Sigma G} \braket{G}^{-1} - \braket{G}^{-1}\braket{G\Sigma}\Big) .
+ \end{align}
+ On the impurity we still have the local Dyson equation relating the  impurity Green's function
+ with the bath
+ \begin{align}
+  \mathscr{G}^{-1}(i\omega) 
+  &= G_{imp}^{-1} + \Sigma_{imp}.
+ \end{align}
+Since we assume $\Sigma_{imp} = \Sigma_{loc}$ in our approach, we can write down the relation between
+the impurity and local Green's function
+ \begin{align}
+  G_{imp}^{-1}
+  &= G^{-1}_{loc}
+  - \Big( \braket{\Sigma G \Sigma} - \braket{\Sigma G} \braket{G}^{-1} \braket{G\Sigma} \nonumber \\
+     & \hspace{3.0cm} + 2\braket{\Sigma} - \braket{\Sigma G} \braket{G}^{-1} - \braket{G}^{-1}\braket{G\Sigma}\Big)  \\
+%
+&= G^{-1}_{loc} - R \\
+%
+\Rightarrow G_{imp}
+&= \frac{1}{G^{-1}_{loc} - R}.
+ \end{align}
+ Here we see that the impurity Green's function has to be supplemented by a correction term $R$ in order to obtain the physical
+ local Green's function, and this term has the same form as a Selfenergy and depends on
+ $G_{loc }, \braket{G\Sigma}$ and $\braket{\Sigma G\Sigma}$.
+  So this tells us that we probably also need some kind of correction term for the impurity part of the functional $\Psi_{imp}$.
+
+    When we solve the impurity model, it generates an action given by the impurity Green's function $G_{imp}$,
+  so the functional dependence is $\Psi_{imp}[G_{imp}]$. In standard DMFT this is no problem,
+  since $G_{imp}=G_{loc}$, but in the new method we have $G_{imp} = 1/(G^{-1}_{loc} - R)$, so this additional dependencies are important
+  when calculating functional derivatives.
+For the new GW+DMFT functional including a correction from the nonlocal effects that
+respect $G_{imp} \neq G_{loc}$, we propose
+\begin{align}
+\boxed{
+ \Psi[G] = \Psi_{nonloc}[G_{nonloc}] + \Psi_{imp}[G_{imp}] + \Sigma_{imp} \big( G_{loc} - G_{imp} \big) } .
+\end{align}
+It has the desired properties when calculating functional derivatives
+\begin{align}
+ \frac{\delta \Psi}{\delta G_{loc}}
+ &= 0 + \frac{\delta \Psi_{imp}}{\delta G_{imp}} \frac{\delta G_{imp}}{\delta G_{loc}}
+   + \Sigma_{imp} \Big( 1 - \frac{\delta G_{imp}}{\delta G_{loc}} \Big) \\
+&= \Sigma_{imp} \frac{\delta G_{imp}}{\delta G_{loc}}
+   + \Sigma_{imp}  - \Sigma_{imp} \frac{\delta G_{imp}}{\delta G_{loc}}  \\
+&=\Sigma_{imp}   .
+\end{align}
+and
+\begin{align}
+ \frac{\delta \Psi}{\delta G_{nonloc}}
+ &= \frac{\delta \Psi_{nonloc}}{\delta G_{nonloc}}
+  +\frac{\delta \Psi_{imp}}{\delta G_{imp}} \frac{\delta G_{imp}}{\delta G_{nonloc}}
+    + \Sigma_{imp} \Big( 0 - \frac{\delta G_{imp}}{\delta G_{nonloc}} \Big) \\
+&=\Sigma_{nonloc}  + \Sigma_{imp}\frac{\delta G_{imp}}{\delta G_{nonloc}}
+    - \Sigma_{imp}\frac{\delta G_{imp}}{\delta G_{nonloc}}  \\
+&=\Sigma_{nonloc}.     
+\end{align}
+So indeed we obtain for the full Selfenergy
+\begin{align}
+ \frac{\delta \Psi}{\delta G}
+ =\Sigma_{nonloc} + \Sigma_{imp} .
+\end{align}
+
+\bigskip
+
+This functional can be directly extended in an analogous way to include the screened interaction
+\begin{align}
+% \boxed{
+ \Psi[G,W] = \Psi_{nonloc}[G_{nonloc},W_{nonloc}] 
+  + \Psi_{imp}[G_{imp},W_{imp}]  \\
+   \hspace{1cm} + \Sigma_{imp} \big( G_{loc} - G_{imp} \big) 
+  + P_{imp} \big( W_{loc} - W_{imp} \big)  ,
+\end{align}
+which leads to
+\begin{align}
+ \frac{\delta \Psi}{\delta G}  =\Sigma_{nonloc} + \Sigma_{imp} \\
+ \frac{\delta \Psi}{\delta W}  =P_{nonloc} + P_{imp} .
+\end{align}
+
+ \clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Why is there dynamic screening for a purely local interaction?}
+Let us consider the case of a purely local interaction for the Hubbard model.
+Our physical intuition tell us that
+there should be no screening effects since electrons cannot 
+``talk'' to each other over a distance by the Coulomb interaction
+if the interaction is local.
+
+From the cavity construction we obtained the general expression for the 
+effective interaction as
+\begin{align}
+ U(i\nu) 
+ &= v_{00} - \sum_{ij\neq 0} v_{0i} \chi_{ij}(i\nu) v_{j0},
+\end{align}
+where $i,j$ are site indices, $v$ is the bare interaction and $\chi$
+is the charge susceptibility, generated for example from the GW polarization.
+If we now use a local interaction, i.e.
+\begin{align}
+ v_{ij} = v \delta_{ij}, 
+\end{align}
+we get for the effective interaction
+\begin{align}
+ U(i\nu) 
+ &= v_{00} - \sum_{ij\neq 0} v \delta_{0i} \chi_{ij}(i\nu) v \delta_{j0} \\
+ &= v_{00},
+\end{align}
+ so indeed we obtain the bare unscreened interaction. 
+ 
+ But the standard GW+DMFT method does not use the equation above but instead uses
+ the Dyson equation
+ \begin{align}
+ U^{-1}(i\nu) 
+ &=  W^{-1}_{loc}(i\nu)  + P_{loc}(i\nu) ,
+\end{align}
+which we already know is only correct when the polarization $P$ is local.
+Now let us use the same ``trick'' that is sometimes done for the Green's function:
+We absorb the nonlocal part of the polarization in the local bare interaction  when evaluating $W$
+\begin{align}
+ W^{-1}(i\nu,q) 
+ &= \underbrace{ v^{-1} - P_{nonloc}(i\nu,q)}_{\tilde{v}^{-1}} - P_{loc}(i\nu)  \\
+ &= \tilde{v}^{-1}(i\nu,q) - P_{loc}(i\nu) ,
+\end{align}
+where we have redefined
+\begin{align}
+ \tilde{v}(i\nu,q) &= \frac{v}{1 - P_{nonloc}(i\nu,q)v}.
+\end{align}
+Although we started out with a static and local bare interaction $v$, by such a redefinition
+the effective $\tilde{v}(i\nu,q)$ now is dynamical and nonlocal due to $P_{nonloc}(i\nu,q)$.
+When obtaining the effective interaction from the Dyson equation we now get 
+ \begin{align}
+ U^{-1}(i\nu) 
+ &=  W^{-1}_{loc}(i\nu)  + P_{loc}(i\nu)  \\
+ &= \tilde{v}_{00}(i\nu) - \sum_{ij\neq 0} \tilde{v}_{0i}(i\nu)  \chi_{ij}(i\nu) \tilde{v}_{j0}(i\nu),
+\end{align}
+which does not simplify to a static local object. Therefore, the Dyson equation will generate a dynamical
+nonlocal interaction even when the bare interaction is purely local and static.
+
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -6794,7 +6941,7 @@ The spectral function is then given by
 A(k,\omega) = -\frac{1}{\pi} \mathrm{Im}G(k,\omega)
 \end{align}
 
-\end{enumerate}
+\end{enumerate}zz
 
 
 \end{document}
