@@ -4852,9 +4852,9 @@ The original formula
  From the cavity construction for the bath we had these equivalent formulas
  \begin{align}
  \mathscr{G}^{-1}(i\omega) 
- &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} G_{ij}^{(0)} t_{j0} \\
- &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} \left( G_{ij} - G_{i0}G^{-1}_{00} G_{0j} \right) t_{j0} \\
- &= i\omega + \braket{\epsilon} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \\
+%  &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} G_{ij}^{(0)} t_{j0} \\
+%  &=i\omega + \braket{\epsilon} - \sum_{ij\neq 0 } t_{0i} \left( G_{ij} - G_{i0}G^{-1}_{00} G_{0j} \right) t_{j0} \\
+ &= i\omega + \braket{\epsilon} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \label{eq:gbath_cavity_eG} \\
 %
  &= \braket{G}^{-1} + \braket{\Sigma} 
   - \Big( \braket{\Sigma G \Sigma} - \braket{\Sigma G} \braket{G}^{-1} \braket{G\Sigma} \nonumber \\
@@ -4876,46 +4876,117 @@ The original formula
  \begin{align}
   Z = \int \mathcal{D}[cc^*] \mathrm{exp}\{-S_{eff}[c,c^*] \}.
  \end{align}
-We now apply probing fields coupling to the fermionic propagators
+We now apply probing fields coupling to the fermionic propagators such that we can obtain $G, \epsilon G, G\epsilon$
+and $\epsilon G \epsilon$ as derivatives from the free energy. Later on we try to approximate these quantities by their local 
+counterpart. (Here I will work in terms of a Wannier basis because I don't really know how to write the hopping/kinetic energy
+operator acting left/right of $G$). We introduce the fields $J_{G},J_{\epsilon G}, J_{G \epsilon}$ and $J_{\epsilon G \epsilon}$
+into the action like this
 \begin{align}
  S_{eff}[c,c^*,J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}]
  &= S_{eff}[c,c^*] 
-  - \int\mathrm{d}\tau\mathrm{d}\tau' c^*_0(\tau) J_{G}(\tau,\tau') c_0(\tau') \nonumber \\
-  &\hspace{2cm} - \int\mathrm{d}\tau\mathrm{d}\tau' \sum_{i\neq 0} t_{0i} c^*_i(\tau) J_{\epsilon G}(\tau,\tau') c_0(\tau')\nonumber \\
-  &\hspace{2cm} - \int\mathrm{d}\tau\mathrm{d}\tau' \sum_{i\neq 0} c^*_0(\tau) J_{G \epsilon}(\tau,\tau') c_i(\tau') t_{i0}\nonumber \\
-  &\hspace{2cm} - \int\mathrm{d}\tau\mathrm{d}\tau' \sum_{ij\neq 0} t_{0i}c^*_i(\tau) J_{\epsilon G \epsilon}(\tau,\tau') c_j(\tau') t_{j0}.
+  - \sum_{ij}\int\mathrm{d}\tau\mathrm{d}\tau' c^*_i(\tau) J_{G}(\tau,\tau') c_j(\tau') \nonumber \\
+  &\hspace{2cm} - \sum_{ij}\int\mathrm{d}\tau\mathrm{d}\tau' \sum_{k} t_{ik} c^*_j(\tau) J_{\epsilon G}(\tau,\tau') c_k(\tau')\nonumber \\
+  &\hspace{2cm} - \sum_{ij}\int\mathrm{d}\tau\mathrm{d}\tau' \sum_{k} c^*_k(\tau) J_{G \epsilon}(\tau,\tau') c_i(\tau') t_{kj}\nonumber \\
+  &\hspace{2cm} - \sum_{ij}\int\mathrm{d}\tau\mathrm{d}\tau' \sum_{kl} t_{ik}c^*_l(\tau) J_{\epsilon G \epsilon}(\tau,\tau') c_k(\tau') t_{lj}.
 \end{align}
-The free energy is
+The free energy is given by
 \begin{align}
  F[J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}]
  &= -\mathrm{ln} Z[J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}],
 \end{align}
-from which the local propagators can be derived as
+from which we can now derive the propagators as 
 \begin{align}
- \braket{G}(\tau,\tau') &= G_{00} = \frac{\delta F}{\delta J_{G}} = -\braket{T  c_0(\tau) c^*_0(\tau') } \\
- \braket{\epsilon G}(\tau,\tau') &= \frac{\delta F}{\delta J_{ \epsilon G}} = - \sum_{i\neq 0} t_{0i} \braket{T  c_i(\tau)c^*_0(\tau') } \\
- \braket{G \epsilon}(\tau,\tau') &= \frac{\delta F}{\delta J_{G \epsilon}} = - \sum_{i\neq 0}  \braket{T  c_0(\tau)c^*_i(\tau') }t_{i0} \\
- \braket{\epsilon G \epsilon}(\tau,\tau') &= \frac{\delta F}{\delta J_{\epsilon G \epsilon}} = - \sum_{ij\neq 0} t_{i0} \braket{T  c_i(\tau)c^*_j(\tau') } t_{j0} .
+ G_{ij}(\tau,\tau') &=  \frac{\delta F}{\delta J_{G}} = -\braket{T  c_i(\tau) c^*_j(\tau') } \\
+ [\epsilon G]_{ij}(\tau,\tau') &= \frac{\delta F}{\delta J_{ \epsilon G}} = - \sum_{k} t_{ik} \braket{T  c_k(\tau)c^*_j(\tau') } \\
+ [G \epsilon]_{ij}(\tau,\tau') &= \frac{\delta F}{\delta J_{G \epsilon}} = - \sum_{k}  \braket{T  c_i(\tau)c^*_k(\tau') }t_{kj} \\
+ [\epsilon G \epsilon]_{ij}(\tau,\tau') &= \frac{\delta F}{\delta J_{\epsilon G \epsilon}} = - \sum_{kj} t_{ik} \braket{T  c_k(\tau)c^*_l(\tau') } t_{lj} .
 \end{align}
 Then we perform a Legendre transform of $F$ to obtain the functional
 \begin{align}
- \Gamma[\braket{G}, \braket{\epsilon G}, \braket{G \epsilon }, \braket{\epsilon G \epsilon}]
+ \Gamma[G, \epsilon G, G \epsilon , \epsilon G \epsilon]
  &=F[J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}] 
- - J_{G} \braket{G} \nonumber \\
- &\hspace*{2cm} -  J_{\epsilon G} \braket{\epsilon G} -  J_{G \epsilon} \braket{G\epsilon}
- -  J_{\epsilon G \epsilon} \braket{\epsilon G \epsilon}.
+ - J_{G} G \nonumber \\
+ &\hspace*{2cm} -   (\epsilon G) J_{\epsilon G} -    (G\epsilon)J_{G \epsilon}
+ -    (\epsilon G \epsilon ) J_{\epsilon G \epsilon},
 \end{align}
-This functional now has the properties
+where all the $J_{G},J_{\epsilon G}, J_{G \epsilon},J_{\epsilon G \epsilon}$ are now expressed by
+the corresponding $G, \epsilon G, G \epsilon , \epsilon G \epsilon$ variables (I don't think they are independent?).
+
+The free energy functional then takes the form
 \begin{align}
-  J_{G} &= \frac{\delta \Gamma}{\delta \braket{G}} \\
-  J_{\epsilon G} &= \frac{\delta \Gamma}{\delta \braket{\epsilon G}} \\
-  J_{G \epsilon} &= \frac{\delta \Gamma}{\delta \braket{G \epsilon}} \\
-  J_{\epsilon G \epsilon} &= \frac{\delta \Gamma}{\delta \braket{\epsilon G \epsilon}}.
+ \Gamma[G, \epsilon G, G \epsilon , \epsilon G \epsilon]
+ &= \mathrm{Tr}[\mathrm{ln}(G)] - \mathrm{Tr}\left[ (G^{-1}_0 - G^{-1}) G \right] \\
+  & \hspace{0.4cm} +\mathrm{Tr}[\mathrm{ln}(\epsilon G)] - \mathrm{Tr}\left[ ( (\epsilon G)^{-1}_0 - (\epsilon  G )^{-1}) (\epsilon G) \right] \\
+  & \hspace{0.4cm} +\mathrm{Tr}[\mathrm{ln}(G\epsilon)] - \mathrm{Tr}\left[ ( (G\epsilon)^{-1}_0 - (G\epsilon )^{-1}) (G\epsilon) \right] \\
+  & \hspace{0.4cm} +\mathrm{Tr}[\mathrm{ln}(\epsilon G\epsilon)] - \mathrm{Tr}\left[ ( (\epsilon G\epsilon)^{-1}_0 - (\epsilon G\epsilon )^{-1}) (\epsilon G\epsilon) \right] \\
+  & \hspace{0.4cm} + \Psi[G, \epsilon G, G \epsilon , \epsilon G \epsilon].
 \end{align}
-I think the first term $J_{G}$ can be identified with the contributions to the local Selfenergy arising
-only from local propagators $\braket{G}$, so it is not equal to $\braket{\Sigma}$ yet.
-But the other terms look like they correspond to local Selfenergy terms arising from nonlocal propagators $G_{0i}, G_{i0}$
-and $G_{ij}$, weighted by the hopping factors...?
+$\Psi$ is then the Luttinger-Ward functional containing all irreducible skeleton diagrams defined by
+$G, \epsilon G, G \epsilon , \epsilon G \epsilon$ (I am not sure whether this makes sense?)
+
+Now we let the source terms go to zero and require stationarity of the functional in all the variables
+separately since we treat them as independent variables. For $G$ this yields the standard Dyson equation
+\begin{align}
+  0 & \stackrel{!}{=}\frac{\delta \Gamma}{\delta G}  = G^{-1} - G^{-1}_0 + \frac{\delta \Psi}{\delta G} \\
+  \Rightarrow G^{-1} &=  G^{-1}_0 -  \frac{\delta \Psi}{\delta G} ,
+\end{align}
+from which we identify the Selfenergy
+\begin{align}
+  \Sigma &=  \frac{\delta \Psi}{\delta G}.
+\end{align}
+We can now impose the same stationarity condition for the other variables and obtain new 'auxiliary' Selfenergies
+\begin{align}
+ \Sigma_{\epsilon G} &= \frac{\delta \Psi}{\delta \epsilon G},  \hspace{1cm} (\epsilon G)^{-1} =  (\epsilon G)^{-1}_0 -  \Sigma_{\epsilon G} \\
+ \Sigma_{G \epsilon} &= \frac{\delta \Psi}{\delta G \epsilon},  \hspace{1cm} (G \epsilon)^{-1} =  (G \epsilon ) ^{-1}_0 -  \Sigma_{G \epsilon} \\
+ \Sigma_{\epsilon G \epsilon} &= \frac{\delta \Psi}{\delta \epsilon G \epsilon},  \hspace{1cm} (\epsilon G \epsilon)^{-1} =  (\epsilon G \epsilon ) ^{-1}_0 -  \Sigma_{\epsilon G \epsilon} .
+\end{align}
+
+Now we can (maybe?) proceed by approximating the $\Psi$ functional by a functional of
+the local quantities alone
+\begin{align}
+ \Psi[G, \epsilon G, G \epsilon , \epsilon G \epsilon]
+ &\approx \Psi[\braket{G}, \braket{\epsilon G }, \braket{G \epsilon }, \braket{\epsilon G \epsilon} ].
+\end{align}
+Now the main question is, how does the functional look like if we want to use an impurity model to evaluate it?
+I think in general the impurity model is given by
+\begin{align}
+ \Psi_{imp}[G_{imp}],
+\end{align}
+since it generates all irreducible skeleton diagrams from the impurity solution, namely the impurity Green's function.
+Thus we have in general
+\begin{align}
+\Sigma_{imp} &= \frac{\delta \Psi_{imp} }{\delta G_{imp}} \\
+\braket{\Sigma} &= \Sigma_{loc} = \frac{\delta \Psi }{\delta \braket{G}},
+\end{align}
+which are not necessarily equal.
+In DMFT this is no problem, since we require $G_{imp}=G_{loc}$, so we immediately
+we have 
+\begin{align}
+\frac{\delta \Psi_{imp} }{\delta G_{imp}} &= \Sigma_{imp} =  \Sigma_{loc} = \frac{\delta \Psi }{\delta \braket{G}} .
+\end{align}
+But with nonlocal Selfenergies we have to substitute
+$G_{imp}$ by the expression given by the cavity construction which stated that the bath had the form
+\begin{align}
+\mathscr{G}^{-1}(i\omega) 
+ &= i\omega + \braket{\epsilon} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big),
+\end{align}
+so by using the impurity Dyson equation we can express $G_{imp}$ as
+\begin{align}
+G_{imp}
+ &= \Big[ i\omega + \braket{\epsilon} -\braket{\Sigma} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \Big]^{-1} \\
+ &= \Big[ i\omega + \braket{\epsilon} -\frac{\delta \Psi}{\delta \braket{G}} - \Big( \braket{ \epsilon G \epsilon } - \braket{\epsilon G} \braket{G}^{-1}  \braket{ G \epsilon }  \Big) \Big]^{-1},
+\end{align}
+which effectively makes $G_{imp}$ a functional of $\braket{G}, \braket{\epsilon G }, \braket{G \epsilon }, \braket{\epsilon G \epsilon}$.
+For the moment we do not know the exact form or relation of $\Psi$ and $\Psi_{imp}$, but now we want to approximate its derivative as
+\begin{align}
+\braket{\Sigma}
+&= 
+ \frac{\delta}{\delta \braket{G}} \Psi\big[ \braket{G}, \braket{\epsilon G }, \braket{G \epsilon }, \braket{\epsilon G \epsilon}] \big] \\
+ &\approx \frac{\delta}{\delta G_{imp}} \Psi_{imp} [ G_{imp}] \\
+ &= \Sigma_{imp},
+\end{align}
+which is a functional of $\braket{G}, \braket{\epsilon G }, \braket{G \epsilon }, \braket{\epsilon G \epsilon}$ since $G_{imp}$
+is a functional of these quantities.
 
 \clearpage
 
