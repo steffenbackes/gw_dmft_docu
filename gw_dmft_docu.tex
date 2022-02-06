@@ -4529,7 +4529,7 @@ In the next section we will discuss a few examples using the more general equati
 Previously we obtained the expression for the effective local interaction as 
 \begin{align}
  U(i\nu) 
- &= v_{00} - \underbrace{\sum_{ij\neq 0} v_{0i} v_{j0} \chi_{ij}(i\nu)}_{\Theta(i\nu)}.
+ &= v_{00} - \underbrace{\sum_{ij\neq 0} v_{0i} v_{j0} \chi^{(0)}_{ij}(i\nu)}_{\Theta(i\nu)}.
 \end{align}
 We see that the bare interaction $v$ plays the same role as the noninteracting hopping amplitude $t$ for the fermionic bath.
 Therefore, following the same derivation as for the one-particle Green's function the analogous result
@@ -4583,7 +4583,106 @@ terms cancel each other
 REMEMBER: This result only holds for a local polarization! In the general case the more general formula 
 Eq.\eqref{eq:eff_dyson_for_interaction} has to be used.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Relation between $G^{(0)}$ and $G$}
+The often used formula that connects the full lattice Green's function
+$G_{ij}$ with the one of a lattice with site $0$ removed $G^{(0)}_{ij}$,
+given by
+\begin{align}
+ G^{(0)}_{ij} &= G_{ij} - G_{i0}G^{-1}_{00}G_{0j},
+\end{align}
+is an approximation and only becomes exact for a local self-energy (tested numerically).
+To derive this formula, we can use a general form of the matrix inverse
+when separating the matrix into different blocks
+\begin{align}
+ A&=
+\begin{pmatrix}
+  a &   V  \\
+  V^T & \boxed{ \hspace*{0.1cm} B \hspace*{0.1cm} } 
+\end{pmatrix}
+\end{align}
+where $a$ is a scalar, $V$ is a $1\times (n-1)$ matrix, and 
+$B$ is a $(n-1)\times (n-1)$ matrix.
+
+The inverse of A is then given as 
+\begin{align}
+ A^{-1}&=
+ \begin{pmatrix}
+  a &   V  \\
+  V^T & \boxed{ \hspace*{0.1cm} B \hspace*{0.1cm} } 
+\end{pmatrix}^{-1}
+=
+\begin{pmatrix}
+  x &   Y  \\
+  Y^T & \boxed{ \hspace*{0.1cm} Z \hspace*{0.1cm} } 
+\end{pmatrix}
+\end{align}
+with
+\begin{align}
+ x &= \frac{1}{a - V B^{-1} V^{T}} \\
+ Y &= -x V B^{-1} \\
+ Z &= B^{-1} - B^{-1} V^{T} Y
+\end{align}
+from which we can express
+\begin{align}
+V &= -x^{-1}YB \\
+ V^{T} &= -BY^Tx^{-1} \\ 
+ \Rightarrow Z &= B^{-1} + B^{-1} (BY^Tx^{-1}) Y \\
+ &=  B^{-1} + Y^T x^{-1} Y \label{eq:cav_inv_Z_block}.
+\end{align}
+We can now compare this to the full lattice Green's function in matrix form
+\begin{align}
+\begin{pmatrix}
+  G_{00} &  G_{01} & \cdots & G_{0n}  \\
+  G_{10} &  G_{11} &        &         \\
+  \vdots &         & \ddots &         \\
+  G_{n0 }&         &        & G_{nn}        
+\end{pmatrix}
+&=
+\begin{pmatrix}
+ i\omega -H_{00}-\Sigma_{00} & -H_{01} -\Sigma_{01} & \cdots \\
+ -H_{10} -\Sigma_{10} & i\omega -H_{11}-\Sigma_{11} & \cdots \\
+ \vdots &   & \ddots &
+\end{pmatrix}^{-1}
+\end{align}
+If we now define approximately the Green's function 
+without site $0$ as
+\begin{align}
+[G^{(0)}_{ij}]^{-1} 
+&=
+\begin{pmatrix}
+ i\omega -H_{11}-\Sigma_{11} & -H_{12} -\Sigma_{12} & \cdots \\
+ -H_{21} -\Sigma_{21} & i\omega -H_{22}-\Sigma_{22} & \cdots \\
+ \vdots &   & \ddots &
+\end{pmatrix}
+= B,
+\end{align}
+we get by comparison with the inversion above
+\begin{align}
+ Z &= G_{ij}, \ i,j\neq 0 \\
+ Y &= G_{0j}, \ j\neq 0 \\
+ x &= G_{00} 
+\end{align}
+and Eq.\eqref{eq:cav_inv_Z_block} takes the form
+\begin{align}
+ G_{ij} &= G^{(0)}_{ij} +  G_{i0} G^{-1}_{00} G_{0j} 
+ \label{eq:GF_lattice_cavity_relation}
+\end{align}
+$G^{(0)}_{ij}$ is not the full Green's function for the lattice
+with site $0$ removed, since it still contains 
+the self-energy of the original lattice but only the 
+sub-lattice matrix elements enter the Green's function.
+In the case of large lattice connectivity,
+where the self-energy is not affected by the removal of
+one site, the identification of $G^{(0)}_{ij}$ is correct.
+Most importantly, $G^{(0)}_{ij}$ as given in
+\eqref{eq:GF_lattice_cavity_relation} is causal by definition
+if $\Sigma_{ij}$ is causal(? REALLY? Mathematically it should I think)
+
+Exactly the same derivation can be done with two-particle quantities.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{2-site Dimer example}
 For the case of a dimer with the two sites 0 and 1 the full interacting Green's function is given by
@@ -4821,6 +4920,8 @@ The effective intersite interaction $V$ is shown as well, but is rather constant
 \includegraphics[width=1\textwidth]{figs/bathNonlocFromDMFTderiv/srvo3_comp.png}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Multi-orbital generalization}
 The original formula 
 \begin{align}
@@ -4843,7 +4944,9 @@ The original formula
  It is understood that all multiplications are Matrix multiplications 
  and $\left[ G_{LL'}(k,i\omega) \right]^{-1}$ is a matrix inversion in the $LL'$ space.
 
-
+%%%%%%%
+ 
+ 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5491,6 +5594,8 @@ Pure DMFT is always better than any other combination, even though it's not iden
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
