@@ -5139,7 +5139,8 @@ equations
  G^{(0)}_{ij} &= G_{ij} - G_{i0}G^{-1}_{00}G_{0j} \\ 
  \chi^{(0)}_{ij} &= \chi_{ij} - \chi_{i0}\chi^{-1}_{00}\chi_{0j} .
 \end{align}
-
+These equations are approximate for finite dimensions, for a derivation,
+see Sec.\ref{sec:relation_g(0)_g}.
 
 \subsection{The fermionic bath}
 Using the relations above the Weiss field has the form
@@ -5356,6 +5357,7 @@ Eq.\eqref{eq:eff_dyson_for_interaction} has to be used.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Relation between $G^{(0)}$ and $G$}
+\label{sec:relation_g(0)_g}
 The often used formula that connects the full lattice Green's function
 $G_{ij}$ with the one of a lattice with site $0$ removed $G^{(0)}_{ij}$,
 given by
@@ -5373,7 +5375,7 @@ when separating the matrix into different blocks
 \end{pmatrix}
 \end{align}
 where $a$ is a scalar, $V$ is a $1\times (n-1)$ matrix, and 
-$B$ is a $(n-1)\times (n-1)$ matrix.
+$B$ is a symmetric $(n-1)\times (n-1)$ matrix.
 
 The inverse of A is then given as 
 \begin{align}
@@ -5392,9 +5394,12 @@ with
 \begin{align}
  x &= \frac{1}{a - V B^{-1} V^{T}} \\
  Y &= -x V B^{-1} \\
- Z &= B^{-1} - B^{-1} V^{T} Y
+ Z &= B^{-1} - B^{-1} V^{T} Y.
 \end{align}
-from which we can express
+This result can be readily verified by inserting them in the matrix and veryfying that
+$AA^{-1}=\unity$.
+
+Using these relations we can express
 \begin{align}
 V &= -x^{-1}YB \\
  V^{T} &= -BY^Tx^{-1} \\ 
