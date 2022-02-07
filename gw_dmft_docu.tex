@@ -33,6 +33,7 @@
 \newcommand{\GF}{Green's function}
 \newcommand{\unity}{\mathds{1}}
 \renewcommand{\vec}{\mathbf}
+\renewcommand{\exp}[1]{\mathrm{e}^{#1}}
 
 \title{GW (oneshot) + DMFT documentation}
 
@@ -67,6 +68,641 @@ No further selfconsistency apart from the DMFT cycle will be performed for now,
 Extensions to a full GW+DMFT selfconsistency will come later,
 but selfconsistency in the effective interaction $U$ is planned.
 
+\clearpage
+
+\section{Lehmann representation of the Green's function}
+\subsection{One-particle Green's function}
+On the real axis we want to obtain the retarded Green's function
+\begin{align}
+ G^R_{ab}(t,t') &= -i\theta(t-t') \braket{\{ c_a(t) c^{\dagger}_b(t') \} } \\
+  &= -i\theta(t-t') \Big(
+   \braket{c_a(t) c^{\dagger}_b(t') } - \braket{c^{\dagger}_b(t') c_a(t)  }.
+   \Big)
+\end{align}
+To obtain the Lehman representation we evaluate the first term and evaluate
+the expectation value using the Eigenbasis $\ket{n}$ of the Hamiltonian $H$
+\begin{align}
+ G^>_{ab}(t,t') 
+  &= -i \braket{c_a(t) c^{\dagger}_b(t') } \\
+  &= \frac{-i}{Z} \sum_n \exp{-\beta E_n} \bra{n} \exp{iHt} c_a \exp{-iHt} \exp{iHt'}c^{\dagger}_b\exp{-iHt'}  \ket{n} \\
+  &= \frac{-i}{Z} \sum_{n,m} \exp{-\beta E_n} \bra{n} \exp{iHt} c_a \exp{-iHt} \ket{m}\bra{m} \exp{iHt'}c^{\dagger}_b\exp{-iHt'}  \ket{n} \\
+  &= \frac{-i}{Z} \sum_{n,m} \exp{-\beta E_n}\exp{i(E_n-E_m)(t-t')} \bra{n} c_a \ket{m}\bra{m} c^{\dagger}_b \ket{n}.
+  \end{align}
+In the same way we get for the second term
+\begin{align}
+ G^<_{ab}(t,t') 
+  &= i \braket{c^{\dagger}_b(t') c_a(t)  } \\
+  &= \frac{-i}{Z} \sum_{n,m} \exp{-\beta E_n}\exp{i(E_n-E_m)(t'-t)} \bra{n} c^{\dagger}_b \ket{m}\bra{m} c_a \ket{n} \\
+  &\stackrel{n\leftrightarrow m}{=} \frac{-i}{Z} \sum_{n,m} \exp{-\beta E_m}\exp{i(E_n-E_m)(t-t')} \bra{n} c_a \ket{m}\bra{m} c^{\dagger}_b \ket{n}.
+\end{align}
+The full retarded Green's function is then given by
+\begin{align}
+ G^R_{ab}(t-t') 
+&=  \theta(t-t') \frac{-i}{Z} \sum_{n,m} \left( \exp{-\beta E_n} + \exp{-\beta E_m} \right) \exp{i(E_n-E_m)(t-t')} \bra{n} c_a \ket{m}\bra{m} c^{\dagger}_b \ket{n}.
+ \end{align}
+A Fourier transform to frequency space yields
+\begin{align}
+ G_{ab}(\omega) 
+ &= \int_{-\infty}^{\infty} G^R_{ab}(t) \exp{i(\omega+i\delta)t}  \, \mathrm{d}t \\
+ &= \frac{-i}{Z} \sum_{n,m} \left( \exp{-\beta E_n} + \exp{-\beta E_m} \right) \bra{n} c_a \ket{m}\bra{m} c^{\dagger}_b \ket{n}
+     \int_{0}^{\infty} \exp{i(w+i\delta+E_n-E_m)t}   \, \mathrm{d}t \\
+&= \frac{1}{Z} \sum_{n,m} \left( \exp{-\beta E_n} + \exp{-\beta E_m} \right) 
+  \frac{ \bra{n} c_a \ket{m}\bra{m} c^{\dagger}_b \ket{n} }{w+i\delta+E_n-E_m}.
+\end{align}
+The Matsubara Green's function is obtained by substituting $\omega+i\delta \rightarrow i\omega_n$.
+
+We see that for a given $\ket{n}$ with $N_n$ electrons, the summation over $m$ can be restricted to the 
+subspace with $N_m=N_n+1$ electrons, Or, respectively, 
+for a given $\ket{m}$ with $N_m$ electrons, the summation over $n$ can be restricted to the 
+subspace with $N_n=N_m-1$ electrons.
+
+
+\subsection{Two-particle Green's function}
+We consider the two-particle Green's function $G^{(2)}_{\uparrow \downarrow}$ as defined in the PhD Thesis or G.Rohringer
+\begin{align}
+G^{(2)}_{\uparrow \downarrow}(\tau_1,\tau_2,\tau_3,\tau_4)
+ &= \braket{T c^{\dagger}_{\uparrow}(\tau_1) c_{\uparrow}(\tau_2) c^{\dagger}_{\downarrow}(\tau_3) c_{\downarrow}(\tau_4)  }.
+\end{align}
+The other spin combinations like $\uparrow \uparrow $ can by obtained from $G^{(2)}_{\uparrow \downarrow}$ by using symmetry relations.
+
+Due to time-translational invariance we can set $\tau_4=0$, which leaves us with 
+6 distinct time orderings for $\tau_1,\tau_2,\tau_3$
+\begin{align}
+G^{(2)}_{\uparrow \downarrow}(\tau_1,\tau_2,\tau_3,\tau_4)
+&= \theta_{\tau_1 > \tau_2 > \tau_3}\braket{c^{\dagger}_{\uparrow}(\tau_1) c_{\uparrow}(\tau_2) c^{\dagger}_{\downarrow}(\tau_3) c_{\downarrow}(0)  } \nonumber\\
+&- \theta_{\tau_1 > \tau_3 > \tau_2}\braket{c^{\dagger}_{\uparrow}(\tau_1) c^{\dagger}_{\downarrow}(\tau_3) c_{\uparrow}(\tau_2) c_{\downarrow}(0)  } \nonumber\\
+%
+&\ - \theta_{\tau_2 > \tau_1 > \tau_3}\braket{c_{\uparrow}(\tau_2) c^{\dagger}_{\uparrow}(\tau_1) c^{\dagger}_{\downarrow}(\tau_3) c_{\downarrow}(0)  } \nonumber\\
+&\ + \theta_{\tau_2 > \tau_3 > \tau_1}\braket{c_{\uparrow}(\tau_2) c^{\dagger}_{\downarrow}(\tau_3) c^{\dagger}_{\uparrow}(\tau_1)  c_{\downarrow}(0)  } \nonumber\\
+%
+&+ \theta_{\tau_3 > \tau_1 > \tau_2 }\braket{c^{\dagger}_{\downarrow}(\tau_3) c^{\dagger}_{\uparrow}(\tau_1) c_{\uparrow}(\tau_2) c_{\downarrow}(0)  } \nonumber\\
+&- \theta_{\tau_3 > \tau_2 > \tau_1 }\braket{c^{\dagger}_{\downarrow}(\tau_3) c_{\uparrow}(\tau_2) c^{\dagger}_{\uparrow}(\tau_1)  c_{\downarrow}(0)  } \nonumber\\
+%
+\end{align}
+We now introduce the Eigenbasis $\ket{m},\ket{n},\ket{o},\ket{p}$ 
+\begin{align}
+ \sum_{mnop} \exp{-\beta E_m}\Big(
+ &+\theta_{\tau_1 > \tau_2 > \tau_3}\braket{m|c^{\dagger}_{\uparrow}(\tau_1) |n}\braket{n| c_{\uparrow}(\tau_2)|o}\braket{o| c^{\dagger}_{\downarrow}(\tau_3) |p}\braket{p| c_{\downarrow}(0) |m} \nonumber\\
+&- \theta_{\tau_1 > \tau_3 > \tau_2}\braket{m|c^{\dagger}_{\uparrow}(\tau_1)|n}\braket{n| c^{\dagger}_{\downarrow}(\tau_3) |o}\braket{o|c_{\uparrow}(\tau_2) |p}\braket{p|c_{\downarrow}(0) |m} \nonumber\\
+%
+&- \theta_{\tau_2 > \tau_1 > \tau_3}\braket{m|c_{\uparrow}(\tau_2)|n}\braket{n| c^{\dagger}_{\uparrow}(\tau_1) |o}\braket{o|c^{\dagger}_{\downarrow}(\tau_3) |p}\braket{p|c_{\downarrow}(0) |m} \nonumber\\
+&+ \theta_{\tau_2 > \tau_3 > \tau_1}\braket{m|c_{\uparrow}(\tau_2) |n}\braket{n|c^{\dagger}_{\downarrow}(\tau_3) |o}\braket{o|c^{\dagger}_{\uparrow}(\tau_1) |p}\braket{p| c_{\downarrow}(0) |m} \nonumber\\
+%
+&+ \theta_{\tau_3 > \tau_1 > \tau_2 }\braket{m|c^{\dagger}_{\downarrow}(\tau_3) |n}\braket{n|c^{\dagger}_{\uparrow}(\tau_1) |o}\braket{o|c_{\uparrow}(\tau_2) |p}\braket{p|c_{\downarrow}(0) |m} \nonumber\\
+&- \theta_{\tau_3 > \tau_2 > \tau_1 }\braket{m|c^{\dagger}_{\downarrow}(\tau_3) |n}\braket{n|c_{\uparrow}(\tau_2) |o}\braket{o|c^{\dagger}_{\uparrow}(\tau_1) |p}\braket{p| c_{\downarrow}(0) |m} \Big) \\
+%
+%
+%
+ =\sum_{mnop} \exp{-\beta E_m}\Big(
+&+ \theta_{\tau_1 > \tau_2 > \tau_3} \exp{\tau_1(E_m-E_n)}\exp{\tau_2(E_n-E_o)}\exp{\tau_3(E_o-E_p)} \braket{m|c^{\dagger}_{\uparrow}|n}\braket{n| c_{\uparrow}|o}\braket{o| c^{\dagger}_{\downarrow} |p}\braket{p| c_{\downarrow} |m} \nonumber\\
+&- \theta_{\tau_1 > \tau_3 > \tau_2} \exp{\tau_1(E_m-E_n)}\exp{\tau_3(E_n-E_o)}\exp{\tau_2(E_o-E_p)} \braket{m|c^{\dagger}_{\uparrow}|n}\braket{n| c^{\dagger}_{\downarrow} |o}\braket{o|c_{\uparrow} |p}\braket{p|c_{\downarrow} |m} \nonumber\\
+%
+&- \theta_{\tau_2 > \tau_1 > \tau_3} \exp{\tau_2(E_m-E_n)}\exp{\tau_1(E_n-E_o)}\exp{\tau_3(E_o-E_p)} \braket{m|c_{\uparrow}|n}\braket{n| c^{\dagger}_{\uparrow} |o}\braket{o|c^{\dagger}_{\downarrow} |p}\braket{p|c_{\downarrow} |m} \nonumber\\
+&+ \theta_{\tau_2 > \tau_3 > \tau_1} \exp{\tau_2(E_m-E_n)}\exp{\tau_3(E_n-E_o)}\exp{\tau_1(E_o-E_p)} \braket{m|c_{\uparrow} |n}\braket{n|c^{\dagger}_{\downarrow} |o}\braket{o|c^{\dagger}_{\uparrow} |p}\braket{p| c_{\downarrow} |m} \nonumber\\
+%
+&+ \theta_{\tau_3 > \tau_1 > \tau_2} \exp{\tau_3(E_m-E_n)}\exp{\tau_1(E_n-E_o)}\exp{\tau_2(E_o-E_p)} \braket{m|c^{\dagger}_{\downarrow} |n}\braket{n|c^{\dagger}_{\uparrow} |o}\braket{o|c_{\uparrow} |p}\braket{p|c_{\downarrow} |m} \nonumber\\
+&- \theta_{\tau_3 > \tau_2 > \tau_1} \exp{\tau_3(E_m-E_n)}\exp{\tau_2(E_n-E_o)}\exp{\tau_1(E_o-E_p)} \braket{m|c^{\dagger}_{\downarrow} |n}\braket{n|c_{\uparrow} |o}\braket{o|c^{\dagger}_{\uparrow} |p}\braket{p| c_{\downarrow} |m} \Big).
+\end{align}
+%
+%
+%%
+%%
+%%
+%%
+We now perform a Fourier transform $\tau_i \rightarrow i\omega_i$. The \textbf{\underline{first}} term evaluates to
+\begin{align}
+ &\int_0^{\beta} \mathrm{d}\tau_3 \exp{i\omega_3 \tau_3} 
+ \int_0^{\beta} \mathrm{d}\tau_2 \exp{i\omega_2 \tau_2}
+ \int_0^{\beta} \mathrm{d}\tau_1 \exp{i\omega_1 \tau_1}
+ \Big( \exp{-\beta E_m}\theta_{\tau_1 > \tau_2 > \tau_3} \exp{\tau_1(E_m-E_n)}\exp{\tau_2(E_n-E_o)}\exp{\tau_3(E_o-E_p)} \Big) \\
+ %
+ &= \exp{-\beta E_m}
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) } 
+ \int_{\tau_3}^{\beta} \mathrm{d}\tau_2 \exp{\tau_2( i\omega_2 + E_n-E_o) }
+ \int_{\tau_2}^{\beta} \mathrm{d}\tau_1 \exp{\tau_1( i\omega_1 + E_m-E_n) } \\
+% 
+ &= \exp{-\beta E_m}
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) } 
+ \int_{\tau_3}^{\beta} \mathrm{d}\tau_2 \exp{\tau_2( i\omega_2 + E_n-E_o) }
+ \frac{-\exp{\beta(E_m-E_n)} - \exp{\tau_2( i\omega_1 + E_m-E_n) }}{i\omega_1 +E_m-E_n} \\
+ %
+ &= 
+ \frac{-1}{i\omega_1 +E_m-E_n}
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) } 
+ \int_{\tau_3}^{\beta} \mathrm{d}\tau_2 \exp{\tau_2( i\omega_2 + E_n-E_o) }
+ \Big( \exp{-\beta E_n} + \exp{\tau_2( i\omega_1 + E_m-E_n) }\exp{-\beta E_m} \Big) \\
+ %
+ &= 
+ \frac{-1}{i\omega_1 +E_m-E_n}
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) } 
+ \Big(
+ \exp{-\beta E_n} \frac{-\exp{\beta(E_n-E_o)} - \exp{\tau_3( i\omega_2 + E_n-E_o) }}{i\omega_2 +E_n-E_o} \nonumber \\
+ & \hspace*{6cm} + \exp{-\beta E_m} \frac{+\exp{\beta(E_m-E_o)} - \exp{\tau_3(i\omega_1+ i\omega_2 + E_m-E_o) }}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big)  \\
+ %
+ &= 
+ \frac{1}{i\omega_1 +E_m-E_n}
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) } 
+ \Big(
+ \frac{\exp{-\beta E_o} + \exp{-\beta E_n}\exp{\tau_3( i\omega_2 + E_n-E_o) }}{i\omega_2 +E_n-E_o} \nonumber \\
+ & \hspace*{6cm} -  \frac{\exp{-\beta E_o} - \exp{-\beta E_m}\exp{\tau_3(i\omega_1+ i\omega_2 + E_m-E_o) }}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big)  \\
+ %
+ &= 
+ \frac{1}{i\omega_1 +E_m-E_n}
+ \Big( \frac{\int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) } }{i\omega_2 +E_n-E_o}
+ \Big[
+ \exp{-\beta E_o} + \exp{-\beta E_n}\exp{\tau_3( i\omega_2 + E_n-E_o) } 
+ \Big] \nonumber \\
+ & \hspace*{3cm} -  \frac{\int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_o-E_p) }}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+ \exp{-\beta E_o} - \exp{-\beta E_m}\exp{\tau_3(i\omega_1+ i\omega_2 + E_m-E_o) }
+ \Big]
+ \Big)  \\
+ %
+  &= 
+ \frac{1}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \exp{-\beta E_o}\frac{-\exp{\beta(E_o-E_p)}-1 }{i\omega_3 +E_o-E_p} 
+  + \exp{-\beta E_n}\frac{ +\exp{\beta(E_n- E_p)} -1 }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+ \exp{-\beta E_o} \frac{-\exp{\beta(E_o-E_p)}-1 }{i\omega_3 +E_o-E_p} 
+ - \exp{-\beta E_m} \frac{ -\exp{\beta(E_m- E_p)} -1 }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big)  \\
+ %
+  &= 
+ \frac{1}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{-\exp{-\beta E_p}-\exp{-\beta E_o} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_p} -\exp{-\beta E_n}}{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{-\exp{-\beta E_p}-\exp{-\beta E_o} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ -\exp{-\beta E_p} -\exp{-\beta E_m} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big)  \\
+ %
+   &= 
+ \frac{-1}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big)  .
+ %
+\end{align}
+The \textbf{\underline{second}} term evaluates to
+\begin{align}
+ &-\int_0^{\beta} \mathrm{d}\tau_2 \exp{i\omega_2 \tau_2} 
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{i\omega_3 \tau_3}
+ \int_0^{\beta} \mathrm{d}\tau_1 \exp{i\omega_1 \tau_1}
+ \Big( \exp{-\beta E_m}\theta_{\tau_1 > \tau_3 > \tau_2} \exp{\tau_1(E_m-E_n)}\exp{\tau_3(E_n-E_o)}\exp{\tau_2(E_o-E_p)} \Big) \\
+ %
+ &= -\exp{-\beta E_m}
+ \int_0^{\beta} \mathrm{d}\tau_2 \exp{\tau_2( i\omega_2 +E_o-E_p)} 
+ \int_0^{\beta} \mathrm{d}\tau_3 \exp{\tau_3( i\omega_3 +E_n-E_o)}
+ \int_0^{\beta} \mathrm{d}\tau_1 \exp{\tau_1( i\omega_1 +E_m-E_n)},
+\end{align}
+which we see is precisely the same expression as the first term, except we have to swap $i\omega_2 \leftrightarrow i\omega_3$,
+and flip the overall sign.
+Therefore, we get
+\begin{align}
+   & 
+ \frac{1}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_3 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big)  .
+ %
+\end{align}
+For the \textbf{\underline{third}} term we have to swap $i\omega_1 \leftrightarrow i\omega_2$ compared to the first term and obtain
+\begin{align}
+    &
+ \frac{1}{i\omega_2 +E_m-E_n}
+ \Big( \frac{1}{i\omega_1 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) .
+\end{align}
+For the \textbf{\underline{fourth}} term we have to swap $i\omega_1 \leftrightarrow i\omega_3$ compared to the third term and obtain
+\begin{align}
+    &
+ \frac{-1}{i\omega_2 +E_m-E_n}
+ \Big( \frac{1}{i\omega_3 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_3+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) .
+\end{align}
+For the \textbf{\underline{fifth}} term we have to swap $i\omega_2 \leftrightarrow i\omega_3$ compared to the third term and obtain
+\begin{align}
+    &
+ \frac{-1}{i\omega_3 +E_m-E_n}
+ \Big( \frac{1}{i\omega_1 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) .
+\end{align}
+For the \textbf{\underline{sixth}} term we have to swap $i\omega_1 \leftrightarrow i\omega_2$ compared to the fifth term and obtain
+\begin{align}
+    &
+ \frac{1}{i\omega_3 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_2+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) .
+\end{align}
+Collecting all terms we obtain the final expression for the two-particle Green's function
+\begin{align}
+& G^{(2)}_{\uparrow \downarrow}(\omega_1,\omega_2,\omega_3)
+=  \sum_{mnop} \Bigg( \nonumber \\
+ % 1st%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    & -
+ \frac{\braket{m|c^{\dagger}_{\uparrow}|n}\braket{n| c_{\uparrow}|o}\braket{o| c^{\dagger}_{\downarrow} |p}\braket{p| c_{\downarrow} |m}}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big)  (1) \nonumber\\
+ %2nd%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    &+ 
+ \frac{\braket{m|c^{\dagger}_{\uparrow}|n}\braket{n| c^{\dagger}_{\downarrow} |o}\braket{o|c_{\uparrow} |p}\braket{p|c_{\downarrow} |m}}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_3 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (2) \nonumber  \\
+ %3rd%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &+
+ \frac{\braket{m|c_{\uparrow}|n}\braket{n| c^{\dagger}_{\uparrow} |o}\braket{o|c^{\dagger}_{\downarrow} |p}\braket{p|c_{\downarrow} |m}}{i\omega_2 +E_m-E_n}
+ \Big( \frac{1}{i\omega_1 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (3) \nonumber\\
+ %4th%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &-
+ \frac{\braket{m|c_{\uparrow} |n}\braket{n|c^{\dagger}_{\downarrow} |o}\braket{o|c^{\dagger}_{\uparrow} |p}\braket{p| c_{\downarrow} |m}}{i\omega_2 +E_m-E_n}
+ \Big( \frac{1}{i\omega_3 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_3+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (4) \nonumber\\
+ %5th%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &-
+ \frac{\braket{m|c^{\dagger}_{\downarrow} |n}\braket{n|c^{\dagger}_{\uparrow} |o}\braket{o|c_{\uparrow} |p}\braket{p|c_{\downarrow} |m} }{i\omega_3 +E_m-E_n}
+ \Big( \frac{1}{i\omega_1 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (5) \nonumber\\
+ %6th%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &+
+ \frac{\braket{m|c^{\dagger}_{\downarrow} |n}\braket{n|c_{\uparrow} |o}\braket{o|c^{\dagger}_{\uparrow} |p}\braket{p| c_{\downarrow} |m}}{i\omega_3 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_2+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (6) \Bigg) \nonumber .
+\end{align}
+When analyzing the overlap elements we see that each term corresponds to the following transitions: Starting with $\ket{m}$
+being a state $m(N,S)$ with electron number $N$ and total spin $S$ we get  by going from right to left
+\begin{align}
+ (1): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S)    &\rightarrow n(N-1,S-1)  \rightarrow m(N,S) \nonumber \\
+ (2): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N-2,S)  &\rightarrow n(N-1,S-1)  \rightarrow m(N,S) \nonumber\\
+ (3): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S)    &\rightarrow n(N+1,S+1)  \rightarrow m(N,S) \nonumber\\
+ (4): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S+2)  &\rightarrow n(N+1,S+1)  \rightarrow m(N,S) \nonumber\\
+ (5): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N-2,S)  &\rightarrow n(N-1,S+1)  \rightarrow m(N,S) \nonumber\\
+ (6): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S+2)  &\rightarrow n(N-1,S+1)  \rightarrow m(N,S) 
+\end{align}
+So we rearrange the terms grouping them by similar transitions in order to reuse results as much as possible in the code
+\begin{align}
+ (1): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S)    &\rightarrow n(N-1,S-1)  \rightarrow m(N,S) \nonumber \\
+ (3): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S)    &\rightarrow n(N+1,S+1)  \rightarrow m(N,S) \nonumber\\
+ (2): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N-2,S)  &\rightarrow n(N-1,S-1)  \rightarrow m(N,S) \nonumber\\
+ (5): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N-2,S)  &\rightarrow n(N-1,S+1)  \rightarrow m(N,S) \nonumber\\
+ (4): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S+2)  &\rightarrow n(N+1,S+1)  \rightarrow m(N,S) \nonumber\\
+ (6): \ \  & m(N,S) \rightarrow p(N-1,S+1) \rightarrow o(N,S+2)  &\rightarrow n(N-1,S+1)  \rightarrow m(N,S) 
+\end{align}
+which results in the final expression to be evaluated
+\begin{align}
+& G^{(2)}_{\uparrow \downarrow}(\omega_1,\omega_2,\omega_3)
+=  \sum_{mnop} \Bigg( \nonumber \\
+ % 1st%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    & -
+ \frac{\braket{m|c^{\dagger}_{\uparrow}|n}\braket{n| c_{\uparrow}|o}\braket{o| c^{\dagger}_{\downarrow} |p}\braket{p| c_{\downarrow} |m}}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big)  (1) \nonumber\\
+  %3rd%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &+
+ \frac{\braket{m|c_{\uparrow}|n}\braket{n| c^{\dagger}_{\uparrow} |o}\braket{o|c^{\dagger}_{\downarrow} |p}\braket{p|c_{\downarrow} |m}}{i\omega_2 +E_m-E_n}
+ \Big( \frac{1}{i\omega_1 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_3 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (3) \nonumber\\
+ %2nd%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    &+ 
+ \frac{\braket{m|c^{\dagger}_{\uparrow}|n}\braket{n| c^{\dagger}_{\downarrow} |o}\braket{o|c_{\uparrow} |p}\braket{p|c_{\downarrow} |m}}{i\omega_1 +E_m-E_n}
+ \Big( \frac{1}{i\omega_3 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_2 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (2) \nonumber  \\
+ %5th%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &-
+ \frac{\braket{m|c^{\dagger}_{\downarrow} |n}\braket{n|c^{\dagger}_{\uparrow} |o}\braket{o|c_{\uparrow} |p}\braket{p|c_{\downarrow} |m} }{i\omega_3 +E_m-E_n}
+ \Big( \frac{1}{i\omega_1 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_1+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_2 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (5) \nonumber\\
+ %4th%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &-
+ \frac{\braket{m|c_{\uparrow} |n}\braket{n|c^{\dagger}_{\downarrow} |o}\braket{o|c^{\dagger}_{\uparrow} |p}\braket{p| c_{\downarrow} |m}}{i\omega_2 +E_m-E_n}
+ \Big( \frac{1}{i\omega_3 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_3 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_3+ i\omega_2 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (4) \nonumber\\
+ %6th%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     &+
+ \frac{\braket{m|c^{\dagger}_{\downarrow} |n}\braket{n|c_{\uparrow} |o}\braket{o|c^{\dagger}_{\uparrow} |p}\braket{p| c_{\downarrow} |m}}{i\omega_3 +E_m-E_n}
+ \Big( \frac{1}{i\omega_2 +E_n-E_o}
+ \Big[
+ \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+  + \frac{ \exp{-\beta E_n} - \exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + E_n- E_p } 
+ \Big] \nonumber \\
+ & \hspace*{2cm} -  \frac{1}{i\omega_2+ i\omega_3 + E_m-E_o}
+ \Big[
+  \frac{\exp{-\beta E_o}+\exp{-\beta E_p} }{i\omega_1 +E_o-E_p} 
+ -  \frac{ \exp{-\beta E_m}+\exp{-\beta E_p} }{ i\omega_1 + i\omega_2 + i\omega_3 + E_m- E_p } 
+ \Big]
+ \Big) (6) \Bigg) \nonumber .
+\end{align}
+%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Analytic evaluation of $G_0G_0$}
+When evaluation the bare susceptibility/polarization
+\begin{align}
+ P(1,2) = -G_0(1,2)G_0(2,1),
+\end{align}
+on Matsubara frequencies we have to evaluate
+\begin{align}
+ P(q,i\nu)
+ &= \frac{1}{\beta N_K}\sum_{k,i\omega} \frac{1}{i\omega-i\nu - \epsilon_{k-q}}\frac{1}{i\omega - \epsilon_k } \\
+ &= \frac{1}{N_K}\sum_k \frac{n_F(\epsilon_k)-n_F(\epsilon_{k-q})}{ i\nu - \epsilon_k+ \epsilon_{k-q} }.
+\end{align}
+If we first send $i\nu\rightarrow 0$ and then $q\rightarrow 0$, we obtain
+\begin{align}
+ \lim_{q\rightarrow 0}\lim_{i\nu\rightarrow 0}P(q,i\nu)
+ &=\frac{1}{N_K}\sum_k  \lim_{q\rightarrow 0} \frac{n_F(\epsilon_k)-n_F(\epsilon_{k-q})}{  - \epsilon_k+ \epsilon_{k-q} }\\
+ &=\frac{1}{N_K}\sum_k  \beta n^2_F(\epsilon_k)\mathrm{e}^{\beta \epsilon_k}.
+\end{align}
+But if we first send $q\rightarrow 0$ and then $i\nu\rightarrow 0$, we obtain
+\begin{align}
+ \lim_{i\nu\rightarrow 0} \lim_{q\rightarrow 0}P(q,i\nu)
+ &=\lim_{i\nu\rightarrow 0} \frac{1}{N_K}\sum_k \frac{n_F(\epsilon_k)-n_F(\epsilon_{k})}{i\nu  - \epsilon_k+ \epsilon_{k} }\\
+ &=\lim_{i\nu\rightarrow 0} \frac{1}{N_K}\sum_k \frac{0}{i\nu} \\
+ &= 0.
+\end{align}
+Analytic continuation to the real axis gives the susceptibility/polarization on real frequencies as
+\begin{align}
+ P(q,\nu)
+ &= \frac{1}{N_K}\sum_k \frac{n_F(\epsilon_k)-n_F(\epsilon_{k-q})}{ \nu+i\delta - \epsilon_k+ \epsilon_{k-q} },
+\end{align}
+with $\delta>0$ since the function has poles on the real axis. This means 
+the order of taking $q\rightarrow 0$ and then $i\nu\rightarrow 0$ is the correct result.
+Otherwise the function would be discontinuos in $i\nu$ at $q=0$, since 
+$P(0,i\nu)=0 \ \forall i\nu\neq 0$, but $\lim_{q\rightarrow 0}\lim_{i\nu\rightarrow 0}P(q,i\nu) \neq 0$.
+
+This applies not only to the $\Gamma$-point, but analogously to all k-points where $\epsilon_k=\epsilon_{k-q}$.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Multi-site DCA}
+We consider for example a 1d Hubbard chain and choose a 2-atom unit cell as shown in the figure
+\begin{center}
+\includegraphics[width=0.35\textwidth]{dca/1dchain.png}                                                      
+\end{center}
+with sites 1 and 2, that can in general be nonequivalent.
+The noninteracting part of the Hamiltonian is given as
+\begin{align}
+ H(k) &= 
+ \begin{pmatrix}
+  \epsilon_1 & t + t\mathrm{e}^{+ik} \\
+   t + t\mathrm{e}^{-ik} & \epsilon_2 & 
+ \end{pmatrix}
+\end{align}
+with the onsite levels $\epsilon_1$,$\epsilon_2$. The noninteracting Green's function is
+a $2\times 2$ matrix and given by
+\begin{align}
+ G(k,i\omega)
+ &= [(i\omega+\mu) \unity - H(k)]^{-1}
+\end{align}
+If we want to perform DCA with 2 K-patches, we can partition the Brillouin zone like this
+\begin{center}
+\includegraphics[width=0.35\textwidth]{dca/2patch.png}                                                      
+\end{center}
+Starting the DCA cycle with a given Green's function the coarse-grained Green's functions would be
+\begin{align}
+ G(K_A,i\omega) &= \frac{1}{\pi} \int_{-\pi/2}^{\pi/2} G(k,i\omega) \, \mathrm{d}k \\
+ G(K_B,i\omega) &= \frac{1}{\pi} \int_{\pi/2}^{3\pi/2} G(k,i\omega)\, \mathrm{d}k, \label{eq:DCA_coarseGF}
+\end{align}
+where both $G(K_A,i\omega)$ and $G(K_B,i\omega)$ are $2\times 2$ matrices.
+The effective non-interacting or bath Green's function for DCA is then obtained by
+removing the DCA Selfenergy which is constant on the $K$ patches (it can be zero in the first step)
+\begin{align}
+ \mathscr{G}^{-1}(K_A,i\omega) &= G^{-1}(K_A,i\omega) + \Sigma(K_A,i\omega) \\
+ \mathscr{G}^{-1}(K_B,i\omega) &= G^{-1}(K_B,i\omega) + \Sigma(K_B,i\omega)
+\end{align}
+The effective noninteracting DCA cluster Green's function is then given as 
+\begin{align}
+ \mathscr{G}_{ij}(i\omega) &= \frac{1}{N_K} \sum_K \mathscr{G}(K,i\omega) \mathrm{e}^{iKr_{ij}},
+\end{align}
+which for our example evaluates to
+\begin{align}
+ \mathscr{G}_{11}(i\omega) 
+ &= \frac{1}{2}\left( \mathscr{G}(0,i\omega) \mathrm{e}^{i0\cdot 0} + \mathscr{G}(\pi,i\omega) \mathrm{e}^{i\pi\cdot 0}\right) \\
+ %
+  \mathscr{G}_{12}(i\omega) 
+ &= \frac{1}{2}\left( \mathscr{G}(0,i\omega) \mathrm{e}^{i0\cdot 1} + \mathscr{G}(\pi,i\omega) \mathrm{e}^{i\pi\cdot 1}\right) \\
+ %
+  \mathscr{G}_{21}(i\omega) 
+ &= \frac{1}{2}\left( \mathscr{G}(0,i\omega) \mathrm{e}^{i0\cdot (-1)} + \mathscr{G}(\pi,i\omega) \mathrm{e}^{i\pi\cdot (-1)}\right) \\
+ %
+  \mathscr{G}_{22}(i\omega) 
+ &= \frac{1}{2}\left( \mathscr{G}(0,i\omega) \mathrm{e}^{i0\cdot 0} + \mathscr{G}(\pi,i\omega) \mathrm{e}^{i\pi\cdot 0}\right) \\
+ %
+\end{align}
+It is important to note that each $\mathscr{G}_{ij}(i\omega) $ is a $2\times 2$ matrix, so the final effective
+cluster Green's function
+\begin{align}
+ \mathscr{G}(i\omega)&=
+ \begin{pmatrix}
+  \mathscr{G}_{11}(i\omega) && \mathscr{G}_{12}(i\omega) \\
+  \mathscr{G}_{21}(i\omega) && \mathscr{G}_{22}(i\omega)
+ \end{pmatrix}
+\end{align}
+is a $4\times 4$ matrix. In the same way we can build a bigger cluster using more K-patches, for example for
+4 patches we have $K=0,\pi/2, \pi, 3\pi/2$ and $r_{ij}=0,1,2,3$, which would result in 
+a $8\times 8$ matrix.
+
+After obtaining the interacting cluster Green's function $G(i\omega)$ from  $\mathscr{G}(i\omega)$,
+the DCA Selfenergy is obtained by
+\begin{align}
+\Sigma(i\omega) &= \mathscr{G}^{-1}(i\omega) - G^{-1}(i\omega),
+\end{align}
+then transformed into K-space
+\begin{align}
+ \Sigma(K,i\omega) &= \sum_{r_{ij}} \Sigma_{ij}(i\omega) \mathrm{e}^{-iKr_{ij}},
+\end{align}
+and then used as an approximation to the full Selfenergy on the corresponding patches
+\begin{align}
+ \Sigma(k,i\omega) &\approx \Sigma(K,i\omega).
+\end{align}
+The interacting lattice Green's function is then
+\begin{align}
+ G(k,i\omega)
+ &= [(i\omega+\mu) \unity - H(k) - \Sigma(k,i\omega)]^{-1},
+\end{align}
+and then the cycle is repeated starting from Eq.\eqref{eq:DCA_coarseGF}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+ 
+ 
 \section{Approximation to the free energy functional $\Gamma[G,W]$: Combination of GW and DMFT}
 As stated by Almbladh[ref], the free energy of a solid can be written in terms of
 a functional $\Gamma[G,W]$ of the fully dressed Green's function $G$
@@ -1587,6 +2223,24 @@ we get the following expression
   \beta^3 g^{\sigma}_{i}g^{\sigma}_{k}/8n^2\pi^2
   + i \beta^2 (g^{\sigma}_{k}-g^{\sigma}_{i}) / 8n\pi & \mbox{ else} 
 \end{cases}.
+\end{align}
+
+
+\subsection{High-frequency correction for bosonic functions and finite $\tau$}
+From Cvijovc and Klinowski we have
+\begin{align}
+ \sum_{k=1}^{\infty} \frac{\cos(2k\pi x)}{k^{2n}}
+ &= (-1)^{n-1} \frac{(2\pi)^{2n}}{2(2n)!} B_{2n}(x)
+\end{align}
+With this we can evaluate
+\begin{align}
+ \frac{1}{\beta}\sum_{\substack{k=-\infty \\ k\neq 0}}^{\infty} \frac{c_2}{(i\nu_k)^2} \mathrm{e}^{-i\nu_k \tau} 
+ &=\frac{2}{\beta}\sum_{ k=1}^{\infty} \frac{c_2}{(i\nu_k)^2} \cos(\nu_k \tau) \\
+ &=-\frac{2c_2}{\beta}\sum_{ k=1}^{\infty} \frac{\cos(2k\pi \tau/\beta) }{(2k\pi/\beta)^2}  \\
+ &=-\frac{\beta c_2}{2\pi^2}\sum_{ k=1}^{\infty} \frac{\cos(2k\pi \frac{\tau}{\beta}) }{k^2}  \\
+ &=-\frac{\beta c_2}{2\pi^2} (-1)^{1-1} \frac{(2\pi)^{2}}{2(2)!} B_{2}(\frac{\tau}{\beta}) \\
+ &=-\frac{\beta c_2}{2} \left( \frac{\tau^2}{\beta^2} - \frac{\tau}{\beta} + \frac{1}{6} \right) \\
+ &=-\frac{c_2}{2\beta } \left( \tau^2 - \tau \beta + \frac{\beta^2}{6} \right) .
 \end{align}
 
 
@@ -4224,6 +4878,120 @@ since the Selfenergy is quite smooth:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\clearpage
+
+\section{Effective local action by tracing out other degrees of freedom}
+In general lattice systems the action is usually of the form
+\begin{align}
+ S 
+ &= \sum_{ij} S_{ij},
+\end{align}
+i.e. it contains local contributions $S_{ii}$ from a lattice site $i$ and 
+inter-site contributions $S_{ij},\ i\neq j$. In approaches like the cavity
+construction we want to obtain an effective local action $S_{eff}$ by tracing
+out the degrees of freedom of all sites except one reference site $i=0$ for example.
+
+We split the action into three parts
+\begin{align}
+ S &= \underbrace{S_{00}}_{S_0} + \underbrace{\sum_{i\neq 0} (S_{0i}+S_{i0}) }_{\Delta S} 
+   + \underbrace{\sum_{ij\neq 0} S_{ij} }_{S^{(0)}}.
+\end{align}
+With this we separate the expression for the partition function
+\begin{align}
+ Z 
+ &= \int \prod_i Dc^*_iDc_i \, \mathrm{e}^{-S[c^*,c]} \\
+ &=\int  Dc^*_0Dc_0 \, \mathrm{e}^{-S_0}\left( \prod_{i\neq 0} Dc^*_iDc_i  \mathrm{e}^{-\Delta S} \mathrm{e}^{-S^{(0)}} \right) \\
+ &=Z^{(0)}\int  Dc^*_0Dc_0 \, \mathrm{e}^{-S_0} \braket{ \mathrm{e}^{-\Delta S} }^{(0)} ,
+\end{align}
+where we have identified the thermodynamic average of $\mathrm{e}^{-\Delta S}$ over a lattice with site $i=0$ removed
+\begin{align}
+  \braket{ \mathrm{e}^{-\Delta S} }^{(0)}
+  &= \frac{1}{Z^{(0)}} \int \prod_{i\neq 0} Dc^*_iDc_i  \mathrm{e}^{-\Delta S} \mathrm{e}^{-S^{(0)}}.
+\end{align}
+We want to obtain an effective local action $S_{eff} $ so that the partition function takes the form
+\begin{align}
+ Z 
+ &=\int  Dc^*_0Dc_0 \, \mathrm{e}^{-S_{eff}[c^*_0,c_0]  }
+\end{align}
+In Rev.Mod.Phys.68.13 it was stated that 
+\begin{align}
+ S_{eff} &=S_0 - \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \braket{ (\Delta S)^n }^{(0)},
+\end{align}
+so we have to show that 
+\begin{align}
+ \braket{ \mathrm{e}^{-\Delta S} }^{(0)}
+ & \stackrel{!}{=} \mathrm{e}^{  \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \braket{ (\Delta S)^n }^{(0)}} .
+\end{align}
+
+
+% 
+% Expanding the exponential leads to
+% \begin{align}
+%  \braket{ \mathrm{e}^{-\Delta S} }^{(0)}
+%  &= 1 - \braket{ \Delta S }^{(0)} + \frac{1}{2}\braket{(\Delta S)^2 }^{(0)} - ...
+% %       - \frac{1}{6}\braket{(\Delta S)^3 }^{(0)} +  \frac{1}{24}\braket{(\Delta S)^4 }^{(0)} - ...
+% \end{align}
+% We assume that $\Delta S$ has the form
+% \begin{align}
+%  \Delta S &=\int  t \sum_{i\neq 0}\left(c^*_0c_i + c^*_ic_0 \right) \, \mathrm{d}\tau.
+% \end{align}
+% We will not write the time integral explicitly from now on for readability.
+% So we have for the different terms
+% \begin{align}
+%  \Delta S &=  t \sum_{i\neq 0}\left(c^*_0c_i + c^*_ic_0 \right) \\
+%  (\Delta S)^2 &=  t^2 \sum_{ij\neq 0}\left( c^*_0c_ic_jc^*_0  + c_0 c^*_i c^*_j c_0 
+%                                         + 2 c^*_0c^*_ic_jc_0 \right) \\
+% \end{align}
+
+
+We expand the right hand side exponential
+\begin{align}
+ \mathrm{e}^{ \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \braket{ (\Delta S)^n }^{(0)}} 
+ &= \mathrm{e}^{ -(\braket{ \Delta S}^{(0)} - \frac{1}{2} \braket{ (\Delta S)^2}^{(0)} +\frac{1}{6} \braket{ (\Delta S)^3}^{(0)})  } \\
+ &= 1 -  \braket{ \Delta S}^{(0)} + \frac{1}{2} \braket{ (\Delta S)^2}^{(0)} -\frac{1}{6} \braket{ (\Delta S)^3}^{(0)} \nonumber \\
+ &\ \ \   + \frac{1}{2} \left( \braket{ \Delta S}^{(0)} - \frac{1}{2} \braket{ (\Delta S)^2}^{(0)}  +\frac{1}{6} \braket{ (\Delta S)^3}^{(0)}  \right)^2 \\
+%      
+&= 1 -  \braket{ \Delta S}^{(0)} + \frac{1}{2} \braket{ (\Delta S)^2}^{(0)}-\frac{1}{6} \braket{ (\Delta S)^3}^{(0)} \nonumber \\
+     &\ \ \  + \frac{1}{2} \left( \braket{ \Delta S}^{(0)}\right)^2+ \frac{1}{2} \left(\frac{1}{2} \braket{ \Delta S^2}^{(0)}\right)^2 
+     + \frac{1}{2} \left(\frac{1}{6} \braket{ \Delta S^3}^{(0)}\right)^2 \nonumber \\
+     &\ \ \ +\frac{1}{2}\left( - \braket{ \Delta S}^{(0)}   \braket{ (\Delta S)^2}^{(0)}
+                   + \frac{1}{3}\braket{ \Delta S}^{(0)}   \braket{ (\Delta S)^3}^{(0)} 
+                   - \frac{1}{6}\braket{ \Delta S^2}^{(0)}   \braket{ (\Delta S)^3}^{(0)} 
+            \right) \\
+%
+&= 1 -  \braket{ \Delta S}^{(0)} +\frac{1}{2} \left( \braket{ (\Delta S)^2}^{(0)} + \braket{ \Delta S}^{(0)}\braket{ \Delta S}^{(0)} \right) \nonumber\\
+&\ \ \  -\frac{1}{6} \left( \braket{ (\Delta S)^3}^{(0)} + 3\braket{ \Delta S}^{(0)}   \braket{ (\Delta S)^2}^{(0)} \right) + ...
+\end{align}
+If we only work with connected correlation functions which have their contractions removed, i.e. 
+\begin{align}
+ \braket{: \Delta S^2 : }^{(0)} &= \braket{ (\Delta S)^2}^{(0)} - \braket{ \Delta S}^{(0)}\braket{ \Delta S}^{(0)} 
+ \end{align}
+we can rewrite the above expression as 
+\begin{align}
+ \mathrm{e}^{ \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \braket{:\Delta S^n :}^{(0)}} 
+ &= 1 -  \braket{ \Delta S}^{(0)} +\frac{1}{2} \braket{ (\Delta S)^2}^{(0)} 
+    -\frac{1}{6}  \braket{ (\Delta S)^3}^{(0)}  + ... \\
+ &=\braket{ \mathrm{e}^{-\Delta S} }^{(0)}.
+\end{align}
+So we get for the partition function
+\begin{align}
+ Z 
+ &=Z^{(0)}\int  Dc^*_0Dc_0 \, \mathrm{e}^{-S_0} \mathrm{e}^{ \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \braket{:\Delta S^n :}^{(0)}}  ,
+\end{align}
+
+\begin{align}
+ \braket{:S_1S_2S_3:}
+ &=\braket{S_1S_2S_3} -  \braket{S_1}\braket{S_2 S_3}  -\braket{S_2}\braket{S_1 S_3} - \braket{S_3}\braket{S_1 S_2} 
+\end{align}
+
+
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \section{Generalized DMFT equations extended to nonlocal Selfenergies, interactions and Polarization}
 
@@ -4245,11 +5013,12 @@ The full action $S$ for this system is given by
 S 
 &= \int_0^{\beta} \mathrm{d}\tau \sum_{i\sigma} c^*_{i\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu \right] c_{i\sigma}(\tau) 
     -\sum_{ij,\sigma} \int_0^{\beta} \mathrm{d}\tau \ t_{ij} c^*_{i\sigma}(\tau)  c_{j\sigma}(\tau)  \nonumber \\
-&\hspace{1cm} + \sum_{i} \int_0^{\beta} \mathrm{d}\tau \ n_{i\uparrow}(\tau) v_{ii} n_{i\downarrow}(\tau)
-+ \sum_{i<j} \int_0^{\beta} \mathrm{d}\tau \ n_{i}(\tau) v_{ij} n_{j}(\tau),
+&\hspace{1cm} + \sum_{i} \int_0^{\beta} \mathrm{d}\tau \ \tilde{n}_{i\uparrow}(\tau) v_{ii} \tilde{n}_{i\downarrow}(\tau)
++ \sum_{i<j} \int_0^{\beta} \mathrm{d}\tau \ \tilde{n}_{i}(\tau) v_{ij} \tilde{n}_{j}(\tau),
 \end{align}
 where $c_{i\sigma}(\tau),c^*_{i\sigma}(\tau)$ are anticommuting Grassman variables, 
-$n_{i\sigma}(\tau) = c^*_{i\sigma}(\tau)c_{i\sigma}(\tau)$ and $n_{i}(\tau) = \sum_{\sigma} n_{i\sigma}(\tau)$.
+$\tilde{n}_{i\sigma}(\tau) = n_{i\sigma}(\tau) - \braket{n_{i\sigma}}$,
+$n_{i\sigma}(\tau) = c^*_{i\sigma}(\tau)c_{i\sigma}(\tau)$ and $\tilde{n}_{i}(\tau) = \sum_{\sigma} \tilde{n}_{i\sigma}(\tau)$.
 The hoppings $t_{ij}$ and interactions $v_{ij}$ are assumed to translationally invariant, e.g. $v_{ii}=v_{jj} \ \forall i,j$.
 
 We now split the action $S$ into the following three contributions
@@ -4261,13 +5030,13 @@ where $S_0$ is the term that contains only the local quantities on site $i=0$
 S_0
 &= \int_0^{\beta} \mathrm{d}\tau \sum_{\sigma} c^*_{0\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu \right] c_{0\sigma}(\tau) 
    + \sum_{\sigma} \int_0^{\beta} \mathrm{d}\tau \ t_{00} c^*_{0\sigma}(\tau)  c_{0\sigma}(\tau)  \nonumber \\ 
- &\hspace{1cm}+  \int_0^{\beta} \mathrm{d}\tau \ n_{0\uparrow}(\tau) v_{00} n_{0\downarrow}(\tau).
+ &\hspace{1cm}+  \int_0^{\beta} \mathrm{d}\tau \ \tilde{n}_{0\uparrow}(\tau) v_{00} \tilde{n}_{0\downarrow}(\tau).
 \end{align}
 The term $\Delta S$ contains all contributions that couples the site $i=0$ to all other sites 
 \begin{align}
 \Delta S 
 &=  -\sum_{j\neq 0,\sigma} \int_0^{\beta} \mathrm{d}\tau \ \left( t_{0j} c^*_{0\sigma}(\tau)  c_{j\sigma}(\tau) + t_{j0} c^*_{j\sigma}(\tau)  c_{0\sigma}(\tau) \right) \nonumber \\
-&\hspace{1cm} + \sum_{j\neq 0 } \int_0^{\beta} \mathrm{d}\tau \ n_{0}(\tau) v_{0j} n_{j}(\tau).
+&\hspace{1cm} + \sum_{j\neq 0 } \int_0^{\beta} \mathrm{d}\tau \ \tilde{n}_{0}(\tau) v_{0j} \tilde{n}_{j}(\tau).
 \end{align}
 And finally, $S^{(0)}$ contains all the contributions of the lattice with
 site $i=0$ and its bonds connecting it being removed
@@ -4275,8 +5044,8 @@ site $i=0$ and its bonds connecting it being removed
 S^{(0)} 
 &= \int_0^{\beta} \mathrm{d}\tau \sum_{i\neq 0,\sigma} c^*_{i\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu \right] c_{i\sigma}(\tau) 
     -\sum_{ij\neq 0 ,\sigma} \int_0^{\beta} \mathrm{d}\tau \ t_{ij} c^*_{i\sigma}(\tau)  c_{j\sigma}(\tau)  \nonumber \\
-&\hspace{1cm} + \sum_{i\neq 0 } \int_0^{\beta} \mathrm{d}\tau \ n_{i\uparrow}(\tau) v_{ii} n_{i\downarrow}(\tau)
-+ \sum_{\substack{i<j \\ ij\neq 0  }} \int_0^{\beta} \mathrm{d}\tau \ n_{i}(\tau) v_{ij} n_{j}(\tau).
+&\hspace{1cm} + \sum_{i\neq 0 } \int_0^{\beta} \mathrm{d}\tau \ \tilde{n}_{i\uparrow}(\tau) v_{ii} \tilde{n}_{i\downarrow}(\tau)
++ \sum_{\substack{i<j \\ ij\neq 0  }} \int_0^{\beta} \mathrm{d}\tau \ \tilde{n}_{i}(\tau) v_{ij} \tilde{n}_{j}(\tau).
 \end{align}
 Now integrating out all the degrees of freedom except the ones on site $i=0$ one obtains 
 an effective action of the form (so far we do not consider any approximation like infinite dimensions)
@@ -4291,8 +5060,9 @@ In \textit{Q. Si et al, PRL 77, 16 (1996)} it has been shown that
 with a rescaling of $t_{ij} \rightarrow t_{ij}/\sqrt{2d}$ and $v_{ij} \rightarrow v_{ij}v_{ii}/\sqrt{2d}$,
 where $d$ is the dimension of the lattice, that in the effective action 
 all terms $n>2$ vanish in the limit of $d\rightarrow \infty$. 
-The first order terms also vanish because it contains only expection values of one Grassman variable,
-and the $v_{ij}$ term is of order $1/d$.
+The first order terms vanishes because the hopping term contains only expection values of one Grassman variable,
+and the the first order interaction term is proportional to $\braket{ \tilde{n}_{i\sigma} }_{(0)} = \braket{ n_{i\sigma} }_{(0)} - \braket{n_{i\sigma}}$,
+which is of order $1/d$.
 Additionally, different orders $n$ have vanishing interference
 terms between the fermionic $t_{ij}$ and density $v_{ij}$ terms, which means that
 there will be two separate series of terms for the $t_{ij}$ and $v_{ij}$ contributions.
@@ -4302,9 +5072,9 @@ the local part and the second order contribution
 S_{eff} 
 &= S_0 - \frac{1}{2} \braket{ (\Delta S)^2 }_{(0)} \nonumber \\
 &= \int_0^{\beta} \mathrm{d}\tau \sum_{\sigma} c^*_{0\sigma}(\tau)\left[ \frac{\partial}{\partial \tau} - \mu + t_{00} \right] c_{0\sigma}(\tau) 
-    + \int_0^{\beta} \mathrm{d}\tau \ v_{00} n_{0\uparrow}(\tau)n_{0\downarrow}(\tau)  \nonumber \\
+    + \int_0^{\beta} \mathrm{d}\tau \ v_{00} \tilde{n}_{0\uparrow}(\tau)\tilde{n}_{0\downarrow}(\tau)  \nonumber \\
 &\hspace{1cm}- \sum_{ij\neq 0,\sigma} t_{0i} t_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ c^*_{0\sigma}(\tau_1) \braket{ c_{i\sigma}(\tau_1) c^*_{j\sigma}(\tau_2) }_{(0)}  c_{0\sigma}(\tau_2)  \nonumber \\
-&\hspace{1cm}- \sum_{ij\neq 0} v_{0i} v_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) \braket{ n_{i}(\tau_1)   n_{j}(\tau_2) }_{(0)}  n_{0}(\tau_2)  .
+&\hspace{1cm}- \sum_{ij\neq 0} v_{0i} v_{j0}  \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ \tilde{n}_{0}(\tau_1) \braket{ \tilde{n}_{i}(\tau_1)   \tilde{n}_{j}(\tau_2) }_{(0)}  \tilde{n}_{0}(\tau_2)  .
 \end{align}
 %
 % \begin{align}
@@ -4325,7 +5095,7 @@ S_{eff}
 If we now introduce 
 \begin{align}
  G_{ij\sigma}^{(0)}(\tau_1-\tau_2) &= -\braket{T_{\tau} c_{i\sigma}(\tau_1) c^*_{j\sigma}(\tau_2) }_{(0)} \\
- \chi_{ij}^{(0)}(\tau_1-\tau_2) &= \braket{ n_{i}(\tau_1)   n_{j}(\tau_2) }_{(0)} ,
+ \chi_{ij}^{(0)}(\tau_1-\tau_2) &= \braket{ \tilde{n}_{i}(\tau_1)   \tilde{n}_{j}(\tau_2) }_{(0)} ,
 \end{align}
 (note: $\chi$ in this form has a positive imaginary part on the Matsubara frequency axis!)
 we can rewrite the action in the form
@@ -4334,16 +5104,16 @@ S_{eff}
 &= \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \sum_{\sigma} c^*_{0\sigma}(\tau_1)\left(
                 \delta(\tau_1-\tau_2)\left[\frac{\partial}{\partial \tau} - \mu+t_{00} \right]
                 + \sum_{ij\neq 0} t_{0i} t_{j0} G_{ij\sigma}^{(0)}(\tau_1-\tau_2)   \right) c_{0\sigma}(\tau)  \nonumber \\
-&\hspace{1cm}    + \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) 
-       \left( \delta(\tau_1-\tau_2) v_{00} - \sum_{ij\neq 0} v_{0i} v_{j0} \chi^{(0)}_{ij}(\tau_1-\tau_2) \right)  n_{0}(\tau_2)  .
+&\hspace{1cm}    + \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ \tilde{n}_{0}(\tau_1) 
+       \left( \delta(\tau_1-\tau_2) v_{00} - \sum_{ij\neq 0} v_{0i} v_{j0} \chi^{(0)}_{ij}(\tau_1-\tau_2) \right)  \tilde{n}_{0}(\tau_2)  .
 \end{align}
 This expression then takes the form of an impurity action 
 \begin{align}
 S_{eff} 
 &= -\int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \sum_{\sigma} 
           c^*_{0\sigma}(\tau_1)\ \mathscr{G}^{-1}_{\sigma}(\tau_1-\tau_2) c_{0\sigma}(\tau)  \nonumber \\
-&\hspace{1cm}    + \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ n_{0}(\tau_1) 
-       U(\tau_1-\tau_2)  n_{0}(\tau_2)  ,
+&\hspace{1cm}    + \int_0^{\beta} \mathrm{d}\tau_1 \int_0^{\beta} \mathrm{d}\tau_2 \ \tilde{n}_{0}(\tau_1) 
+       U(\tau_1-\tau_2)  \tilde{n}_{0}(\tau_2)  ,
 \end{align}
 with the effective Weiss field and interaction given by
 \begin{align}
@@ -4820,6 +5590,66 @@ The effective intersite interaction $V$ is shown as well, but is rather constant
 \subsubsection{SrVO3}
 \includegraphics[width=1\textwidth]{figs/bathNonlocFromDMFTderiv/srvo3_comp.png}
 
+\clearpage
+
+\subsection{Dual fermion hybridization}
+In Dual Fermion the commonly used self-consistency relation is given by
+\begin{align}
+ \sum_k \tilde{G}_{k\nu} &=0.
+\end{align}
+We can transform
+this condition into an expression for the impurity hybridization $\Delta$ by using
+the expression for the physical Green's function
+\begin{align}
+ G_{k\nu} &= (\Delta_v - \epsilon_k)^{-1} + (\Delta_v - \epsilon_k)^{-1} g_{\nu}^{-1} \tilde{G}_{k\nu}g_{\nu}^{-1} (\Delta_{\nu} - \epsilon_k)^{-1}.
+\end{align}
+where $g_{\nu}$ is the impurity Green's function.
+Multiplication with $(\Delta_v - \epsilon_k)$ on both sides and then summing over momentum leads to
+\begin{align}
+ (\Delta_v - \epsilon_k)G_{k\nu}(\Delta_v - \epsilon_k) &= (\Delta_v - \epsilon_k) + g_{\nu}^{-1} \tilde{G}_{k\nu}g_{\nu}^{-1} \\
+ \Rightarrow \sum_k (\Delta_v - \epsilon_k)G_{k\nu}(\Delta_v - \epsilon_k) &= \sum_k (\Delta_v - \epsilon_k) + g_{\nu}^{-1} \underbrace{\sum_k\tilde{G}_{k\nu}}_{=0}g_{\nu}^{-1} \\
+ &= \Delta_{\nu},
+\end{align}
+where we have assumed $\sum_k \epsilon_k=0$ for simplicity. Using the notation $\sum_k = \braket{}$, we get
+\begin{align}
+ \Delta &= \braket{ (\Delta - \epsilon_k)G(\Delta - \epsilon_k) } \\
+  &=  \Delta \braket{ G } \Delta - \braket{\epsilon G }\Delta - \Delta\braket{ G \epsilon } + \braket{\epsilon G \epsilon }  .
+\end{align}
+For a single-orbital model this leads to the equation
+\begin{align}
+ 0 &= \Delta^2 \braket{G} - \Delta\left( 1 + 2\braket{\epsilon G } \right) + \braket{\epsilon G \epsilon }  ,
+\end{align}
+which has the two solutions
+\begin{align}
+ \Delta_{\pm} &= \frac{1}{2}\left(
+           \frac{1 + 2\braket{\epsilon G } }{\braket{G}}
+           \pm \sqrt{ \frac{ (1 + 2\braket{\epsilon G }  )^2}{\braket{G}^2}  - 4\frac{\braket{\epsilon G \epsilon}}{\braket{G}} }
+          \right)  .
+\end{align}
+By considering the limiting case of $t=0$ one can see that the ``$-$'' solution is the physical one, 
+as in this case $\Delta_- = 0$ whereas $\Delta_+ = G^{-1}$.
+
+\bigskip
+
+\textbf{Dimer example:}
+
+Evaluating the complex root numerically for the exact dimer result is a bit tricky, but by choosing the right branch cuts
+one finds that the unphysical $\Delta_{+}$ is purely noncausal, while $\Delta_{-}$ is causal.
+For small and moderate interaction values $\Delta_{-}$ is surprisingly close to the generalized cavity result,
+but obtains a vanishing hybridization for $U\gtrsim 4$.
+
+\includegraphics[width=0.9\textwidth]{figs/bathNonlocFromDMFTderiv/DF/DF_hybridization.pdf}
+
+\clearpage
+
+If we now solve the impurity model defined by the hybridization functions above, i.e. we perform a one-shot outer loop
+selfconsistency step, using the 'exact' solution as the starting point, we obtain these impurity Self-energies
+
+\includegraphics[width=0.83\textwidth]{figs/bathNonlocFromDMFTderiv/DF/DF_sigma_compare.pdf}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Multi-orbital generalization}
 The original formula 
@@ -7012,7 +7842,7 @@ The spectral function is then given by
 A(k,\omega) = -\frac{1}{\pi} \mathrm{Im}G(k,\omega)
 \end{align}
 
-\end{enumerate}zz
+\end{enumerate}
 
 
 \end{document}
