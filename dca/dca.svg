@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="dca.svg">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="219.48347"
+     inkscape:cy="594.50727"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:snap-object-midpoints="true"
+     inkscape:window-width="1284"
+     inkscape:window-height="810"
+     inkscape:window-x="1600"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3773" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Mstart"
+       style="overflow:visible">
+      <path
+         id="path3980"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.6) translate(0,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;">
+      <path
+         id="path3965"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Sstart"
+       style="overflow:visible">
+      <path
+         id="path3986"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.3) translate(-2.3,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Send"
+       style="overflow:visible;">
+      <path
+         id="path3989"
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.3) rotate(180) translate(-2.3,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Sstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Sstart"
+       style="overflow:visible">
+      <path
+         id="path3968"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.2) translate(6,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mstart"
+       style="overflow:visible">
+      <path
+         id="path3962"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.4) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path3956"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Sstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Sstart-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3968-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.2,0,0,0.2,1.2,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Send-6"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3989-0"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Sstart-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3986-6"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(0.3,0,0,0.3,-0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Send-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3989-8"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Sstart-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3986-2"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(0.3,0,0,0.3,-0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Send-0"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3989-2"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Sstart-7"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3986-5"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(0.3,0,0,0.3,-0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Send-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3989-22"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Sstart-97"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3986-3"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(0.3,0,0,0.3,-0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Send-61"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3989-29"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-5"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3965-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2.03515625;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect7603-47-6"
+       width="55.7855"
+       height="32.324867"
+       x="215.55402"
+       y="580.11591"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:1.9117825;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect7603-47-1"
+       width="49.226933"
+       height="32.324867"
+       x="332.73172"
+       y="580.62097"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2.03515625;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect7603-47-2"
+       width="55.7855"
+       height="32.324867"
+       x="274.31195"
+       y="580.48273"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2.95137668;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect7603-4"
+       width="117.32081"
+       height="32.324867"
+       x="268.89322"
+       y="394.7529"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2.8619678;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect7603"
+       width="110.32026"
+       height="32.324867"
+       x="153.04807"
+       y="394.7529"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path2985"
+       sodipodi:cx="262.14285"
+       sodipodi:cy="223.07646"
+       sodipodi:rx="10.714286"
+       sodipodi:ry="10.714286"
+       d="m 272.85714,223.07646 a 10.714286,10.714286 0 1 1 -21.42857,0 10.714286,10.714286 0 1 1 21.42857,0 z"
+       transform="translate(-2.1428528,-0.71427917)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       transform="translate(72.857147,-0.71427917)"
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path2985-3"
+       sodipodi:cx="262.14285"
+       sodipodi:cy="223.07646"
+       sodipodi:rx="10.714286"
+       sodipodi:ry="10.714286"
+       d="m 272.85714,223.07646 a 10.714286,10.714286 0 1 1 -21.42857,0 10.714286,10.714286 0 1 1 21.42857,0 z"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 270,222.36218 65,0"
+       id="path3775"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 342.5,222.36218 65,0"
+       id="path3775-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path2985-7"
+       sodipodi:cx="262.14285"
+       sodipodi:cy="223.07646"
+       sodipodi:rx="10.714286"
+       sodipodi:ry="10.714286"
+       d="m 272.85714,223.07646 a 10.714286,10.714286 0 1 1 -21.42857,0 10.714286,10.714286 0 1 1 21.42857,0 z"
+       transform="translate(152.85715,-0.71427917)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       transform="translate(227.85715,-0.71427917)"
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path2985-3-5"
+       sodipodi:cx="262.14285"
+       sodipodi:cy="223.07646"
+       sodipodi:rx="10.714286"
+       sodipodi:ry="10.714286"
+       d="m 272.85714,223.07646 a 10.714286,10.714286 0 1 1 -21.42857,0 10.714286,10.714286 0 1 1 21.42857,0 z"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 425,222.36218 65,0"
+       id="path3775-3"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 497.5,222.36218 65.00001,0"
+       id="path3775-6-5"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.01010156px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 187.5,222.36218 65.00001,0"
+       id="path3775-6-5-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3840"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(65.905019,-43.681663)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3842"><rect
+           id="rect3844"
+           width="86.873116"
+           height="67.680222"
+           x="258.59906"
+           y="280.60565" /></flowRegion><flowPara
+         id="flowPara3846"
+         style="font-size:36px">1</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3848"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(11.825964,-45.701968)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3850"><rect
+           id="rect3852"
+           width="140.41121"
+           height="115.15739"
+           x="392.94934"
+           y="281.61578" /></flowRegion><flowPara
+         id="flowPara3854"
+         style="font-size:36px">2</flowPara></flowRoot>    <rect
+       style="fill:none;stroke:#000000;stroke-width:2.48694777;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3856"
+       width="130.85301"
+       height="41.73563"
+       x="309.57349"
+       y="201.49437"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2.48694777;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3856-2"
+       width="130.85301"
+       height="41.73563"
+       x="464.57349"
+       y="201.49437"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path2985-9"
+       sodipodi:cx="262.14285"
+       sodipodi:cy="223.07646"
+       sodipodi:rx="10.714286"
+       sodipodi:ry="10.714286"
+       d="m 272.85714,223.07646 a 10.714286,10.714286 0 1 1 -21.42857,0 10.714286,10.714286 0 1 1 21.42857,0 z"
+       transform="translate(-73.413673,-1.0596717)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.01010156px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 116.22918,222.01679 65.00001,0"
+       id="path3775-6-5-6-1"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path2985-2"
+       sodipodi:cx="262.14285"
+       sodipodi:cy="223.07646"
+       sodipodi:rx="10.714286"
+       sodipodi:ry="10.714286"
+       d="m 272.85714,223.07646 a 10.714286,10.714286 0 1 1 -21.42857,0 10.714286,10.714286 0 1 1 21.42857,0 z"
+       transform="matrix(-1,0,0,-1,826.95091,445.92908)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.01010156000000006px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none;marker-mid:none;marker-start:url(#Arrow2Mstart)"
+       d="m 637.30807,222.85262 -65.00002,0"
+       id="path3775-6-5-6-7"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:2.48694777;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3856-2-0"
+       width="130.85301"
+       height="41.73563"
+       x="154.5735"
+       y="201.49437"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3926"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(2.2407752,33.59936)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3928"><rect
+           id="rect3930"
+           width="62.629467"
+           height="72.73098"
+           x="364.66507"
+           y="94.737572" /></flowRegion><flowPara
+         id="flowPara3932">t</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3934"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(92.857143,22.142857)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3936"><rect
+           id="rect3938"
+           width="55.558392"
+           height="53.538086"
+           x="200.01021"
+           y="107.86955" /></flowRegion><flowPara
+         id="flowPara3940">t</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3942"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-66.6124,0.37636659)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3944"><rect
+           id="rect3946"
+           width="67.680244"
+           height="62.629452"
+           x="515.1778"
+           y="130.09291" /></flowRegion><flowPara
+         id="flowPara3948">t</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:2.74282837;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
+       d="m 196.11217,193.37538 c 17.48123,-22.09029 35.5032,-23.19326 55.15049,0.94887"
+       id="path3950"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.74282837;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
+       d="m 271.32329,194.92783 c 17.48123,-22.09029 35.5032,-23.19326 55.15049,0.94887"
+       id="path3950-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.74282837;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
+       d="m 345.25186,192.78498 c 17.48123,-22.09029 35.5032,-23.19326 55.15049,0.94887"
+       id="path3950-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.74282837;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
+       d="m 427.39472,192.07069 c 17.48123,-22.09029 35.5032,-23.19326 55.15049,0.94887"
+       id="path3950-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.74282837;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
+       d="m 501.32329,192.07069 c 17.48123,-22.09029 35.5032,-23.19326 55.15049,0.94887"
+       id="path3950-31"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3942-9"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(4.7692528,0.72714828)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3944-4"><rect
+           id="rect3946-7"
+           width="67.680244"
+           height="62.629452"
+           x="515.1778"
+           y="130.09291" /></flowRegion><flowPara
+         id="flowPara3948-8">t</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3942-4"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-299.51647,0.01286253)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3944-5"><rect
+           id="rect3946-0"
+           width="67.680244"
+           height="62.629452"
+           x="515.1778"
+           y="130.09291" /></flowRegion><flowPara
+         id="flowPara3948-3">t</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3840-6"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-85.595085,-40.704999)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3842-1"><rect
+           id="rect3844-0"
+           width="86.873116"
+           height="67.680222"
+           x="258.59906"
+           y="280.60565" /></flowRegion><flowPara
+         id="flowPara3846-6"
+         style="font-size:36px">1</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3848-3"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-139.67414,-42.725309)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3850-2"><rect
+           id="rect3852-0"
+           width="140.41121"
+           height="115.15739"
+           x="392.94934"
+           y="281.61578" /></flowRegion><flowPara
+         id="flowPara3854-6"
+         style="font-size:36px">2</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3840-1"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(219.97606,-42.725305)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3842-5"><rect
+           id="rect3844-5"
+           width="86.873116"
+           height="67.680222"
+           x="258.59906"
+           y="280.60565" /></flowRegion><flowPara
+         id="flowPara3846-4"
+         style="font-size:36px">1</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3848-7"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(165.89701,-44.745615)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion3850-6"><rect
+           id="rect3852-5"
+           width="140.41121"
+           height="115.15739"
+           x="392.94934"
+           y="281.61578" /></flowRegion><flowPara
+         id="flowPara3854-69"
+         style="font-size:36px">2</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5739"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(11.616754,-1.0101525)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/1dchain.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion5741"><rect
+           id="rect5743"
+           width="78.571426"
+           height="75.714287"
+           x="630"
+           y="193.79076" /></flowRegion><flowPara
+         id="flowPara5745">x</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 133.52067,410.74798 461.42857,0"
+       id="path6832"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7048"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(33.520666,-48.75706)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7050"><rect
+           id="rect7052"
+           width="77.14286"
+           height="72.85714"
+           x="575.71429"
+           y="432.36218" /></flowRegion><flowPara
+         id="flowPara7054">k<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7056">x</flowSpan></flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 209.60666,398.79349 0,24.24366"
+       id="path7058"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 327.28942,398.79349 0,24.24366"
+       id="path7058-3"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 433.35545,396.77318 0,24.24366"
+       id="path7058-7"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7085"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(40.406102,11.111678)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7087"><rect
+           id="rect7089"
+           width="112.12693"
+           height="100.0051"
+           x="157.5838"
+           y="408.89502" /></flowRegion><flowPara
+         id="flowPara7091">0</flowPara></flowRoot>    <g
+       id="g7215"
+       transform="translate(11.111678,100.0051)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100">
+      <g
+         id="content"
+         transform="matrix(1.0629921,0,0,-1.0629921,-186.02362,789.27165)"
+         xml:space="preserve"
+         stroke-miterlimit="10.433"
+         font-style="normal"
+         font-variant="normal"
+         font-weight="normal"
+         font-stretch="normal"
+         font-size-adjust="none"
+         letter-spacing="normal"
+         word-spacing="normal"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"><path
+           d="m 468.72,424.78 h 5.63 c -1.64,-7.38 -2.1,-9.52 -2.1,-12.85 0,-0.75 0,-2.09 0.41,-3.79 0.5,-2.19 1.05,-2.49 1.8,-2.49 0.98,0 2.03,0.89 2.03,1.89 0,0.3 0,0.41 -0.3,1.1 -1.44,3.59 -1.44,6.82 -1.44,8.22 0,2.64 0.35,5.34 0.89,7.92 h 5.69 c 0.64,0 2.44,0 2.44,1.7 0,1.19 -1.05,1.19 -2,1.19 h -16.69 c -1.09,0 -2.98,0 -5.17,-2.35 -1.75,-1.93 -3.05,-4.23 -3.05,-4.48 0,-0.05 0,-0.48 0.6,-0.48 0.4,0 0.5,0.18 0.79,0.59 2.46,3.83 5.35,3.83 6.33,3.83 h 2.85 c -1.6,-6.02 -4.29,-12.05 -6.38,-16.58 -0.41,-0.75 -0.41,-0.86 -0.41,-1.2 0,-0.96 0.8,-1.35 1.46,-1.35 1.5,0 1.89,1.39 2.48,3.24 0.71,2.29 0.71,2.39 1.35,4.89 z"
+           id="path7218"
+           inkscape:connector-curvature="0"
+           style="fill:#000000;stroke-width:0" /></g>    </g>
+    <g
+       id="g7468"
+       transform="translate(108.08632,103.03556)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100">
+      <g
+         word-spacing="normal"
+         letter-spacing="normal"
+         font-size-adjust="none"
+         font-stretch="normal"
+         font-weight="normal"
+         font-variant="normal"
+         font-style="normal"
+         stroke-miterlimit="10.433"
+         xml:space="preserve"
+         transform="matrix(1.0629921,0,0,-1.0629921,-186.02362,789.27165)"
+         id="g7470"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"><path
+           id="path7472"
+           d="m 461.85,410.04 5.28,5.13 c 7.76,6.87 10.76,9.56 10.76,14.54 0,5.69 -4.48,9.68 -10.56,9.68 -5.64,0 -9.33,-4.6 -9.33,-9.03 0,-2.79 2.5,-2.79 2.64,-2.79 0.86,0 2.6,0.6 2.6,2.64 0,1.3 -0.89,2.6 -2.64,2.6 -0.39,0 -0.5,0 -0.64,-0.05 1.14,3.24 3.83,5.08 6.72,5.08 4.53,0 6.68,-4.05 6.68,-8.13 0,-3.98 -2.5,-7.92 -5.23,-11.01 l -9.56,-10.66 C 458,407.5 458,407.4 458,406.2 h 18.49 l 1.4,8.67 h -1.25 c -0.25,-1.5 -0.59,-3.69 -1.09,-4.44 -0.36,-0.39 -3.64,-0.39 -4.73,-0.39 z"
+           inkscape:connector-curvature="0"
+           style="fill:#000000;stroke-width:0" /><path
+           id="path7474"
+           d="m 493.68,424.78 h 5.62 c -1.64,-7.38 -2.09,-9.52 -2.09,-12.85 0,-0.75 0,-2.09 0.41,-3.79 0.5,-2.19 1.04,-2.49 1.79,-2.49 0.99,0 2.04,0.89 2.04,1.89 0,0.3 0,0.41 -0.3,1.1 -1.44,3.59 -1.44,6.82 -1.44,8.22 0,2.64 0.34,5.34 0.89,7.92 h 5.69 c 0.64,0 2.44,0 2.44,1.7 0,1.19 -1.05,1.19 -2,1.19 h -16.69 c -1.09,0 -2.99,0 -5.17,-2.35 -1.75,-1.93 -3.05,-4.23 -3.05,-4.48 0,-0.05 0,-0.48 0.59,-0.48 0.41,0 0.5,0.18 0.8,0.59 2.45,3.83 5.34,3.83 6.33,3.83 h 2.84 c -1.59,-6.02 -4.28,-12.05 -6.37,-16.58 -0.41,-0.75 -0.41,-0.86 -0.41,-1.2 0,-0.96 0.8,-1.35 1.45,-1.35 1.5,0 1.9,1.39 2.49,3.24 0.7,2.29 0.7,2.39 1.34,4.89 z"
+           inkscape:connector-curvature="0"
+           style="fill:#000000;stroke-width:0" /></g>    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7623"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(52.527932,25.253814)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7625"><rect
+           id="rect7627"
+           width="60.609146"
+           height="54.548225"
+           x="138.3909"
+           y="314.95084" /></flowRegion><flowPara
+         id="flowPara7629">K<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7631">A</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7633"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(17.172593,9.0913729)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/2patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7635"><rect
+           id="rect7637"
+           width="92.934036"
+           height="51.51778"
+           x="294.96454"
+           y="331.11325" /></flowRegion><flowPara
+         id="flowPara7639">K<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7641">B</flowSpan></flowPara></flowRoot>    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:2.03515625;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect7603-47"
+       width="55.7855"
+       height="32.324867"
+       x="156.84941"
+       y="580.48273"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 108.43596,596.47781 461.42857,0"
+       id="path6832-4"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7048-4"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(8.4359606,136.97277)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7050-3"><rect
+           id="rect7052-0"
+           width="77.14286"
+           height="72.85714"
+           x="575.71429"
+           y="432.36218" /></flowRegion><flowPara
+         id="flowPara7054-7">k<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7056-8">x</flowSpan></flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 184.52195,584.52332 0,24.24366"
+       id="path7058-6"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 302.20471,584.52332 0,24.24366"
+       id="path7058-3-8"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 408.27074,582.50301 0,24.24366"
+       id="path7058-7-8"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7085-4"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(15.321397,196.8415)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7087-3"><rect
+           id="rect7089-1"
+           width="112.12693"
+           height="100.0051"
+           x="157.5838"
+           y="408.89502" /></flowRegion><flowPara
+         id="flowPara7091-4">0</flowPara></flowRoot>    <g
+       id="g7215-9"
+       transform="translate(-13.973025,285.73493)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100">
+      <g
+         id="content-2"
+         transform="matrix(1.0629921,0,0,-1.0629921,-186.02362,789.27165)"
+         xml:space="preserve"
+         stroke-miterlimit="10.433"
+         font-style="normal"
+         font-variant="normal"
+         font-weight="normal"
+         font-stretch="normal"
+         font-size-adjust="none"
+         letter-spacing="normal"
+         word-spacing="normal"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"><path
+           d="m 468.72,424.78 h 5.63 c -1.64,-7.38 -2.1,-9.52 -2.1,-12.85 0,-0.75 0,-2.09 0.41,-3.79 0.5,-2.19 1.05,-2.49 1.8,-2.49 0.98,0 2.03,0.89 2.03,1.89 0,0.3 0,0.41 -0.3,1.1 -1.44,3.59 -1.44,6.82 -1.44,8.22 0,2.64 0.35,5.34 0.89,7.92 h 5.69 c 0.64,0 2.44,0 2.44,1.7 0,1.19 -1.05,1.19 -2,1.19 h -16.69 c -1.09,0 -2.98,0 -5.17,-2.35 -1.75,-1.93 -3.05,-4.23 -3.05,-4.48 0,-0.05 0,-0.48 0.6,-0.48 0.4,0 0.5,0.18 0.79,0.59 2.46,3.83 5.35,3.83 6.33,3.83 h 2.85 c -1.6,-6.02 -4.29,-12.05 -6.38,-16.58 -0.41,-0.75 -0.41,-0.86 -0.41,-1.2 0,-0.96 0.8,-1.35 1.46,-1.35 1.5,0 1.89,1.39 2.48,3.24 0.71,2.29 0.71,2.39 1.35,4.89 z"
+           id="path7218-0"
+           inkscape:connector-curvature="0"
+           style="fill:#000000;stroke-width:0" /></g>    </g>
+    <g
+       id="g7468-6"
+       transform="translate(83.001615,288.76539)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100">
+      <g
+         word-spacing="normal"
+         letter-spacing="normal"
+         font-size-adjust="none"
+         font-stretch="normal"
+         font-weight="normal"
+         font-variant="normal"
+         font-style="normal"
+         stroke-miterlimit="10.433"
+         xml:space="preserve"
+         transform="matrix(1.0629921,0,0,-1.0629921,-186.02362,789.27165)"
+         id="g7470-8"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"><path
+           id="path7472-9"
+           d="m 461.85,410.04 5.28,5.13 c 7.76,6.87 10.76,9.56 10.76,14.54 0,5.69 -4.48,9.68 -10.56,9.68 -5.64,0 -9.33,-4.6 -9.33,-9.03 0,-2.79 2.5,-2.79 2.64,-2.79 0.86,0 2.6,0.6 2.6,2.64 0,1.3 -0.89,2.6 -2.64,2.6 -0.39,0 -0.5,0 -0.64,-0.05 1.14,3.24 3.83,5.08 6.72,5.08 4.53,0 6.68,-4.05 6.68,-8.13 0,-3.98 -2.5,-7.92 -5.23,-11.01 l -9.56,-10.66 C 458,407.5 458,407.4 458,406.2 h 18.49 l 1.4,8.67 h -1.25 c -0.25,-1.5 -0.59,-3.69 -1.09,-4.44 -0.36,-0.39 -3.64,-0.39 -4.73,-0.39 z"
+           inkscape:connector-curvature="0"
+           style="fill:#000000;stroke-width:0" /><path
+           id="path7474-2"
+           d="m 493.68,424.78 h 5.62 c -1.64,-7.38 -2.09,-9.52 -2.09,-12.85 0,-0.75 0,-2.09 0.41,-3.79 0.5,-2.19 1.04,-2.49 1.79,-2.49 0.99,0 2.04,0.89 2.04,1.89 0,0.3 0,0.41 -0.3,1.1 -1.44,3.59 -1.44,6.82 -1.44,8.22 0,2.64 0.34,5.34 0.89,7.92 h 5.69 c 0.64,0 2.44,0 2.44,1.7 0,1.19 -1.05,1.19 -2,1.19 h -16.69 c -1.09,0 -2.99,0 -5.17,-2.35 -1.75,-1.93 -3.05,-4.23 -3.05,-4.48 0,-0.05 0,-0.48 0.59,-0.48 0.41,0 0.5,0.18 0.8,0.59 2.45,3.83 5.34,3.83 6.33,3.83 h 2.84 c -1.59,-6.02 -4.28,-12.05 -6.37,-16.58 -0.41,-0.75 -0.41,-0.86 -0.41,-1.2 0,-0.96 0.8,-1.35 1.45,-1.35 1.5,0 1.9,1.39 2.49,3.24 0.7,2.29 0.7,2.39 1.34,4.89 z"
+           inkscape:connector-curvature="0"
+           style="fill:#000000;stroke-width:0" /></g>    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7623-6"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(27.443227,210.98364)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7625-6"><rect
+           id="rect7627-4"
+           width="60.609146"
+           height="54.548225"
+           x="138.3909"
+           y="314.95084" /></flowRegion><flowPara
+         id="flowPara7629-9">K<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7631-5">A</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7633-0"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-73.066955,196.84151)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7635-4"><rect
+           id="rect7637-8"
+           width="92.934036"
+           height="51.51778"
+           x="294.96454"
+           y="331.11325" /></flowRegion><flowPara
+         id="flowPara7639-7">K<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7641-1">B</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7633-0-0"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(-14.50396,197.47762)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7635-4-6"><rect
+           id="rect7637-8-1"
+           width="92.934036"
+           height="51.51778"
+           x="294.96454"
+           y="331.11325" /></flowRegion><flowPara
+         id="flowPara7639-7-5">K<flowSpan
+   style="font-size:65%;baseline-shift:sub"
+   id="flowSpan7912">C</flowSpan></flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot7633-0-4"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       transform="translate(49.13565,196.97254)"
+       inkscape:export-filename="/home/labcpht/pmc/backes/postdoc/tex/gw_oneshot-dmft/dca/4patch.png"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"><flowRegion
+         id="flowRegion7635-4-9"><rect
+           id="rect7637-8-0"
+           width="92.934036"
+           height="51.51778"
+           x="294.96454"
+           y="331.11325" /></flowRegion><flowPara
+         id="flowPara7639-7-9">K<flowSpan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="flowSpan7914">D</flowSpan></flowPara></flowRoot>  </g>
+</svg>
