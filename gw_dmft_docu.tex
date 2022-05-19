@@ -593,19 +593,129 @@ But if we first send $q\rightarrow 0$ and then $i\nu\rightarrow 0$, we obtain
  &=\lim_{i\nu\rightarrow 0} \frac{1}{N_K}\sum_k \frac{0}{i\nu} \\
  &= 0.
 \end{align}
-Analytic continuation to the real axis gives the susceptibility/polarization on real frequencies as
+% Analytic continuation to the real axis gives the susceptibility/polarization on real frequencies as
+% \begin{align}
+%  P(q,\nu)
+%  &= \frac{1}{N_K}\sum_k \frac{n_F(\epsilon_k)-n_F(\epsilon_{k-q})}{ \nu+i\delta - \epsilon_k+ \epsilon_{k-q} },
+% \end{align}
+% with $\delta>0$ since the function has poles on the real axis. This means 
+% the order of taking $q\rightarrow 0$ and then $i\nu\rightarrow 0$ is the correct result.
+% Otherwise the function would be discontinuos in $i\nu$ at $q=0$, since 
+% $P(0,i\nu)=0 \ \forall i\nu\neq 0$, but $\lim_{q\rightarrow 0}\lim_{i\nu\rightarrow 0}P(q,i\nu) \neq 0$.
+
+We can easily check which result is correct by explicitly evaluating the polarization
+for a local Green's function given by $1/i\omega_n$, for which we have $G(\tau) = -0.5$, 
+which leads to
 \begin{align}
- P(q,\nu)
- &= \frac{1}{N_K}\sum_k \frac{n_F(\epsilon_k)-n_F(\epsilon_{k-q})}{ \nu+i\delta - \epsilon_k+ \epsilon_{k-q} },
+ P(\tau) &= -G_0(\tau) G_0(-\tau) = 0.25  \\
+ \Rightarrow P(i\nu) &= \int_0^{\beta}P(\tau) \mathrm{e}^{i\nu_n \tau} \, \mathrm{d}\tau \\
+ &= 0.25 \int_0^{\beta} \mathrm{e}^{i\nu_n \tau} \, \mathrm{d}\tau \\
+ &= 0.25 \beta \delta(i\omega_n)\\
+ &= \beta  n^2_F(0) \mathrm{e}^{\beta \cdot 0}.
 \end{align}
-with $\delta>0$ since the function has poles on the real axis. This means 
-the order of taking $q\rightarrow 0$ and then $i\nu\rightarrow 0$ is the correct result.
-Otherwise the function would be discontinuos in $i\nu$ at $q=0$, since 
-$P(0,i\nu)=0 \ \forall i\nu\neq 0$, but $\lim_{q\rightarrow 0}\lim_{i\nu\rightarrow 0}P(q,i\nu) \neq 0$.
+Therefore, the first limit is correct, and the delta-like peak comes from
+the constant part in the imaginary-time Green's function, i.e. the spectral
+weight at the Fermi level (Drude-peak). So we have to treat $i\nu=0$ usually separately
+in analytic and numerical evaluations.
 
-This applies not only to the $\Gamma$-point, but analogously to all k-points where $\epsilon_k=\epsilon_{k-q}$.
+This applies not only to the $\Gamma$-point, but analogously to all k-points with nesting 
+where $\epsilon_k=\epsilon_{k-q}$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Real-frequency evaluation of Matsubara - convolutions}
+\subsection{Fermionic x Bosonic}
+We want to evaluate equations of the form
+\begin{align}
+ F(i\omega_n)  &= \frac{1}{\beta} \sum_{i\nu_n} B(i\nu_n) G_0(i\omega_n - i\nu_n)
+\end{align}
+where $B$ is a bosonic function, $G_0$ a fermionic function, and $i\omega_n$ fermionic, 
+and $i\nu_n$ bosonic frequencies. We cannot immediately perform 
+analytic continuation with $i\omega_n \rightarrow \omega + i\delta$,
+because the poles of $G_0( z - i\nu_n)$ would be located in the complex plane
+and not on the real axis.
+
+But we can safely generate $G_0(i\omega_n - i\nu_n)$ and $B$ from the standard analytic
+continuation formula from Cauchy's integral equation 
+\begin{align}
+ G_0(i\omega_n - i\nu_n) &= \frac{1}{\pi} \int \frac{\mathrm{Im}G_0(\omega)}{\omega - (i\omega_n - i\nu_n)} \, \mathrm{d}\omega,
+\end{align}
+because $i\omega_n - i\nu_n \neq 0$ for all $n$, so we never evaluate the poles on the real axis.
+On the other hand, we can do the same for $B$ only for $i\nu_n \neq 0$ since a bosonic function usually
+has discontinuos poles on the real axis coming from above/below.
+Therefore, we separate the convolution
+\begin{align}
+ F(i\omega_n)  &= \frac{1}{\beta} \sum_{i\nu_n\neq 0} B(i\nu_n) G_0(i\omega_n - i\nu_n) 
+                   + \frac{1}{\beta} B(0) G_0(i\omega_n) \\
+&=\frac{1}{\beta\pi^2}\sum_{i\nu_n\neq 0} \int\int \frac{\mathrm{Im}B(x)}{x - i\nu_n} 
+                                \frac{\mathrm{Im}G_0(y)}{y - (i\omega_n - i\nu_n)} \mathrm{d}x\mathrm{d}y+ \frac{1}{\beta} B(0) G_0(i\omega_n) \\
+%                                
+&=\frac{1}{\beta\pi^2} \int\int \mathrm{Im}B(x)\mathrm{Im}G_0(y) 
+                            \left[\sum_{i\nu_n}\frac{-1}{ (i\nu_n -x)(i\nu_n - (i\omega_n - y))}
+                                   - \frac{-1}{ (0 -x)(0 - (i\omega_n - y))} 
+                            \right]\mathrm{d}x\mathrm{d}y \nonumber \\                                  
+  & \hspace*{4cm}                          + \frac{1}{\beta} B(0) G_0(i\omega_n) \\
+%
+&=\frac{1}{\pi^2} \int\int \mathrm{Im}B(x)\mathrm{Im}G_0(y) 
+                        \left[\frac{ n_B(x) - n_B(i\omega_n - y) }{x - (i\omega_n - y)}
+                                   + \frac{1}{ \beta x(i\omega_n - y)} 
+                            \right]\mathrm{d}x\mathrm{d}y + \frac{1}{\beta} B(0) G_0(i\omega_n) \\
+%
+&= \frac{1}{\pi^2} \int\int \mathrm{Im}B(x) \frac{\mathrm{Im}G_0(y)}{x - (i\omega_n - y)}n_B(x) \mathrm{d}x\mathrm{d}y \nonumber\\
+& \hspace*{0.5cm} -\frac{1}{\pi^2} \int\int\frac{\mathrm{Im}B(x)}{x - (i\omega_n - y)} \mathrm{Im}G_0(y)n_B(i\omega_n - y) \mathrm{d}x\mathrm{d}y \nonumber\\
+& \hspace*{0.5cm} +\frac{1}{\pi^2}\int\int \frac{\mathrm{Im}B(x)\mathrm{Im}G_0(y) }{\beta (x-0)(i\omega_n - y)}\mathrm{d}x\mathrm{d}y + \frac{1}{\beta} B(0) G_0(i\omega_n) .
+%
+\end{align}
+In this form $\mathrm{Im}B(x)$ always means the retarded part, i.e. $\mathrm{Im}B(x+i\delta)$.
+Therefore, $B(i\delta) \neq B(0)$, since $B$ can have a delta-like peak at the origin.
+This leads to
+\begin{align}
+ F(i\omega_n)
+ &=\frac{1}{\pi} \int \mathrm{Im}B(x) G_0(i\omega_n - x)n_B(x) \mathrm{d}x 
+  -\frac{1}{\pi} \int B(i\omega_n-y) \mathrm{Im}G_0(y)n_B(i\omega_n-y) \mathrm{d}y \nonumber \\
+& \hspace{1cm} - \frac{1}{\beta} B(i\delta)G_0(i\omega_n) +  \frac{1}{\beta} B(0) G_0(i\omega_n).
+\end{align}
+We still cannot do $i\omega_n \rightarrow \omega + i\delta$ since $n_B(i\omega_n-y)$
+has poles in the complex plane. But we can evaluate it first
+\begin{align}
+ n_B(i\omega_n-y) &= \frac{1}{\mathrm{e}^{\beta(i\omega_n-y)} - 1 } \\
+ &= \frac{1}{-\mathrm{e}^{-\beta y} - 1 } \\
+ &= \frac{-1}{\mathrm{e}^{-\beta y} + 1 } ,
+\end{align}
+leading to
+\begin{align}
+ F(i\omega_n)
+ &=\frac{1}{\pi} \int \frac{\mathrm{Im}B(x) G_0(i\omega_n - x)}{ \mathrm{e}^{\beta x} - 1 } \mathrm{d}x 
+  +\frac{1}{\pi} \int \frac{B(i\omega_n-y) \mathrm{Im}G_0(y) }{\mathrm{e}^{-\beta y} + 1 } \mathrm{d}y \nonumber \\
+& \hspace{1cm} + \frac{1}{\beta} G_0(i\omega_n) \left( B(0) - B(i\delta) \right).
+\end{align}
+In this form all poles are on the real axis and we can safely evaluate on the real axis.
+Performing a substitution of variables in the second term we get for the final result
+\begin{align}
+ F(\omega)
+ &=\frac{1}{\pi} \int \frac{\mathrm{Im}B(x) G_0(\omega - x)}{ \mathrm{e}^{\beta x} - 1 } \mathrm{d}x 
+  +\frac{1}{\pi} \int \frac{B(x) \mathrm{Im}G_0(\omega - x) }{\mathrm{e}^{-\beta (\omega - x)} + 1 } \mathrm{d}x \nonumber \\
+& \hspace{1cm} + \frac{1}{\beta} G_0(\omega) \left( B(0) - B(i\delta) \right).
+\end{align}
+It is important to note that the delta-peak in $B(x)$ at $x=0$ does not enter the integral
+in the first two terms, because we evaluate $B$ slightly above the real axis $B(x+i\delta)$.
+
+If we only want the spectral function of $F$, we can simplify the expression to
+\begin{align}
+ -\frac{1}{\pi}\mathrm{Im}F(\omega)
+ &=\frac{1}{\pi} \int \frac{\mathrm{Im}B(x) A_0(\omega - x)}{ \mathrm{e}^{\beta x} - 1 } \mathrm{d}x 
+  +\frac{1}{\pi} \int \mathrm{Im}\frac{B(x) A_0(\omega - x) }{\mathrm{e}^{-\beta (\omega - x)} + 1 } \mathrm{d}x \nonumber \\
+& \hspace{1cm} + \frac{1}{\beta} A_0(\omega) \mathrm{Re}\left[ B(0) - B(i\delta) \right] \\
+%
+&=\frac{1}{\pi} \int \mathrm{Im}B(x) A_0(\omega - x)\frac{ \mathrm{e}^{-\beta (\omega-x)} + \mathrm{e}^{\beta x}  }{\left( \mathrm{e}^{\beta x} - 1\right)\left(\mathrm{e}^{-\beta (\omega - x)} + 1 \right) } \mathrm{d}x  \nonumber \\
+& \hspace{1cm} + \frac{1}{\beta} A_0(\omega) \mathrm{Re}\left[ B(0) - B(i\delta) \right] \\
+%
+&=\frac{1}{\pi} \int \mathrm{Im}B(x) A_0(\omega - x)\frac{ \mathrm{e}^{-\beta \omega} + 1  }{\left( 1-\mathrm{e}^{-\beta x} \right)\left(\mathrm{e}^{-\beta (\omega - x)} + 1 \right) } \mathrm{d}x  \nonumber \\
+& \hspace{1cm} + \frac{1}{\beta} A_0(\omega) \mathrm{Re}\left[ B(0) - B(i\delta) \right] ,
+\end{align}
+where $A_0= -\frac{1}{\pi} \mathrm{Im}G_0$.
+
+\subsection{Fermionic x Fermionic}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
