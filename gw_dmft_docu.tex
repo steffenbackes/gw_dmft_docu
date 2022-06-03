@@ -693,7 +693,7 @@ leading to
 & \hspace{1cm} + \frac{1}{\beta} G_0(i\omega_n) \left( B(0) - B(i\delta) \right).
 \end{align}
 In this form all poles are on the real axis and we can safely perform analytic continuation
- with $i\omega_n \rightarrow \omega + i\delta$.
+$G(i\omega_n-y) \rightarrow G(\omega + i\delta -y) = G(\omega  -y)$. 
 Performing a substitution of variables in the second term we get for the final result
 \begin{align}
  F(\omega)
@@ -726,7 +726,7 @@ We want to evaluate equations of the form
 \begin{align}
 B(i\nu_n)  &= \frac{1}{\beta} \sum_{i\omega_n} F(i\omega_n) G_0(i\omega_n - i\nu_n)
 \end{align}
-where $B$ is a bosonic function, $F, G_0$ a fermionic functions, and $i\omega_n$ fermionic, 
+where $B$ is a bosonic function, $F, G_0$ fermionic functions, and $i\omega_n$ fermionic, 
 and $i\nu_n$ bosonic frequencies. We again cannot immediately perform 
 analytic continuation with $i\nu_n \rightarrow \omega + i\delta$,
 because the poles of $G_0( z - i\nu_n)$ are shifted into the complex plane by $i\nu_n$
@@ -775,18 +775,29 @@ This leads to
 \begin{align}
 P(i\nu_n)
  &= -\frac{1}{\pi} \int G_0(x-i\nu_n) \mathrm{Im}F(x) n_F(x) \, \mathrm{d}x
-   -\frac{1}{\pi} \int F(y+i\nu_n)  \mathrm{Im}G_0(y)n_F(y) \, \mathrm{d}y ,
+   -\frac{1}{\pi} \int F(y+i\nu_n)  \mathrm{Im}G_0(y)n_F(y) \, \mathrm{d}y .
 \end{align}
-which can safely be continued to the real axis
+This expression can be safely be continued to the real axis, \textbf{but}
+we need to be careful about whether we are in the upper or lower complex
+plane, since the imaginary frequency argument in the first part is negative (here
+we consider $\nu_n>0$). Therefore
+\begin{align}
+G_0(x-i\nu_n)
+& \rightarrow G_0(x-(\nu+i\delta) ) \\
+& = G_0(x-\nu-i\delta ) \\
+& = G_0^*(x-\nu+i\delta ) \\
+& = G_0^*(x-\nu ) .
+\end{align}
+This leads to
 \begin{align}
 P(\omega)
- &= -\frac{1}{\pi} \int G_0(x-\omega) \mathrm{Im}F(x) n_F(x) \, \mathrm{d}x
+ &= -\frac{1}{\pi} \int G^*_0(x-\omega) \mathrm{Im}F(x) n_F(x) \, \mathrm{d}x
    -\frac{1}{\pi} \int F(y+\omega)  \mathrm{Im}G_0(y)n_F(y) \, \mathrm{d}y .
 \end{align}
 A substitution of variables in the second term leads to
 \begin{align}
 P(\omega)
- &= -\frac{1}{\pi} \int \frac{\mathrm{Im}F(x) G_0(x-\omega) }{1+\mathrm{e}^{\beta x}} \, \mathrm{d}x
+ &= -\frac{1}{\pi} \int \frac{\mathrm{Im}F(x) G^*_0(x-\omega) }{1+\mathrm{e}^{\beta x}} \, \mathrm{d}x
    -\frac{1}{\pi} \int \frac{ F(x)  \mathrm{Im}G_0(x-\omega) }{1+\mathrm{e}^{\beta (x-\omega)}} \, \mathrm{d}x .
 \end{align}
 \clearpage 
