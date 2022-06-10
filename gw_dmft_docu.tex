@@ -627,6 +627,23 @@ where $\epsilon_k=\epsilon_{k-q}$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Real-frequency evaluation of Matsubara - convolutions}
+For convolutions on fermionic Matsubara frequencies we need the relation ($\epsilon_i\neq \epsilon_j \ \forall i,j$)
+\begin{align}
+ &\frac{1}{\beta}\sum_{i\omega_n} \frac{1}{(i\omega_n-\epsilon_0)(i\omega_n-\epsilon_1)\cdots (i\omega_n-\epsilon_N)} \\
+ &= -\sum_{i\omega_n} \frac{1}{\partial_x\left(\mathrm{e}^{\beta x}+1\right)|_{x=i\omega_n}} \frac{1}{\prod_{j=0}^{N}(i\omega_n-\epsilon_j)} \\
+ &= -\sum_{x=i\omega_n}  \frac{\mathrm{Res}(n_F(x))}{\prod_{j=0}^{N}(x-\epsilon_j)} \\
+ &= -\frac{1}{2\pi i} \oint \frac{n_F(z)}{\prod_{j=0}^{N}(z-\epsilon_j)} \, \mathrm{d}z \\
+ &= \sum_{x=\epsilon_i} \mathrm{Res}\left[ \frac{n_F(x)}{\prod_{j=0}^{N}(x-\epsilon_j)} \right] \\
+ &= \sum_{i=0}^{N} \frac{n_F(\epsilon_i)}{ \prod_{j\neq i}^{N}(\epsilon_i-\epsilon_j) } .
+ \end{align}
+For bosonic convolutions one obtains analogously
+\begin{align}
+ \frac{1}{\beta}\sum_{i\nu_n} \frac{1}{(i\omega_n-\epsilon_0)(i\omega_n-\epsilon_1)\cdots (i\omega_n-\epsilon_N)} 
+ &= -\sum_{i=0}^{N} \frac{n_B(\epsilon_i)}{ \prod_{j\neq i}^{N}(\epsilon_i-\epsilon_j) } .
+\end{align}
+
+
+
 \subsection{Fermionic x Bosonic}
 We want to evaluate equations of the form
 \begin{align}
@@ -800,7 +817,116 @@ P(\omega)
  &= -\frac{1}{\pi} \int \frac{\mathrm{Im}F(x) G^*_0(x-\omega) }{1+\mathrm{e}^{\beta x}} \, \mathrm{d}x
    -\frac{1}{\pi} \int \frac{ F(x)  \mathrm{Im}G_0(x-\omega) }{1+\mathrm{e}^{\beta (x-\omega)}} \, \mathrm{d}x .
 \end{align}
-\clearpage 
+
+
+
+\subsection{IPT with U(w)}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figs/ipt/diag2_1.png}
+\end{center}
+\begin{align}
+ \Sigma(i\omega_n)
+ &= -\frac{1}{\beta^2}\sum_{i\omega_n',i\nu_n} U(i\nu_n)U(-i\nu_n) G(i\omega_n-i\nu_n)G(i\omega_n')G(i\omega_n'-i\nu_n) \\
+ &= -\frac{1}{\beta^2\pi^5}\sum_{i\omega_n',i\nu_n} 
+       \int \frac{\mathrm{Im}U(a)}{a-i\nu_n}
+            \frac{\mathrm{Im}U(b)}{b+i\nu_n}
+            \frac{\mathrm{Im}G(c)}{c-(i\omega_n-i\nu_n)}
+            \frac{\mathrm{Im}G(d)}{d-i\omega_n'}
+            \frac{\mathrm{Im}G(e)}{e-(i\omega_n'-i\nu_n)} \mathrm{d}abcde\\
+%
+&= -\frac{1}{\beta^2\pi^5} \int \sum_{i\omega_n',i\nu_n} 
+ \frac{\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}
+      { (-i\nu_n+a)(i\nu_n+b)( i\nu_n-i\omega_n+c ) (-i\omega_n'+d) (i\nu_n-i\omega_n'+e ) } \mathrm{d}abcde \\
+%
+&= -\frac{1}{\beta^2\pi^5} \int \sum_{i\nu_n} 
+   \frac{\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ (i\nu_n-a)(i\nu_n+b)( i\nu_n-i\omega_n+c ) }
+    \sum_{i\omega_n'} \frac{-1}{ (i\omega_n'-d)(i\omega_n'-i\nu_n-e ) } \mathrm{d}abcde \\
+%
+&= \frac{1}{\beta\pi^5} \int \sum_{i\nu_n} 
+   \frac{\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ (i\nu_n-a)(i\nu_n+b)( i\nu_n-i\omega_n+c ) }
+  \frac{n_F(d)-n_F(i\nu_n+e)}{d-(i\nu_n+e)} \mathrm{d}abcde \\
+%
+%
+&= -\frac{1}{\beta\pi^5} \int \sum_{i\nu_n} 
+   \frac{\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)[n_F(d)-n_F(e)]}
+    { (i\nu_n-a)(i\nu_n+b)( i\nu_n-i\omega_n+c )(i\nu_n-d-e) } \mathrm{d}abcde \\% 
+%
+&= -\frac{1}{\pi^5} \int 
+   \mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)[n_F(d)-n_F(e)] \nonumber\\
+&\hspace*{1cm} \times \Big( 
+                \frac{n_B(a)}{(a+b)( a-i\omega_n+c )(a-d-e) } \nonumber \\
+&\hspace*{1cm} +\frac{n_B(-b)}{ (-b-a)( -b-i\omega_n+c )(-b-d-e) } \nonumber \\
+&\hspace*{1cm} +\frac{n_B(i\omega_n-c)}{ (i\omega_n-c-a)(i\omega_n-c+b)(i\omega_n-c-d-e) } \nonumber \\
+&\hspace*{1cm} +\frac{n_B(d+e)}{ (d+e-a)(d+e+b)( d+e-i\omega_n+c ) } 
+    \Big) \mathrm{d}abcde %
+\end{align}
+\begin{align}
+ %
+&= -\frac{1}{\pi^5} \int  [n_F(d)-n_F(e)] \nonumber\\
+&\hspace*{1cm} \times \Big( 
+                \frac{n_B(a)\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{(b+a)(c+ a-i\omega_n )(a-d-e) } \mathrm{d}a\mathbf{bc}de\nonumber \\
+&\hspace*{1cm} +\frac{n_B(-b)\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ -(a+b)(c -b-i\omega_n )(-b-d-e) } \mathrm{d}\textbf{a}b\textbf{c}de\nonumber \\
+&\hspace*{1cm} +\frac{-n_F(-c)\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ -(a-i\omega_n+c)(b+i\omega_n-c)(i\omega_n-c-d-e) }\mathrm{d}\textbf{ab}cde \nonumber \\
+&\hspace*{1cm} +\frac{n_B(d+e)\mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ -(a-d-e)(b+d+e)(c+ d+e-i\omega_n ) } \mathrm{d}\textbf{abc}de
+    \Big)  \\%
+ %
+&= -\frac{1}{\pi^3} \int  [n_F(d)-n_F(e)] \nonumber\\
+&\hspace*{1cm} \times \Big( 
+                \frac{n_B(a)\mathrm{Im}U(a)U(-a)G(i\omega_n-a)\mathrm{Im}G(d)\mathrm{Im}G(e)}{(a-d-e) } \mathrm{d}ade\nonumber \\
+&\hspace*{1cm} -\frac{n_B(-b)U(-b)\mathrm{Im}U(b)G(i\omega_n+b)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ (-b-d-e) } \mathrm{d}bde\nonumber \\
+&\hspace*{1cm} +\frac{n_F(-c)U(i\omega_n-c)U(-i\omega_n+c)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{(i\omega_n-c-d-e) }\mathrm{d}cde \nonumber \\
+&\hspace*{1cm} -\pi n_B(d+e)U(d+e)U(-d-e)G(i\omega_n-d-e)\mathrm{Im}G(d)\mathrm{Im}G(e)  \mathrm{d}de
+    \Big)  \\ 
+ %
+ %
+&= -\frac{1}{\pi^3} \int \Big( 
+                \frac{n_B(a)n_F(d)\mathrm{Im}U(a)U(-a)G(i\omega_n-a)\mathrm{Im}G(d)\mathrm{Im}G(e)}{-(e-a+d) } \mathrm{d}ad\textbf{e}\nonumber \\
+&\hspace*{1cm} -\frac{n_B(-b)n_F(d)U(-b)\mathrm{Im}U(b)G(i\omega_n+b)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ -(e+b+d) } \mathrm{d}bd\textbf{e}\nonumber \\
+&\hspace*{1cm} +\frac{n_F(-c)n_F(d)U(i\omega_n-c)U(-i\omega_n+c)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{-(e-i\omega_n+c+d) }\mathrm{d}cd\textbf{e} \nonumber \\
+%
+&\hspace*{1cm} -\frac{n_B(a)n_F(e)\mathrm{Im}U(a)U(-a)G(i\omega_n-a)\mathrm{Im}G(d)\mathrm{Im}G(e)}{-(d-a+e) } \mathrm{d}a\textbf{d}e\nonumber \\
+&\hspace*{1cm} +\frac{n_B(-b)n_F(e)U(-b)\mathrm{Im}U(b)G(i\omega_n+b)\mathrm{Im}G(d)\mathrm{Im}G(e)}{ -(d+b+e) } \mathrm{d}b\textbf{d}e\nonumber \\
+&\hspace*{1cm} -\frac{n_F(-c)n_F(e)U(i\omega_n-c)U(-i\omega_n+c)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e)}{-(d-i\omega_n+c+e) }\mathrm{d}c\textbf{d}e \nonumber \\
+%
+&\hspace*{1cm} -\pi[n_F(d)-n_F(e)] n_B(d+e)U(d+e)U(-d-e)G(i\omega_n-d-e)\mathrm{Im}G(d)\mathrm{Im}G(e)  \mathrm{d}de
+    \Big)  %    
+\end{align}
+\begin{align}
+ &= -\frac{1}{\pi^2} \int \Big( 
+               -n_B(a)n_F(d)\mathrm{Im}U(a)U(-a)G(i\omega_n-a)\mathrm{Im}G(d)G(a-d) \mathrm{d}ad\nonumber \\
+&\hspace*{1cm} +n_B(-b)n_F(d)U(-b)\mathrm{Im}U(b)G(i\omega_n+b)\mathrm{Im}G(d)G(-b-d) \mathrm{d}bd\nonumber \\
+&\hspace*{1cm} -n_F(-c)n_F(d)U(i\omega_n-c)U(-i\omega_n+c)\mathrm{Im}G(c)\mathrm{Im}G(d)G(i\omega_n-c-d)\mathrm{d}cd \nonumber \\
+%
+&\hspace*{1cm} +n_B(a)n_F(e)\mathrm{Im}U(a)U(-a)G(i\omega_n-a)G(a-e)\mathrm{Im}G(e) \mathrm{d}ae\nonumber \\
+&\hspace*{1cm} -n_B(-b)n_F(e)U(-b)\mathrm{Im}U(b)G(i\omega_n+b)G(-b-e)\mathrm{Im}G(e) \mathrm{d}be\nonumber \\
+&\hspace*{1cm} +n_F(-c)n_F(e)U(i\omega_n-c)U(-i\omega_n+c)\mathrm{Im}G(c)G(i\omega_n-c-e)\mathrm{Im}G(e) \mathrm{d}ce \nonumber \\
+%
+&\hspace*{1cm} - [n_F(d)-n_F(e)]n_B(d+e)U(d+e)U(-d-e)G(i\omega_n-d-e)\mathrm{Im}G(d)\mathrm{Im}G(e)  \mathrm{d}de
+    \Big)      \\
+%
+ &= -\frac{1}{\pi^2} \int [n_F(e)-n_F(d)] n_B(d+e)U(d+e)U(-d-e)G(i\omega_n-d-e)\mathrm{Im}G(d)\mathrm{Im}G(e)  \mathrm{d}de \\ 
+ %
+ &= -\frac{1}{\pi^2} \int [n_F(y)-n_F(x-y)] n_B(x)U(x)U(-x)G(i\omega_n-x)\mathrm{Im}G(x-y)\mathrm{Im}G(y)  \mathrm{d}xy .
+\end{align}
+
+
+
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figs/ipt/diag2_2.png}
+\end{center}
+\begin{align}
+ \Sigma(i\omega_n)
+ &= \frac{1}{\beta^2}\sum_{i\omega_n',i\nu_n} U(i\nu_n)U(i\omega_n-i\omega_n') G(i\omega')G(i\omega_n'-i\nu_n)G(i\omega_n-i\nu_n) \\
+ &= \frac{1}{\beta^2\pi^5}\sum_{i\omega_n',i\nu_n} 
+       \int \frac{\mathrm{Im}U(a)}{a-i\nu_n}
+            \frac{\mathrm{Im}U(b)}{b-(i\omega_n-i\omega_n')}
+            \frac{\mathrm{Im}G(c)}{c-i\omega_n'}
+            \frac{\mathrm{Im}G(d)}{d-(i\omega_n'-i\nu_n)}
+            \frac{\mathrm{Im}G(e)}{e-(i\omega_n-i\nu_n)} \mathrm{d}abcde\\
+%
+\end{align}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
