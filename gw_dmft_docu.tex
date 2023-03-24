@@ -116,6 +116,94 @@ subspace with $N_m=N_n+1$ electrons, Or, respectively,
 for a given $\ket{m}$ with $N_m$ electrons, the summation over $n$ can be restricted to the 
 subspace with $N_n=N_m-1$ electrons.
 
+\subsection{Charge susceptibility}
+We consider the charge susceptibility as defined by Hedin
+\begin{align}
+\chi_{abcd}(1,2) &=  \langle T \rho_{ab}'(1)\rho_{cd}'(2) \rangle,
+\end{align}
+where 
+\begin{align}
+ \rho_{ab}'(1) &= c^{\dagger}_a(1)c_b(1) - \langle c^{\dagger}_a(1)c_b(1) \rangle,
+\end{align}
+where $a,b$ are combined spin/orbital indices, but for the same spin, respectively.
+This simplifies to
+\begin{align}
+\chi_{abcd}(1,2) &=  \langle T \rho_{ab}'(1)\rho_{cd}'(2) \rangle \\
+&=\langle T (c^{\dagger}_a(1)c_b(1) - \langle c^{\dagger}_a(1)c_b(1)\rangle  )( c^{\dagger}_c(2)c_d(2) - \langle c^{\dagger}_c(2)c_d(2)\rangle ) \rangle \\
+&=\langle T c^{\dagger}_a(1)c_b(1) c^{\dagger}_c(2)c_d(2) \rangle - \langle c^{\dagger}_a(1)c_b(1)\rangle\langle c^{\dagger}_c(2)c_d(2)\rangle ) .
+\end{align}
+The second term can be easily obtained from the one-particle Green's function
+\begin{align}
+ \langle c^{\dagger}_a(1)c_b(1)\rangle &= n_{ab}\\
+ &=-\frac{1}{\pi} \int \frac{ \mathrm{Im}G_{ab}(\omega) }{1+\mathrm{e}^{\beta \omega}} \, \mathrm{d}\omega.
+\end{align}
+The first term is more involved:
+Due to time-translational invariance we can set $t_2=0$, which leaves us with 
+2 distinct time orderings
+\begin{align}
+\chi_{abcd}(t)
+&= \theta_{t>0}\braket{c^{\dagger}_a(t)c_b(t) c^{\dagger}_c c_d  } + \theta_{t<0}\braket{c^{\dagger}_c   c_d    c^{\dagger}_a(t)c_b(t) } .
+%
+\end{align}
+We now introduce the Eigenbasis $\ket{m},\ket{n},\ket{o},\ket{p}$, which results in the first term
+\begin{align}
+ \frac{1}{Z}\sum_{mnop} \exp{-\beta E_m} 
+ &\theta_{t>0}\braket{m|c^{\dagger}_a(t) |n}\braket{n| c_b(t)|o}\braket{o| c^{\dagger}_c |p}\braket{p| c_d |m} \\
+%
+ =\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
+ &\theta_{t>0}\braket{m|\mathrm{e}^{i(E_m-E_n)t} c^{\dagger}_a |n}\braket{n|\mathrm{e}^{i(E_n-E_o)t} c_b |o}\braket{o| c^{\dagger}_c |p}\braket{p| c_d |m} \\
+%
+ =\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
+ &\theta_{t>0} \mathrm{e}^{i(E_m-E_o)t} \braket{m| c^{\dagger}_a |n}\braket{n| c_b |o}\braket{o| c^{\dagger}_c |p}\braket{p| c_d |m} \\
+%
+ =\frac{1}{Z}\sum_{mo} \exp{-\beta E_m}
+ &\theta_{t>0} \mathrm{e}^{i(E_m-E_o)t} \braket{m| c^{\dagger}_a c_b |o}\braket{o| c^{\dagger}_c c_d |m} .
+%
+\end{align}
+A Fourier transform to frequency space yields
+\begin{align}
+ \chi^>_{abcd}(\omega) 
+ &= \frac{1}{Z}\sum_{mo} \exp{-\beta E_m} \braket{m| c^{\dagger}_a c_b |o}\braket{o| c^{\dagger}_c c_d |m} \int_{0}^{\infty} \exp{i(\omega+i\delta)t} \mathrm{e}^{i(E_m-E_o)t}   \, \mathrm{d}t \\
+ %
+ &= \frac{i}{Z} \sum_{mo} \exp{-\beta E_m} \frac{ \braket{m| c^{\dagger}_a c_b |o}\braket{o| c^{\dagger}_c c_d |m} }{ \omega+i\delta + E_m-E_o } .
+ % 
+\end{align}
+
+
+For the second term we get
+\begin{align}
+ &\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
+ \theta_{t<0}\braket{m|c^{\dagger}_c|n}\braket{n| c_d |o}\braket{o|c^{\dagger}_a(t) |p}\braket{p|c_b(t) |m}  \\
+%
+ =&\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
+ \theta_{t<0}\braket{m|c^{\dagger}_c|n}\braket{n| c_d |o}\braket{o|\mathrm{e}^{i(E_o-E_p)t} c^{\dagger}_a |p}\braket{p|\mathrm{e}^{i(E_p-E_m)t} c_b |m} \\
+%
+ =&\frac{1}{Z}\sum_{mo} \exp{-\beta E_m}\mathrm{e}^{i(E_o-E_m)t}
+ \theta_{t<0}\braket{m|c^{\dagger}_c c_d |o}\braket{o| c^{\dagger}_a c_b |m} \\
+%
+ \stackrel{m\leftrightarrow o}{=} &\frac{1}{Z}\sum_{mo} \exp{-\beta E_o}\mathrm{e}^{i(E_m-E_o)t}
+ \theta_{t<0}\braket{o|c^{\dagger}_c c_d |m}\braket{m| c^{\dagger}_a c_b |o}. 
+%
+\end{align}
+A Fourier transform to frequency space yields
+\begin{align}
+ \chi^<_{abcd}(\omega) 
+ &= \frac{1}{Z}\sum_{mo} \exp{-\beta E_o} \braket{m| c^{\dagger}_a c_b |o}\braket{o|c^{\dagger}_c c_d |m} \int_{-\infty}^{0} \exp{i(\omega-i\delta)t} \mathrm{e}^{i(E_m-E_o)t}   \, \mathrm{d}t \\
+ %
+ &= -\frac{i}{Z} \sum_{mo} \exp{-\beta E_o} \frac{ \braket{m| c^{\dagger}_a c_b |o}\braket{o|c^{\dagger}_c c_d |m} }{ \omega-i\delta + E_m-E_o } .
+ % 
+\end{align}
+This results in the final expression
+\begin{align}
+ \chi_{abcd}(\omega) 
+ &= \frac{i}{Z} \sum_{mn} \braket{m| c^{\dagger}_a c_b |n}\braket{n|c^{\dagger}_c c_d |m}
+    \left( 
+    \frac{\exp{-\beta E_m} }{\omega+i\delta + E_m-E_n} - \frac{\exp{-\beta E_n} }{\omega-i\delta + E_m-E_n}
+    \right).
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Two-particle Green's function}
 We consider the two-particle Green's function $G^{(2)}_{\uparrow \downarrow}$ as defined in the PhD Thesis or G.Rohringer
