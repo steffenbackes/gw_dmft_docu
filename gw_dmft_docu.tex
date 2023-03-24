@@ -821,6 +821,7 @@ P(\omega)
 
 
 \subsection{IPT with U(w)}
+\subsubsection{Hartree-like diagram}
 \begin{center}
 \includegraphics[width=0.7\textwidth]{figs/ipt/diag2_1.png}
 \end{center}
@@ -910,7 +911,7 @@ P(\omega)
 \end{align}
 
 
-
+\subsubsection{Fock-like diagram}
 
 \begin{center}
 \includegraphics[width=0.7\textwidth]{figs/ipt/diag2_2.png}
@@ -925,7 +926,45 @@ P(\omega)
             \frac{\mathrm{Im}G(d)}{d-(i\omega_n'-i\nu_n)}
             \frac{\mathrm{Im}G(e)}{e-(i\omega_n-i\nu_n)} \mathrm{d}abcde\\
 %
+ &= \frac{-1}{\beta^2\pi^5}\sum_{i\nu_n} 
+       \int \frac{ \mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e) }
+                 { (i\nu_n-a)(i\nu_n+e-i\omega_n) } \nonumber \\
+&\hspace*{1cm}  \times\sum_{i\omega_n'}  \frac{1}{ (i\omega_n'+b-i\omega_n)(i\omega_n'-c)(i\omega_n'-d-i\nu_n) } \mathrm{d}abcde\\
+%
+ &= \frac{-1}{\beta^2\pi^5}\sum_{i\nu_n} 
+       \int \frac{ \mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e) }
+                 { (i\nu_n-a)(i\nu_n+e-i\omega_n) } \nonumber \\
+&\hspace*{-2cm}  \times\Big( 
+                    \frac{n_F(i\omega_n-b)}{(i\omega_n-b-c)(i\omega_n-b-d-i\nu_n)}
+                   +\frac{n_F(c)}{(c+b-i\omega_n)(c-d-i\nu_n)} 
+                   +\frac{n_F(d+i\nu_n)}{(d+i\nu_n+b-i\omega_n)(d+i\nu_n-c)}
+                 \Big)\mathrm{d}abcde
+%
 \end{align}
+\begin{align}
+ &= \frac{-1}{\beta^2\pi^5}\sum_{i\nu_n} 
+       \int \frac{ \mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e) }
+                 { (i\nu_n-a)(i\nu_n+e-i\omega_n) } \nonumber \\
+&\hspace*{-2cm}  \times\Big( 
+                    \frac{n_B(-b)}{(i\omega_n-b-c)(i\nu_n-i\omega_n+b+d)}
+                   +\frac{n_F(c)}{(c+b-i\omega_n)(i\nu_n-c+d)} 
+                   +\frac{n_F(d)}{(i\nu_n+b-i\omega_n+d)(i\nu_n+d-c)}
+                 \Big)\mathrm{d}abcde \\
+%
+ &= \frac{-1}{\beta^2\pi^5}\sum_{i\nu_n} 
+       \int \mathrm{Im}U(a)\mathrm{Im}U(b)\mathrm{Im}G(c)\mathrm{Im}G(d)\mathrm{Im}G(e) \nonumber \\
+&\hspace*{0.5cm}  \times\Big( 
+                    \frac{n_B(-b)}{(i\omega_n-b-c)}
+                    \frac{1}{(i\nu_n-i\omega_n+b+d)(i\nu_n-a)(i\nu_n+e-i\omega_n)}\nonumber \\
+&\hspace*{1cm} 
+                   +\frac{n_F(c)}{(c+b-i\omega_n)} 
+                   \frac{1}{(i\nu_n-c+d)(i\nu_n-a)(i\nu_n+e-i\omega_n)}\nonumber \\
+&\hspace*{1cm} 
+                   +n_F(d)
+                   \frac{1}{(i\nu_n+b-i\omega_n+d)(i\nu_n+d-c)(i\nu_n-a)(i\nu_n+e-i\omega_n)}
+                 \Big)\mathrm{d}abcde
+\end{align}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1458,10 +1497,14 @@ $P=GG$.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 From this expression we \textit{define} the coefficients of  polarization $P$ in
-the local basis as
+the local basis in such a way that we can later write the expression as a matrix
+equation when using a $ijkl\rightarrow (ik)(jl)$ index combination, i.e.
 \begin{align}
+ P^{\sigma\sigma'}_{ljik}(\tau,\tau') 
+ &:= G^{\sigma\sigma'}_{ij}(\tau,\tau') G^{\sigma'\sigma}_{kl}(\tau',\tau) \\
+ \Rightarrow
  P^{\sigma\sigma'}_{ijkl}(\tau,\tau') 
- &:= G^{\sigma\sigma'}_{ij}(\tau,\tau') G^{\sigma'\sigma}_{lk}(\tau',\tau),
+ &:= G^{\sigma\sigma'}_{kj}(\tau,\tau') G^{\sigma'\sigma}_{li}(\tau',\tau) ,
 \end{align}
 which leads to the expression
 \begin{align}
@@ -1470,7 +1513,7 @@ W_{abcd}(\tau_1,\tau_2)
 &= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
 & \hspace{0.5cm}  + \sum_{\substack{\sigma_3\sigma_4 \\ ijkl }}\int 
                      W_{alci}(\tau_1,\tau_3) 
-                     P^{\sigma_3\sigma_4}_{ijlk}(\tau_3,\tau_4) 
+                     P^{\sigma_3\sigma_4}_{ljik}(\tau_3,\tau_4) 
                      v_{jbkd}(\tau_4,\tau_2)
                     \, \mathrm{d}\tau_3\mathrm{d}\tau_4 .
 %
@@ -1482,20 +1525,38 @@ Assuming spin-diagonal Green's functions, we can simplify the summation
 over spins and redefine the polarization
 \begin{align}
  P_{ijkl}(\tau,\tau') 
- &=\sum_{\sigma\sigma'} \delta_{\sigma\sigma'}G^{\sigma\sigma'}_{ij}(\tau,\tau') G^{\sigma'\sigma}_{lk}(\tau',\tau) \\
- &=\sum_{\sigma} G^{\sigma}_{ij}(\tau,\tau') G^{\sigma}_{lk}(\tau',\tau) ,
+ &=\sum_{\sigma\sigma'} \delta_{\sigma\sigma'}G^{\sigma\sigma'}_{kj}(\tau,\tau') G^{\sigma'\sigma}_{li}(\tau',\tau) \\
+ &=\sum_{\sigma} G^{\sigma}_{kj}(\tau,\tau') G^{\sigma}_{li}(\tau',\tau) ,
 \end{align}
 which leads to the final expression
 \begin{align}
 W_{abcd}(\tau_1,\tau_2) 
 %
-&= v_{abcd}(\tau_1,\tau_2)  \nonumber \\ 
-& \hspace{0.5cm}  + \sum_{ijkl}\int 
+&= v_{abcd}(\tau_1,\tau_2)   + \sum_{ijkl}\int 
                      W_{alci}(\tau_1,\tau_3) 
-                     P_{ijlk}(\tau_3,\tau_4) 
+                     P_{ljik}(\tau_3,\tau_4) 
                      v_{jbkd}(\tau_4,\tau_2)
                     \, \mathrm{d}\tau_3\mathrm{d}\tau_4 .
 %
+\end{align}
+To write these as matrix equations we use the $A_{ijkl}\rightarrow A_{(ik)(jl)}=A_{ab}$ index combination, which leads to
+\begin{align}
+W_{(ac)(bd)}(\tau_1,\tau_2) 
+%
+&= v_{(ac)(bd)}(\tau_1,\tau_2)   + \sum_{ijkl}\int 
+                     W_{(ac)(li)}(\tau_1,\tau_3) 
+                     P_{(li)(jk)}(\tau_3,\tau_4) 
+                     v_{(jk)(bd)}(\tau_4,\tau_2)
+                    \, \mathrm{d}\tau_3\mathrm{d}\tau_4 \\
+%
+\Rightarrow
+W_{ab}(\tau_1,\tau_2) 
+%
+&= v_{ab}(\tau_1,\tau_2)   + \sum_{ij}\int 
+                     W_{ai}(\tau_1,\tau_3) 
+                     P_{ij}(\tau_3,\tau_4) 
+                     v_{jb}(\tau_4,\tau_2)
+                    \, \mathrm{d}\tau_3\mathrm{d}\tau_4 .
 \end{align}
 This is the form we will use from now on.
 
@@ -1516,8 +1577,8 @@ we first get the usual Dyson-like equation (good exercise, it's not difficult)
 \begin{align}
 W_{abcd}(i\nu_n)
 %
-&= v_{abcd}  + \sum_{ ijkl }
-                     W_{alci}(i\nu_n) P_{ijlk}(i\nu_n)
+&= v_{abcd}  + \sum_{ ij }
+                     W_{alci}(i\nu_n) P_{ljik}(i\nu_n)
                      v_{jbkd}, \label{eq:w_dyson_like}
 \end{align}
 where we have used that the bare Coulomb interaction is static
@@ -1528,16 +1589,16 @@ For the polarization we get
 \begin{align}
  P_{ijkl}(i\nu_n)
  &= \sum_{\sigma}\int_{0}^{\beta} \frac{1}{\beta^2}
-      \left( \sum_{i\omega_n} G^{\sigma}_{ij}(i\omega'_n) \mathrm{e}^{-i\omega_n\tau} \right)
-      \left( \sum_{i\omega'_n} G^{\sigma}_{lk}(i\omega'_n) \mathrm{e}^{+i\omega'_n\tau} \right)
+      \left( \sum_{i\omega_n} G^{\sigma}_{kj}(i\omega'_n) \mathrm{e}^{-i\omega_n\tau} \right)
+      \left( \sum_{i\omega'_n} G^{\sigma}_{li}(i\omega'_n) \mathrm{e}^{+i\omega'_n\tau} \right)
       \mathrm{e}^{i\nu_n\tau} \, \mathrm{d}\tau  \\
 %
- &= \sum_{\sigma}\sum_{\substack{i\omega_n\\i\omega'_n}} G^{\sigma}_{ij}(i\omega_n)
-                                            G^{\sigma}_{lk}(i\omega_n')
+ &= \sum_{\sigma}\sum_{\substack{i\omega_n\\i\omega'_n}} G^{\sigma}_{kj}(i\omega_n)
+                                            G^{\sigma}_{li}(i\omega_n')
       \frac{1}{\beta^2} \int_{0}^{\beta} \mathrm{e}^{i(\nu_n+\omega_n'-\omega_n) \tau}   \, \mathrm{d}\tau  \\
 %
- &=\frac{1}{\beta} \sum_{\sigma,i\omega_n} G^{\sigma}_{ij}(i\omega_n)
-                     G^{\sigma}_{lk}(i\omega_n-i\nu_n).
+ &=\frac{1}{\beta} \sum_{\sigma,i\omega_n} G^{\sigma}_{kj}(i\omega_n)
+                     G^{\sigma}_{li}(i\omega_n-i\nu_n).
 \end{align}
 
 
@@ -1572,7 +1633,7 @@ we do in a standard Hubbard model DMFT calculation, the screened interaction par
 U^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abab}(i\nu_n) \\
 %
 &= v_{abab}  + \sum_{ i k }
-                     W_{akai} (i\nu_n) P_{iikk}(i\nu_n)
+                     W_{akai} (i\nu_n) P_{kiik}(i\nu_n)
                      v_{ibkb}\delta_{ik} \\
 %
 & = U^{\mathrm{bare}}_{ab}  + \sum_{i}
@@ -1584,11 +1645,11 @@ and
 J^{\mathrm{scr}}_{ab}(i\nu_n) &= W_{abba}(i\nu_n) \\
 %
 &= v_{abba}  + \sum_{ i k}
-                     W_{akbi} (i\nu_n) P_{iikk}(i\nu_n)
+                     W_{akbi} (i\nu_n) P_{kiik}(i\nu_n)
                      v_{ibka}\delta_{ia}\delta_{kb} \\
 %
 & = J^{\mathrm{bare}}_{ab}  + 
-                     J^{\mathrm{scr}}_{ab} (i\nu_n) P_{aabb}(i\nu_n)
+                     J^{\mathrm{scr}}_{ab} (i\nu_n) P_{baab}(i\nu_n)
                      J^{\mathrm{bare}}_{ab} \mbox{ , for } a\neq b \mbox{ !}
 \end{align}
 The equation for $U^{\mathrm{scr}}_{ab}$ has now been reduced to a simple matrix equation
@@ -1611,7 +1672,7 @@ These relations can be easily inverted, which finally yields the expressions
  &= \frac{ J^{\mathrm{bare}}_{ab} }{ 1 - P_{ab}(i\nu_n)J^{\mathrm{bare}}_{ab} }  \\
  &= \left[  \left(J^{\mathrm{bare}}_{ab} \right)^{-1} - P_{ab}(i\nu_n) \right]^{-1} \mbox{ for } a\neq b,
 \end{align}
-where  $P_{ab} = P_{aabb}$, and the inverse in the equation for $U^{\mathrm{scr}}$
+where  $P_{ab} = P_{baab}$, and the inverse in the equation for $U^{\mathrm{scr}}$
 is defined as the standard matrix inverse. In the equation for $J^{\mathrm{scr}}$ it is just 
 a scalar inverse.
 
@@ -1630,11 +1691,15 @@ The elements of the local polarization that are relevant can be
 calculated as
 \begin{align}
  P_{aa}(i\nu_n)  
- &= \left[ \left(U^{\mathrm{bare}}\right)^{-1} - \left(U^{\mathrm{scr}}(i\nu_n)\right)^{-1} \right]_{aa} \\
+ &= \left[ \left(U^{\mathrm{bare}}\right)^{-1} - \left(U^{\mathrm{scr}}(i\nu_n)\right)^{-1} \right]_{aa} 
+ \label{eq:pol_for_diag_gf_no_hund} \\
 %
  P_{ab}(i\nu_n) 
  &= \frac{1}{J^{\mathrm{bare}}_{ab}} - \frac{1}{J^{\mathrm{scr}}_{ab}(i\nu_n)} \mbox{ for } a\neq b.
 \end{align}
+\textbf{Attention:} Eq.\eqref{eq:pol_for_diag_gf_no_hund} usually can be inverted, even though
+the full polarization matrix itself is not invertible.
+
 \textbf{Attention:} This is valid only if no approximation is made on the frequency dependence
 of the interaction! If $J^{\mathrm{scr}}$ is taken from the impurity model
 considering only $F_0$ screening this equation is obviously not valid!
@@ -1715,7 +1780,7 @@ We will now derive the relation between the screened interaction $W$ and the den
 correlation function $\chi$, starting from the general equation
 \begin{align}
 W(1,2)
-&=v(1,2) - \int v(1,2) \braket{T\rho'(3)\rho'(4)} v(4,2) \, \mathrm{d}(3)\mathrm{d}(4), 
+&=v(1,2) - \int v(1,3) \braket{T\rho'(3)\rho'(4)} v(4,2) \, \mathrm{d}(3)\mathrm{d}(4), 
 \end{align}
 where
 \begin{align}
@@ -1731,7 +1796,7 @@ W_{abcd}(\tau_1,\tau_2)
 &= v_{abcd}(\tau_1,\tau_2)  
 - \int \chi^{*\sigma}_a(r_1)\chi^{*\sigma'}_b(r_2) v(r_1\tau_1,r_3\tau_3)   \nonumber \\
             & \hspace{3cm} \times \braket{T\rho'(r_3\sigma_3\tau_3)\rho'(r_4\sigma_4\tau_4)}
-                            v(r_4\tau_4,r_1\tau_1) \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2) \nonumber \\
+                            v(r_4\tau_4,r_1\tau_1) \nonumber \\
             &\hspace{3cm} \times \chi^{\sigma''}_c(r_1)\chi^{\sigma'''}_d(r_2)
                                              \, \mathrm{d}(3)\mathrm{d}(4) \mathrm{d}r_1 \mathrm{d}r_2 \\
 %
