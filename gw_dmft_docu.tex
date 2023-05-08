@@ -116,6 +116,8 @@ subspace with $N_m=N_n+1$ electrons, Or, respectively,
 for a given $\ket{m}$ with $N_m$ electrons, the summation over $n$ can be restricted to the 
 subspace with $N_n=N_m-1$ electrons.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Charge susceptibility}
 We consider the charge susceptibility as defined by Hedin
 \begin{align}
@@ -145,52 +147,52 @@ Due to time-translational invariance we can set $t_2=0$, which leaves us with
 &= \theta_{t>0}\braket{c^{\dagger}_a(t)c_b(t) c^{\dagger}_c c_d  } + \theta_{t<0}\braket{c^{\dagger}_c   c_d    c^{\dagger}_a(t)c_b(t) } .
 %
 \end{align}
-We now introduce the Eigenbasis $\ket{m},\ket{n},\ket{o},\ket{p}$, which results in the first term
+We now introduce the Eigenbasis $\ket{m},\ket{n}$, and make use of the fact that
 \begin{align}
- \frac{1}{Z}\sum_{mnop} \exp{-\beta E_m} 
- &\theta_{t>0}\braket{m|c^{\dagger}_a(t) |n}\braket{n| c_b(t)|o}\braket{o| c^{\dagger}_c |p}\braket{p| c_d |m} \\
+ c^{\dagger}_a(t) c_b(t) 
+ &= \mathrm{e}^{iHt} c^{\dagger}_a \mathrm{e}^{-iHt} \mathrm{e}^{iHt} c_b \mathrm{e}^{-iHt} \\
+ &= \mathrm{e}^{iHt} c^{\dagger}_a c_b \mathrm{e}^{-iHt},
+\end{align}
+which results for the first term in
+\begin{align}
+ \frac{1}{Z}\sum_{mn} \exp{-\beta E_m} 
+ &\theta_{t>0}\braket{m|c^{\dagger}_a(t) c_b(t)|n}\braket{n| c^{\dagger}_c c_d |m} \\
 %
- =\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
- &\theta_{t>0}\braket{m|\mathrm{e}^{i(E_m-E_n)t} c^{\dagger}_a |n}\braket{n|\mathrm{e}^{i(E_n-E_o)t} c_b |o}\braket{o| c^{\dagger}_c |p}\braket{p| c_d |m} \\
-%
- =\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
- &\theta_{t>0} \mathrm{e}^{i(E_m-E_o)t} \braket{m| c^{\dagger}_a |n}\braket{n| c_b |o}\braket{o| c^{\dagger}_c |p}\braket{p| c_d |m} \\
-%
- =\frac{1}{Z}\sum_{mo} \exp{-\beta E_m}
- &\theta_{t>0} \mathrm{e}^{i(E_m-E_o)t} \braket{m| c^{\dagger}_a c_b |o}\braket{o| c^{\dagger}_c c_d |m} .
+ =\frac{1}{Z}\sum_{mn} \exp{-\beta E_m}
+ &\theta_{t>0}\braket{m|\mathrm{e}^{iE_m t} c^{\dagger}_a  c_b \mathrm{e}^{-iE_nt } |n}\braket{n| c^{\dagger}_c c_d |m} \\
+% 
+ =\frac{1}{Z}\sum_{mn} \exp{-\beta E_m}
+ &\theta_{t>0} \mathrm{e}^{i(E_m-E_n)t} \braket{m| c^{\dagger}_a c_b |n}\braket{n| c^{\dagger}_c c_d |m} .
 %
 \end{align}
 A Fourier transform to frequency space yields
 \begin{align}
  \chi^>_{abcd}(\omega) 
- &= \frac{1}{Z}\sum_{mo} \exp{-\beta E_m} \braket{m| c^{\dagger}_a c_b |o}\braket{o| c^{\dagger}_c c_d |m} \int_{0}^{\infty} \exp{i(\omega+i\delta)t} \mathrm{e}^{i(E_m-E_o)t}   \, \mathrm{d}t \\
+ &= \frac{1}{Z}\sum_{mn} \exp{-\beta E_m} \braket{m| c^{\dagger}_a c_b |n}\braket{n| c^{\dagger}_c c_d |m} \int_{0}^{\infty} \exp{i(\omega+i\delta)t} \mathrm{e}^{i(E_m-E_n)t}   \, \mathrm{d}t \\
  %
- &= \frac{i}{Z} \sum_{mo} \exp{-\beta E_m} \frac{ \braket{m| c^{\dagger}_a c_b |o}\braket{o| c^{\dagger}_c c_d |m} }{ \omega+i\delta + E_m-E_o } .
+ &= \frac{i}{Z} \sum_{mn} \exp{-\beta E_m} \frac{ \braket{m| c^{\dagger}_a c_b |n}\braket{n| c^{\dagger}_c c_d |m} }{ \omega+i\delta + E_m-E_n } .
  % 
 \end{align}
 
 
-For the second term we get
+For the second term we get accordingly
 \begin{align}
- &\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
- \theta_{t<0}\braket{m|c^{\dagger}_c|n}\braket{n| c_d |o}\braket{o|c^{\dagger}_a(t) |p}\braket{p|c_b(t) |m}  \\
+ &\frac{1}{Z}\sum_{mn} \exp{-\beta E_m}
+ \theta_{t<0}\braket{m|c^{\dagger}_c  c_d |n}\braket{n|c^{\dagger}_a(t) c_b(t) |m}  \\
 %
- =&\frac{1}{Z}\sum_{mnop} \exp{-\beta E_m}
- \theta_{t<0}\braket{m|c^{\dagger}_c|n}\braket{n| c_d |o}\braket{o|\mathrm{e}^{i(E_o-E_p)t} c^{\dagger}_a |p}\braket{p|\mathrm{e}^{i(E_p-E_m)t} c_b |m} \\
+ =&\frac{1}{Z}\sum_{mn} \exp{-\beta E_m}\mathrm{e}^{i(E_n-E_m)t}
+ \theta_{t<0}\braket{m|c^{\dagger}_c c_d |n}\braket{n| c^{\dagger}_a c_b |m} \\
 %
- =&\frac{1}{Z}\sum_{mo} \exp{-\beta E_m}\mathrm{e}^{i(E_o-E_m)t}
- \theta_{t<0}\braket{m|c^{\dagger}_c c_d |o}\braket{o| c^{\dagger}_a c_b |m} \\
-%
- \stackrel{m\leftrightarrow o}{=} &\frac{1}{Z}\sum_{mo} \exp{-\beta E_o}\mathrm{e}^{i(E_m-E_o)t}
- \theta_{t<0}\braket{o|c^{\dagger}_c c_d |m}\braket{m| c^{\dagger}_a c_b |o}. 
+ \stackrel{m\leftrightarrow n}{=} &\frac{1}{Z}\sum_{mn} \exp{-\beta E_n}\mathrm{e}^{i(E_m-E_n)t}
+ \theta_{t<0}\braket{n|c^{\dagger}_c c_d |m}\braket{m| c^{\dagger}_a c_b |n}. 
 %
 \end{align}
 A Fourier transform to frequency space yields
 \begin{align}
  \chi^<_{abcd}(\omega) 
- &= \frac{1}{Z}\sum_{mo} \exp{-\beta E_o} \braket{m| c^{\dagger}_a c_b |o}\braket{o|c^{\dagger}_c c_d |m} \int_{-\infty}^{0} \exp{i(\omega-i\delta)t} \mathrm{e}^{i(E_m-E_o)t}   \, \mathrm{d}t \\
+ &= \frac{1}{Z}\sum_{mn} \exp{-\beta E_n} \braket{m| c^{\dagger}_a c_b |n}\braket{n|c^{\dagger}_c c_d |m} \int_{-\infty}^{0} \exp{i(\omega-i\delta)t} \mathrm{e}^{i(E_m-E_n)t}   \, \mathrm{d}t \\
  %
- &= -\frac{i}{Z} \sum_{mo} \exp{-\beta E_o} \frac{ \braket{m| c^{\dagger}_a c_b |o}\braket{o|c^{\dagger}_c c_d |m} }{ \omega-i\delta + E_m-E_o } .
+ &= -\frac{i}{Z} \sum_{mn} \exp{-\beta E_n} \frac{ \braket{m| c^{\dagger}_a c_b |n}\braket{n|c^{\dagger}_c c_d |m} }{ \omega-i\delta + E_m-E_n } .
  % 
 \end{align}
 This results in the final expression
@@ -199,14 +201,19 @@ This results in the final expression
  &= \frac{i}{Z} \sum_{mn} \braket{m| c^{\dagger}_a c_b |n}\braket{n|c^{\dagger}_c c_d |m}
     \left( 
     \frac{\exp{-\beta E_m} }{\omega+i\delta + E_m-E_n} - \frac{\exp{-\beta E_n} }{\omega-i\delta + E_m-E_n}
-    \right).
+    \right) \\
+%
+&= \frac{i}{Z} \sum_{mn} \braket{m| c^{\dagger}_a c_b |n}\braket{n|c^{\dagger}_c c_d |m}
+    \left( 
+    \frac{\exp{-\beta E_m} }{\omega+i\delta + E_m-E_n} - \frac{\exp{-\beta E_n} }{\omega-i\delta + E_m-E_n}
+    \right)
 \end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Two-particle Green's function}
-We consider the two-particle Green's function $G^{(2)}_{\uparrow \downarrow}$ as defined in the PhD Thesis or G.Rohringer
+We consider the two-particle Green's function $G^{(2)}_{\uparrow \downarrow}$ as defined in the PhD Thesis of G.Rohringer
 \begin{align}
 G^{(2)}_{\uparrow \downarrow}(\tau_1,\tau_2,\tau_3,\tau_4)
  &= \braket{T c^{\dagger}_{\uparrow}(\tau_1) c_{\uparrow}(\tau_2) c^{\dagger}_{\downarrow}(\tau_3) c_{\downarrow}(\tau_4)  }.
@@ -1053,7 +1060,170 @@ P(\omega)
                  \Big)\mathrm{d}abcde
 \end{align}
 
+\clearpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{4-index interaction terms beyond Hund's coupling}
+The general form of the Coulomb interaction term is given by
+\begin{align}
+ H_{int} = \sum_{ijkl,\sigma\sigma'} \braket{ij|V|kl} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{l\sigma'} c_{k\sigma},
+\end{align}
+where $\braket{ij|V|kl}$ is given by
+\begin{align}
+ \braket{ij|V|kl}
+ &= \int \psi^*_i(r_1) \psi^*_j(r_2) V(r_1-r_2) \psi_k(r_1) \psi_l(r_2) \, \mathrm{d}r_1\mathrm{d}r_2,
+\end{align}
+i.e. electron $1$ changes from $k\rightarrow i$ and electron $2$ from $l\rightarrow j$.
+In the following we assume real wave functions.
+
+The usual terms can be derived as
+\begin{align}
+ H_{int}
+ = &(1) \sum_{i,\sigma\sigma'} \braket{ii|V|ii} c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{i\sigma'} c_{i\sigma}
+  = \sum_{i,\sigma} U_{ii} n_{i\sigma} n_{i\bar{\sigma}} \\
+%  
+&(2) + \sum_{i\neq j,\sigma\sigma'} \braket{ij|V|ij} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{i\sigma}
+  = \sum_{i\neq j,\sigma} U'_{ij} n_{i\sigma} n_{j\sigma'} \\
+%  
+&(3) + \sum_{i\neq j,\sigma\sigma'} \braket{ij|V|ji} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{i\sigma'} c_{j\sigma}
+  = \sum_{i\neq j,\sigma} J_{ij} (-n_{i\sigma} n_{j\sigma}  + \underbrace{ c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{i\bar{\sigma}} c_{j\sigma} }_{spin-flip} )  \\
+%  
+&(4) + \sum_{i\neq j,\sigma\sigma'} \braket{ii|V|jj} c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma}
+  = \sum_{i\neq j,\sigma} J_{ij}   \underbrace{ c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma} }_{pair-hopping}. 
+\end{align}
+Note that $\braket{ij|V|ji} = \braket{ii|V|jj} = J_{ij}$ if the wave functions are real.
+
+\subsection{2-orbital case}
+For two orbitals there are in total $2^4=16$ terms for $U_{ijkl}$. The usual terms above yield $8$ terms, 
+thus the $8$ only possible remaining term are $U_{ijjj}$ and all possible permutations.
+This leads to
+\begin{align}
+ &(5) +\sum_{i\neq j,\sigma\sigma'} \braket{ij|V|jj} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{j\sigma} 
+   =\sum_{i\neq j,\sigma} U_{ijjj} c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}} \\
+%
+ &(6) + \sum_{i\neq j,\sigma\sigma'} \braket{ji|V|jj} c^{\dagger}_{j\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma} 
+   =\sum_{i\neq j,\sigma} U_{jijj} c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}} \\
+%
+ &(7) + \sum_{i\neq j,\sigma\sigma'} \braket{jj|V|ij} c^{\dagger}_{j\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{i\sigma} 
+   =\sum_{i\neq j,\sigma} U_{jjij} c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}} \\
+  % =-\sum_{i\neq j,\sigma} U_{jjij} c_{i\sigma} c^{\dagger}_{j\sigma}   n_{j\bar{\sigma}} \\
+%
+ &(8) + \sum_{i\neq j,\sigma\sigma'} \braket{jj|V|ji} c^{\dagger}_{j\sigma} c^{\dagger}_{j\sigma'} c_{i\sigma'} c_{j\sigma} 
+   =\sum_{i\neq j,\sigma} U_{jjji} c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}} .
+  % =-\sum_{i\neq j,\sigma} U_{jjji} c_{i\sigma} c^{\dagger}_{j\sigma} n_{j\bar{\sigma}}.
+\end{align}
+The interaction matrix elements are related by symmetry
+\begin{align}
+ U_{ijjj}
+ &= \int \psi^*_i(r_1) \psi^*_j(r_2) V(r_1-r_2) \psi_j(r_1) \psi_j(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 \\
+ &= \int \psi^*_j(r_2) \psi^*_i(r_1) V(r_1-r_2) \psi_j(r_2) \psi_j(r_1) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{jijj}\\
+ &= \int \left[ \psi_i(r_1) \psi_j(r_2) V(r_1-r_2) \psi^*_j(r_1) \psi^*_j(r_2) \right]^* \, \mathrm{d}r_1\mathrm{d}r_2 = U^*_{jjij}\\
+ &= \int \left[ \psi^*_j(r_2) \psi^*_j(r_1) V(r_1-r_2)  \psi_j(r_2) \psi_i(r_1)\right]^* \, \mathrm{d}r_1\mathrm{d}r_2 = U^*_{jjji} .
+\end{align}
+The last two relations only hold if $V(r_1-r_2)$ is real, i.e. for the bare interaction or the screened interaction at $\omega=0$. But they are valid even for complex wave functions.
+
+In total, the terms beyond the Hund's coupling then become (for real wave functions)
+\begin{align}
+ H_{nonHund} 
+ &= \sum_{i\neq j,\sigma} (U_{ijjj}+U_{jijj})c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}}
+                        + (U_{jjij}+U_{jjji})c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}}\\
+%
+ &= \sum_{i\neq j,\sigma} 2U_{ijjj} ( c^{\dagger}_{i\sigma}  c_{j\sigma} + c^{\dagger}_{j\sigma} c_{i\sigma} )n_{j\bar{\sigma}}.
+\end{align}
+
+\subsection{3-orbital case}
+For three orbitals there are in total $3^4=81$ terms for $U_{ijkl}$. The usual terms above yield $21$ terms, 
+and the $U_{ijjj}$ elements yield $24$ terms.
+Thus the remaining $81-21-24=36$ terms have to be given by the $6$ elements $U_{ijkk}$, $U_{ikjk}$, $U_{kijk}$,
+$U_{kikj}$, $U_{kkij}$ and $U_{ikkj}$. Each term has $3\cdot 2 \cdot 1=6$ possible elements for three orbitals,
+so $6\cdot 6=36$ provides all the remaining elements beyond the standard Hunds coupling.
+This leads to
+\begin{align}
+  H_{nonHund} 
+ = & (1) \sum_{i\neq j\neq k,\sigma} U_{ijkk} c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} \\
+% 
+ & (2) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{ikjk} c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma'} c_{k\sigma'} c_{j\sigma} 
+       = \sum_{i\neq j\neq k,\sigma\sigma'} U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'}\\
+% 
+ & (3) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{kijk} c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma'} c_{k\sigma'} c_{j\sigma} 
+       = \sum_{i\neq j\neq k,\sigma} U_{kijk} (
+                       c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma} c_{k\sigma} c_{j\sigma}
+                      +c^{\dagger}_{k\sigma} c^{\dagger}_{i\bar{\sigma}} c_{k\bar{\sigma}} c_{j\sigma}
+                      ) \nonumber \\
+    &\ \  = \sum_{i\neq j\neq k,\sigma} U_{kijk} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
+                            +c^{\dagger}_{k\sigma} c^{\dagger}_{i\bar{\sigma}} c_{k\bar{\sigma}} c_{j\sigma} ) \\
+% 
+ & (4) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{kikj} c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{k\sigma} 
+       = \sum_{i\neq j\neq k,\sigma\sigma'} U_{kikj} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'}\\
+%
+ & (5) + \sum_{i\neq j\neq k,\sigma} U_{kkij} c^{\dagger}_{k\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{i\sigma}  \\
+% 
+ & (6) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{ikkj} c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma'} c_{j\sigma'} c_{k\sigma} 
+       = \sum_{i\neq j\neq k,\sigma} U_{ikkj} (
+                       c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma} c_{j\sigma} c_{k\sigma}
+                      +c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma}
+                      ) \nonumber  \\
+    &\ \  = \sum_{i\neq j\neq k,\sigma} U_{ikkj} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
+                            +c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma} ) .
+\end{align}
+The interaction matrix elements are related by symmetry (here we assume real $\psi$ and $V$)
+\begin{align}
+ U_{ijkk}
+ &= \int \psi_i(r_1) \psi_j(r_2) V(r_1-r_2) \psi_k(r_1) \psi_k(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 \\
+ &= \int \psi_i(r_1) \psi_k(r_2) V(r_1-r_2) \psi_k(r_1) \psi_j(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{ikkj} \\
+ &= \int \psi_k(r_2) \psi_i(r_1) V(r_1-r_2) \psi_j(r_2) \psi_k(r_1) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{kijk} \\
+ &= \int \psi_j(r_1) \psi_k(r_2) V(r_1-r_2) \psi_k(r_1) \psi_i(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{jkki} \\
+ &= \int \psi_k(r_1) \psi_j(r_2) V(r_1-r_2) \psi_i(r_1) \psi_k(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{kjik} \\
+ &= \int \psi_j(r_1) \psi_i(r_2) V(r_1-r_2) \psi_k(r_1) \psi_k(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{jikk} .
+\end{align}
+and 
+\begin{align}
+ U_{ikjk}
+ &= \int \psi_i(r_1) \psi_k(r_2) V(r_1-r_2) \psi_j(r_1) \psi_k(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 \\
+ &= \int \psi_k(r_2) \psi_i(r_1) V(r_1-r_2) \psi_k(r_2) \psi_j(r_1) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{kikj} \\
+ &= \int \psi_j(r_1) \psi_k(r_2) V(r_1-r_2) \psi_i(r_1) \psi_k(r_2) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{jkik} \\
+ &= \int \psi_k(r_2) \psi_j(r_1) V(r_1-r_2) \psi_k(r_2) \psi_i(r_1) \, \mathrm{d}r_1\mathrm{d}r_2 = U_{kjki} .
+\end{align}
+With this we can combine the previous interaction terms to get
+\begin{align}
+ (1)+(5):& \sum_{i\neq j\neq k,\sigma} U_{ijkk} ( c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} + h.c. ) \\
+%
+ (2)+(4):&  \sum_{i\neq j\neq k,\sigma\sigma'} 2 U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'} \\
+%
+ (3)+(6):& \sum_{i\neq j\neq k,\sigma} 2 U_{ijkk} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
+                            +c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma} ) .
+\end{align}
+Combining terms with the same interaction elements we get 
+\begin{align}
+ H_{nonHund} 
+ &= \sum_{i\neq j\neq k,\sigma} U_{ijkk} ( 2c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma}
+                               + c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} 
+                               + c^{\dagger}_{k\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{i\sigma} ) \\
+%
+&+  \sum_{i\neq j\neq k,\sigma} 2 U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\bar{\sigma}} \\
+&+  \sum_{i\neq j\neq k,\sigma} 2 (U_{ikjk} - U_{ijkk}) c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma} .
+\end{align}
+If the wavefunctions and interactions are real, the only terms that go beyond the standard 
+Hunds coupling in a three orbital system originate from the $U_{ijkk}$ and $U_{ikjk}$ terms.
+For example, in CrI$_3$ (5-orbital model) a cRPA calculation resulted in
+\begin{center}
+\begin{tabular}{|c|r|}
+\hline
+ $U_{iiii}=U$ & $ 2.0-2.4$~eV \\
+ $U_{ijij}=U'$ & $ 1.3-1.7$~eV \\
+ $U_{iijj}=J$ & $ 0.25-0.40$~eV \\ \hline
+ $U_{ijjj}$ & $ 0.050$~eV \\
+ $U_{ikjk}$ & $ 0.150$~eV \\
+ $U_{ijkk}$ & $-0.070$~eV \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\includegraphics[width=1\textwidth]{figs/nonHund/orbitals.pdf} 
+\end{center}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
