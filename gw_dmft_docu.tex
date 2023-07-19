@@ -1069,7 +1069,7 @@ P(\omega)
 \section{4-index interaction terms beyond Hund's coupling}
 The general form of the Coulomb interaction term is given by
 \begin{align}
- H_{int} = \sum_{ijkl,\sigma\sigma'} \braket{ij|V|kl} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{l\sigma'} c_{k\sigma},
+ H_{int} = \frac{1}{2}\sum_{ijkl,\sigma\sigma'} \braket{ij|V|kl} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{l\sigma'} c_{k\sigma},
 \end{align}
 where $\braket{ij|V|kl}$ is given by
 \begin{align}
@@ -1082,17 +1082,17 @@ In the following we assume real wave functions.
 The usual terms can be derived as
 \begin{align}
  H_{int}
- = &(1) \sum_{i,\sigma\sigma'} \braket{ii|V|ii} c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{i\sigma'} c_{i\sigma}
-  = \sum_{i,\sigma} U_{ii} n_{i\sigma} n_{i\bar{\sigma}} \\
+ = &(1) \frac{1}{2}\sum_{i,\sigma\sigma'} \braket{ii|V|ii} c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{i\sigma'} c_{i\sigma}
+  = \sum_{i} U_{ii} n_{i\uparrow} n_{i\downarrow} \\
 %  
-&(2) + \sum_{i\neq j,\sigma\sigma'} \braket{ij|V|ij} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{i\sigma}
-  = \sum_{i\neq j,\sigma} U'_{ij} n_{i\sigma} n_{j\sigma'} \\
+&(2) + \frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{ij|V|ij} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{i\sigma}
+  = \frac{1}{2}\sum_{i\neq j,\sigma} U'_{ij} n_{i\sigma} n_{j\sigma'} \\
 %  
-&(3) + \sum_{i\neq j,\sigma\sigma'} \braket{ij|V|ji} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{i\sigma'} c_{j\sigma}
-  = \sum_{i\neq j,\sigma} J_{ij} (-n_{i\sigma} n_{j\sigma}  + \underbrace{ c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{i\bar{\sigma}} c_{j\sigma} }_{spin-flip} )  \\
+&(3) + \frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{ij|V|ji} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{i\sigma'} c_{j\sigma}
+  = \frac{1}{2}\sum_{i\neq j,\sigma} J_{ij} (-n_{i\sigma} n_{j\sigma}  + \underbrace{ c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{i\bar{\sigma}} c_{j\sigma} }_{spin-flip} )  \\
 %  
-&(4) + \sum_{i\neq j,\sigma\sigma'} \braket{ii|V|jj} c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma}
-  = \sum_{i\neq j,\sigma} J_{ij}   \underbrace{ c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma} }_{pair-hopping}. 
+&(4) + \frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{ii|V|jj} c^{\dagger}_{i\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma}
+  = \frac{1}{2}\sum_{i\neq j,\sigma} J_{ij}   \underbrace{ c^{\dagger}_{i\sigma} c^{\dagger}_{i\bar{\sigma}} c_{j\bar{\sigma}} c_{j\sigma} }_{pair-hopping}. 
 \end{align}
 Note that $\braket{ij|V|ji} = \braket{ii|V|jj} = J_{ij}$ if the wave functions are real.
 
@@ -1101,18 +1101,18 @@ For two orbitals there are in total $2^4=16$ terms for $U_{ijkl}$. The usual ter
 thus the $8$ only possible remaining term are $U_{ijjj}$ and all possible permutations.
 This leads to
 \begin{align}
- &(5) +\sum_{i\neq j,\sigma\sigma'} \braket{ij|V|jj} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{j\sigma} 
-   =\sum_{i\neq j,\sigma} U_{ijjj} c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}} \\
+ &(5) +\frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{ij|V|jj} c^{\dagger}_{i\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{j\sigma} 
+   =\frac{1}{2}\sum_{i\neq j,\sigma} U_{ijjj} c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}} \\
 %
- &(6) + \sum_{i\neq j,\sigma\sigma'} \braket{ji|V|jj} c^{\dagger}_{j\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma} 
-   =\sum_{i\neq j,\sigma} U_{jijj} c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}} \\
+ &(6) + \frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{ji|V|jj} c^{\dagger}_{j\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{j\sigma} 
+   =\frac{1}{2}\sum_{i\neq j,\sigma} U_{jijj} c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}} \\
 %
- &(7) + \sum_{i\neq j,\sigma\sigma'} \braket{jj|V|ij} c^{\dagger}_{j\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{i\sigma} 
-   =\sum_{i\neq j,\sigma} U_{jjij} c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}} \\
+ &(7) + \frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{jj|V|ij} c^{\dagger}_{j\sigma} c^{\dagger}_{j\sigma'} c_{j\sigma'} c_{i\sigma} 
+   =\frac{1}{2}\sum_{i\neq j,\sigma} U_{jjij} c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}} \\
   % =-\sum_{i\neq j,\sigma} U_{jjij} c_{i\sigma} c^{\dagger}_{j\sigma}   n_{j\bar{\sigma}} \\
 %
- &(8) + \sum_{i\neq j,\sigma\sigma'} \braket{jj|V|ji} c^{\dagger}_{j\sigma} c^{\dagger}_{j\sigma'} c_{i\sigma'} c_{j\sigma} 
-   =\sum_{i\neq j,\sigma} U_{jjji} c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}} .
+ &(8) + \frac{1}{2}\sum_{i\neq j,\sigma\sigma'} \braket{jj|V|ji} c^{\dagger}_{j\sigma} c^{\dagger}_{j\sigma'} c_{i\sigma'} c_{j\sigma} 
+   =\frac{1}{2}\sum_{i\neq j,\sigma} U_{jjji} c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}} .
   % =-\sum_{i\neq j,\sigma} U_{jjji} c_{i\sigma} c^{\dagger}_{j\sigma} n_{j\bar{\sigma}}.
 \end{align}
 The interaction matrix elements are related by symmetry
@@ -1128,11 +1128,127 @@ The last two relations only hold if $V(r_1-r_2)$ is real, i.e. for the bare inte
 In total, the terms beyond the Hund's coupling then become (for real wave functions)
 \begin{align}
  H_{nonHund} 
- &= \sum_{i\neq j,\sigma} (U_{ijjj}+U_{jijj})c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}}
+ &= \frac{1}{2}\sum_{i\neq j,\sigma} (U_{ijjj}+U_{jijj})c^{\dagger}_{i\sigma}  c_{j\sigma} n_{j\bar{\sigma}}
                         + (U_{jjij}+U_{jjji})c^{\dagger}_{j\sigma} c_{i\sigma}  n_{j\bar{\sigma}}\\
 %
- &= \sum_{i\neq j,\sigma} 2U_{ijjj} ( c^{\dagger}_{i\sigma}  c_{j\sigma} + c^{\dagger}_{j\sigma} c_{i\sigma} )n_{j\bar{\sigma}}.
+ &= \sum_{i\neq j,\sigma} U_{ijjj} ( c^{\dagger}_{i\sigma}  c_{j\sigma} + c^{\dagger}_{j\sigma} c_{i\sigma} )n_{j\bar{\sigma}}.
 \end{align}
+\begin{center}
+\includegraphics[width=0.3\textwidth]{figs/nonHund/2orb.pdf} 
+\end{center}
+
+In a simple 2-orbital 1-atom example at half-filling, the groundstate does not have any double occupancy,
+therefore, the ground state is not affected by a finite $U_{ijjj}$.
+For one electron there is also no contribution from $U_{ijjj}$.
+But for 3 electrons, for example in the $N=3, S=+1/2$ sector,
+at $U_{ijjj}=0$ the basis states $\ket{\uparrow\downarrow, \uparrow}$ and $\ket{\uparrow, \uparrow\downarrow}$ are degenerate Eigenvectors
+of the Hamiltonian.
+But for a finite $U_{ijjj}>0$ they can mix, and will form a bonding-antibonding combination,
+split by the energy $4U_{ijjj}$. 
+\begin{align}
+H_{N=1} &=
+ \begin{matrix}  & \ket{\uparrow,0} \mbox{ } \ket{0,\uparrow} \\
+ \begin{matrix} \ket{\uparrow,0} \\ \ket{0, \uparrow} \end{matrix} &
+ \begin{pmatrix}
+  -\mu & 0 \\
+  0 & -\mu 
+ \end{pmatrix}
+ \end{matrix} \\
+%
+H_{N=3} &=
+ \begin{matrix}  & \ket{\uparrow\downarrow, \uparrow} \mbox{ \hspace*{2.5cm} } \ket{\uparrow, \uparrow\downarrow} \\
+ \begin{matrix} \ket{\uparrow\downarrow, \uparrow} \\ \ket{\uparrow, \uparrow\downarrow} \end{matrix} &
+ \begin{pmatrix}
+  U+U'+(U'-J)-3\mu & 2U_{ijjj} \\
+  2U_{ijjj} & U+U'+(U'-J)-3\mu 
+ \end{pmatrix}
+ \end{matrix}
+\end{align}
+Therefore, in the Green's function the unoccupied part of the spectrum, which corresponds to the transition from
+the $N=2$ ground state to the $N=3$ sector, will show a splitting of the order of $2U_{ijjj}$.
+On the other hand, the occupied part ($N=1$ sector) will not show any splitting.
+\begin{figure}[h]
+ \includegraphics[width=0.49\textwidth]{figs/nonHund/gf_2orb.pdf}
+ \includegraphics[width=0.49\textwidth]{figs/nonHund/gf_2orb_N3.pdf}
+ \caption{The Green's function for a single-site with 2-orbitals model at half-filling (left) and $N=3$ (right), for the interaction $U=3$, $J=0.5$, $U'=U-2J$. The red curve shows the effect of the non-Hunds-like interaction term $U_{ijjj}$.}
+\end{figure}
+
+\begin{figure}[h]
+ \includegraphics[width=0.49\textwidth]{figs/nonHund/gf_2orb_dimer.pdf}
+ \includegraphics[width=0.49\textwidth]{figs/nonHund/gf_2orb_trimer.pdf}
+ \caption{The Green's function for a dimer and trimer with 2-orbitals on each site at half-filling, for the interaction $U=3$, $J=0.5$, $U'=U-2J$. The red curve shows the effect of the non-Hunds-like interaction term $U_{ijjj}$.}
+\end{figure}
+
+For a more realistic example we use the 2-site dimer model with 2 orbitals per site, and the cRPA parameters for CrI$_3$:
+\begin{center}
+\begin{tabular}{|c|r|}
+\hline
+ $U_{iiii}=U$ & $ 2.0-2.4$~eV \\
+ $U_{ijij}=U'$ & $ 1.3-1.7$~eV \\
+ $U_{iijj}=J$ & $ 0.25-0.40$~eV \\ \hline
+ $U_{ijjj}$ & $ 0.050$~eV \\ \hline
+\end{tabular}
+\end{center}
+and a hoppping parameter $t=0.5$~eV. At half filling the 10 lowest Eigenstates of the Hamiltonian do not change significantly: ($E=0.0$ indicates the gound states, the energy of all higher states is given as the difference to the ground state energy)
+(small error, $U_{ijjj}$ is 2x larger in this result!)
+\begin{small}
+\begin{verbatim}
+Uijjj = 0.00
+E=+0.000, N=4, S=+0: 0.25x[↑,↑,↓,↓]  0.25x[↓,↓,↑,↑]  -0.11x[↓,↑,↑,↓]  -0.11x[↑,↓,↓,↑]
+E=+0.277, N=4, S=-2: 0.22x[↑,↓,↓,↓]  -0.22x[↓,↓,↑,↓]  0.22x[↓,↑,↓,↓]  -0.22x[↓,↓,↓,↑]   
+E=+0.277, N=4, S=+0: 0.45x[↓,↓,↑,↑]  -0.45x[↑,↑,↓,↓]  0.01x[0,↓,↑↓,↑] 0.01x[↑↓,↓,0,↑]   
+E=+0.277, N=4, S=+2: 0.22x[↑,↓,↑,↑]  -0.22x[↑,↑,↑,↓]  -0.22x[↑,↑,↓,↑]  0.22x[↓,↑,↑,↑]   
+E=+0.625, N=4, S=-4: 1.00x[↓,↓,↓,↓]   
+E=+0.625, N=4, S=-2: -0.25x[↓,↓,↓,↑] -0.25x[↓,↓,↑,↓] -0.25x[↑,↓,↓,↓] -0.25x[↓,↑,↓,↓]   
+E=+0.625, N=4, S=+0: 0.17x[↑,↓,↓,↑]  0.17x[↑,↓,↑,↓]  0.17x[↑,↑,↓,↓]  0.17x[↓,↓,↑,↑]   
+E=+0.625, N=4, S=+2: 0.25x[↑,↓,↑,↑]  0.25x[↑,↑,↑,↓]  0.25x[↑,↑,↓,↑]  0.25x[↓,↑,↑,↑]   
+E=+0.625, N=4, S=+4: 1.00x[↑,↑,↑,↑]   
+E=+0.824, N=4, S=-2: -0.19x[↓,↑,↓,↓]  0.19x[↓,↓,↓,↑]  0.19x[↑,↓,↓,↓]  -0.19x[↓,↓,↑,↓]
+\end{verbatim}
+\begin{verbatim}
+Uijjj = 0.05
+E=+0.000, N=4, S=+0: -0.25x[↓,↓,↑,↑]  -0.25x[↑,↑,↓,↓]  0.11x[↑,↓,↓,↑]  0.11x[↓,↑,↑,↓]  
+E=+0.277, N=4, S=-2: 0.22x[↓,↓,↑,↓]  0.22x[↓,↓,↓,↑]  -0.22x[↑,↓,↓,↓]  -0.22x[↓,↑,↓,↓]   
+E=+0.277, N=4, S=+0: -0.45x[↑,↑,↓,↓]  0.45x[↓,↓,↑,↑]  0.01x[↑↓,↑,0,↓] 0.01x[↑,0,↓,↑↓]   
+E=+0.277, N=4, S=+2: 0.22x[↑,↑,↓,↑]  -0.22x[↓,↑,↑,↑]  -0.22x[↑,↓,↑,↑]  0.22x[↑,↑,↑,↓]
+E=+0.622, N=4, S=-4: 1.00x[↓,↓,↓,↓]   
+E=+0.622, N=4, S=-2: 0.25x[↑,↓,↓,↓]  0.25x[↓,↓,↑,↓]  0.25x[↓,↑,↓,↓]  0.25x[↓,↓,↓,↑]   
+E=+0.622, N=4, S=+0: 0.17x[↓,↓,↑,↑]  0.17x[↑,↓,↑,↓]  0.17x[↓,↑,↓,↑]  0.17x[↓,↑,↑,↓]   
+E=+0.622, N=4, S=+2: 0.25x[↑,↓,↑,↑]  0.25x[↑,↑,↓,↑]  0.25x[↑,↑,↑,↓]  0.25x[↓,↑,↑,↑]   
+E=+0.622, N=4, S=+4: 1.00x[↑,↑,↑,↑]   
+E=+0.885, N=4, S=+0: -0.08x[↑,↓,↑↓,0] -0.08x[↓,↑,↑↓,0] 0.08x[↑↓,0,↓,↑] 0.08x[↓,↑,0,↑↓]
+\end{verbatim}
+\end{small}
+At one-electron doping ($N=5$), the effect of a finite $U_{ijjj}$ is much more pronounced
+\begin{small}
+\begin{verbatim}
+Uijjj = 0.00
+E=+0.000, N=5, S=-1: 0.23x[↓,↓,↑↓,↑]  -0.23x[↑↓,↑,↓,↓]  0.16x[↑↓,↓,↓,↑]  -0.16x[↓,↑,↑↓,↓]   
+E=+0.000, N=5, S=-1: -0.23x[↑,↑↓,↓,↓]  0.23x[↓,↓,↑,↑↓]  -0.16x[↑,↓,↓,↑↓]  0.16x[↓,↑↓,↑,↓]   
+E=+0.000, N=5, S=+1: 0.22x[↑,↑,↓,↑↓]  -0.22x[↓,↑↓,↑,↑]  0.15x[↑,↑↓,↓,↑]  -0.15x[↓,↑,↑,↑↓]   
+E=+0.000, N=5, S=+1: 0.22x[↑↓,↓,↑,↑]  -0.22x[↑,↑,↑↓,↓]  0.15x[↑,↓,↑↓,↑]  -0.15x[↑↓,↑,↑,↓]   
+E=+0.228, N=6, S=-2: 0.37x[↑↓,↓,↓,↑↓] -0.37x[↓,↑↓,↑↓,↓] 0.13x[↑↓,↑↓,↓,↓] 0.13x[↓,↓,↑↓,↑↓]   
+E=+0.228, N=6, S=+0:-0.19x[↑↓,↑,↓,↑↓] -0.19x[↑↓,↓,↑,↑↓] 0.19x[↑,↑↓,↑↓,↓] 0.19x[↓,↑↓,↑↓,↑]   
+E=+0.228, N=6, S=+2: 0.37x[↑↓,↑,↑,↑↓] -0.37x[↑,↑↓,↑↓,↑] 0.13x[↑↓,↑↓,↑,↑] 0.13x[↑,↑,↑↓,↑↓]   
+E=+0.234, N=4, S=+0: -0.25x[↓,↓,↑,↑]  -0.25x[↑,↑,↓,↓]  0.11x[↑,↓,↓,↑]  0.11x[↓,↑,↑,↓]   
+E=+0.332, N=5, S=-1: 0.15x[↓,↑↓,↓,↑]  0.15x[↓,↑,↓,↑↓]  0.15x[↓,↑↓,↑,↓]  0.15x[↑,↓,↓,↑↓]   
+E=+0.332, N=5, S=+1: -0.16x[↑↓,↑,↓,↑] -0.16x[↓,↑,↑↓,↑] -0.16x[↑↓,↑,↑,↓] -0.16x[↑↓,↓,↑,↑]
+\end{verbatim}
+\begin{verbatim}
+Uijjj = 0.05
+E=+0.000, N=5, S=-1: -0.12x[↑↓,↑,↓,↓]  -0.12x[↑,↑↓,↓,↓]  0.12x[↓,↓,↑↓,↑]  0.12x[↓,↓,↑,↑↓]   
+E=+0.000, N=5, S=+1: 0.12x[↑,↑,↑↓,↓]  -0.12x[↑↓,↓,↑,↑]  0.12x[↑,↑,↓,↑↓]  -0.12x[↓,↑↓,↑,↑]   
+E=+0.295, N=4, S=+0: 0.25x[↑,↑,↓,↓]  0.25x[↓,↓,↑,↑]  -0.11x[↓,↑,↑,↓]  -0.11x[↑,↓,↓,↑]   
+E=+0.296, N=5, S=-3: -0.25x[↑↓,↓,↓,↓] -0.25x[↓,↓,↑↓,↓] -0.25x[↓,↓,↓,↑↓] -0.25x[↓,↑↓,↓,↓]   
+E=+0.296, N=5, S=-1: 0.08x[↓,↓,↑↓,↑]  0.08x[↑,↑↓,↓,↓]  0.08x[↑,↓,↓,↑↓]  0.08x[↑↓,↓,↓,↑]   
+E=+0.296, N=5, S=+1: 0.08x[↓,↑↓,↑,↑]  0.08x[↓,↑,↑,↑↓]  0.08x[↑,↑,↓,↑↓]  0.08x[↑↓,↑,↓,↑]   
+E=+0.296, N=5, S=+3: -0.25x[↑↓,↑,↑,↑] -0.25x[↑,↑,↑↓,↑] -0.25x[↑,↑,↑,↑↓] -0.25x[↑,↑↓,↑,↑]   
+E=+0.302, N=6, S=+0: 0.12x[↓,↑↓,↑↓,↑] 0.12x[↑↓,↓,↑,↑↓] -0.12x[↑↓,↑,↓,↑↓]-0.12x[↑,↑↓,↑↓,↓]   
+E=+0.320, N=5, S=-1: -0.11x[↓,↓,↑,↑↓]  -0.11x[↑↓,↑,↓,↓]  0.11x[↑,↑↓,↓,↓]  0.11x[↓,↓,↑↓,↑]   
+E=+0.320, N=5, S=+1: 0.11x[↑,↑,↓,↑↓]  0.11x[↑↓,↓,↑,↑]  -0.11x[↓,↑↓,↑,↑]  -0.11x[↑,↑,↑↓,↓]
+\end{verbatim}
+\end{small}
+
 
 \subsection{3-orbital case}
 For three orbitals there are in total $3^4=81$ terms for $U_{ijkl}$. The usual terms above yield $21$ terms, 
@@ -1143,30 +1259,30 @@ so $6\cdot 6=36$ provides all the remaining elements beyond the standard Hunds c
 This leads to
 \begin{align}
   H_{nonHund} 
- = & (1) \sum_{i\neq j\neq k,\sigma} U_{ijkk} c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} \\
+ = & (1) \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{ijkk} c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} \\
 % 
- & (2) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{ikjk} c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma'} c_{k\sigma'} c_{j\sigma} 
-       = \sum_{i\neq j\neq k,\sigma\sigma'} U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'}\\
+ & (2) + \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} U_{ikjk} c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma'} c_{k\sigma'} c_{j\sigma} 
+       = \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'}\\
 % 
- & (3) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{kijk} c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma'} c_{k\sigma'} c_{j\sigma} 
-       = \sum_{i\neq j\neq k,\sigma} U_{kijk} (
+ & (3) + \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} U_{kijk} c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma'} c_{k\sigma'} c_{j\sigma} 
+       = \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{kijk} (
                        c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma} c_{k\sigma} c_{j\sigma}
                       +c^{\dagger}_{k\sigma} c^{\dagger}_{i\bar{\sigma}} c_{k\bar{\sigma}} c_{j\sigma}
                       ) \nonumber \\
-    &\ \  = \sum_{i\neq j\neq k,\sigma} U_{kijk} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
+    &\ \  = \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{kijk} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
                             +c^{\dagger}_{k\sigma} c^{\dagger}_{i\bar{\sigma}} c_{k\bar{\sigma}} c_{j\sigma} ) \\
 % 
- & (4) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{kikj} c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{k\sigma} 
-       = \sum_{i\neq j\neq k,\sigma\sigma'} U_{kikj} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'}\\
+ & (4) + \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} U_{kikj} c^{\dagger}_{k\sigma} c^{\dagger}_{i\sigma'} c_{j\sigma'} c_{k\sigma} 
+       = \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} U_{kikj} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'}\\
 %
- & (5) + \sum_{i\neq j\neq k,\sigma} U_{kkij} c^{\dagger}_{k\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{i\sigma}  \\
+ & (5) + \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{kkij} c^{\dagger}_{k\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{i\sigma}  \\
 % 
- & (6) + \sum_{i\neq j\neq k,\sigma\sigma'} U_{ikkj} c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma'} c_{j\sigma'} c_{k\sigma} 
-       = \sum_{i\neq j\neq k,\sigma} U_{ikkj} (
+ & (6) + \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} U_{ikkj} c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma'} c_{j\sigma'} c_{k\sigma} 
+       = \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{ikkj} (
                        c^{\dagger}_{i\sigma} c^{\dagger}_{k\sigma} c_{j\sigma} c_{k\sigma}
                       +c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma}
                       ) \nonumber  \\
-    &\ \  = \sum_{i\neq j\neq k,\sigma} U_{ikkj} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
+    &\ \  = \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{ikkj} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
                             +c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma} ) .
 \end{align}
 The interaction matrix elements are related by symmetry (here we assume real $\psi$ and $V$)
@@ -1189,26 +1305,26 @@ and
 \end{align}
 With this we can combine the previous interaction terms to get
 \begin{align}
- (1)+(5):& \sum_{i\neq j\neq k,\sigma} U_{ijkk} ( c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} + h.c. ) \\
+ (1)+(5):& \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{ijkk} ( c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} + h.c. ) \\
 %
- (2)+(4):&  \sum_{i\neq j\neq k,\sigma\sigma'} 2 U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'} \\
+ (2)+(4):&  \frac{1}{2}\sum_{i\neq j\neq k,\sigma\sigma'} 2 U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma'} \\
 %
- (3)+(6):& \sum_{i\neq j\neq k,\sigma} 2 U_{ijkk} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
+ (3)+(6):& \frac{1}{2}\sum_{i\neq j\neq k,\sigma} 2 U_{ijkk} ( - c^{\dagger}_{i\sigma} c_{j\sigma} n_{k\sigma}
                             +c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma} ) .
 \end{align}
 Combining terms with the same interaction elements we get 
 \begin{align}
  H_{nonHund} 
- &= \sum_{i\neq j\neq k,\sigma} U_{ijkk} ( 2c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma}
+ &= \frac{1}{2}\sum_{i\neq j\neq k,\sigma} U_{ijkk} ( 2c^{\dagger}_{i\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{k\sigma}
                                + c^{\dagger}_{i\sigma} c^{\dagger}_{j\bar{\sigma}} c_{k\bar{\sigma}} c_{k\sigma} 
                                + c^{\dagger}_{k\sigma} c^{\dagger}_{k\bar{\sigma}} c_{j\bar{\sigma}} c_{i\sigma} ) \\
 %
-&+  \sum_{i\neq j\neq k,\sigma} 2 U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\bar{\sigma}} \\
-&+  \sum_{i\neq j\neq k,\sigma} 2 (U_{ikjk} - U_{ijkk}) c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma} .
+&+  \frac{1}{2}\sum_{i\neq j\neq k,\sigma} 2 U_{ikjk} c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\bar{\sigma}} \\
+&+  \frac{1}{2}\sum_{i\neq j\neq k,\sigma} 2 (U_{ikjk} - U_{ijkk}) c^{\dagger}_{i\sigma} c_{j\sigma}  n_{k\sigma} .
 \end{align}
 If the wavefunctions and interactions are real, the only terms that go beyond the standard 
-Hunds coupling in a three orbital system originate from the $U_{ijkk}$ and $U_{ikjk}$ terms.
-For example, in CrI$_3$ (5-orbital model) a cRPA calculation resulted in
+Hunds coupling in a three orbital system originate from the $U_{ijjj}$, $U_{ijkk}$ and $U_{ikjk}$ terms.
+For example, in CrI$_3$ (5-orbital Cr-d model) a cRPA calculation resulted in the following interaction terms
 \begin{center}
 \begin{tabular}{|c|r|}
 \hline
@@ -1217,13 +1333,217 @@ For example, in CrI$_3$ (5-orbital model) a cRPA calculation resulted in
  $U_{iijj}=J$ & $ 0.25-0.40$~eV \\ \hline
  $U_{ijjj}$ & $ 0.050$~eV \\
  $U_{ikjk}$ & $ 0.150$~eV \\
- $U_{ijkk}$ & $-0.070$~eV \\ \hline
+ $U_{ijkk}$ & $(-)0.070$~eV \\ \hline
 \end{tabular}
 \end{center}
 
 \begin{center}
-\includegraphics[width=1\textwidth]{figs/nonHund/orbitals.pdf} 
+\includegraphics[width=1\textwidth]{figs/nonHund/3orb.pdf} 
 \end{center}
+
+The following plots all use these interaction parameters for a single-site and two-site dimer model system:
+
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{figs/nonHund/gf_3orb.pdf}
+ \caption{The spectral function for a \textbf{single-atom} with 3-orbitals at half-filling, 
+  for the interaction $U=2.2$, $J=0.35$, $U'=U-2J$. The red curve shows the effect of the non-Hunds-like interaction terms.
+  (small error, the non-Hund terms are 2x larger in this result!)
+  }
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=0.33\textwidth]{figs/nonHund/3orb_1el.pdf}
+ \includegraphics[width=0.66\textwidth]{figs/nonHund/3orb_gf_doping.pdf}
+ \caption{The spectral function for a \textbf{single-atom} with 3-orbitals two hole ($N=1$), one hole ($N=2$)  and 
+ one electron ($N=4$) doping, for the interaction $U=2.2$, $J=0.35$, $U'=U-2J$ (only the two right plots). The red curve shows the effect of the non-Hunds-like interaction terms.
+ (small error, the non-Hund terms are 2x larger in this result!)}
+\end{figure}
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{figs/nonHund/3orbdimer.pdf}
+ \caption{The spectral function for a \textbf{dimer} with 3-orbitals per site at half-filling ($N=6$) and 
+ one electron ($N=7$) doping, for the interaction $U=2.2$, $J=0.35$, $U'=U-2J$. The red curve shows the effect of the non-Hunds-like interaction terms.
+ (small error, the non-Hund terms are 2x larger in this result!)}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{4+ orbital case}
+For four or more orbitals the remaining $U_{ijkl}$ terms with all indices different will become relevant. 
+The following table lists the number of interaction terms that contribute for different number of orbitals.
+Interestingly, the standard $U,U',J$ terms make up about $50\%$ of all terms in the 2-orbital case, 
+$25\%$ in the 3-orbital case, 
+$15\%$ in the 4-orbital case, and
+$10\%$ in the 5-orbital case.
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|}
+\hline
+ \#orb & 2 & 3 & 4 & 5 \\\hline\hline
+ $U_{iiii}$ & 2 & 3  & 4 & 5 \\
+ $U_{ijij}$ & 2 & 6  & 12 & 20 \\
+ $U_{ijji}$ & 2 & 6  & 12 & 20 \\
+ $U_{iijj}$ & 2 & 6  & 12 & 20 \\\hline
+ Total     & 8 & 21 & 40 & 65 \\\hline
+\end{tabular}
+% 
+\hspace*{0.3cm}
+\begin{tabular}{|c||c|c|c|c|}
+\hline
+ \#orb & 2 & 3 & 4 & 5 \\\hline\hline
+ $U_{ijjj}$ & 2 & 6  & 12 & 20 \\
+ $U_{jijj}$ & 2 & 6  & 12 & 20 \\
+ $U_{jjij}$ & 2 & 6  & 12 & 20 \\
+ $U_{jjji}$ & 2 & 6  & 12 & 20 \\\hline
+ Total  & 8 & 24 & 48 & 80 \\\hline
+\end{tabular}
+% 
+\\ \vspace*{0.3cm}
+%
+\begin{tabular}{|c||c|c|c|c|}
+\hline
+ \#orb & 2 & 3 & 4 & 5 \\\hline\hline
+ $U_{ijkk}$ & - & 6  & 24 & 60 \\
+ $U_{ikkj}$ & - & 6  & 24 & 60 \\
+ $U_{kkij}$ & - & 6  & 24 & 60 \\
+ $U_{kijk}$ & - & 6  & 24 & 60 \\\hline
+ $U_{ikjk}$ & - & 6  & 24 & 60 \\
+ $U_{kikj}$ & - & 6  & 24 & 60 \\
+ \hline
+ Total  & - & 36 & 144 & 360 \\\hline
+\end{tabular}
+% 
+\hspace*{0.3cm}
+\begin{tabular}{|c||c|c|c|c|}
+\hline
+ \#orb & 2 & 3 & 4 & 5 \\\hline
+ $U_{ijkl}$ & - & -  & 24 & 120 \\\hline
+ \multicolumn{5}{c}{ } \\
+ \multicolumn{5}{c}{ } \\
+ \multicolumn{5}{c}{ } \\
+ \multicolumn{5}{c}{ } \\\hline
+ \#orb & 2 & 3 & 4 & 5 \\\hline
+ \#Terms      & 16 & 81  & 256 & 625 \\\hline
+\end{tabular}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{SrVO$_3$ local model}
+Here we consider a 5-orbital single-site problem where we use the onsite energies and interaction parameters
+as obtained from a Wien2k + d-d cRPA calculation. The orbital levels are $\epsilon_{eg} = 1.578$~eV and $\epsilon_{t2g} = 1.172$~eV.
+The chemical potential has been adjusted for 1 electron filling.
+The cRPA interaction parameters are shown in the following
+\begin{figure}[h]
+ \includegraphics[width=0.4\textwidth]{figs/nonHund/svo_crpa1.png}
+ \includegraphics[width=0.3\textwidth]{figs/nonHund/svo_crpa2.png}
+ \caption{The cRPA derived interaction parameters for the full 4-index Coulomb term. All $U_{ijjj}$ terms are zero.}
+\end{figure}
+
+Solving this 5-orbital single-site problem results in no modification of the occupied part, but a modification
+of both $e_g$ and $t_{2g}$ orbitals in the unoccupied part.
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{figs/nonHund/svo.pdf}
+ \caption{A 5 orbital single-site model for SrVO$_3$. All parameters are ab-initio DFT+cRPA derived.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\subsection{Symmetry relations for the 4-index Coulomb tensor}
+\subsubsection{Permutation symmetry}
+In the following we define the matrix elements of the Coulomb interaction in a local basis as
+\begin{align}
+ U_{ijkl} 
+ &= \braket{ij|V_{Coul}|kl} \nonumber \\
+ &=\int \psi^*_i(r_1) \psi^*_j(r_2) V_{Coul}(r_1,r_2) \psi_k(r_1) \psi_l(r_2) \, \mathrm{d}r_1\mathrm{d}r_2.
+\end{align}
+If we want to deal with the effective screened interaction, the Coulomb potential in the integral and the matrix elements
+become frequency dependent, and the integral is to be taken for each frequency separately.
+
+If we consider real orbital basis functions, the Coulomb matrix elements obey the following 8-fold permutation symmetry,
+using $V_{Coul}(r_1,r_2)=V_{Coul}(r_2,r_1)$ with variable substitution and reordering of the integral
+\begin{align}
+ U_{ijkl}
+ &=U_{kjil} 
+ =U_{ilkj} 
+ =U_{klij} \nonumber \\
+ %
+ =U_{jilk} 
+ &=U_{lijk}
+ =U_{jkli} 
+ =U_{lkji} .
+\end{align}
+For $d$ orbitals, this results in only 120 possible unique elements, instead of $5^4=625$ total elements.
+
+\subsubsection{Point-group symmetry}
+Important references:
+\begin{itemize}
+ \item[[1]] \textit{Multiplets of Transition-Metal Ions in Crystals}, S. Sugano, Y. Tanabe, H. Kamimura, \href{https://shop.elsevier.com/books/multiplets-of-transition-metal-ions-in-crystals/sugano/978-0-12-676050-7}{Academic Press (1970)} :\\
+ Analyzes the point-group symmetry and independent elements for the specific case of a $d$-shell in cubic environment.
+ 
+\item[[2]] \textit{Coulomb matrix elements in multi-orbital Hubbard models}, J. B\"unemann, F. Gebhard, \href{https://doi.org/10.1088/1361-648X/aa5900}{J. Phys.: Condens. Matter 29, 165601 (2017)} : \\
+Presents all point-group symmetries for $d$ and $f$-shell for $O_h$, $O$, $T_d$, $T_h$, $D_{6h}$, and $D_{4h}$ systems.
+Provides explicit contruction formulas and a first-order correction for the spherical approximation.
+
+\item[[3]] \textit{Parametrization of the Coulomb interaction matrix with point-group symmetry}, C. Letouz\'{e}, G. Radtke, B. Lenz, C. Brouder, \href{https://arxiv.org/abs/2306.10186v1}{arXiv:2306.10186 (2023)} : \\
+Generalizes the construction to complex basis functions and provides an abstract framework for considering any symmetry-breaking environment as one of the subgroups of the whole symmetry group.
+\end{itemize}
+
+Ref. [2] provides a description of the point-group symmetries, independent elements and construction
+of the Coulomb interaction tensor for many common systems, such as cubic SrVO$_3$ ($O_h$) or tetragonal
+FeSe ($D_{4h}$).
+
+Specifically, for these two point groups they find the number of minimal independent elements to be
+
+\bigskip
+
+\textbf{Cubic SrVO$_3$ ($O_h$):}
+\begin{itemize}
+ \item 10 minimal elements. 
+ \item For example, from the knowledge of $U_{z^2}$,$U_{xy}$, $U'_{x^2-y^2,xy}$,  $U'_{x^2-y^2,xz}$, $U'_{xy,xz}$, $J_{x^2-y^2,xy}$,
+ $J_{x^2-y^2,xz}$, $J_{xy,xz}$ and the 4-index element $\braket{x^2-y^2, xy | V_{Coul}| yz,xz}$, all other elements can be constructed. 
+ \item $U_{ijjj}$ and its permutations vanish.
+ \item The knowledge of $U_{ikjk}$ is not needed; they are given only by combinations of the density-density elements $U'_{ij}$.
+ \item The knowledge of $U_{ikkj}$ is not needed; they are given only by combinations of the Hund's elements $J_{ij}$.
+ \item All other 4-index $U_{ijkl}$ elemets are given by $\braket{x^2-y^2, xy | V_{Coul}| yz,xz}$ with different prefactors.
+\end{itemize}
+
+\textbf{Tetragonal FeSe ($D_{4h}$):}
+\begin{itemize}
+ \item 23 minimal elements. 
+ \item 11 density-density elements, 7 Hund's type, 2 $U_{ikjk}$, 1 $U_{ikkj}$ and 3 $U_{ijkl}$ elements are needed
+ to construct the full Cloumb tensor.
+ \item The type of non-zero matrix elements are identical to the case of SrVO$_3$, i.e. $U_{ijjj}$ also vanishes.
+\end{itemize}
+ 
+Interestingly, for the spherical approxation it is found
+
+\bigskip
+
+\textbf{Spherical symmetry:}
+\begin{itemize}
+ \item 3 minimal elements. 
+ \item For example, from the knowledge of $U_{x^2-y^2}$, $U'_{x^2-y^2,xy}$,  $U'_{x^2-y^2,xz}$, all other elements can be constructed. Though, in practice Slater parameters $F^0=U_{avg}$, $(F^2+F^4)/14=J_{avg}$ and $F^2/F^4\approx 8/5$ are commonly used.
+ \item The type of non-zero matrix elements are identical to the case of SrVO$_3$, i.e. $U_{ijjj}$ also vanishes.
+ \item The elements  $U_{ikjk}$, $U_{ikkj}$ are $U_{ijkl}$ are non-zero, and are given only by combinations of the density-density elements $U'_{ij}$.
+\end{itemize}
+ 
+Comparing the spherical approximation to the two specific cases of cubic ($O_h$) or tetragonal ($D_{4h}$) 
+symmetry, we find that the type and number of non-zero elements in the interaction tensor is identical for all of them.
+I.e. the symmetry-breaking crystal field does not introduce additional non-zero elements, but only
+breaks the symmetry between previously degenerate terms, and modifies their magnitude.
+
+\subsection{List of point group symmetries for specific systems}
+\begin{description}
+ \item[$O_h$:] SrVO$_3$, NiO
+ \item[$D_{4h}$:] Sr$_2$RuO$_4$
+ \item[$D_{4h}$/$D_{2d}$??:] FeSe, BaFe$_2$As$_2$, LiFeAs, LaFePO
+\end{description}
+
+
+
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
