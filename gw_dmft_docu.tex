@@ -1535,11 +1535,80 @@ I.e. the symmetry-breaking crystal field does not introduce additional non-zero 
 breaks the symmetry between previously degenerate terms, and modifies their magnitude.
 
 \subsection{List of point group symmetries for specific systems}
+This info can be looked up e.g. on \verb|https://materials.springer.com|, under \textit{Atom Coordinates} - \textit{Symmetry}
 \begin{description}
  \item[$O_h$:] SrVO$_3$, NiO
- \item[$D_{4h}$:] Sr$_2$RuO$_4$
- \item[$D_{4h}$/$D_{2d}$??:] FeSe, BaFe$_2$As$_2$, LiFeAs, LaFePO
+ \item[$D_{4h}$:] Sr$_2$RuO$_4$, (tetragonal SrVO$_3$)
+ \item[$D_{2d} \stackrel{??}{=} D_{4h}$:] FeSe, BaFe$_2$As$_2$, LiFeAs, LaFePO
+ \item[$D_2$:] FeSe(ortho)
+ \item[$D_{2h}$:] YBa$_2$Cu$_3$O$_7$(Cu1,coplanar) 
+ \item[$C_{2V}$:] YBa$_2$Cu$_3$O$_7$(Cu2,pyramid) 
+ \item[$C_{2h}$:] La$_2$CuO$_4$ 
 \end{description}
+
+In Wien2K the point group symmetry is written out in $case.outputsgroup$
+
+\subsection{Point group symmetry reference}
+\begin{description}
+ \item[$O$:] Octahedron (or cube) symmetry
+ \begin{description}
+  \item[$O_h$:] with improper operations (those that change handedness).
+ \end{description}
+%
+ \item[$D_n$:]  (dihedral, or two-sided) indicates that the group has an $n$-fold rotation axis plus n twofold axes perpendicular to that axis. 
+ \begin{description}
+  \item[$D_{nh}$:] has, in addition, a mirror plane perpendicular to the $n$-fold axis. 
+  \item[$D_{nd}$:] has, in addition to the elements of $D_n$, mirror planes parallel to the $n$-fold axis.
+ \end{description}
+%
+ \item[$C_n$:] (cyclic) indicates that the group has an $n$-fold rotation axis. 
+ \begin{description}
+   \item[$C_{nh}$:] is $C_n$ with the addition of a mirror (reflection) plane perpendicular to the axis of rotation. 
+   \item[$C_{nv}$:] is $C_n$ with the addition of $n$ mirror planes parallel to the axis of rotation.
+ \end{description} 
+\end{description}
+
+\subsection{Derivation of independent parameters from point group symmetry}
+Here we follow in particular the ideas of [\textit{Coulomb matrix elements in multi-orbital Hubbard models}, J. B\"unemann, F. Gebhard, \href{https://doi.org/10.1088/1361-648X/aa5900}{J. Phys.: Condens. Matter 29, 165601 (2017)}], with some differences in the convention.
+
+Let us consider for a given atomic site its corresponding irreducible representations $\Gamma^i$
+for its point group $G$. The operations of the point group $G$ can be represented by 
+operations in real space on the orbital basis functions $\phi_i(\vec{r})$ by unitary operators
+$T_l$
+\begin{align}
+ T_l \phi_i(\vec{r}) &= \sum_j \Gamma^l_{ij} \phi_j(\vec{r}).
+\end{align}
+The matrices $\Gamma^l_{ij}$ represent the elements of the irreducible representation matrices $\Gamma^l$,
+e.g. inversion, two- and three-fold rotations, etc. in orbital space. 
+They are obtained from
+\begin{align}
+ \Gamma^l_{ij}
+ &= \braket{\psi_i | \Gamma^l | \psi_j} \\
+ &= \int \psi^*_i(\vec{r}) T_l \phi_j(\vec{r}) \, \mathrm{d}^3r.
+\end{align}
+% In the following we will always assume \textbf{real} wave functions.
+
+We can now make use of the invariance of the Coulomb interaction under these point group symmetry operations.
+The Coulomb matrix elements are given by
+\begin{align}
+ U_{ijkl}
+ &= \int\int \psi^*_i(\vec{r_1}) \psi^*_j(\vec{r_2}) V(\vec{r_1},\vec{r_2}) \psi_k(\vec{r_1}) \psi_l(\vec{r_2}) \, \mathrm{d}^3r_1 \mathrm{d}^3r_2.
+\end{align}
+We now insert $1=T_l^{\dagger} T_l$ between the wave functions on the left and right side,
+and use $[V,T_l]=0$ to reorder the elements
+\begin{align}
+ U_{ijkl}
+ &= \int\int \psi^*_i(\vec{r_1}) T_l^{\dagger} T_l \psi^*_j(\vec{r_2}) 
+ V(\vec{r_1},\vec{r_2}) 
+ \psi_k(\vec{r_1}) T_l^{\dagger} T_l \psi_l(\vec{r_2}) \, \mathrm{d}^3r_1 \mathrm{d}^3r_2 \\
+ %
+ &= \sum_{abcd} \int\int \Gamma^{l*}_{ai} \psi^*_i(\vec{r_1}) \Gamma^{l}_{bj} \psi^*_j(\vec{r_2}) 
+ V(\vec{r_1},\vec{r_2}) 
+ \Gamma^{l*}_{ck} \psi_k(\vec{r_1}) \Gamma^{l}_{dl} \psi_l(\vec{r_2}) \, \mathrm{d}^3r_1 \mathrm{d}^3r_2 \\
+ %
+ &= \sum_{abcd}\Gamma^{l*}_{ai}\Gamma^{l}_{bj}  \Gamma^{l*}_{ck} \Gamma^{l}_{dl} U_{abcd} .
+\end{align}
+
 
 
 
