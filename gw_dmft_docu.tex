@@ -14,7 +14,7 @@
 \usepackage[top=3cm, left=3cm, right=3cm, bottom=3cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{sidecap}
-\usepackage{pstricks}
+% \usepackage{pstricks}
 \usepackage{mathrsfs}
 \usepackage{listings}
 \usepackage[absolute]{textpos}
@@ -1059,6 +1059,120 @@ P(\omega)
                    \frac{1}{(i\nu_n+b-i\omega_n+d)(i\nu_n+d-c)(i\nu_n-a)(i\nu_n+e-i\omega_n)}
                  \Big)\mathrm{d}abcde
 \end{align}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Hatsugai-Kohmoto model and the Hubbard model}
+Based on arXiv:2401.08746 (2024), which showed that a cluster approach 
+to the Hatsugai-Kohmoto model can reproduce the Hubbard model, we will
+try to find an effective Hatsugai-Kohomoto model for solving the 
+Hubbard model approximately.
+
+\subsection{Mean-field for the Hubbard model}
+
+The Hubbard model with onsite interaction in real-space representation is given by
+\begin{align}
+ H_{Hub}
+ &= \sum_{i j \sigma} t_{ij} c^{\dagger}_{i\sigma} c_{j\sigma}
+   + U \sum_{i} c^{\dagger}_{i\uparrow} c_{i\uparrow}  c^{\dagger}_{i\downarrow}c_{i\downarrow}.
+\end{align}
+Fourier-transforming to momentum-space yields
+\begin{align}
+ H_{Hub}
+ &= \sum_{k \sigma} \epsilon_{k} c^{\dagger}_{k\sigma} c_{k\sigma}
+   + U \sum_{kk'q} c^{\dagger}_{k+q,\uparrow} c_{k\uparrow}  c^{\dagger}_{k'-q,\downarrow}c_{k'\downarrow} \nonumber \\
+%
+&= \sum_{k \sigma} \epsilon_{k} c^{\dagger}_{k\sigma} c_{k\sigma}
+   + U \sum_{k} c^{\dagger}_{k\uparrow} c_{k\uparrow}  c^{\dagger}_{k\downarrow}c_{k\downarrow} \nonumber \\
+&  \hspace{2cm}  + U \sum_{\substack{kk'q \\ \neq(k=k',q=0) } } c^{\dagger}_{k+q,\uparrow} c_{k\uparrow}  c^{\dagger}_{k'-q,\downarrow}c_{k'\downarrow} \nonumber \\
+%
+&= H_{HK}   + U \sum_{\substack{kk'q \\ \neq(k=k',q=0) } } c^{\dagger}_{k+q,\uparrow} c_{k\uparrow}  c^{\dagger}_{k'-q,\downarrow}c_{k'\downarrow},
+\end{align}
+where the first term $H_{HK}$ is the Hatsugai-Kohmoto Hamiltonian
+\begin{align}
+ H_{HK}= \sum_{k \sigma} \epsilon_{k} n_{k\sigma}
+   + U \sum_{k} n_{k\uparrow}  n_{k\downarrow}.
+\end{align}
+We now want to treat the second term approximately, but in real space
+
+\begin{align}
+ U \sum_{\substack{kk'q \\ \neq(k=k',q=0) } } c^{\dagger}_{k+q,\uparrow} c_{k\uparrow}  c^{\dagger}_{k'-q,\downarrow}c_{k'\downarrow} 
+ &\stackrel{Fourier}{=}
+   U \sum_{i} c^{\dagger}_{i\uparrow} c_{i\uparrow}  c^{\dagger}_{i\downarrow}c_{i\downarrow}
+ -U\sum_{ijm}  c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}  c^{\dagger}_{j-m,\downarrow}c_{j\downarrow} \nonumber \\
+ &= -U \sum_{\substack{ijm \\ \neq(i=j,j=0) } } c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}  c^{\dagger}_{j-m,\downarrow}c_{j\downarrow}.
+\end{align}
+We now perform a mean-field decoupling (neglect the Fock term since we are paramagnetic, maybe use $U/2$)
+\begin{align}
+ c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}  c^{\dagger}_{j-m,\downarrow}c_{j\downarrow}
+&\approx c^{\dagger}_{i+m,\uparrow}  c_{i\uparrow} \langle c^{\dagger}_{j-m,\downarrow}c_{j\downarrow}  \rangle
+      + \langle c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}  \rangle c^{\dagger}_{j-m,\downarrow}c_{j\downarrow}
+      - \langle c^{\dagger}_{i+m,\uparrow} c_{i\uparrow} \rangle \langle c^{\dagger}_{j-m,\downarrow}c_{j\downarrow} \rangle.
+\end{align}
+Since the system is translational invariant, the expectation values only depend on the distance $m$, i.e.
+\begin{align}
+\langle c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}  \rangle
+&= \langle c^{\dagger}_{m,\uparrow} c_{0\uparrow}  \rangle \nonumber \\
+%
+ \langle c^{\dagger}_{j-m,\downarrow}c_{j\downarrow}  \rangle
+ &= \langle c^{\dagger}_{-m\downarrow}c_{0\downarrow}  \rangle.
+\end{align}
+Evaluating and Fourier-transforming the two terms independently, we get
+\begin{align}
+U \sum_{i} c^{\dagger}_{i\uparrow} c_{i\uparrow}  c^{\dagger}_{i\downarrow}c_{i\downarrow}
+&\approx U \sum_{i}\left(  n_{i\uparrow}  \langle n_{i\downarrow} \rangle
+                          +\langle n_{i\uparrow} \rangle n_{i\downarrow}
+                          - \langle n_{i\uparrow} \rangle \langle n_{i\downarrow} \rangle  \right) \nonumber \\
+%
+&= U \sum_{k\sigma}  n_{k\sigma}  \langle n_{loc,\bar{\sigma}} \rangle
+ - U \langle n_{loc,\uparrow} \rangle \langle n_{loc,\downarrow} \rangle.
+\end{align}
+and 
+\begin{align}
+ & \ \ \ -U\sum_{ijm}  c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}  c^{\dagger}_{j-m,\downarrow}c_{j\downarrow}  \nonumber \\
+ &\approx
+ -U\sum_{ijm}  
+ \left( 
+      c^{\dagger}_{i+m,\uparrow} c_{i\uparrow} \langle c^{\dagger}_{j-m,\downarrow}c_{j\downarrow} \rangle
+      +\langle c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}\rangle  c^{\dagger}_{j-m,\downarrow}c_{j\downarrow} 
+      - \langle c^{\dagger}_{i+m,\uparrow} c_{i\uparrow}\rangle \langle c^{\dagger}_{j-m,\downarrow}c_{j\downarrow} \rangle
+  \right) \nonumber \\
+%
+&=
+ -U\sum_{k}
+ \left(
+      n_{k\uparrow} \langle n_{k\downarrow} \rangle
+      +\langle n_{k\uparrow} \rangle  n_{k\downarrow}
+      - \langle n_{k\uparrow}\rangle \langle n_{k\downarrow} \rangle
+  \right) .
+\end{align}
+Combining both terms, we obtain for the mean-field Hamiltonian
+\begin{align}
+ H_{Hub}
+ \approx H_{HK} &+
+   U \sum_{k\sigma}  n_{k\sigma}  \left( \langle n_{loc,\bar{\sigma}} \rangle - \langle n_{k\bar{\sigma}} \rangle \right)  \nonumber \\
+  &+U\sum_{k}\langle n_{k\uparrow}\rangle \langle n_{k\downarrow} \rangle
+  - U \langle n_{loc,\uparrow} \rangle \langle n_{loc,\downarrow} \rangle.
+\end{align}
+This result is identical to performing the mean-field decoupling in momentum space
+and exploiting momentum conservation, i.e. 
+$\langle c^{\dagger}_{k-q,\sigma}c_{k\sigma} \rangle = \delta(q) \langle c^{\dagger}_{k\sigma}c_{k\sigma} \rangle$.
+
+This Hamiltonian preserves translational invariance, but breaks particle-hole symmetry.
+
+\subsection{1D Hubbard model example}
+1D Hubbard chain, $U=4$, $t=1$, $T=0$, exact diagonalization
+
+\includegraphics[width=1\textwidth]{HatsugaiKohmoto/1D_HK.pdf}
+
+\subsection{1D Hubbard model example}
+2D Hubbard square lattice, $U=4$, $t=1$, $T=0$, exact diagonalization
+
+\includegraphics[width=1\textwidth]{HatsugaiKohmoto/2D_HK.pdf}
 
 \clearpage
 
